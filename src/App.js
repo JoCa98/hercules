@@ -7,6 +7,7 @@ import AddAdmin from './components/AddAdmin';
 
 import Header from './components/Header';
 import Footer from './components/Footer';
+import Navbar from './components/Navbar';
 import EmailPruebaForm from './components/EmailPruebaForm';
 import HomeAdmin from './components/HomeAdmin';
 
@@ -14,7 +15,7 @@ import HomeAdmin from './components/HomeAdmin';
 function App() {
   return (
     <div className="App">
-      <Header />
+
       <HomeAdmin />
     </div>
   );

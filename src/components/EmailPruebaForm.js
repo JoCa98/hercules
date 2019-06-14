@@ -41,10 +41,21 @@ class EmailPruebaForm extends Component {
 
               <div className="activationCodeForm-body">
 
-                <p align="left">Código</p>
+                <h2 align="left">Código</h2>
                 <input type="text" name="actCode" className="form-control" onChange={this.handleInputChange} />
 
+                <div className="row mt-4">
+                <div className="col-md-4">
+                </div>
+                <div className="col-md-4 offset-md-4">
                 <button type="submit" align="right" name="actCodeButton" className="cssCodeButtonConfirm"> Enviar </button>
+                </div>
+              </div>
+
+
+
+
+             
 
               </div>
 
