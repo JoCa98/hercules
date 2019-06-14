@@ -27,7 +27,7 @@ function App() {
      
 =======
       <Header />
-      <ActCodeForm />
+      <EmailPruebaForm />
       <Footer />
     </div>
 >>>>>>> acfe4f4704e7f15d2cce29633885bb63a10dd01a
