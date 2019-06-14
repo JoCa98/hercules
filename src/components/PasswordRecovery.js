@@ -13,7 +13,7 @@ class PasswordRecovery extends Component {
                         <form>
                             <h1>Recuperación de Contraseña</h1>
                             <div class="form-group">
-                                <p align="center justify">Ingrese el correo del usuario para recibir<br/>
+                                <p align="justify">Ingrese el correo del usuario para recibir<br/>
                                  una contraseña nueva temporal</p>
                                 <input type="text" name="emailText" className="form-control"></input>
                             </div>
