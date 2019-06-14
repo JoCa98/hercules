@@ -6,9 +6,7 @@ class HomeAdmin extends Component {
             <div className ="container">
                 <div className = "row mt-4">
                     <div className = "col-12 card">
-                        <div className = "card-header text-left">
-                        <h1>Lista de usuarios</h1>
-                        </div>
+                        <h1 className = "text-left">Lista de usuarios</h1>
                     </div>
                 </div>
             </div>

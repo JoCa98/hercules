@@ -5,13 +5,13 @@ import PasswordRecovery from './components/PasswordRecovery';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import EmailPruebaForm from './components/EmailPruebaForm';
+import HomeAdmin from './components/HomeAdmin';
 
 function App() {
   return (
     <div className="App">
       <Header />
-      <ActCodeForm />
-      <Footer />
+      <HomeAdmin />
     </div>
   );
 }
