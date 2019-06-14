@@ -1,10 +1,10 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import ActCodeForm from './components/ActCodeForm';
 
 
-
-function App() { 
+function App() {
   return (
     <div className="App">
       <header className="App-header">
@@ -21,6 +21,11 @@ function App() {
           Learn React
         </a>
       </header>
+
+      <div>
+        <ActCodeForm />
+      </div>
+
     </div>
   );
 }
