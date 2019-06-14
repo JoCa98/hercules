@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './ActCodeForm.css';
 
-class ActCodeForm extends Component {
+class EmailPruebaForm extends Component {
   constructor() {
     super();
     this.state = {
@@ -24,7 +24,8 @@ class ActCodeForm extends Component {
     if (this.state.actCode.trim() !== "") {
       alert(this.state.actCode.trim());
     } else {
-      alert('El código de activación es obligatorio');
+      alert('El email es obligatorio');
+      return;
     }
   }
 
@@ -34,22 +35,15 @@ class ActCodeForm extends Component {
         <div className="row mt-4">
           <div className="col-md-4 offset-md-4 card">
 
-            <form className="activationCodeForm" onSubmit={this.handleSubmit}>
-              <h2 align="left"><font color="#41ade7">Activación de cuenta</font></h2>
+            <form className="emailFormForm" onSubmit={this.handleSubmit}>
 
-              <div class="form-group">
-                <p align="left">Ingrese el código de activación enviado a su correo</p>
+              <div className="activationCodeForm-body">
+
+                <p align="left">Email</p>
                 <input type="text" name="actCode" className="form-control" onChange={this.handleInputChange} />
-              </div>
 
-              <div className="row mt-4">
-                <div className="col-md-4">
-                  <button type="submit" align="left" name="actCodeButton" className="cssCodeButtonResend"> Reenviar código </button>
-                </div>
+                <button type="submit" align="right" name="actCodeButton" className="cssCodeButtonConfirm"> Guardar </button>
 
-                <div className="col-md-4 offset-md-4">
-                  <button type="submit" align="right" name="actCodeButton" className="cssCodeButtonConfirm"> Confirmar </button>
-                </div>
               </div>
 
             </form>
@@ -61,6 +55,6 @@ class ActCodeForm extends Component {
   }
 }
 
-export default ActCodeForm;
+export default EmailPruebaForm;
 
 

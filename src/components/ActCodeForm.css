@@ -1,4 +1,19 @@
-.cssCodeButton{
+
+.cssCodeButtonConfirm{
+    width: 140px;
+    height: 40px;
+    margin-top: 20px;
+    margin-bottom: 20px; 
+    background-color: #41ade7;
+    border-radius: 5px 5px 5px 5px;
+    -moz-border-radius: 5px 5px 5px 5px;
+    -webkit-border-radius: 5px 5px 5px 5px;
+    border: 0px inset #000000;
+}
+
+.cssCodeButtonResend{
+    width: 140px;
+    height: 40px;
     margin-top: 20px;
     margin-bottom: 20px; 
     background-color: #41ade7;
