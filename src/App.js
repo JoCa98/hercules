@@ -4,13 +4,14 @@ import ActCodeForm from './components/ActCodeForm';
 import PasswordRecovery from './components/PasswordRecovery';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import Navbar from './components/Navbar';
 
 function App() {
   return (
     <div className="App">
       <Header/>
+      <Navbar/>
       <PasswordRecovery/>
-     
       <Footer/>
       </div>
 
