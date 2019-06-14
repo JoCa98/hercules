@@ -10,12 +10,14 @@ class Header extends Component{
         return(
           <div className="div-container">
               <div className="row">
+                  <div className="col-12">
+                  <header className = "header" > 
                   <div className="col-6">
                     <img src={logo} className="logo" alt="logo" />
                   </div>
-                  <div className="col-6">
-                    <header className = "header" > 
+                  <div className="col-4 offset-2">
                     <img src={logoGym} className="logo-Gym" alt="logo" />
+                    </div>
                     </header>
                   </div>
                 
