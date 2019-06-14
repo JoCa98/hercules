@@ -1,14 +1,15 @@
 
   .logo {
     height: 100px;
-    width: 680px;
+    width: 50%;
+    place-items: left;
     align-content: left;
     background: #41ADE7;
   }
 
   .logo-Gym{
     height: 100px;
-    width:200px;
+    width:15%;
     text-align-last: right;
     background: #41ADE7;  
   }
@@ -17,7 +18,6 @@
     background-color:#41ADE7;
     background: #41ADE7;
     height: 100px;
-    text-align-last: right;
     font-size: calc(10px + 2vmin);
     width: 100%;
   }

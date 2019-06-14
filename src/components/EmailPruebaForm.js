@@ -22,9 +22,11 @@ class EmailPruebaForm extends Component {
   handleSubmit(e) {
     e.preventDefault();
     if (this.state.actCode.trim() !== "") {
+     
       alert(this.state.actCode.trim());
+   
     } else {
-      alert('El email es obligatorio');
+      alert('El código es obligatorio');
       return;
     }
   }
@@ -39,10 +41,10 @@ class EmailPruebaForm extends Component {
 
               <div className="activationCodeForm-body">
 
-                <p align="left">Email</p>
+                <p align="left">Código</p>
                 <input type="text" name="actCode" className="form-control" onChange={this.handleInputChange} />
 
-                <button type="submit" align="right" name="actCodeButton" className="cssCodeButtonConfirm"> Guardar </button>
+                <button type="submit" align="right" name="actCodeButton" className="cssCodeButtonConfirm"> Enviar </button>
 
               </div>
 
