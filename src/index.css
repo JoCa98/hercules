@@ -15,12 +15,19 @@ code {
 Button{
   width: 140px;
   height: 40px;
-  margin-top: 20px;
-  margin-bottom: 20px; 
   background-color: #41ade7;
   color:white;
   border-radius: 5px 5px 5px 5px;
   -moz-border-radius: 5px 5px 5px 5px;
   -webkit-border-radius: 5px 5px 5px 5px;
   border: 0px inset #000000;
+}
+
+.colorBlue {
+  color:#41ADE7;
+}
+
+.inputText {
+  height: 40px;
+  font-size: 18px;
 }
