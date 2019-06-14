@@ -7,10 +7,13 @@
   }
 
 .masterFooter {
+   
     background-color:#666666;
     background: #666666;
     height: 150px;
     text-align-last: left;
     font-size: calc(10px + 2vmin);
     width: 100%;
+    position: fixed;
+    bottom: 0;
 }
