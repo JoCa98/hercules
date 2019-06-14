@@ -4,17 +4,15 @@ import ActCodeForm from './components/ActCodeForm';
 import PasswordRecovery from './components/PasswordRecovery';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import EmailPruebaForm from './components/EmailPruebaForm';
 
 function App() {
   return (
     <div className="App">
-      <Header/>
-      <PasswordRecovery/>
-     
-      <Footer/>
-      </div>
-
-     
+      <Header />
+      <ActCodeForm />
+      <Footer />
+    </div>
   );
 }
 

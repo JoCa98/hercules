@@ -12,17 +12,14 @@ class Header extends Component{
               <div className="row">
                   <div className="col-12">
                   <header className = "header" > 
-                  <div className="col-6">
-                    <img src={logo} className="logo" alt="logo" />
-                  </div>
-                  <div className="col-4 offset-2">
-                    <img src={logoGym} className="logo-Gym" alt="logo" />
+                  <div>
+                    <img src={logo} align="left" className="logo" alt="logo" />
+                    </div>
+                    <div>
+                    <img src={logoGym} align="right" className="logo-Gym" alt="logo" />
                     </div>
                     </header>
-                  </div>
-                
-                 
-                  
+                  </div> 
               </div>
           </div>
         )
