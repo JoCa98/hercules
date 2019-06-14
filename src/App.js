@@ -7,22 +7,16 @@ import AddAdmin from './components/AddAdmin';
 
 import Header from './components/Header';
 import Footer from './components/Footer';
+import EmailPruebaForm from './components/EmailPruebaForm';
 
 
 function App() {
   return (
     <div className="App">
-
-      <AddAdmin/>
-
-      <Header/>
-      <PasswordRecovery/>
-     
-      <Footer/>
-
-      </div>
-
-     
+      <Header />
+      <ActCodeForm />
+      <Footer />
+    </div>
   );
 }
 
