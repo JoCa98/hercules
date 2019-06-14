@@ -10,7 +10,7 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <ActCodeForm />
+      <EmailPruebaForm />
       <Footer />
     </div>
   );

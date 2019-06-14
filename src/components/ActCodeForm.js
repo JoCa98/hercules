@@ -44,6 +44,7 @@ class ActCodeForm extends Component {
 
               <div className="row mt-4">
                 <div className="col-md-4">
+                {/*esto se tiene q cambiar porque no es un submit*/}
                   <button type="submit" align="left" name="actCodeButton" className="cssCodeButtonResend"> Reenviar código </button>
                 </div>
 
