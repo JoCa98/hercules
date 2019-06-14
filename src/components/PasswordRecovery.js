@@ -19,7 +19,6 @@ class PasswordRecovery extends Component {
                                 <input type="text" name="emailText" className="form-control"></input>
                             </div>
 
-
                             <div className="row mt-4">
                                 <div className="col-md-4">
                                 </div>
