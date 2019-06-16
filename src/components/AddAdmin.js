@@ -4,15 +4,15 @@ class AddAdmin extends Component {
 
     render() {
         return (
-            <div className="div-container">
+            <div className="container">
                 <div className="row mt-4">
-                    <div className="col-4 offset-4 card">
+                    <div className="col-6 offset-3 card p-5">
                         <form>
                             <h2 ><font color="#41ade7">Agregar Administrador</font></h2>
                             <br />
                             <div class="form-group" align="left">
                                 <p align="justify">Tipo de administrador</p>
-                                <select align="justify">
+                                <select align="justify" className="form-control">
                                     <option value="gimnasio">Gimnasio</option>
                                     <option value="medico">Médico</option>
                                 </select>

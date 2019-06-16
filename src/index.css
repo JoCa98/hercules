@@ -1,17 +1,3 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
-}
-
 Button{
   width: 140px;
   height: 40px;
@@ -30,4 +16,16 @@ Button{
 .inputText {
   height: 40px;
   font-size: 18px;
+}
+
+.backgroundBlue{
+  background: #41ADE7;
+}
+
+.backgroundGrayFooter{
+  background: #666666;
+}
+
+.logo {
+  height: 90px;
 }
