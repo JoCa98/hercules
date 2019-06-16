@@ -16,7 +16,7 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <AddAdmin />
+      <PasswordRecovery />
       <Footer />
     </div>
   );

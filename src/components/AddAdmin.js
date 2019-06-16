@@ -53,7 +53,7 @@ class AddAdmin extends Component {
                             </div>
                             <div className="row">
                                     <div className="col-md-5 offset-md-7">
-                                        <button align="left">Guardar</button>
+                                        <button align="left" className="buttonSizeGeneral">Guardar</button>
                                     </div>
                                 </div>
                         </form>

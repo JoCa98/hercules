@@ -1,13 +1,15 @@
 Button{
-  width: 140px;
-  height: 40px;
   background-color: #41ade7;
   color:white;
   border-radius: 5px 5px 5px 5px;
-  -moz-border-radius: 5px 5px 5px 5px;
-  -webkit-border-radius: 5px 5px 5px 5px;
-  border: 0px inset #000000;
+  border: 0px inset #41ade7;
 }
+
+.buttonSizeGeneral{
+  width: 140px;
+  height: 40px;
+}
+
 
 .colorBlue {
   color:#41ADE7;
@@ -24,8 +26,24 @@ Button{
 
 .backgroundGrayFooter{
   background: #666666;
+  
+}
+
+.backgroundGrayBody{
+  background: #F5F5F5;
 }
 
 .logo {
   height: 90px;
+}
+
+.logoFooter{
+  height: 102px;
+  width: 223px;
+}
+
+
+footer{
+  height: 210px;
+  background: #323232;
 }
