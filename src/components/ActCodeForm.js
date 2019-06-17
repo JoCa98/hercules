@@ -30,12 +30,12 @@ class ActCodeForm extends Component {
 
   render() {
     return (
-      <div className="div-container">
-        <div className="row mt-4">
-          <div className="col-md-4 offset-md-4 card">
+      <div className="container">
+        <div className="row mt-4 ">
+          <div className="col-6 offset-3 card p-5">
 
             <form className="activationCodeForm" onSubmit={this.handleSubmit}>
-              <h2 align="left"><font color="#41ade7">Activación de cuenta</font></h2>
+              <h2 className="text-left colorBlue">Activación de cuenta</h2>
 
               <div class="form-group">
                 <p align="left">Ingrese el código de activación enviado a su correo</p>
@@ -43,12 +43,11 @@ class ActCodeForm extends Component {
               </div>
 
               <div className="row mt-4">
-                <div className="col-md-4">
-                {/*esto se tiene q cambiar porque no es un submit*/}
-                  <button type="submit" align="left" name="actCodeButton" className="cssCodeButtonResend"> Reenviar código </button>
+                <div className="col-4">
+                  <button type="button" align="left" name="actCodeButton" className="cssCodeButtonResend"> Reenviar código </button>
                 </div>
 
-                <div className="col-md-4 offset-md-4">
+                <div className="col-4 offset-4">
                   <button type="submit" align="right" name="actCodeButton" className="cssCodeButtonConfirm"> Confirmar </button>
                 </div>
               </div>
@@ -63,5 +62,3 @@ class ActCodeForm extends Component {
 }
 
 export default ActCodeForm;
-
-
