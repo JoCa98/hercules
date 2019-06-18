@@ -9,18 +9,14 @@ import Navbar from './components/Navbar';
 import EmailPruebaForm from './components/EmailPruebaForm';
 import HomeAdmin from './components/HomeAdmin';
 
-/*sdsdsdsdsdsd */
-
 function App() {
   return (
     <div className="App">
 
       <Header />
       <Navbar />
-      <PasswordRecovery />
+      <ActCodeForm />
       <Footer />
-
-      
 
     </div>
   );

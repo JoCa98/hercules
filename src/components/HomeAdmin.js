@@ -4,8 +4,8 @@ class HomeAdmin extends Component {
     render() {
         return (
             <div className="container">
-                <div className="row mt-4 card">
-                    <div className="col-12 ">
+                <div className="row card mt-4 p-5">
+                    <div className="col-12">
                         <h1 className="text-left colorBlue">Lista de usuarios</h1>
                         <div className="row">
                             <div className="col-2 offset-1">
@@ -17,9 +17,10 @@ class HomeAdmin extends Component {
                             </div>
                             <div className="col-5">
                                 <input type="text" className="w-100 inputText" placeholder="Buscar"></input>
+                                <i class="fas fa-search" aria-hidden="true"></i>
                             </div>
                             <div className="col-2">
-                                <button>Buscar</button>
+                                <button className="buttonSizeGeneral">Buscar</button>
                             </div>
                         </div>
                     </div>

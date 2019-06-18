@@ -1,27 +1,15 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
-}
-
 Button{
-  width: 140px;
-  height: 40px;
   background-color: #41ade7;
   color:white;
   border-radius: 5px 5px 5px 5px;
-  -moz-border-radius: 5px 5px 5px 5px;
-  -webkit-border-radius: 5px 5px 5px 5px;
-  border: 0px inset #000000;
+  border: 0px inset #41ade7;
 }
+
+.buttonSizeGeneral{
+  width: 140px;
+  height: 40px;
+}
+
 
 .colorBlue {
   color:#41ADE7;
@@ -30,4 +18,32 @@ Button{
 .inputText {
   height: 40px;
   font-size: 18px;
+}
+
+.backgroundBlue{
+  background: #41ADE7;
+}
+
+.backgroundGrayFooter{
+  background: #666666;
+  
+}
+
+.backgroundGrayBody{
+  background: #F5F5F5;
+}
+
+.logo {
+  height: 90px;
+}
+
+.logoFooter{
+  height: 102px;
+  width: 223px;
+}
+
+
+footer{
+  height: 210px;
+  background: #323232;
 }
