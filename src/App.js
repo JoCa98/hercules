@@ -12,14 +12,14 @@ import Footer from './components/Footer';
 import Navbar from './components/Navbar';
 import EmailPruebaForm from './components/EmailPruebaForm';
 import HomeAdmin from './components/HomeAdmin';
-
+import HistoricPhysicalInfo from './components/HistoricPhysicalInfo';
 
 function App() {
   return (
     <div className="App">
       <Header/>
       <Navbar/>
-      <PasswordRecovery/>
+      <HistoricPhysicalInfo/>
       <Footer/>
       </div>
 
