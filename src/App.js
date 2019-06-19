@@ -15,10 +15,13 @@ import HomeAdmin from './components/HomeAdmin';
 function App() {
   return (
     <div className="App">
+<<<<<<< HEAD
       <Header />
       <HomeAdmin />
       <Footer />
     </div>
+=======
+>>>>>>> c1689f914778aebdc2f5838cb3eddbef53c4aa51
   );
 }
 
