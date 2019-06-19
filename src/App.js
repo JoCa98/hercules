@@ -7,10 +7,12 @@ import AddAdmin from './components/AddAdmin';
 
 import Header from './components/Header';
 import Footer from './components/Footer';
+
+
 import Navbar from './components/Navbar';
 import EmailPruebaForm from './components/EmailPruebaForm';
 import HomeAdmin from './components/HomeAdmin';
-
+import HistoricPhysicalInfo from './components/HistoricPhysicalInfo';
 
 function App() {
   return (
@@ -21,6 +23,12 @@ function App() {
       <Footer />
     </div>
 =======
+      <Header/>
+      <Navbar/>
+      <HistoricPhysicalInfo/>
+      <Footer/>
+      </div>
+
 >>>>>>> c1689f914778aebdc2f5838cb3eddbef53c4aa51
   );
 }
