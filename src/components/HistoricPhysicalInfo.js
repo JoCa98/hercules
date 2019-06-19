@@ -6,15 +6,19 @@ class HistoricPhysicalInfo extends Component {
         return (
             <div className="container">
                 <div className="row card mt-4 p-5">
-                    <div className="col-6">
+                    <div className="col-12">
                         <h1 className="text-left colorBlue">Lista de usuarios</h1>
                     </div>
-                    <div className="col-6">
-                    <imagebutton className="plusbutton" src={plusImage}></imagebutton>
-                    <image src={plusImage}></image>
-                    </div>
-                    <div className="col-11 offset-1 mt-4">
+                    <div className="row">
+                    <div className="col-4 offset-1 ">
                         <h4 className="text-left">Nombre del usuario</h4>
+                    </div>
+                    <div className="col-4 text-right">
+                    <button src={plusImage}  className="plusbutton"></button>
+                    </div>
+                    <div className="col-3 text-left">
+                    <label>Agregar Nuevo</label>
+                    </div>
                     </div>
                     <div className="col-10 offset-1 mt-4">
                         <table class="table">
