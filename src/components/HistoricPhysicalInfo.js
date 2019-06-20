@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import plusImage from '../appImage/plusImage.svg';
+
 
 class HistoricPhysicalInfo extends Component {
     render() {
@@ -7,19 +7,13 @@ class HistoricPhysicalInfo extends Component {
             <div className="container">
                 <div className="row card mt-4 p-5">
                     <div className="col-12">
-                        <h1 className="text-left colorBlue">Lista de usuarios</h1>
+                        <h1 className="text-left colorBlue">Composición Corporal</h1>
                     </div>
-                    <div className="row">
+        
                     <div className="col-4 offset-1 ">
                         <h4 className="text-left">Nombre del usuario</h4>
                     </div>
-                    <div className="col-4 text-right">
-                    <button src={plusImage}  className="plusbutton"></button>
-                    </div>
-                    <div className="col-3 text-left">
-                    <label>Agregar Nuevo</label>
-                    </div>
-                    </div>
+            
                     <div className="col-10 offset-1 mt-4">
                         <table class="table">
                             <thead>

@@ -5,6 +5,41 @@ Button{
   border: 0px inset #41ade7;
 }
 
+p{
+  color:#666666;
+  font:Arial;
+  font-size: 16px;
+  font-family: sans-serif
+}
+
+h1{
+  color:#41ade7;
+  font:Arial;
+  font-size: 32px;
+  font-family: sans-serif
+}
+
+h2{
+  color:#666666;
+  font:Arial;
+  font-size: 24px;
+  font-family: sans-serif
+}
+
+h3{
+  color:#666666;
+  font:Arial;
+  font-size: 16px;
+  font-family: sans-serif
+}
+
+h4{
+  color:#999999;
+  font:Arial;
+  font-size: 16px;
+  font-family: sans-serif
+}
+
 .buttonSizeGeneral{
   width: 140px;
   height: 40px;
@@ -22,13 +57,17 @@ Button{
   float:right;
 }
 
-
 .colorBlue {
   color:#41ADE7;
 }
 
 .inputText {
   height: 40px;
+  font-size: 18px;
+}
+
+.bigInputText {
+  height: 120px;
   font-size: 18px;
 }
 
@@ -63,4 +102,15 @@ footer{
 .buttonCirculeImage {
   background-image: url(./appImage/plusImage.svg);
   background-repeat: no-repeat;
+.form-horizontal .control-label {
+
+  width: 150px;
+  padding-top: 5px;
+  text-align: left;
+  display: block;
+}
+ 
+.form-horizontal .controls {
+  display: block;
+  float:left;
 }
