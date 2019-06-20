@@ -17,9 +17,8 @@ import AddRutine from './components/AddRutine';
 function App() {
   return (
     <div className="App">
-      <Header />
-      <NavbarAdmin />
-      <AddRutine />
+      <Header />      
+      <SignIn />
       <Footer />
     </div>
   );
