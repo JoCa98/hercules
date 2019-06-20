@@ -4,6 +4,7 @@ import ActCodeForm from './components/ActCodeForm';
 import PasswordRecovery from './components/PasswordRecovery';
 
 import AddAdmin from './components/AddAdmin';
+import SignIn from './components/SignIn';
 
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -17,19 +18,10 @@ import HistoricPhysicalInfo from './components/HistoricPhysicalInfo';
 function App() {
   return (
     <div className="App">
-<<<<<<< HEAD
       <Header />
-      <HomeAdmin />
+      <SignIn />
       <Footer />
     </div>
-=======
-      <Header/>
-      <Navbar/>
-      <HistoricPhysicalInfo/>
-      <Footer/>
-      </div>
-
->>>>>>> c1689f914778aebdc2f5838cb3eddbef53c4aa51
   );
 }
 
