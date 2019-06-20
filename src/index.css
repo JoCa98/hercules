@@ -99,6 +99,9 @@ footer{
   background: #323232;
 }
 
+.buttonCirculeImage {
+  background-image: url(./appImage/plusImage.svg);
+  background-repeat: no-repeat;
 .form-horizontal .control-label {
 
   width: 150px;
