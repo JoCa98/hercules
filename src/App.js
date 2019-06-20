@@ -17,20 +17,11 @@ import AddRutine from './components/AddRutine';
 function App() {
   return (
     <div className="App">
-      <Header/>
-      <RoutineList/>
-      <Footer/>
-      </div>
-
-<<<<<<< HEAD
       <Header />
       <NavbarAdmin />
       <AddRutine />
       <Footer />
-
     </div>
-=======
->>>>>>> 67050cd7d58e24a768fbd5aef92ffcaf0d7b82e3
   );
 }
 
