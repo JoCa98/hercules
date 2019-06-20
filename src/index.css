@@ -102,8 +102,9 @@ footer{
 .buttonCirculeImage {
   background-image: url(./appImage/plusImage.svg);
   background-repeat: no-repeat;
-.form-horizontal .control-label {
+}
 
+  .form-horizontal .control-label {
   width: 150px;
   padding-top: 5px;
   text-align: left;
