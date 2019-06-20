@@ -9,6 +9,7 @@ import NavbarAdmin from './components/NavbarAdmin';
 import HomeAdmin from './components/HomeAdmin';
 import NavbarUserHome from './components/NavbarUserHome';
 import UserHome from './components/UserHome';
+import AddRutine from './components/AddRutine';
 
 
 function App() {
@@ -16,8 +17,8 @@ function App() {
     <div className="App">
 
       <Header />
-      <NavbarUserHome />
-      <UserHome />
+      <NavbarAdmin />
+      <AddRutine />
       <Footer />
 
     </div>
