@@ -19,7 +19,6 @@ import AddPhysicalInfo from './components/AddPhysicalInfo';
 function App() {
   return (
     <div className="App">
-<<<<<<< HEAD
       <Header />
       <SignIn />
       <Footer />
