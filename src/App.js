@@ -23,14 +23,6 @@ function App() {
       <SignIn />
       <Footer />
     </div>
-=======
-      <Header/>
-      <Navbar/>
-     < AddPhysicalInfo/>
-      <Footer/>
-      </div>
-
->>>>>>> d0f7d995182a684f217f82433ff3ef6201d21bdf
   );
 }
 
