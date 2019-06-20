@@ -59,3 +59,8 @@ footer{
   height: 210px;
   background: #323232;
 }
+
+.buttonCirculeImage {
+  background-image: url(./appImage/plusImage.svg);
+  background-repeat: no-repeat;
+}
