@@ -98,3 +98,16 @@ footer{
   height: 210px;
   background: #323232;
 }
+
+.form-horizontal .control-label {
+
+  width: 150px;
+  padding-top: 5px;
+  text-align: left;
+  display: block;
+}
+ 
+.form-horizontal .controls {
+  display: block;
+  float:left;
+}
