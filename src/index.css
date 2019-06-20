@@ -5,11 +5,57 @@ Button{
   border: 0px inset #41ade7;
 }
 
+p{
+  color:#666666;
+  font:Arial;
+  font-size: 16px;
+  font-family: sans-serif
+}
+
+h1{
+  color:#41ade7;
+  font:Arial;
+  font-size: 32px;
+  font-family: sans-serif
+}
+
+h2{
+  color:#666666;
+  font:Arial;
+  font-size: 24px;
+  font-family: sans-serif
+}
+
+h3{
+  color:#666666;
+  font:Arial;
+  font-size: 16px;
+  font-family: sans-serif
+}
+
+h4{
+  color:#999999;
+  font:Arial;
+  font-size: 16px;
+  font-family: sans-serif
+}
+
 .buttonSizeGeneral{
   width: 140px;
   height: 40px;
 }
 
+.plusbutton{
+  width:30px;
+  height:30px;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
+  font-size:11px;
+  line-height:32px;
+  text-transform: uppercase;
+  float:right;
+}
 
 .colorBlue {
   color:#41ADE7;
@@ -17,6 +63,11 @@ Button{
 
 .inputText {
   height: 40px;
+  font-size: 18px;
+}
+
+.bigInputText {
+  height: 120px;
   font-size: 18px;
 }
 
@@ -46,4 +97,17 @@ Button{
 footer{
   height: 210px;
   background: #323232;
+}
+
+.form-horizontal .control-label {
+
+  width: 150px;
+  padding-top: 5px;
+  text-align: left;
+  display: block;
+}
+ 
+.form-horizontal .controls {
+  display: block;
+  float:left;
 }
