@@ -115,3 +115,18 @@ footer{
   display: block;
   float:left;
 }
+
+
+a{
+  color:#0090D8;
+  font:Arial;
+  font-size: 16px;
+  font-family: sans-serif
+}
+
+.circularButton{
+  width: 140px;
+  height: 40px;
+  border-radius: 50px;
+  
+}
