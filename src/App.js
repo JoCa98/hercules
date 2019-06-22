@@ -22,7 +22,6 @@ function App() {
   return (
     <div className="App">
       <Header />      
-      <RoutineAdmin />
       <RoutineList />
       <Footer />
     </div>
