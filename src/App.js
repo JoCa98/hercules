@@ -16,12 +16,15 @@ import SignIn from './components/SignUp';
 import UserConfiguration from './components/UserConfiguration';
 import LogIn from './components/LogIn';
 import ConsultUser from './components/ConsultUser';
+import AdminHistoricPhysicalInfo from './components/AdminHistoricPhysicalInfo';
+import AddMedicalForm from './components/AddMedicalForm';
+
 
 function App() {
   return (
     <div className="App">
       <Header />      
-      <HistoricPhysicalInfo />
+      <AddMedicalForm />
       <Footer />
     </div>
   );
