@@ -23,6 +23,7 @@ function App() {
     <div className="App">
       <Header />      
       <RoutineAdmin />
+      <RoutineList />
       <Footer />
     </div>
   );

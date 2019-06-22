@@ -24,14 +24,8 @@ class RoutineList extends Component {
                                 <label className="form-control">Usuario: Jose Carlos Chavez Moran</label>
                             </div>
                             <div className="col-4 offset-1">
-                                <div className="row">
-                                    <div className="col-4">
-                                        <img src={plusImage} onClick={this.redirect} className="buttonSizeGeneral" />
-                                    </div>
-                                    <div className="col-8 text-left">
-                                        <h4 className="colorBlue" onClick={this.redirect}>Agregar nuevo</h4>
-                                    </div>
-                                </div>
+                                <img src={plusImage} onClick={this.redirect} className="buttonSizeGeneral" />
+                                <h4 className="colorBlue" onClick={this.redirect}>Agregar nuevo</h4>
                             </div>
                         </div>
                     </div>
@@ -39,14 +33,22 @@ class RoutineList extends Component {
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th scope="col">Cedula</th>
-                                    <th scope="col">Nombre</th>
-                                    <th scope="col">Carnet</th>
+                                    <th scope="col">Fecha</th>
+                                    <th scope="col">Tipo rutina</th>
+                                    <th scope="col">Objetivo</th>
+                                    <th scope="col">Frecuencia</th>
+                                    <th scope="col">Intensidad</th>
+                                    <th scope="col">Tiempo</th>
+                                    <th scope="col">Densidad</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <th scope="row"></th>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
                                     <td></td>
                                     <td></td>
                                 </tr>
