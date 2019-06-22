@@ -6,7 +6,7 @@ class TablePhysicalInfo extends Component {
     render() {
         return (
             <div className="container">
-                <div className="row card mt-4 p-5">
+                <div className="row">
                     <div className="col-12">
                         <table class="table">
                             <thead>
