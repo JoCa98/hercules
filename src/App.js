@@ -11,17 +11,18 @@ import HistoricPhysicalInfo from './components/HistoricPhysicalInfo';
 import RoutineList from './components/RoutineList';
 import NavbarUserHome from './components/NavbarUserHome';
 import UserHome from './components/UserHome';
-import AddRutine from './components/AddRutine';
+import AddRoutine from './components/AddRoutine';
 import SignIn from './components/SignUp';
 import UserConfiguration from './components/UserConfiguration';
 import LogIn from './components/LogIn';
 import ConsultUser from './components/ConsultUser';
+import RoutineAdmin from './components/RoutineAdmin';
 
 function App() {
   return (
     <div className="App">
       <Header />      
-      <HistoricPhysicalInfo />
+      <RoutineAdmin />
       <Footer />
     </div>
   );
