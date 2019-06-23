@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import plusImage from '../appImage/plusImage.svg';
 
-class RoutineList extends Component {
+class HistoricRoutineInfo extends Component {
     constructor() {
         super();
 
@@ -61,4 +61,4 @@ class RoutineList extends Component {
     }
 }
 
-export default RoutineList;
+export default HistoricRoutineInfo;

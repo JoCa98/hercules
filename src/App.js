@@ -8,7 +8,7 @@ import Footer from './components/Footer';
 import NavbarAdmin from './components/NavbarAdmin';
 import HomeAdmin from './components/HomeAdmin';
 import HistoricPhysicalInfo from './components/HistoricPhysicalInfo';
-import RoutineList from './components/RoutineList';
+import HistoricRoutineInfo from './components/HistoricRoutineInfo';
 import NavbarUserHome from './components/NavbarUserHome';
 import UserHome from './components/UserHome';
 import AddRoutine from './components/AddRoutine';
@@ -18,14 +18,16 @@ import LogIn from './components/LogIn';
 import ConsultUser from './components/ConsultUser';
 import AdminHistoricPhysicalInfo from './components/AdminHistoricPhysicalInfo';
 import AddMedicalForm from './components/AddMedicalForm';
-
+import HistoricMedicalInfo from './components/HistoricMedicalInfo';
 import RoutineAdmin from './components/RoutineAdmin';
+import AddPhysicalInfo from './components/AddPhysicalInfo';
+
 
 function App() {
   return (
     <div className="App">
       <Header />      
-      <RoutineList />
+      <RoutineAdmin />
       <Footer />
     </div>
   );
