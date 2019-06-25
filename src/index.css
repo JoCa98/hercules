@@ -104,7 +104,7 @@ footer{
   background-repeat: no-repeat;
 }
 
-  .form-horizontal .control-label {
+ .form-horizontal .control-label {
   width: 150px;
   padding-top: 5px;
   text-align: left;
@@ -118,7 +118,7 @@ footer{
 
 
 a{
-  color:#0090D8;
+  color:#41ADE7;
   font:Arial;
   font-size: 16px;
   font-family: sans-serif
@@ -127,5 +127,21 @@ a{
 .circularButton{
   width: 140px;
   height: 40px;
-  border-radius: 50px;  
+  border-radius: 50px;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  background-color: #41ADE7;
+}
+
+.aNavbar{
+  font-size: 13px;
+}
+
+th{
+  font-size: 13px;
+}
+
+td{
+  font-size: 13px;
 }
