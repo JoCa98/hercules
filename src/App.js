@@ -22,7 +22,7 @@ function App() {
   return (
     <div className="App">
       <Header />      
-      <RoutineAdmin />
+      <ConsultUser/>
       <Footer />
     </div>
   );
