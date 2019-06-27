@@ -4,17 +4,20 @@ const router = express.Router();
 
 router.use(cors());
 
-module.exports = function(app) {
+module.exports = function (app) {
 
-    app.post('AddMedicalFormRoute/add', function(req, res)
-    { console.log(req.body);
-        res.send('works');
-       
-       })
-   
+    app.post('/add', function (req, res) {
+        connection.query('CALL proc_addMedicalInfo', function (err, results) {
+           if(err){
+               return res.send(err)
+           }
+           else{
+               return res.send('hecho')
+           }
+        });
+
+    })
+
 };
 
 module.exports = router;
-//connection.query('CALL proc_addMedicalInfo', function(err, data){
- ///   (err)?res.send(err):res.json({users:data})
-//});
