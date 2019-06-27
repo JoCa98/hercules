@@ -29,11 +29,7 @@ function App() {
   return (
     <div className="App">
       <Header />      
-<<<<<<< HEAD
       <AddMedicalForm/>
-=======
-      <HistoricMedicalUserInfo />
->>>>>>> ee71316fdbbcf365b508f7ad9acb07f938dd56f2
       <Footer />
     </div>
   );
