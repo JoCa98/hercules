@@ -21,13 +21,19 @@ import AddMedicalForm from './components/AddMedicalForm';
 import HistoricMedicalInfo from './components/HistoricMedicalInfo';
 import RoutineAdmin from './components/RoutineAdmin';
 import AddPhysicalInfo from './components/AddPhysicalInfo';
+import HistoricMedicalUserInfo from './components/HistoricMedicalUserInfo';
+
 
 
 function App() {
   return (
     <div className="App">
       <Header />      
+<<<<<<< HEAD
       <AddMedicalForm/>
+=======
+      <HistoricMedicalUserInfo />
+>>>>>>> ee71316fdbbcf365b508f7ad9acb07f938dd56f2
       <Footer />
     </div>
   );
