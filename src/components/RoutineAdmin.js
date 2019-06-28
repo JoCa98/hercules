@@ -17,7 +17,7 @@ class RoutineAdmin extends Component {
 
                             <div className="row">
                                 <div className="col-6 col-md-2">
-                                    <p className="cssPText">Nombre: </p>
+                                    <p className="cssPText">Usuario: </p>
                                 </div>
                                 <div className="col-6 col-md-2">
                                     <label> *agregar nombre*</label>
@@ -25,7 +25,6 @@ class RoutineAdmin extends Component {
                             </div>
 
                             <div className="row">
-
                                 <div className="col-12 col-md-4">
                                     <div className="row">
                                         <div className="col-12">
