@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from "react-dom";
 
-
 const state = {
     partyID: 1,
     date: new Date(),
@@ -12,27 +11,25 @@ const state = {
     smoking: 0,
     neurologicalInfo: "",
     pulmonaryCardioInfo: "",
-    bloodPressure: "",
+    bloodPressure: 5,
     heartRate: 0,
-    heartRatePerMinute : 0,
+    heartRatePerMinute: 0,
     Sp02: 0,
     weight: 0,
     size: 0,
-    IMC : 0,
+    IMC: 0,
     abdomen: 0,
     waist: 0,
-    hip: 0,
-    cardiovascularRisk: 0,
-    recommendations: ""
+    hip: 0
 };
 
 class AddMedicalForm extends Component {
 
     handleSubmit = event => {
-        fetch("/AddMedical", {
-            method: "get",
+        fetch("http://localhost:9000/AddMedical", {
+            method: "post",
             body: JSON.stringify(state),
-         
+
             headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json"
@@ -40,15 +37,13 @@ class AddMedicalForm extends Component {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data);  
-                
+                console.log(data);
             })
             .catch(err => console.error(err));
 
         event.preventDefault();
 
     }
-
 
     render() {
         return (
@@ -63,7 +58,7 @@ class AddMedicalForm extends Component {
                         </div>
                     </div>
                     <div className="col-10 offset-1 mt-4 text-center">
-                        <form className="form-horizontal" action="/AddMedical" method="get">
+                        <form className="form-horizontal" onSubmit={this.handleSubmit}>
                             <ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">
 
                                 <li className="nav-item">
@@ -274,7 +269,7 @@ class AddMedicalForm extends Component {
                                 </div>
                             </div>
                             <div className="col-4 offset-9 mt-4">
-                                   
+
                                 <button align="left" name="save" type="submit" className="buttonSizeGeneral">Guardar</button>
                             </div>
                         </form>
