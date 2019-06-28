@@ -24,8 +24,6 @@ import AddPhysicalInfo from './components/AddPhysicalInfo';
 import HistoricMedicalUserInfo from './components/HistoricMedicalUserInfo';
 
 
-
-
 function App() {
   return (
     <div className="App">
