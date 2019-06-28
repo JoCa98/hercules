@@ -21,9 +21,7 @@ class RoutineCarousel extends Component {
                     <div className="col-2 col-md-4">
                         <img src={rightArrowImage} className="buttonSizeGeneral" />
                     </div>
-
                 </div>
-
                 <div className="row mt-4">
                     <div className="col-12">
                         <div className="table-responsive">
