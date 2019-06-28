@@ -25,11 +25,16 @@ import HistoricMedicalUserInfo from './components/HistoricMedicalUserInfo';
 
 
 
+
 function App() {
   return (
     <div className="App">
       <Header />      
+<<<<<<< HEAD
       <UserHome />
+=======
+      <AddMedicalForm/>
+>>>>>>> 900d24bd8bf8d4890394a652da68cc7e4e73926d
       <Footer />
     </div>
   );
