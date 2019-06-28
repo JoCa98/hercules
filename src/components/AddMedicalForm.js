@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import ReactDOM from "react-dom";
 
-import axios from "axios";
 
 const state = {
+    partyID: 1,
     date: new Date(),
     pathologies: "",
     allergies: "",
@@ -26,12 +27,12 @@ const state = {
 };
 
 class AddMedicalForm extends Component {
-    
-    handleSubmit = event => {
-        fetch("/add", {
-            method: "POST",
-            body: JSON.stringify(state),
 
+    handleSubmit = event => {
+        fetch("/AddMedical", {
+            method: "get",
+            body: JSON.stringify(state),
+         
             headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json"
@@ -39,11 +40,13 @@ class AddMedicalForm extends Component {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data);
+                console.log(data);  
+                
             })
             .catch(err => console.error(err));
 
         event.preventDefault();
+
     }
 
 
@@ -60,7 +63,7 @@ class AddMedicalForm extends Component {
                         </div>
                     </div>
                     <div className="col-10 offset-1 mt-4 text-center">
-                        <form className="form-horizontal" onSubmit={this.handleSubmit}>
+                        <form className="form-horizontal" action="/AddMedical" method="get">
                             <ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">
 
                                 <li className="nav-item">
@@ -79,33 +82,33 @@ class AddMedicalForm extends Component {
                                     <div className="container">
                                         <div className="row card mt-4 p-5 ">
                                             <div className="col-6 offset-1">
-                                                <div class="control-group">
-                                                    <label class="control-label" for="pathologies">Patológicos</label>
-                                                    <div class="controls">
+                                                <div className="control-group">
+                                                    <label className="control-label" htmlFor="pathologies">Patológicos</label>
+                                                    <div className="controls">
                                                         <input type="decimal" id="pathologies" size="70" />
                                                     </div>
                                                 </div>
-                                                <div class="control-group">
-                                                    <label class="control-label" for="allergies">Alergias</label>
-                                                    <div class="controls">
+                                                <div className="control-group">
+                                                    <label className="control-label" htmlFor="allergies">Alergias</label>
+                                                    <div className="controls">
                                                         <input type="decimal" id="allergies" size="70" />
                                                     </div>
                                                 </div>
-                                                <div class="control-group">
-                                                    <label class="control-label" for="smoking">Tabaquismo</label>
-                                                    <div class="controls">
+                                                <div className="control-group">
+                                                    <label className="control-label" htmlFor="smoking">Tabaquismo</label>
+                                                    <div className="controls">
                                                         <input type="decimal" id="smoking" size="70" />
                                                     </div>
                                                 </div>
-                                                <div class="control-group">
-                                                    <label class="control-label" for="surgerie">Cirugías</label>
-                                                    <div class="controls">
+                                                <div className="control-group">
+                                                    <label className="control-label" htmlFor="surgerie">Cirugías</label>
+                                                    <div className="controls">
                                                         <input type="decimal" id="surgerie" size="70" />
                                                     </div>
                                                 </div>
-                                                <div class="control-group">
-                                                    <label class="control-label" for="traumas">Traumas</label>
-                                                    <div class="controls">
+                                                <div className="control-group">
+                                                    <label className="control-label" htmlFor="traumas">Traumas</label>
+                                                    <div className="controls">
                                                         <input type="decimal" id="traumas" size="70" />
                                                     </div>
                                                 </div>
@@ -122,9 +125,9 @@ class AddMedicalForm extends Component {
                                                     <div className="col-4 mt-4">
                                                         <div className="row">
                                                             <div className="col-2">
-                                                                <div class="control-group">
-                                                                    <label class="control-label" for="inputHeight">Talla</label>
-                                                                    <div class="controls">
+                                                                <div className="control-group">
+                                                                    <label className="control-label" htmlFor="inputHeight">Talla</label>
+                                                                    <div className="controls">
                                                                         <input type="decimal" id="inputHeight" />
                                                                     </div>
                                                                 </div>
@@ -132,9 +135,9 @@ class AddMedicalForm extends Component {
                                                         </div>
                                                         <div className="row">
                                                             <div className="col-2">
-                                                                <div class="control-group">
-                                                                    <label class="control-label" for="weight">Peso</label>
-                                                                    <div class="controls">
+                                                                <div className="control-group">
+                                                                    <label className="control-label" htmlFor="weight">Peso</label>
+                                                                    <div className="controls">
                                                                         <input type="decimal" id="weight" />
                                                                     </div>
                                                                 </div>
@@ -142,9 +145,9 @@ class AddMedicalForm extends Component {
                                                         </div>
                                                         <div className="row">
                                                             <div className="col-2">
-                                                                <div class="control-group">
-                                                                    <label class="control-label" for="IMC">IMC</label>
-                                                                    <div class="controls">
+                                                                <div className="control-group">
+                                                                    <label className="control-label" htmlFor="IMC">IMC</label>
+                                                                    <div className="controls">
                                                                         <input type="decimal" id="IMC" />
                                                                     </div>
                                                                 </div>
@@ -152,9 +155,9 @@ class AddMedicalForm extends Component {
                                                         </div>
                                                         <div className="row">
                                                             <div className="col-2">
-                                                                <div class="control-group">
-                                                                    <label class="control-label" for="heartRatePerMinute">FCM</label>
-                                                                    <div class="controls">
+                                                                <div className="control-group">
+                                                                    <label className="control-label" htmlFor="heartRatePerMinute">FCM</label>
+                                                                    <div className="controls">
                                                                         <input type="decimal" id="heartRatePerMinute" />
                                                                     </div>
                                                                 </div>
@@ -162,9 +165,9 @@ class AddMedicalForm extends Component {
                                                         </div>
                                                         <div className="row">
                                                             <div className="col-2">
-                                                                <div class="control-group">
-                                                                    <label class="control-label" for="heartRate">FC</label>
-                                                                    <div class="controls">
+                                                                <div className="control-group">
+                                                                    <label className="control-label" htmlFor="heartRate">FC</label>
+                                                                    <div className="controls">
                                                                         <input type="decimal" id="heartRate" />
                                                                     </div>
                                                                 </div>
@@ -174,9 +177,9 @@ class AddMedicalForm extends Component {
                                                     <div className="col-4 mt-4">
                                                         <div className="row">
                                                             <div className="col-2">
-                                                                <div class="control-group">
-                                                                    <label class="control-label" for="SpO2">Sp02</label>
-                                                                    <div class="controls">
+                                                                <div className="control-group">
+                                                                    <label className="control-label" htmlFor="SpO2">Sp02</label>
+                                                                    <div className="controls">
                                                                         <input type="decimal" id="SpO2" />
                                                                     </div>
                                                                 </div>
@@ -184,9 +187,9 @@ class AddMedicalForm extends Component {
                                                         </div>
                                                         <div className="row">
                                                             <div className="col-2">
-                                                                <div class="control-group">
-                                                                    <label class="control-label" for="abdomen">Abdomen</label>
-                                                                    <div class="controls">
+                                                                <div className="control-group">
+                                                                    <label className="control-label" htmlFor="abdomen">Abdomen</label>
+                                                                    <div className="controls">
                                                                         <input type="decimal" id="abdomen" />
                                                                     </div>
                                                                 </div>
@@ -194,9 +197,9 @@ class AddMedicalForm extends Component {
                                                         </div>
                                                         <div className="row">
                                                             <div className="col-2">
-                                                                <div class="control-group">
-                                                                    <label class="control-label" for="waist">Cintura</label>
-                                                                    <div class="controls">
+                                                                <div className="control-group">
+                                                                    <label className="control-label" htmlFor="waist">Cintura</label>
+                                                                    <div className="controls">
                                                                         <input type="decimal" id="waist" />
                                                                     </div>
                                                                 </div>
@@ -204,9 +207,9 @@ class AddMedicalForm extends Component {
                                                         </div>
                                                         <div className="row">
                                                             <div className="col-2">
-                                                                <div class="control-group">
-                                                                    <label class="control-label" for="hip">Cadera</label>
-                                                                    <div class="controls">
+                                                                <div className="control-group">
+                                                                    <label className="control-label" htmlFor="hip">Cadera</label>
+                                                                    <div className="controls">
                                                                         <input type="decimal" id="hip" />
                                                                     </div>
                                                                 </div>
@@ -214,9 +217,9 @@ class AddMedicalForm extends Component {
                                                         </div>
                                                         <div className="row">
                                                             <div className="col-2">
-                                                                <div class="control-group">
-                                                                    <label class="control-label" for="bloodPressure">Presión Arterial</label>
-                                                                    <div class="controls">
+                                                                <div className="control-group">
+                                                                    <label className="control-label" htmlFor="bloodPressure">Presión Arterial</label>
+                                                                    <div className="controls">
                                                                         <input type="text" id="bloodPressure" />
                                                                     </div>
                                                                 </div>
@@ -225,15 +228,15 @@ class AddMedicalForm extends Component {
 
                                                     </div>
                                                     <div className="col-4 mt-4">
-                                                        <div class="control-group">
-                                                            <label class="control-label" for="neurologicalInfo">Neurológico</label>
-                                                            <div class="controls">
+                                                        <div className="control-group">
+                                                            <label className="control-label" htmlFor="neurologicalInfo">Neurológico</label>
+                                                            <div className="controls">
                                                                 <textarea id="neurologicalInfo" rows="5"></textarea>
                                                             </div>
                                                         </div>
-                                                        <div class="control-group">
-                                                            <label class="control-label" for="pulmonaryCardioInfo">Cardiopulmonar</label>
-                                                            <div class="controls">
+                                                        <div className="control-group">
+                                                            <label className="control-label" htmlFor="pulmonaryCardioInfo">Cardiopulmonar</label>
+                                                            <div className="controls">
                                                                 <textarea id="pulmonaryCardioInfo" rows="5"></textarea>
                                                             </div>
                                                         </div>
@@ -247,9 +250,9 @@ class AddMedicalForm extends Component {
                                     <div className="container">
                                         <div className="row card mt-4 p-5">
                                             <div className="col-10 offset-1">
-                                                <div class="control-group">
-                                                    <label class="control-label" for="cardiovascularRisk">Riesgo Cardiovascular</label>
-                                                    <div class="controls">
+                                                <div className="control-group">
+                                                    <label className="control-label" htmlFor="cardiovascularRisk">Riesgo Cardiovascular</label>
+                                                    <div className="controls">
                                                         <select name="cardiovascularRisk" align="left" className="form-control">
                                                             <option value="1">1</option>
                                                             <option value="2">2</option>
@@ -259,9 +262,9 @@ class AddMedicalForm extends Component {
                                                 </div>
                                                 <br />
                                                 <br />
-                                                <div class="control-group">
-                                                    <label class="control-label" for="recommendations">Recomendaciones</label>
-                                                    <div class="controls">
+                                                <div className="control-group">
+                                                    <label className="control-label" htmlFor="recommendations">Recomendaciones</label>
+                                                    <div className="controls">
                                                         <textarea id="recommendations" rows="5" />
                                                     </div>
                                                 </div>
@@ -271,7 +274,8 @@ class AddMedicalForm extends Component {
                                 </div>
                             </div>
                             <div className="col-4 offset-9 mt-4">
-                                <button align="left" name="save" type="submit" className="buttonSizeGeneral" >Guardar</button>
+                                   
+                                <button align="left" name="save" type="submit" className="buttonSizeGeneral">Guardar</button>
                             </div>
                         </form>
                     </div>

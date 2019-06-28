@@ -1,7 +1,8 @@
 import axios from "axios";
 export const registerMedicalForm = newMedicalForm => {
     return axios
-      .post("AddMedicalFormRoute/add", {
+      .post("AddMedical/", {
+        partyID:newMedicalForm.partyID,
         date: newMedicalForm.date,
         pathologies: newMedicalForm.pathologies,
         allergies: newMedicalForm.allergies,

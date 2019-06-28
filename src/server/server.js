@@ -8,8 +8,8 @@ const mysql = require("mysql");
 
 const app = express();
 // Settings
-app.set("port", process.env.PORT || 8080 || 3000);
-
+//app.set("port", process.env.PORT|| 3000);
+app.listen(4000,()=>console.log('Express server running'));
 // Middlewares
 app.use(cors());
 app.use(morgan("dev"));
@@ -32,7 +32,7 @@ connection.connect(function(err){
 // Routes
 //cambio ester
 
-app.use('/add',require('../routes/AddMedicalFormRoute'));
+app.use('/AddMedical',require('../routes/AddMedicalFormRoute'));
 //cambio ester
 
 //APP USE LOGIN
