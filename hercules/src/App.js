@@ -28,7 +28,11 @@ function App() {
   return (
     <div className="App">
       <Header />      
+<<<<<<< HEAD
       <AddMedicalForm/>
+=======
+      <AddMedicalForm />
+>>>>>>> 7fd512fb3ce14795913866925498eb8e34d066e7
       <Footer />
     </div>
   );
