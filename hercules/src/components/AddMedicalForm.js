@@ -26,7 +26,7 @@ const state = {
 class AddMedicalForm extends Component {
 
     handleSubmit = event => {
-        fetch("http://localhost:9000/AddMedical", {
+        fetch("http://localhost:9000/MedicalInfo/addMedicalInfo", {
             method: "post",
             body: JSON.stringify(state),
 

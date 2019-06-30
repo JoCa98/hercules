@@ -6,7 +6,7 @@ router.use(cors());
 
 
 //para diferenciar metodos post en las comillas de debe de poner el nombre
-router.post('/', function (req, res) {
+router.post('/addMedicalInfo', function (req, res) {
 
   connection.query("CALL proc_addMedicalInfo(" + req.body.partyID + ",'" + req.body.date + "','" + req.body.pathologies + "','" + req.body.allergies + "','" + req.body.surgeries +
     "'," + req.body.traumas + "," + req.body.smoking + ",'" + req.body.neurologicalInfo + "','" + req.body.pulmonaryCardioInfo + "'," + req.body.bloodPressure +
