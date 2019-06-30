@@ -2,25 +2,25 @@ import React, { Component } from 'react';
 import ReactDOM from "react-dom";
 
 const state = {
-        date: "1998-08-22",
-         pathologies: "a",
-         allergies: "b",
-         surgeries: "c",
-         traumas: 1,
-         smoking: 1,
-         neurologicalInfo: "d",
-         pulmonaryCardioInfo: "e",
-         bloodPressure: 100,
-         heartRate: 20,
-        heartRatePerMinute: 20,
-         SpO2: 2,
-         partyID:1,
-         weight: 40,
-         size: 160,
-         IMC: 15,
-         abdomen: 90,
-         waist: 60,
-         hip: 70,
+    partyID: 1,
+    date: "1998-08-22",
+    pathologies: "a",
+    allergies: "b",
+    surgeries: "c",
+    traumas: 1,
+    smoking: 1,
+    neurologicalInfo: "d",
+    pulmonaryCardioInfo: "e",
+    bloodPressure: 100,
+    heartRate: 20,
+    heartRatePerMinute: 20,
+    SpO2: 2,
+    weight: 40,
+    size: 160,
+    IMC: 15,
+    abdomen: 90,
+    waist: 60,
+    hip: 70,
 };
 
 class AddMedicalForm extends Component {
@@ -42,7 +42,6 @@ class AddMedicalForm extends Component {
             .catch(err => console.error(err));
 
         event.preventDefault();
-
     }
 
     render() {
@@ -80,7 +79,7 @@ class AddMedicalForm extends Component {
                                                 <div className="control-group">
                                                     <label className="control-label" htmlFor="pathologies">Patológicos</label>
                                                     <div className="controls">
-                                                        <input type="decimal" id="pathologies" size="70" required="true" />
+                                                        <input type="decimal" id="pathologies" size="70" required />
                                                     </div>
                                                 </div>
                                                 <div className="control-group">
