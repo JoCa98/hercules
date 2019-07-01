@@ -1,10 +1,4 @@
 import React, { Component } from 'react';
-import Select from 'react-select';
-
-//const state = {
-
-
-//};
 
 
 class AddMedicalForm extends Component {
@@ -34,10 +28,10 @@ class AddMedicalForm extends Component {
             recommendations: ""
          
         };
-        
+
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-     
+        this.calcIMC = this.calcIMC.bind(this);
 
     }
 
@@ -66,12 +60,20 @@ class AddMedicalForm extends Component {
         this.setState({
             [name]: value
         });
+
+       
+        if((this.weight != 0) && (this.size !== 0)){
+            this.calcIMC(this.weight,this.size);
+            console.log(this.weight)
+        } 
     }
 
-    //calcIMC(){
+    calcIMC(weightValue, sizeValue){
 
-     //   this.IMC = this.weight.value/(this.size.value*this.size.value);
-   // }
+       this.setState({
+           IMC: weightValue/(sizeValue*sizeValue)
+       });
+    }
 
     render() {
         return (
@@ -88,7 +90,6 @@ class AddMedicalForm extends Component {
                     <div className="col-10 offset-1 mt-4 text-center">
                         <form className="form-horizontal" onSubmit={this.handleSubmit}>
                             <ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">
-
                                 <li className="nav-item">
                                     <a className="nav-link active aNavbar" id="pills-personal-history-tab" data-toggle="pill" href="#pills-personal-history" role="tab" aria-controls="pills-personal-history" aria-selected="true">Antecedentes<br />personales</a>
                                 </li>
@@ -98,7 +99,6 @@ class AddMedicalForm extends Component {
                                 <li className="nav-item">
                                     <a className="nav-link aNavbar" id="pills-recommendations-tab" data-toggle="pill" href="#pills-recommendations" role="tab" aria-controls="pills-recommendations" aria-selected="false">Recomendaciones<br />médicas</a>
                                 </li>
-
                             </ul>
                             <div className="tab-content" id="pills-tabContent">
                                 <div className="tab-pane fade show active" id="pills-personal-history" role="tabpanel" aria-labelledby="pills-personal-history-tab">
