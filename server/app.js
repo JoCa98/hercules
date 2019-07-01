@@ -10,6 +10,7 @@ var app = express();
 
 // declaration of the routes
 var MedicalInfoRoute = require('./routes/MedicalInfoRoute');
+var GetExerciseType = require('./routes/getExerciseTypeRoute');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -27,6 +28,7 @@ app.use('/users', usersRouter);
 
 //routes
 app.use('/MedicalInfo', MedicalInfoRoute);
+app.use('/GetExerciseType',GetExerciseType);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

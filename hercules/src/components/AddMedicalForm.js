@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import Select from 'react-select';
 
 //const state = {
 
 
 //};
-
 
 class AddMedicalForm extends Component {
     constructor(props) {
@@ -32,15 +30,13 @@ class AddMedicalForm extends Component {
             hip: 0,
             cardiovascularRisk: 0,
             recommendations: ""
-         
+
         };
-        
+
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-     
 
     }
-
 
     handleSubmit = event => {
         fetch("http://localhost:9000/MedicalInfo/addMedicalInfo", {
@@ -70,8 +66,8 @@ class AddMedicalForm extends Component {
 
     //calcIMC(){
 
-     //   this.IMC = this.weight.value/(this.size.value*this.size.value);
-   // }
+    //   this.IMC = this.weight.value/(this.size.value*this.size.value);
+    // }
 
     render() {
         return (
@@ -214,7 +210,7 @@ class AddMedicalForm extends Component {
                                                                 <div className="control-group">
                                                                     <label className="control-label" htmlFor="IMC">IMC</label>
                                                                     <div className="controls">
-                                                                    
+
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -320,15 +316,15 @@ class AddMedicalForm extends Component {
                                                     <div className="col-12">
                                                         <div className="control-group">
                                                             <label className="control-label" htmlFor="cardiovascularRisk">Riesgo Cardiovascular*</label>
-                                                            </div>
-                                                            <div className="controls">
-                                                                <select name="cardiovascularRisk" id="cardiovascularRisk" className="form-control"  align="left" value={this.state.cardiovascularRisk} onChange={this.handleInputChange} >
-                                                                    <option value="1" selected >1</option>
-                                                                    <option value="2">2</option>
-                                                                    <option value="3">3</option>
-                                                                    </select>
-                                                            </div>
-                                                       
+                                                        </div>
+                                                        <div className="controls">
+                                                            <select name="cardiovascularRisk" id="cardiovascularRisk" className="form-control" align="left" value={this.state.cardiovascularRisk} onChange={this.handleInputChange} >
+                                                                <option value="1" selected >1</option>
+                                                                <option value="2">2</option>
+                                                                <option value="3">3</option>
+                                                            </select>
+                                                        </div>
+
                                                     </div>
                                                 </div>
                                                 <div className="row">

@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import leftArrowImage from '../appImage/leftArrow.svg';
 import rightArrowImage from '../appImage/rightArrow.svg';
 
-class RoutineCarousel extends Component {
+class RoutineCarouselWrite extends Component {
+
     render() {
         return (
             <div className="container card">
@@ -25,7 +26,7 @@ class RoutineCarousel extends Component {
                 <div className="row mt-4">
                     <div className="col-12">
                         <div className="table-responsive">
-                            <table class="table">
+                            <table className="table">
                                 <thead>
                                     <tr>
                                         <th scope="col">Ejercicio</th>
@@ -38,7 +39,11 @@ class RoutineCarousel extends Component {
                                 <tbody>
                                     <tr>
                                         <th scope="row"></th>
-                                        <td></td>
+                                        <td className="exercise"><div suppressContentEditableWarning={true} contentEditable={true}/></td>
+                                        <td><input type="text" name="charge"/></td>
+                                        <td><input type="text" name="series"/></td>
+                                        <td><input type="text" name="repetitions"/></td>
+                                        <td><input type="text" name="minutes"/></td>
                                         <td></td>
                                     </tr>
                                 </tbody>
@@ -51,4 +56,4 @@ class RoutineCarousel extends Component {
     }
 }
 
-export default RoutineCarousel;
+export default RoutineCarouselWrite;
