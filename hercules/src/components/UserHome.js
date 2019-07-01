@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Carousel from './RoutineCarousel';
+import Carousel from './RoutineCarouselReadOnly';
 import './UserHome.css';
 
 class UserHome extends Component {
