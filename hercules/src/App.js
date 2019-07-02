@@ -27,7 +27,7 @@ function App() {
   return (
     <div className="App">
       <Header />      
-      <AddPhysicalInfo/>
+      <AddMedicalForm />
       <Footer />
     </div>
   );
