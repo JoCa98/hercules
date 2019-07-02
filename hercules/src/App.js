@@ -12,7 +12,7 @@ import HistoricRoutineInfo from './components/HistoricRoutineInfo';
 import NavbarUserHome from './components/NavbarUserHome';
 import UserHome from './components/UserHome';
 import AddRoutine from './components/AddRoutine';
-import SignIn from './components/SignUp';
+import SignUp from './components/SignUp';
 import UserConfiguration from './components/UserConfiguration';
 import LogIn from './components/LogIn';
 import ConsultUser from './components/ConsultUser';
@@ -27,7 +27,7 @@ function App() {
   return (
     <div className="App">
       <Header />      
-      <UserHome />
+      <AddPhysicalInfo/>
       <Footer />
     </div>
   );
