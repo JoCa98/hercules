@@ -24,8 +24,8 @@ class HistoricMedicalInfo extends Component {
                                 <label className="form-control">Usuario: Jose Carlos Chavez Moran</label>
                             </div>
                             <div className="col-4 offset-1">
-                                <img src={plusImage} onClick={this.redirect} className="buttonSizeGeneral" />
-                                <h4 className="colorBlue" onClick={this.redirect}>Agregar nuevo</h4>
+                                <img src={plusImage} onClick={this.redirect} className="buttonSizeGeneral pointer" />
+                                <h4 className="colorBlue pointer" onClick={this.redirect}>Agregar nuevo</h4>
                             </div>
                         </div>
                     </div>
