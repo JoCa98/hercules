@@ -27,11 +27,7 @@ function App() {
   return (
     <div className="App">
       <Header />      
-<<<<<<< HEAD
       <HistoricMedicalInfo />
-=======
-      <HomeAdmin />
->>>>>>> bf52d663283409d38054285a9f02e04803e46f74
       <Footer />
     </div>
   );
