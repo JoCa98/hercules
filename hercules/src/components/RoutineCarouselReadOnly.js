@@ -18,6 +18,7 @@ class RoutineCarouselReadOnly extends Component {
             this.state.exercise = response.data;
             this.setState({ exercise: response.data });
         });
+        
     }
 
     render() {
