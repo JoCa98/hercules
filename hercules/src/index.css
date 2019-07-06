@@ -141,3 +141,12 @@ th{
 td{
   font-size: 13px;
 }
+
+
+.pointer {
+  cursor: pointer;
+}
+
+.diplayNone{
+  display: none;
+}
