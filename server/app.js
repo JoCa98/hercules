@@ -5,13 +5,14 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require("cors");
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 var app = express();
 
 // declaration of the routes
 var MedicalInfoRoute = require('./routes/MedicalInfoRoute');
 var GetExerciseType = require('./routes/getExerciseTypeRoute');
 var AdminRoute = require('./routes/AdminRoute');
+var PhysicalInfoRoute = require('./routes/PhysicalInfoRoute');
+var UserRoute = require('./routes/UserRoute');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -25,13 +26,14 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 
 //routes
 app.use('/MedicalInfo', MedicalInfoRoute);
 app.use('/GetExerciseType',GetExerciseType);
 app.use('/AdminRoute', AdminRoute);
 
+app.use('/PhysicalInfo', PhysicalInfoRoute);
+app.use('/User', UserRoute);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

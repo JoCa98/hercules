@@ -18,7 +18,8 @@ router.post('/addMedicalInfo', function (req, res) {
       else {
         return res.send(result)
       }
-    })
+    }
+    )
 
 });
 
