@@ -27,7 +27,7 @@ function App() {
   return (
     <div className="App">
       <Header />      
-      <UserHome />
+      <HistoricMedicalInfo />
       <Footer />
     </div>
   );
