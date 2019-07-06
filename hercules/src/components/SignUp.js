@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { get } from 'http';
 import axios from "axios";
 import Select from "react-select";
 class SignUp extends Component {
@@ -21,14 +20,15 @@ class SignUp extends Component {
             password: "",
             startDate: new Date().getDate(),
             activationCode: "",
-            localGeoID: "",
+            provinceID: 2,
             addressLine: "",
             contactName: "",
             relationTypeID: "",
             emergencyContactPhonenumber: "",
-            physicalAssesment: "",
-            relation: [{}]            
-        };      
+            relation: [{}],
+            provinces: [{}],
+            cantons: [{}]
+        };
         this.handleInputChange = this.handleInputChange.bind(this);
         //this.handleSubmit = this.handleSubmit.bind(this);
 
@@ -38,9 +38,25 @@ class SignUp extends Component {
             this.state.relation = response.data;
             this.setState({ relation: response.data });
         });
+
+        axios.get(`http://localhost:9000/User/getProvinces`).then(response => {
+            this.state.provinces = response.data;
+            this.setState({ provinces: response.data });
+        });
     }
-    
-    
+
+    handleProvinceChange = paramProvinceID => {
+        this.setState({ provinceID: paramProvinceID });
+        axios.get(`http://localhost:9000/User/getCantons`, { params: { provinceID: this.state.provinceID.value } }).then(response => {
+            this.state.cantons = response.data;
+            this.setState({ cantons: response.data });
+        });
+    };
+
+    handleProvinceChange2() {
+
+    }
+
     handleInputChange(event) {
         const { name, value } = event.target;
         this.setState({
@@ -138,17 +154,25 @@ class SignUp extends Component {
                                     <div className="col-12 col-sm-4">
                                         <div class="form-group" align="left">
                                             <p>Provincia</p>
-                                            <select align="left" className="form-control">
-                                                <option value=""></option>
-                                            </select>
+                                            <Select name="provinceID" onChange={this.handleProvinceChange.bind(this)} options={this.state.provinces.map(function (json) {
+                                                return {
+                                                    label: json.provinceDescription,
+                                                    value: json.provinceID
+                                                };
+                                            })}>
+                                            </Select>
                                         </div>
                                     </div>
                                     <div className="col-12 col-sm-4">
                                         <div class="form-group" align="left">
                                             <p>Cantón</p>
-                                            <select align="left" className="form-control">
-                                                <option value=""></option>
-                                            </select>
+                                            <Select name="cantonID" options={this.state.cantons.map(function (json) {
+                                                return {
+                                                    label: json.cantonDescription,
+                                                    value: json.cantonID
+                                                };
+                                            })}>
+                                            </Select>
                                         </div>
                                     </div>
                                     <div className="col-12 col-sm-4">
