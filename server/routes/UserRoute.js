@@ -34,7 +34,20 @@ router.get('/getProvinces', (req, res) => {
 });
 
 router.get('/getCantons', (req, res) => {
-  connection.query("call proc_getCantons("  + req.params.provinceID  + ")", function (err, results) {
+  connection.query("call proc_getCantons("  + req.query.pID + ")", function (err, results) {
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+
+  });
+  
+});
+
+router.get('/getDistricts', (req, res) => {
+  connection.query("call proc_getDistricts(" +  req.query.cID+")", function (err, results) {
     if (results) {
       res.send(results);
     }
