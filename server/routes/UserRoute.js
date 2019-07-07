@@ -22,4 +22,28 @@ router.get('/getRelationType', (req, res) => {
   });
 });
 
+router.get('/getProvinces', (req, res) => {
+  connection.query("select * from view_provinces", function (err, results) {
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+  });
+});
+
+router.get('/getCantons', (req, res) => {
+  connection.query("call proc_getCantons("  + req.params.provinceID  + ")", function (err, results) {
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+
+  });
+  
+});
+
 module.exports = router;
