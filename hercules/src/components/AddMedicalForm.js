@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
-import { write } from 'fs';
+
 
 /*global IMC*/
-//const state = {
-
-
-//};
 
 class AddMedicalForm extends Component {
     constructor(props) {
@@ -35,17 +31,13 @@ class AddMedicalForm extends Component {
 
         };
         this.handleInputChange = this.handleInputChange.bind(this);
+        this.inputNumberValidator = this.inputNumberValidator.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        //  this.calcIMC = this.calcIMC.bind(this);
     }
 
     inputNumberValidator(event) {
-        const re = /^[0-9]+\.[0-9][0-9]/;
-        const target = event.target;
-        const value = target.value;
-        const name = target.name;
-    
-        // if value is not blank, then test the regex
+       const re = /^[0-9\b]+$/;
+        const { name, value } = event.target;
     
         if (value === "" || re.test(value)) {
           this.setState({
@@ -53,11 +45,8 @@ class AddMedicalForm extends Component {
           });
         }
         
-        if (this.state.weight !== 0) {
-            if (this.state.size !== 0 && this.state.size !== '') {
+        if (this.state.weight !== 0 && this.state.size !== 0) {
                 this.calcIMC();
-
-            }
         }
       }
 
@@ -84,12 +73,12 @@ class AddMedicalForm extends Component {
         this.setState({
             [name]: value
         });
-
     }
 
+    //no está bien
     calcIMC() {
         let size = (this.state.size * this.state.size);
-        let imc = (this.state.weight / size) * 10;
+        let imc = (this.state.weight / size)*100 ;
         let round = imc.toFixed(2);
         this.setState({ IMC: round });
     }
@@ -104,6 +93,14 @@ class AddMedicalForm extends Component {
     //  imcResult += "Sobrepeso";
     // }
     //}
+
+   // empty(){
+     //   if(document.getElementById("pathologies").value().length == 0){
+       //     alert("elementos vacíos");
+        //}
+        
+    //}
+
     render() {
         return (
             <div className="container">
@@ -238,7 +235,7 @@ class AddMedicalForm extends Component {
                                                                 <div className="control-group">
                                                                     <label className="control-label" htmlFor="weight">Peso*</label>
                                                                     <div className="controls">
-                                                                        <input type="decimal" id="weight" name="weight" required value={this.state.weight} onChange={this.handleInputChange} size="10" />
+                                                                        <input type="decimal" id="weight" name="weight" required value={this.state.weight} onChange={this.inputNumberValidator} size="10" />
                                                                     </div>
                                                                 </div>
                                                             </div>

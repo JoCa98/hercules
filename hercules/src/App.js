@@ -26,9 +26,11 @@ import HistoricMedicalUserInfo from './components/HistoricMedicalUserInfo';
 function App() {
   return (
     <div className="App">
+     
       <Header />      
-      <AddMedicalForm />
+      <UserHome />
       <Footer />
+    
     </div>
   );
 }
