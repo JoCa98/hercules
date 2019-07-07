@@ -25,7 +25,7 @@ router.post('/addMedicalInfo', function (req, res) {
 
 router.get('/getMedicalInfoHist', function (req, res) {
 
-  connection.query("CALL proc_getMedicalInfoByPartyID(" + req.query.partyID + ")", function (err,result) {
+  connection.query("CALL proc_getMedicalInfoByPartyID(" + req.body.partyID + ")", function (err,result) {
       if (err) {
         return res.send(err)
       }

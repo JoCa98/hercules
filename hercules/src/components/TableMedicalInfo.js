@@ -1,23 +1,28 @@
 import React, { Component } from 'react';
-import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table-next';
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import axios from 'axios';
+/*global medicalInfo*/
 
 class TableMedicalInfo extends Component {
     constructor(props) {
         super(props);
-        this.state = { medicalInfo: [{}], id: 1 };
+        this.state = {
+            medicalInfo: [{}],
+            partyID: 1
+        };
         this.getMedicalInfoHist = this.getMedicalInfoHist.bind(this);
-
     }
 
-    async getMedicalInfoHist() {
+    getMedicalInfoHist() {
         try {
-            const response = await axios.get("http://localhost:9000/MedicalInfo/getMedicalInfoHist", {
-                params: { 'id': this.id }
-            }).then(response => {
-                this.state.medicalInfo = response.data;
-                this.setState({ medicalInfo: response.data });
-            });
+            axios.get(`http://localhost:9000/MedicalInfo/getMedicalInfoHist`,
+                {
+                    params: { "partyID" : this.state.partyID }
+                }).then(response => {
+                    const medicalInfo = response.data[0];
+                    console.log(medicalInfo.data);
+                    this.setState({ medicalInfo });
+                });
         } catch (err) {
             console.error(err);
         }
@@ -28,14 +33,68 @@ class TableMedicalInfo extends Component {
     }
 
     render() {
+
+        const tableIndex = this.state.medicalInfo.map((medicalInfo, i) => {
+            return (
+                <tr className="pointer">
+                    <td>{medicalInfo.date}</td>
+                    <td>{medicalInfo.pathologies}</td>
+                    <td>{medicalInfo.allergies}</td>
+                    <td>{medicalInfo.surgeries}</td>
+                    <td>{medicalInfo.traumas}</td>
+                    <td>{medicalInfo.smoking}</td>
+                    <td>{medicalInfo.neurologicalInfo}</td>
+                    <td>{medicalInfo.pulmonaryCardioInfo}</td>
+                    <td>{medicalInfo.bloodPressure}</td>
+                    <td>{medicalInfo.heartRate}</td>
+                    <td>{medicalInfo.heartRatePerMinute}</td>
+                    <td>{medicalInfo.SpO2}</td>
+                    <td>{medicalInfo.weight}</td>
+                    <td>{medicalInfo.size}</td>
+                    <td>{medicalInfo.IMC}</td>
+                    <td>{medicalInfo.abdomen}</td>
+                    <td>{medicalInfo.waist}</td>
+                    <td>{medicalInfo.hip}</td>
+                    <td>{medicalInfo.cardiovascularRisk}</td>
+                    <td>{medicalInfo.recommendations}</td>
+                </tr>
+            )
+        })
+
         return (
             <div className="container">
                 <div className="row card mt-4 p-5">
                     <div className="col-12">
 
-                        <BootstrapTable data={this.state.medicalInfo}>
-                            <TableHeaderColumn dataField="date">Fecha</TableHeaderColumn>
-                        </BootstrapTable>
+                        <table className="table table-sm table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Fecha</th>
+                                    <th scope="col">Patologías</th>
+                                    <th scope="col">Alergias</th>
+                                    <th scope="col">Operaciones</th>
+                                    <th scope="col">Traumas</th>
+                                    <th scope="col">Fumado</th>
+                                    <th scope="col">Información neurológica</th>
+                                    <th scope="col">Información pulmonar</th>
+                                    <th scope="col">Presión sanguínea</th>
+                                    <th scope="col">Fecha</th>
+                                    <th scope="col">Fecha</th>
+                                    <th scope="col">SpO2</th>
+                                    <th scope="col">Peso</th>
+                                    <th scope="col">Altura</th>
+                                    <th scope="col">IMC</th>
+                                    <th scope="col">Abdomen</th>
+                                    <th scope="col">Fecha</th>
+                                    <th scope="col">Fecha</th>
+                                    <th scope="col">Riesgo cardiovascular</th>
+                                    <th scope="col">Recomendaciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {tableIndex}
+                            </tbody>
+                        </table>
 
                     </div>
                 </div>
