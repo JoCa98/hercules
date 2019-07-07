@@ -8,7 +8,7 @@ class AddMedicalForm extends Component {
         super(props);
         this.state = {
             partyID: 1,
-            date: "1998-08-22",
+            date: new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate(),
             pathologies: "",
             allergies: "",
             surgeries: "",

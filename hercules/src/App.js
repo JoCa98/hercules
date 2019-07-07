@@ -28,7 +28,11 @@ function App() {
     <div className="App">
      
       <Header />      
+<<<<<<< HEAD
       <UserHome />
+=======
+      <HomeAdmin />
+>>>>>>> a8d7221760d2c76b3a4f60e5c6fc50b5a4dc43a3
       <Footer />
     
     </div>
