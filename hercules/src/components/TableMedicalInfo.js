@@ -16,7 +16,7 @@ class TableMedicalInfo extends Component {
         try {
             axios.get(`http://localhost:9000/MedicalInfo/getMedicalInfoHist`,
                 {
-                    params: { partyID : this.state.partyID }
+                    params: { partyID : this.state.partyID, btnFuntion: 1 }
                 }).then(response => {
                     const medicalInfo = response.data[0];
                     this.setState({ medicalInfo });
@@ -56,6 +56,7 @@ class TableMedicalInfo extends Component {
                     <td>{medicalInfo.hip}</td>
                     <td>{medicalInfo.cardiovascularRisk}</td>
                     <td>{medicalInfo.recommendations}</td>
+                    <td>{medicalInfo.medicalCod}</td>
                 </tr>
             )
         })
@@ -88,6 +89,7 @@ class TableMedicalInfo extends Component {
                                     <th scope="col">Cadera</th>
                                     <th scope="col">Riesgo cardiovascular</th>
                                     <th scope="col">Recomendaciones</th>
+                                    <th scope="col">Cod Médico</th>
                                 </tr>
                             </thead>
                             <tbody>
