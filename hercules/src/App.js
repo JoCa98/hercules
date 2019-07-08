@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+import { HashRouter, Route, Switch } from "react-router-dom";
+import { withRouter } from 'react-router';
 import './App.css';
 import ActCodeForm from './components/ActCodeForm';
 import PasswordRecovery from './components/PasswordRecovery';
@@ -22,14 +24,26 @@ import HistoricMedicalInfo from './components/HistoricMedicalInfo';
 import RoutineAdmin from './components/RoutineAdmin';
 import AddPhysicalInfo from './components/AddPhysicalInfo';
 import HistoricMedicalUserInfo from './components/HistoricMedicalUserInfo';
-
+import Test from './components/Test';
 function App() {
   return (
-    <div className="App">
-      <Header />      
-      <HomeAdmin />
-      <Footer />
-    </div>
+    <HashRouter>
+      <Switch>
+        <Fragment >
+          <Header />
+          <Route exact path="/" component={Test} />
+          <Fragment>
+            <Route exact path="/SignUp" component={SignUp} />
+            <Fragment>
+              <Route exact path="/ActCodeForm" component={ActCodeForm} />
+              </Fragment>
+            </Fragment>
+
+          <Footer />
+          </Fragment>
+      </Switch>
+    </HashRouter>
+
   );
 }
 

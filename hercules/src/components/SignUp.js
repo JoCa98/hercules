@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import axios from "axios";
-import Select from "react-select";
+
 class SignUp extends Component {
-
-
     constructor(props) {
         super(props);
         this.state = {
@@ -13,53 +11,63 @@ class SignUp extends Component {
             lastName: "",
             secondLastName: "",
             carnet: "",
+            career: "",
             birthDate: "",
-            phonenumber1: "",
-            phonenumber2: "",
-            gender: "1",
-            userType: "1",
+            genderID: "1",
+            userTypeID: "2",
             email: "",
             password: "",
-            startDate: new Date().getDate(),
-            activationCode: "",
+            phoneNumber1: "",
+            phoneNumber2: "",
+            startDate: new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate(),
+            districtID: "242",
             addressLine: "",
             contactName: "",
-            relationTypeID: "",
-            emergencyContactPhonenumber: "",
-            relation: [{}],
+            relationTypeID: "1",
+            emergencyContactPhoneNumber: "",
+            activationCode: "",
+            relations: [{}],
             provinces: [{}],
-            provinceID: 2,
+            provinceID: "2",
             cantons: [{}],
             cantonList: null,
-            cantonID: "",
-            districts: [{}],  
-            districtList: null,          
-            districtID: "",
+            cantonID: "30",
+            districts: [{}],
+            districtList: null,
 
         };
-       
+
         this.handleSelectProvince = this.handleSelectProvince.bind(this);
         this.loadCantons = this.loadCantons.bind(this);
         this.handleSelectCanton = this.handleSelectCanton.bind(this);
-        this.loadDistricts = this.loadDistricts.bind(this);        
+        this.loadDistricts = this.loadDistricts.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.getCantonsByProvince = this.getCantonsByProvince.bind(this);
         this.getDistrictsByCanton = this.getDistrictsByCanton.bind(this);
+        this.sendEmail = this.sendEmail.bind(this);
+        this.goActCodeForm = this.goActCodeForm.bind(this);
+        this.GetCode = this.GetCode.bind(this);
+        this.selectFemale = this.selectFemale.bind(this);
+        this.selectMale = this.selectMale.bind(this);
+        this.selectStudent = this.selectStudent.bind(this);
+        this.selectWorker = this.selectWorker.bind(this);
         //this.handleSubmit = this.handleSubmit.bind(this);
     }
     componentDidMount() {
+        this.selectWorker();
+        this.selectFemale();
         var initProvinceID = 2;
         var initCantonID = 30;
         var initDistrictID = 242;
         axios.get(`http://localhost:9000/User/getRelationType`).then(response => {
-            this.state.relation = response.data;
-            this.setState({ relation: response.data });
+            this.state.relations = response.data;
+            this.setState({ relations: response.data });
         });
         axios.get(`http://localhost:9000/User/getProvinces`).then(response => {
             this.setState({ provinces: response.data });
         });
-            axios.get(`http://localhost:9000/User/getCantons`, { params: { pID: initProvinceID } }).then(response => {
-                this.setState({ cantons: response.data[0] });            
+        axios.get(`http://localhost:9000/User/getCantons`, { params: { pID: initProvinceID } }).then(response => {
+            this.setState({ cantons: response.data[0] });
         });
         axios.get(`http://localhost:9000/User/getDistricts`, { params: { cID: initCantonID } }).then(response => {
             this.setState({ districts: response.data[0] });
@@ -103,6 +111,109 @@ class SignUp extends Component {
         this.loadDistricts();
     }
 
+    GetCode() {
+        this.state.activationCode = Math.floor((Math.random() * ((10000 - 100000) + 1)) + 100000);
+    }
+
+    selectStudent() {
+        if (document.getElementById('cbStudent').checked == true) {
+            document.getElementById('cbWorker').checked = false;
+            document.getElementById('divStudent1').style.display = 'block';
+            document.getElementById('divStudent2').style.display = 'block';
+            this.state.userTypeID = 1;
+        } else {
+            document.getElementById('cbWorker').checked = true;
+            document.getElementById('divStudent1').style.display = 'none';
+            document.getElementById('divStudent2').style.display = 'none';
+            this.state.userTypeID = 2;
+        }
+    }
+
+    selectWorker() {
+        if (document.getElementById('cbWorker').checked == true) {
+            document.getElementById('cbStudent').checked = false;            
+            document.getElementById('divStudent1').style.display = 'none';
+            document.getElementById('divStudent2').style.display = 'none';
+            this.state.userTypeID = 2;
+        } else {
+            document.getElementById('cbStudent').checked = true;            
+            document.getElementById('divStudent1').style.display = 'block';
+            document.getElementById('divStudent2').style.display = 'block';
+            this.state.userTypeID = 1;
+        }
+    }
+    showStudentFields() {
+        document.getElementById('divStudent1').style.display = 'block';
+        document.getElementById('divStudent2').style.display = 'block';
+    }
+
+    selectMale() {
+        if (document.getElementById('cbMale').checked == true) {
+            document.getElementById('cbFemale').checked = false;
+            this.state.genderID = 1;
+        } else {
+            document.getElementById('cbFemale').checked = true;
+            this.state.genderID = 2;
+        }
+
+    }
+
+    selectFemale() {
+        if (document.getElementById('cbFemale').checked == true) {
+            document.getElementById('cbMale').checked = false;
+            this.state.genderID = 2;
+        } else {
+            document.getElementById('cbMale').checked = true;
+            this.state.genderID = 1;
+
+        }
+    }
+
+    goActCodeForm() {
+        this.GetCode();
+        sessionStorage.setItem('identificationID', this.state.identificationID);
+        sessionStorage.setItem('firstName', this.state.firstName);
+        sessionStorage.setItem('secondName', this.state.secondName);
+        sessionStorage.setItem('lastName', this.state.lastName);
+        sessionStorage.setItem('secondLastName', this.state.secondLastName);
+        sessionStorage.setItem('carnet', this.state.carnet);
+        sessionStorage.setItem('career', this.state.career);
+        sessionStorage.setItem('birthDate', this.state.birthDate);
+        sessionStorage.setItem('phoneNumber1', this.state.phoneNumber1);
+        sessionStorage.setItem('phoneNumber2', this.state.phoneNumber2);
+        sessionStorage.setItem('genderID', this.state.genderID);
+        sessionStorage.setItem('userTypeID', this.state.userTypeID);
+        sessionStorage.setItem('email', this.state.email);
+        sessionStorage.setItem('password', this.state.password);
+        sessionStorage.setItem('startDate', this.state.startDate);
+        sessionStorage.setItem('activationCode', this.state.activationCode);
+        sessionStorage.setItem('districtID', this.state.districtID);
+        sessionStorage.setItem('addressLine', this.state.addressLine);
+        sessionStorage.setItem('contactName', this.state.contactName);
+        sessionStorage.setItem('relationTypeID', this.state.relationTypeID);
+        sessionStorage.setItem('emergencyContactPhoneNumber', this.state.emergencyContactPhoneNumber);
+        console.log("Codigo: " + this.state.activationCode);
+        this.sendEmail();
+        this.props.history.push(`/ActCodeForm`);
+    }
+
+    sendEmail() {
+        console.log("jason: " + JSON.stringify({ email: this.state.email, activationCode: this.state.activationCode }))
+        fetch("http://localhost:9000/User/sendEmail", {
+            method: "post",
+            body: JSON.stringify({ email: this.state.email, activationCode: this.state.activationCode }),
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+            })
+            .catch(err => console.error(err));
+    }
+
     handleInputChange(event) {
         const { name, value } = event.target;
         this.setState({
@@ -114,9 +225,17 @@ class SignUp extends Component {
             return (
                 <option value={provinces.provinceID} key={i}>{provinces.provinceDescription} </option>
             )
+
+
+        })
+        const relationList = this.state.relations.map((relations, i) => {
+            return (
+                <option value={relations.relationTypeID} key={i}>{relations.description} </option>
+            )
         })
         this.loadCantons();
         this.loadDistricts();
+
         return (
             <div className="container">
                 <div className="row mt-4 card p-5" >
@@ -136,29 +255,29 @@ class SignUp extends Component {
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
                                             <p>Primer nombre</p>
-                                            <input type="text" name="firstName" className="form-control inputText" value={this.state.firstName} onChange={this.handleInputChange}></input>
+                                            <input type="text" name="firstName" required className="form-control inputText" value={this.state.firstName} onChange={this.handleInputChange}></input>
                                         </div>
                                         <div className="form-group" align="left">
                                             <p>Primer Apellido</p>
-                                            <input type="text" name="firstLastName" className="form-control inputText" value={this.state.lastName} onChange={this.handleInputChange}></input>
+                                            <input type="text" name="lastName" required className="form-control inputText" value={this.state.lastName} onChange={this.handleInputChange}></input>
                                         </div>
                                         <div className="form-group" align="left">
                                             <p>Teléfono 1</p>
-                                            <input type="text" name="phoneNumber1" className="form-control inputText" value={this.state.phonenumber1} onChange={this.handleInputChange}></input>
+                                            <input type="text" name="phoneNumber1" required className="form-control inputText" value={this.state.phoneNumber1} onChange={this.handleInputChange}></input>
                                         </div>
                                     </div>
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
                                             <p>Segundo nombre</p>
-                                            <input type="text" name="secondName" className="form-control inputText" value={this.state.secondName} onChange={this.handleInputChange}></input>
+                                            <input type="text"  name="secondName" className="form-control inputText" value={this.state.secondName} onChange={this.handleInputChange}></input>
                                         </div>
                                         <div className="form-group" align="left">
                                             <p>Segundo Apellido</p>
-                                            <input type="text" name="secondLastName" className="form-control inputText" value={this.state.secondLastName} onChange={this.handleInputChange}></input>
+                                            <input type="text" name="secondLastName" required  className="form-control inputText" value={this.state.secondLastName} onChange={this.handleInputChange}></input>
                                         </div>
                                         <div className="form-group" align="left">
                                             <p>Teléfono 2</p>
-                                            <input type="text" name="phoneNumber2" className="form-control inputText" value={this.state.phonenumber2} onChange={this.handleInputChange}></input>
+                                            <input type="text" name="phoneNumber2" className="form-control inputText" value={this.state.phoneNumber2} onChange={this.handleInputChange}></input>
                                         </div>
                                     </div>
                                 </div>
@@ -166,18 +285,18 @@ class SignUp extends Component {
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
                                             <p>Tipo de usuario</p>
-                                            <input type="radio" name="userType" value="2" value={this.state.userType} onChange={this.handleInputChange} checked></input>Funcionario
-                                            <br></br>
-                                            <input type="radio" name="userType" value="1" value={this.state.userType} onChange={this.handleInputChange}></input>Estudiante
+                                            <input type="checkbox" id="cbStudent" name="cbStudent" onClick={this.selectStudent} ></input>Estudiante
 
+                                            <br></br>
+                                            <input type="checkbox" id="cbWorker" name="cbWorker" onClick={this.selectWorker} ></input>Funcionario
                                         </div>
                                     </div>
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
                                             <p>Sexo</p>
-                                            <input type="radio" name="gender" value="1" value={this.state.gender} onChange={this.handleInputChange} checked></input>Maculino
+                                            <input type="checkbox" id="cbMale" name="cbMale" onClick={this.selectMale} ></input>Maculino
                                             <br></br>
-                                            <input type="radio" name="gender" value="2" value={this.state.gender} onChange={this.handleInputChange}></input>Femenino
+                                            <input type="checkbox" id="cbFemale" name="cbFemale" onClick={this.selectFemale} ></input>Femenino
 
                                         </div>
                                     </div>
@@ -186,13 +305,28 @@ class SignUp extends Component {
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
                                             <p>Número de cédula</p>
-                                            <input type="text" name="identificationNumber" className="form-control InputText" value={this.state.identificationID} onChange={this.handleInputChange}></input>
+                                            <input type="text" name="identificationID" required  className="form-control InputText" value={this.state.identificationID} onChange={this.handleInputChange}></input>
                                         </div>
                                     </div>
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
+                                            <p>Fecha de nacimiento</p>
+                                            <input type="date" name="birthDate" required  onChange={this.handleInputChange} className="form-control InputText"></input>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div className="row" >
+                                    <div className="col-12 col-sm-6">
+                                        <div className="form-group" align="left" id="divStudent1">
                                             <p>Número de carné</p>
-                                            <input type="text" name="carnet" value={this.state.carnet} onChange={this.handleInputChange} className="form-control InputText"></input>
+                                            <input type="text" name="carnet" maxLength="6" value={this.state.carnet} onChange={this.handleInputChange} className="form-control InputText"></input>
+                                        </div>
+                                    </div>
+                                    <div className="col-12 col-sm-6">
+                                        <div className="form-group" align="left" id="divStudent2">
+                                            <p>Carrera</p>
+                                            <input type="text" name="career" value={this.state.career} onChange={this.handleInputChange} className="form-control InputText"></input>
                                         </div>
                                     </div>
                                 </div>
@@ -207,7 +341,7 @@ class SignUp extends Component {
                                     <div className="col-12 col-sm-4">
                                         <div className="form-group" align="left">
                                             <p>Provincia</p>
-                                            <select name="provinceID" className="form-control" onChange={this.handleSelectProvince}>
+                                            <select name="provinceID" className="form-control" value="2" onChange={this.handleSelectProvince}>
                                                 {provinceList}
                                             </select>
                                         </div>
@@ -215,7 +349,7 @@ class SignUp extends Component {
                                     <div className="col-12 col-sm-4">
                                         <div className="form-group" align="left">
                                             <p>Cantón</p>
-                                            <select name="cantonID" className="form-control" onChange={this.handleSelectCanton}>
+                                            <select name="cantonID" className="form-control" value="30" onChange={this.handleSelectCanton}>
                                                 {this.state.cantonList}
                                             </select>
 
@@ -224,7 +358,7 @@ class SignUp extends Component {
                                     <div className="col-12 col-sm-4">
                                         <div className="form-group" align="left">
                                             <p>Distrito</p>
-                                            <select name="districtID" className="form-control" onChange={this.handleInputChange}>
+                                            <select name="districtID" className="form-control" value="242" onChange={this.handleInputChange}>
                                                 {this.state.districtList}
                                             </select>
                                         </div>
@@ -234,7 +368,7 @@ class SignUp extends Component {
                                     <div className="col-12">
                                         <div className="form-group" align="left">
                                             <p align="left">Otras señas</p>
-                                            <input type="text" name="addressLine" value={this.state.addressLine} onChange={this.handleInputChange} className="w-100 form-control bigInputText"></input>
+                                            <input type="text"  required  name="addressLine" value={this.state.addressLine} onChange={this.handleInputChange} className="w-100 form-control bigInputText"></input>
                                         </div>
                                     </div>
                                 </div>
@@ -251,7 +385,7 @@ class SignUp extends Component {
                                     <div className="col-12">
                                         <div className="form-group" align="left">
                                             <p>Email</p>
-                                            <input type="text" name="email" value={this.state.email} onChange={this.handleInputChange} className="form-control inputText w-100"></input>
+                                            <input type="text" required  name="email" value={this.state.email} onChange={this.handleInputChange} className="form-control inputText w-100"></input>
                                         </div>
                                     </div>
                                 </div>
@@ -261,13 +395,13 @@ class SignUp extends Component {
                                             <div className="col-12 col-sm-6">
                                                 <div className="form-group" align="left">
                                                     <p>Contraseña</p>
-                                                    <input type="text" name="password" className="inputText form-control" value={this.state.password} onChange={this.handleInputChange}></input>
+                                                    <input type="text" required  name="password" className="inputText form-control" value={this.state.password} onChange={this.handleInputChange}></input>
                                                 </div>
                                             </div>
                                             <div className="col-12 col-sm-6">
                                                 <div className="form-group" align="left">
                                                     <p>Confirmar contraseña</p>
-                                                    <input type="text" name="confirmPassword" className="inputText form-control"></input>
+                                                    <input type="text" required  name="confirmPassword" className="inputText form-control"></input>
                                                 </div>
                                             </div>
                                         </div>
@@ -284,7 +418,7 @@ class SignUp extends Component {
                                     <div className="col-6">
                                         <div className="form-group" align="left">
                                             <p>Nombre</p>
-                                            <input type="text" name="contactName" className="inputText form-control" value={this.state.contactName} onChange={this.handleInputChange}></input>
+                                            <input type="text" required  name="contactName" className="inputText form-control" value={this.state.contactName} onChange={this.handleInputChange}></input>
                                         </div>
                                     </div>
                                 </div>
@@ -292,19 +426,15 @@ class SignUp extends Component {
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
                                             <p>Parentesco</p>
-                                            <Select options={this.state.relation.map(function (json) {
-                                                return {
-                                                    label: json.description,
-                                                    value: json.relationTypeID
-                                                };
-                                            })}>
-                                            </Select>
+                                            <select name="relationTypeID" className="form-control" onChange={this.handleInputChange}>
+                                                {relationList}
+                                            </select>
                                         </div>
                                     </div>
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
                                             <p>Teléfono</p>
-                                            <input type="text" name="phoneNumber" className="inputText form-control" value={this.state.emergencyContactPhonenumber} onChange={this.handleInputChange}></input>
+                                            <input type="text" required  name="emergencyContactPhoneNumber" className="inputText form-control" value={this.state.emergencyContactPhonenumber} onChange={this.handleInputChange}></input>
                                         </div>
                                     </div>
                                 </div>
@@ -314,7 +444,7 @@ class SignUp extends Component {
                     <div className="col-12">
                         <div className="row">
                             <div className="col-md-5 offset-md-7">
-                                <button align="left" className="buttonSizeGeneral">Guardar</button>
+                                <button align="left" className="buttonSizeGeneral" onClick={this.goActCodeForm}>Guardar</button>
                             </div>
                         </div>
                     </div>
