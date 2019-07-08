@@ -154,7 +154,7 @@ class AddMedicalForm extends Component {
                                                 <div className="row">
                                                     <div className="col-12">
                                                         <div className="control-group">
-                                                            <label className="control-label" htmlFor="surgerie">Cirugías</label>
+                                                            <label className="control-label" htmlFor="surgerie">Quirúrgicos</label>
                                                             <div className="controls">
                                                                 <input type="text" id="surgerie" size="70" name="surgeries" value={this.state.surgeries} onChange={this.handleInputChange} />
                                                             </div>
@@ -187,7 +187,7 @@ class AddMedicalForm extends Component {
                                                     </div>
                                                     <div className="col-12 col-md-6">
                                                         <div className="control-group">
-                                                            <label className="control-label" htmlFor="traumas">Traumas*</label>
+                                                            <label className="control-label" htmlFor="traumas">Traumáticos*</label>
                                                         </div>
                                                         <form name="smoking" onChange={this.handleInputChange} value={this.state.traumas} required>
                                                             <div className="row">
