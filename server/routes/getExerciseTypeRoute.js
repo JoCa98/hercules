@@ -16,4 +16,16 @@ router.get('/getExerciseType', (req, res) => {
 
 });
 
+router.get("/getExercise", (req, res) => {
+  connection.query("CALL proc_seeExercisePerRoutine(" + req.query.routineID + "," + req.query.id + ")", function (err, results) {
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+  });
+
+});
+
 module.exports = router;

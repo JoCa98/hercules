@@ -7,16 +7,12 @@ class UserHome extends Component {
     render() {
 
         return (
-
             <div className="container">
                 <div className="row mt-4">
                     <div className="col-12 card p-5">
                         <form className="userHomeForm">
-
                             <h2 className="text-center colorBlue mb-4">Rutina actual</h2>
-
                             <div className="row">
-
                                 <div className="col-12 col-md-4">
                                     <div className="row">
                                         <div className="col-12">
@@ -41,7 +37,6 @@ class UserHome extends Component {
                                         </div>
                                     </div>
                                 </div>
-
                                 <div className="col-12 col-md-4">
                                     <div className="row">
                                         <div className="col-12">
@@ -66,7 +61,6 @@ class UserHome extends Component {
                                         </div>
                                     </div>
                                 </div>
-
                                 <div className="col-12 col-md-4">
                                     <div className="row">
                                         <div className="col-12">
@@ -91,14 +85,12 @@ class UserHome extends Component {
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                             <div className="row">
                                 <div className="col-12">
                                     <Carousel />
                                 </div>
                             </div>
-
                         </form>
                     </div>
                 </div>

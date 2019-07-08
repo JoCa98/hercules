@@ -4,24 +4,67 @@ import rightArrowImage from '../appImage/rightArrow.svg';
 import axios from "axios";
 import Select from "react-select";
 
+
+
 class RoutineCarouselReadOnly extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            exercise: [{}]
+            exerciseType: [{}],
+            exercise:[{}],
+            typeID: 0,
+            id: 1,
+            name: "Tipo de ejercicio"
         };
+        this.exerciseTypeSelect = this.exerciseTypeSelect.bind(this);
+
+        this.valueID = this.valueID.bind(this);
     }
 
     componentDidMount() {
         axios.get(`http://localhost:9000/GetExerciseType/getExerciseType`).then(response => {
-            this.state.exercise = response.data;
-            this.setState({ exercise: response.data });
+            this.state.exerciseType = response.data;
+            this.setState({ exerciseType: response.data });
         });
-        
+ 
     }
 
+    exerciseTypeSelect(event){
+        this.state.typeID = event.value;
+        this.state.name = event.label;
+        this.setState({ typeID: event.value, name:event.label });
+        console.log(this.state.typeID);
+          axios.get(`http://localhost:9000/GetExerciseType/getExercise`, {
+        params: {
+           routineID: this.state.id,
+           id: this.state.typeID
+           }
+        }).then(response => {
+          this.state.exercise = response.data[0];
+         this.setState({ exercise: response.data[0]});
+        });
+    }
+
+    valueID(event) {
+        this.state.typeID = event.target.value;
+        this.setState({ typeID: event.target.value });
+      }
+
+    
+
     render() {
+        const exerciseVisual = this.state.exercise.map((exercise,i) => {
+            return(
+                <tr className="pointer" key={i}>
+                    <td>{exercise.description}</td>
+                    <td>{exercise.charge}</td>
+                    <td>{exercise.series}</td>
+                    <td>{exercise.repetitions}</td>
+                    <td>{exercise.minutes}</td>
+                </tr>
+            )
+        })
         return (
             <div className="container card">
                 <div className="row mt-4">
@@ -29,10 +72,11 @@ class RoutineCarouselReadOnly extends Component {
                         <img src={leftArrowImage} className="buttonSizeGeneral" />
                     </div>
                     <div className="col-8 col-md-4">
-                        <Select placeholder="Tipo de ejercicio" options={this.state.exercise.map(function (json) {
+                        <Select placeholder={this.state.name} onChange={this.exerciseTypeSelect} value={this.state.typeID}
+                         options={this.state.exerciseType.map(function (json) {
                             return {
                                 label: json.description,
-                                value: json.exerciseTypeID
+                                value: json.exerciseTypeID 
                             };
                         })}>
                         </Select>
@@ -44,7 +88,7 @@ class RoutineCarouselReadOnly extends Component {
                 <div className="row mt-4">
                     <div className="col-12">
                         <div className="table-responsive">
-                            <table className="table">
+                            <table className="table tabe-sm table-hover"> 
                                 <thead>
                                     <tr>
                                         <th scope="col">Ejercicio</th>
@@ -55,11 +99,7 @@ class RoutineCarouselReadOnly extends Component {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <th scope="row"></th>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
+                                    {exerciseVisual}
                                 </tbody>
                             </table>
                         </div>

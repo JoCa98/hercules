@@ -27,9 +27,11 @@ import TableMedicalInfo from './components/TableMedicalInfo';
 function App() {
   return (
     <div className="App">
+     
       <Header />      
       <TableMedicalInfo />
       <Footer />
+    
     </div>
   );
 }
