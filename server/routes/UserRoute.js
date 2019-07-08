@@ -11,6 +11,7 @@ router.post('/addUser', function (req, res) {
   {}
 
 });
+
 router.get('/getRelationType', (req, res) => {
   connection.query("select * from view_relationship", function (err, results) {
     if (results) {
@@ -48,6 +49,19 @@ router.get('/getCantons', (req, res) => {
 
 router.get('/getDistricts', (req, res) => {
   connection.query("call proc_getDistricts(" +  req.query.cID+")", function (err, results) {
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+
+  });
+  
+});
+
+router.get('/getUserName', (req, res) => {
+  connection.query("call proc_getUserName(" +  req.query.partyID +")", function (err, results) {
     if (results) {
       res.send(results);
     }

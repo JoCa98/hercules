@@ -1,10 +1,32 @@
+/**
+ * @fileoverview HomeAdmin page, Home of the administrator user that shows the list 
+ *of all users (students and officials), with different search options by carnet, name and ID.
+ *
+ * @version 1.0
+ *
+ * @author    Antony Jimenez G <antony.jimenez@ucrso.info>
+ * History
+ * v1.0 – Initial Release
+ * ----
+ * The first version of HomeAdmin was written by Antony Jimenez G.
+ */
+
 import React, { Component } from 'react';
 import axios from 'axios';
-/*global medicalInfo*/
 
 class TableMedicalInfo extends Component {
     constructor(props) {
         super(props);
+        /**
+        *userList:
+        * @type {Array}
+        * Property that stores the list of medical registers that comes from the database
+        * 
+        * searchType:
+        * @type {integer}
+        * Property that indicates the user id,
+        */
+
         this.state = {
             medicalInfo: [{}],
             partyID: 1
@@ -16,47 +38,83 @@ class TableMedicalInfo extends Component {
         try {
             axios.get(`http://localhost:9000/MedicalInfo/getMedicalInfoHist`,
                 {
-                    params: { partyID: this.state.partyID, btnFuntion: 1 }
+                    params: { partyID: this.state.partyID }
                 }).then(response => {
                     const medicalInfo = response.data[0];
                     this.setState({ medicalInfo });
-                    console.log(this.state.medicalInfo)
                 });
         } catch (err) {
             console.error(err);
         }
     }
 
+    /**
+ * Method that performs the search of al the registers of medical information
+ */
     componentDidMount() {
         this.getMedicalInfoHist();
     }
 
     render() {
 
-        const tableIndex = this.state.medicalInfo.map((medicalInfo, i) => {
+        /**
+        * The indexPersonalHist.map, indexExploration1.map, indexExploration2.map, indexRecomendations.map is 
+        * used to create the rows of the table and to structure the html,
+        * this is stored in a constant that is used in the code of the page
+        */
+
+        const indexPersonalHist = this.state.medicalInfo.map((medicalInfo, i) => {
             return (
                 <tr className="pointer" key={i}>
+                    <td className="diplayNone">{medicalInfo.medicalInfoID}</td>
                     <td>{medicalInfo.date}</td>
+                    <td>{medicalInfo.medicalCod}</td>
                     <td>{medicalInfo.pathologies}</td>
                     <td>{medicalInfo.allergies}</td>
                     <td>{medicalInfo.surgeries}</td>
                     <td>{medicalInfo.traumas}</td>
                     <td>{medicalInfo.smoking}</td>
-                    <td>{medicalInfo.neurologicalInfo}</td>
-                    <td>{medicalInfo.pulmonaryCardioInfo}</td>
+                </tr>
+            )
+        })
+
+        const indexExploration1 = this.state.medicalInfo.map((medicalInfo, i) => {
+            return (
+                <tr className="pointer" key={i}>
+                    <td className="diplayNone">{medicalInfo.medicalInfoID}</td>
+                    <td>{medicalInfo.date}</td>
+                    <td>{medicalInfo.size}</td>
+                    <td>{medicalInfo.weight}</td>
+                    <td>{medicalInfo.IMC}</td>
                     <td>{medicalInfo.bloodPressure}</td>
+                    <td>{medicalInfo.SpO2}</td>
                     <td>{medicalInfo.heartRate}</td>
                     <td>{medicalInfo.heartRatePerMinute}</td>
-                    <td>{medicalInfo.SpO2}</td>
-                    <td>{medicalInfo.weight}</td>
-                    <td>{medicalInfo.size}</td>
-                    <td>{medicalInfo.IMC}</td>
+                </tr>
+            )
+        })
+
+        const indexExploration2 = this.state.medicalInfo.map((medicalInfo, i) => {
+            return (
+                <tr className="pointer" key={i}>
+                    <td className="diplayNone">{medicalInfo.medicalInfoID}</td>
+                    <td>{medicalInfo.date}</td>
+                    <td>{medicalInfo.neurologicalInfo}</td>
+                    <td>{medicalInfo.pulmonaryCardioInfo}</td>
                     <td>{medicalInfo.abdomen}</td>
                     <td>{medicalInfo.waist}</td>
                     <td>{medicalInfo.hip}</td>
                     <td>{medicalInfo.cardiovascularRisk}</td>
+                </tr>
+            )
+        })
+
+        const indexRecomendations = this.state.medicalInfo.map((medicalInfo, i) => {
+            return (
+                <tr className="pointer" key={i}>
+                    <td className="diplayNone">{medicalInfo.medicalInfoID}</td>
+                    <td>{medicalInfo.date}</td>
                     <td>{medicalInfo.recommendations}</td>
-                    <td>{medicalInfo.medicalCod}</td>
                 </tr>
             )
         })
@@ -64,9 +122,6 @@ class TableMedicalInfo extends Component {
         return (
             <div className="container">
                 <div className="row card mt-4 p-5">
-                    <div className="col-12">
-                        <h1 className="text-left colorBlue">Consulta médica</h1>
-                    </div>
                     <div className="col-10 offset-1 mt-4 text-center">
                         <ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">
                             <li className="nav-item">
@@ -87,39 +142,74 @@ class TableMedicalInfo extends Component {
                                 <table className="table table-sm table-hover">
                                     <thead>
                                         <tr>
-                                            <th scope="col">Fecha</th>
-                                            <th scope="col">Cod Médico</th>
-                                            <th scope="col">Patologías</th>
-                                            <th scope="col">Alergias</th>
-                                            <th scope="col">Operaciones</th>
-                                            <th scope="col">Traumas</th>
-                                            <th scope="col">Fumado</th>
-                                            <th scope="col">Información neurológica</th>
-                                            <th scope="col">Información pulmonar</th>
-                                            <th scope="col">Presión sanguínea</th>
-                                            <th scope="col">Ritmo cardiaco</th>
-                                            <th scope="col">Ritmo cardiaco por minuto</th>
-                                            <th scope="col">SpO2</th>
-                                            <th scope="col">Peso</th>
-                                            <th scope="col">Altura</th>
-                                            <th scope="col">IMC</th>
-                                            <th scope="col">Abdomen</th>
-                                            <th scope="col">Cintura</th>
-                                            <th scope="col">Cadera</th>
-                                            <th scope="col">Riesgo cardiovascular</th>
-                                            <th scope="col">Recomendaciones</th>
-                                          
+                                            <th scope="col" className="align-middle">Fecha</th>
+                                            <th scope="col" className="align-middle">Cod Médico</th>
+                                            <th scope="col" className="align-middle">Patológicos</th>
+                                            <th scope="col" className="align-middle">Alergias</th>
+                                            <th scope="col" className="align-middle">Quirúrgicos</th>
+                                            <th scope="col" className="align-middle">Traumáticos</th>
+                                            <th scope="col" className="align-middle">Tabaquismo</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {tableIndex}
+                                        {indexPersonalHist}
                                     </tbody>
                                 </table>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                            <div className="tab-pane fade" id="pills-physical-exploration-1" role="tabpanel" aria-labelledby="pills-physical-exploration-1-tab">
+                                <table className="table table-sm table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" className="align-middle">Fecha</th>
+                                            <th scope="col" className="align-middle">Talla (cm)</th>
+                                            <th scope="col" className="align-middle">Peso (kg)</th>
+                                            <th scope="col" className="align-middle">IMC (kg/m²)</th>
+                                            <th scope="col" className="align-middle">Presión Arterial<br />(mmHg)</th>
+                                            <th scope="col" className="align-middle">SpO2 (%)</th>
+                                            <th scope="col" className="align-middle">Frecuencia Cardíaca</th>
+                                            <th scope="col" className="align-middle">Frec. Cardíaca<br />por minuto<br />(ppm)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {indexExploration1}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div className="tab-pane fade" id="pills-physical-exploration-2" role="tabpanel" aria-labelledby="pills-physical-exploration-2-tab">
+                                <table className="table table-sm table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" className="align-middle">Fecha</th>
+                                            <th scope="col" className="align-middle">Neurológico</th>
+                                            <th scope="col" className="align-middle">Cardiopulmonar</th>
+                                            <th scope="col" className="align-middle">Abdomen (cm)</th>
+                                            <th scope="col" className="align-middle">Cintura (cm)</th>
+                                            <th scope="col" className="align-middle">Cadera</th>
+                                            <th scope="col" className="align-middle">Riesgo Cardiovascular</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {indexExploration2}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div className="tab-pane fade" id="pills-recommendations" role="tabpanel" aria-labelledby="pills-recommendations-tab">
+                                <table className="table table-sm table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" className="align-middle">Fecha</th>
+                                            <th scope="col" className="align-middle">Recomendaciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {indexRecomendations}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div >
+                    </div >
+                </div >
+            </div >
         );
     }
 }

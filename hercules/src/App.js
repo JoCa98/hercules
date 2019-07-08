@@ -22,14 +22,13 @@ import HistoricMedicalInfo from './components/HistoricMedicalInfo';
 import RoutineAdmin from './components/RoutineAdmin';
 import AddPhysicalInfo from './components/AddPhysicalInfo';
 import HistoricMedicalUserInfo from './components/HistoricMedicalUserInfo';
-import TableMedicalInfo from './components/TableMedicalInfo';
 
 function App() {
   return (
     <div className="App">
      
       <Header />      
-      <TableMedicalInfo />
+      <HistoricMedicalInfo />
       <Footer />
     
     </div>
