@@ -9,7 +9,7 @@ var app = express();
 
 // declaration of the routes
 var MedicalInfoRoute = require('./routes/MedicalInfoRoute');
-var GetExerciseType = require('./routes/getExerciseTypeRoute');
+var RoutineType = require('./routes/RoutineRoute');
 var AdminRoute = require('./routes/AdminRoute');
 var PhysicalInfoRoute = require('./routes/PhysicalInfoRoute');
 var UserRoute = require('./routes/UserRoute');
