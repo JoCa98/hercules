@@ -28,7 +28,11 @@ function App() {
     <div className="App">
      
       <Header />      
+<<<<<<< HEAD
       <AddMedicalForm/>
+=======
+      <HistoricMedicalInfo />
+>>>>>>> 078ea8df44a9df1877e64086a720241ddb7d43c6
       <Footer />
     
     </div>
