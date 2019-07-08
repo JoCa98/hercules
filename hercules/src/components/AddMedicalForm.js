@@ -33,6 +33,7 @@ class AddMedicalForm extends Component {
         this.handleInputChange = this.handleInputChange.bind(this);
         this.inputNumberValidator = this.inputNumberValidator.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.empty = this.empty.bind(this);
     }
 
     inputNumberValidator(event) {
@@ -51,6 +52,7 @@ class AddMedicalForm extends Component {
       }
 
     handleSubmit = event => {
+        if(!this.empty()){
         fetch("http://localhost:9000/MedicalInfo/addMedicalInfo", {
             method: "post",
             body: JSON.stringify(this.state),
@@ -66,6 +68,9 @@ class AddMedicalForm extends Component {
             })
             .catch(err => console.error(err));
         event.preventDefault();
+        } else{
+            alert("Los campos con * son obligatorios");
+        }
     }
 
     handleInputChange(event) {
@@ -83,23 +88,15 @@ class AddMedicalForm extends Component {
         this.setState({ IMC: round });
     }
 
-    //  load(){
-    //    let imc = this.state.IMC;
-    //if(imc < 18.5){
-    //  imcResult += "Delgadez";
-    // } else if(imc >= 18.5 && imc < 25){
-    //   imcResult += "Saludable";
-    //} else{
-    //  imcResult += "Sobrepeso";
-    // }
-    //}
-
-   // empty(){
-     //   if(document.getElementById("pathologies").value().length == 0){
-       //     alert("elementos vacíos");
-        //}
-        
-    //}
+    empty(){
+        if(this.state.smoking == "" || this.state.traumas == "" || this.state.size == "" || this.state.weight == ""
+        || this.state.heartRate == "" || this.state.heartRatePerMinute == "" || this.state.SpO2 == "" || this.state.abdomen == ""
+        || this.state.waist == "" || this.state.hip == "" || this.state.bloodPressure == "" || this.state.cardiovascularRisk == ""){
+            return true;
+        } else{
+            return false;
+        }
+    }
 
     render() {
         return (
