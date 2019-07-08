@@ -13,11 +13,13 @@ class RoutineCarouselReadOnly extends Component {
         this.state = {
             exerciseType: [{}],
             exercise:[{}],
-            typeID: 1,
-            id: 1
+            typeID: 0,
+            id: 1,
+            name: "Tipo de ejercicio"
         };
         this.exerciseTypeSelect = this.exerciseTypeSelect.bind(this);
-        this.exerciseList = this.exerciseList.bind(this);
+
+        this.valueID = this.valueID.bind(this);
     }
 
     componentDidMount() {
@@ -25,26 +27,31 @@ class RoutineCarouselReadOnly extends Component {
             this.state.exerciseType = response.data;
             this.setState({ exerciseType: response.data });
         });
-        this.exerciseList();
+ 
     }
 
     exerciseTypeSelect(event){
         this.state.typeID = event.value;
-        this.setState({ typeID: event.value });
-        this.exerciseList();
-    }
-
-    exerciseList(){
-        axios.get("http://localhost:9000/GetExerciseType/getExercise", {
+        this.state.name = event.label;
+        this.setState({ typeID: event.value, name:event.label });
+        console.log(this.state.typeID);
+          axios.get(`http://localhost:9000/GetExerciseType/getExercise`, {
         params: {
-            routineID: this.state.id,
-            id: this.state.typeID
+           routineID: this.state.id,
+           id: this.state.typeID
            }
         }).then(response => {
-            const exercise = response.data[0];
-            this.setState({ exercise});
+          this.state.exercise = response.data[0];
+         this.setState({ exercise: response.data[0]});
         });
     }
+
+    valueID(event) {
+        this.state.typeID = event.target.value;
+        this.setState({ typeID: event.target.value });
+      }
+
+    
 
     render() {
         const exerciseVisual = this.state.exercise.map((exercise,i) => {
@@ -65,10 +72,11 @@ class RoutineCarouselReadOnly extends Component {
                         <img src={leftArrowImage} className="buttonSizeGeneral" />
                     </div>
                     <div className="col-8 col-md-4">
-                        <Select placeholder="Tipo de ejercicio" onchange={this.exerciseTypeSelect} options={this.state.exerciseType.map(function (json) {
+                        <Select placeholder={this.state.name} onChange={this.exerciseTypeSelect} value={this.state.typeID}
+                         options={this.state.exerciseType.map(function (json) {
                             return {
                                 label: json.description,
-                                value: json.exerciseTypeID
+                                value: json.exerciseTypeID 
                             };
                         })}>
                         </Select>
