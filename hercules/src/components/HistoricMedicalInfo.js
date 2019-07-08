@@ -64,7 +64,7 @@ class HistoricMedicalInfo extends Component {
 
 const name = this.state.userName.map((userName, i) => {
     return(
-        <label className="form-control">Usuario: {userName.name}</label>
+        <label className="form-control">Usuario: {userName.fullName}</label>
     )
 })
 
