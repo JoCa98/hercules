@@ -1,14 +1,14 @@
 /**
- * @fileoverview HomeAdmin page, Home of the administrator user that shows the list 
- *of all users (students and officials), with different search options by carnet, name and ID.
+ * @fileoverview TableMedicalInfo, this component get all the medical registers 
+ * from the database of one especific user
  *
  * @version 1.0
  *
- * @author    Antony Jimenez G <antony.jimenez@ucrso.info>
+ * @author  Antony Jimenez G <antony.jimenez@ucrso.info>
  * History
  * v1.0 – Initial Release
  * ----
- * The first version of HomeAdmin was written by Antony Jimenez G.
+ * The first version of TableMedicalInfo was written by Antony Jimenez G.
  */
 
 import React, { Component } from 'react';

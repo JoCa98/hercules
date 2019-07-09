@@ -1,6 +1,6 @@
 /**
- * @fileoverview HomeAdmin page, Home of the administrator user that shows the list 
- *of all users (students and officials), with different search options by carnet, name and ID.
+ * @fileoverview HistoricMedicalInfo page, this page call the component of the table
+ * and get the medical information of one specific user 
  *
  * @version 1.0
  *
@@ -8,7 +8,7 @@
  * History
  * v1.0 – Initial Release
  * ----
- * The first version of HomeAdmin was written by Antony Jimenez G.
+ * The first version of HistoricMedicalInfo was written by Antony Jimenez G.
  */
 
 import React, { Component } from 'react';
@@ -75,7 +75,7 @@ class HistoricMedicalInfo extends Component {
                             <div className="col-4 offset-1 text-ceter">
                                 {name}
                             </div>
-                            <div className="col-4 offset-1">
+                            <div className="col-4 offset-1 text-center">
                                 <img src={plusImage} onClick={this.redirect} className="buttonSizeGeneral pointer" />
                                 <h4 className="colorBlue pointer" onClick={this.redirect}>Agregar nuevo</h4>
                             </div>
