@@ -18,7 +18,6 @@ class RoutineCarouselReadOnly extends Component {
             name: "Tipo de ejercicio"
         };
         this.exerciseTypeSelect = this.exerciseTypeSelect.bind(this);
-
         this.valueID = this.valueID.bind(this);
     }
 
