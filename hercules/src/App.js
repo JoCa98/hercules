@@ -29,7 +29,11 @@ function App() {
     <div className="App">
      
       <Header />      
+<<<<<<< HEAD
       <UserHome/>
+=======
+      <HistoricRoutineInfo/>
+>>>>>>> 5ccc6ccd6a82d0459e9316a974d29fa09eb05bdc
       <Footer />
     
     </div>
