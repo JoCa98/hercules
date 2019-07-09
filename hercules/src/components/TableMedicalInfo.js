@@ -132,7 +132,6 @@ class TableMedicalInfo extends Component {
 
         return (
             <div className="container">
-                <div className="row card mt-4 p-5">
                     <div className="col-10 offset-1 mt-4 text-center">
                         <ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">
                             <li className="nav-item">
@@ -219,7 +218,6 @@ class TableMedicalInfo extends Component {
                             </div>
                         </div >
                     </div >
-                </div >
             </div >
         );
     }
