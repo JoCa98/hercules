@@ -128,19 +128,15 @@ class ActCodeForm extends Component {
                 <p align="left">Ingrese el código de activación enviado a su correo</p>
                 <input type="text" name="actCode" className="form-control" onChange={this.handleInputChange} />
               </div>
-
               <div className="row mt-4">
                 <div className="col-4">
                   <button type="button" align="left" name="actCodeButton" className="cssCodeButtonResend"onClick={this.resendCode}> Reenviar código </button>
                 </div>
-
                 <div className="col-4 offset-4">
                   <button type="button" align="right" name="actCodeButton" className="cssCodeButtonConfirm" onClick={this.completeSignUp}> Confirmar </button>
                 </div>
               </div>
-
             </form>
-
           </div>
         </div>
       </div>
