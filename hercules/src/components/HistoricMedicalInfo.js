@@ -61,7 +61,6 @@ class HistoricMedicalInfo extends Component {
     }
 
     render() {
-
         const name = this.state.userName.map((userName, i) => {
             return (
                 <label className="form-label">Usuario: {userName.fullName}</label>
@@ -80,7 +79,7 @@ class HistoricMedicalInfo extends Component {
                                 <img src={plusImage} onClick={this.redirect} className="buttonSizeGeneral pointer" />
                                 <h4 className="colorBlue pointer" onClick={this.redirect}>Agregar nuevo</h4>
                             </div>
-                            <div className="col-12">
+                            <div className="col-12 mt-4 text-center">
                                 <TableMedicalInfo />
                             </div>
                         </div>

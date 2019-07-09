@@ -11,6 +11,7 @@
  * The first version of AddMedicalForm was written by Ester Molina.
  */
 import React, { Component } from 'react';
+import axios from 'axios';
 
 
 /*global IMC*/
@@ -101,7 +102,8 @@ class AddMedicalForm extends Component {
             waist: 0,
             hip: 0,
             cardiovascularRisk: 0,
-            recommendations: ""
+            recommendations: "",
+            medicalInfo: [{}]
 
         };
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -110,6 +112,39 @@ class AddMedicalForm extends Component {
         this.empty = this.empty.bind(this);
     }
 
+    /**
+    * Method that can get full name of the user and the data if is it an update
+    * when the page is load
+    */
+    componentDidMount(){
+        
+        try {
+            if(sessionStorage.getItem("update")){
+                axios.get("http://localhost:9000/MedicalInfo/getMedicalInfoHist", {
+                    params: {
+                        partyID: this.state.partyID
+                    }
+                }).then(response => {
+                    if (response) {
+                        this.setState({
+                            medicalInfo: response.data[0]
+                        });
+                    }
+                })
+                sessionStorage.setItem("update",false);
+            }
+            
+            axios.get(`http://localhost:9000/User/getUserName`,
+                {
+                    params: { partyID: this.state.partyID }
+                }).then(response => {
+                    const userName = response.data[0];
+                    this.setState({ userName });
+                });
+            } catch (err) {
+                console.error(err);
+            }
+    }
     /**
     * Method that verify that the input text in a input type decimal is a number
     */
