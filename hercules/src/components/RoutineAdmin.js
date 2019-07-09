@@ -29,7 +29,7 @@ class RoutineAdmin extends Component {
         * Property that stores the routine info that comes from de database
         */
         this.state = {
-            routineID: 0,
+            routineID: sessionStorage.getItem("routineID"),
             routine: [{}],
             userName: [{}],
             partyID: 1
@@ -41,11 +41,6 @@ class RoutineAdmin extends Component {
    * when loading the page for the first time
    */
     componentDidMount() {
-        this.state.routineID = sessionStorage.getItem("routineID");
-        this.setState({
-            routineID: sessionStorage.getItem("routineID")
-        })
-
         axios.get("http://localhost:9000/RoutineRoute/getRoutineInfo", {
             params: {
                 routineID: this.state.routineID,
