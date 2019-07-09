@@ -19,8 +19,7 @@ class LogIn extends Component {
     tryLogin() {
         axios.get(`http://localhost:9000/User/isUserValid`, { params: { email: this.state.email, password: this.state.password } }).then(response => {
             console.log("es: " + JSON.parse(JSON.stringify(response.data[0])));
-        this.setState({ isUserValid: JSON.parse(
-            e.data[0]))[0]['isUserValid'] });
+        this.setState({ isUserValid: JSON.parse(JSON.stringify(response.data[0]))[0]['isUserValid'] });
             if (this.state.isUserValid == 1) {
                 axios.get(`http://localhost:9000/User/getDataForLogin`, { params: { email: this.state.email, password: this.state.password } }).then(response => {
                     this.setState({ partyID: JSON.parse(JSON.stringify(response.data[0]))[0]['partyID'] ,
