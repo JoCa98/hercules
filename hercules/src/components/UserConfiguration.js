@@ -1,144 +1,381 @@
 import React, { Component } from 'react';
+import axios from "axios";
 
 class UserConfiguration extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            identificationID: "",
+            firstName: "",
+            secondName: "",
+            lastName: "",
+            secondLastName: "",
+            career:"",
+            carnet:"",
+            userTypeID:"",
+            email: "",
+            password: "",
+            newPassword: "",
+            confirmNewPassword: "",
+            phoneNumber1: "",
+            phoneNumber2: "",
+            districtID: "",
+            addressLine: "",
+            contactName: "",
+            relationTypeID: "",
+            emergencyContactPhoneNumber: "",
+            relations: [{}],
+            provinces: [{}],
+            provinceList: null,
+            provinceID: "",
+            cantons: [{}],
+            cantonList: null,
+            cantonID: "",
+            districts: [{}],
+            districtList: null,
+        };
 
+        this.handleSelectProvince = this.handleSelectProvince.bind(this);
+        this.loadProvinces = this.loadProvinces.bind(this);
+        this.loadCantons = this.loadCantons.bind(this);
+        this.handleSelectCanton = this.handleSelectCanton.bind(this);
+        this.loadDistricts = this.loadDistricts.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
+        this.getCantonsByProvince = this.getCantonsByProvince.bind(this);
+        this.getDistrictsByCanton = this.getDistrictsByCanton.bind(this);
+        this.editInfo = this.editInfo.bind(this);
+        this.changeInfo = this.changeInfo.bind(this);
+        this.cancelInfo = this.cancelInfo.bind(this);
+        this.editPassword = this.editPassword.bind(this);
+        this.changePassword = this.cancelPassword.bind(this);
+        this.cancelPassword = this.cancelPassword.bind(this);
+        this.editContact = this.editContact.bind(this);
+        this.changePassword = this.changePassword.bind(this);
+        this.cancelPassword = this.cancelPassword.bind(this);
+        this.loadUserInfo = this.loadUserInfo.bind(this);
+        this.loadContactInfo = this.loadContactInfo.bind(this);
+        this.loadAccountInfo = this.loadAccountInfo.bind(this);
+        this.getLocalGeoSupID = this.getLocalGeoSupID.bind(this);
+    }
+    componentDidMount() {
+        this.loadUserInfo();
+        axios.get(`http://localhost:9000/User/getRelationType`).then(response => {
+            this.setState({ relations: response.data });
+        });
+
+        axios.get(`http://localhost:9000/User/getProvinces`).then(response => {
+            this.setState({ provinces: response.data });
+        });
+
+        this.loadUserInfo();
+
+    }
+
+    getCantonsByProvince(value) {
+        axios.get(`http://localhost:9000/User/getCantons`, { params: { pID: value } }).then(response => {
+            this.setState({ cantons: response.data[0] });
+        });
+    };
+    getDistrictsByCanton(value) {
+        axios.get(`http://localhost:9000/User/getDistricts`, { params: { cID: value } }).then(response => {
+            this.setState({ districts: response.data[0] });
+        });
+    };
+
+    loadProvinces() {
+        this.state.provinceList = this.state.provinces.map((provinces, i) => {
+            return (
+                <option value={provinces.provinceID} key={i}>{provinces.provinceDescription} </option>
+            )
+        })
+    }
+    loadCantons() {
+        this.state.cantonList = this.state.cantons.map((cantons, i) => {
+            return (
+                <option value={cantons.cantonID} key={i}>{cantons.cantonDescription}</option>
+            )
+        });
+    }
+    loadDistricts() {
+        this.state.districtList = this.state.districts.map((districts, i) => {
+            return (
+                <option value={districts.districtID} key={i}>{districts.districtDescription}</option>
+            )
+        });
+    }
+    getLocalGeoSupID(value) {
+        axios.get(`http://localhost:9000/User/getLocalGeoSupID`, { params: { localGeoSupID: value } }).then(response => {
+            this.setState({ cantonID: JSON.parse(JSON.stringify(response.data[0]))[0]['localGeoSupID'] });
+            axios.get(`http://localhost:9000/User/getLocalGeoSupID`, { params: { localGeoSupID: JSON.parse(JSON.stringify(response.data[0]))[0]['localGeoSupID'] } }).then(response => {
+                this.setState({ provinceID: JSON.parse(JSON.stringify(response.data[0]))[0]['localGeoSupID'] });
+                axios.get(`http://localhost:9000/User/getCantons`, { params: { pID: this.state.provinceID } }).then(response => {
+                    this.setState({ cantons: response.data[0] });
+
+                });
+                axios.get(`http://localhost:9000/User/getDistricts`, { params: { cID: this.state.cantonID } }).then(response => {
+            this.setState({ districts: response.data[0] });
+        });
+            });
+        });
+
+    }
+    loadUserInfo() {
+        this.state.identificationID = sessionStorage.getItem('identificationID');
+        this.state.firstName = sessionStorage.getItem('firstName');
+        this.state.secondName = sessionStorage.getItem('secondName');
+        this.state.lastName = sessionStorage.getItem('lastName');
+        this.state.secondLastName = sessionStorage.getItem('secondLastName');
+        this.state.userTypeID = sessionStorage.getItem('userTypeID');
+        this.state.carnet = sessionStorage.getItem('carnet');
+        this.state.career = sessionStorage.getItem('career');
+        this.state.phoneNumber1 = sessionStorage.getItem('phoneNumber1');
+        this.state.phoneNumber2 = sessionStorage.getItem('phoneNumber2');
+        this.state.districtID = 400; //sessionStorage.getItem('districtID')
+        this.getLocalGeoSupID(this.state.districtID);
+        this.state.addressLine = sessionStorage.getItem('addressLine');
+
+    }
+
+    loadAccountInfo() {
+        this.state.email = sessionStorage.getItem('email');
+        this.state.password = "";
+        this.state.newPassword = "";
+        this.state.confirmNewPassword = "";
+    }
+
+    loadContactInfo() {
+        this.state.contactName = sessionStorage.getItem('contactName');
+        this.state.relationTypeID = sessionStorage.getItem('relationTypeID');
+        this.state.emergencyContactPhoneNumber = sessionStorage.getItem('emergencyContactPhoneNumber');
+    }
+
+    handleSelectProvince(event) {
+        var value = event.target.value;
+        this.getCantonsByProvince(value);
+        this.loadCantons();
+        this.handleInputChange(event);
+    }
+
+    handleSelectCanton(event) {
+        var value = event.target.value;
+        this.getDistrictsByCanton(value);
+        this.loadDistricts();
+        this.handleInputChange(event);
+    }
+
+    handleInputChange(event) {
+        const { name, value } = event.target;
+        this.setState({
+            [name]: value
+        });
+    }
+
+    editInfo() {
+        document.getElementById('editInfo').disabled = true;
+        document.getElementById('cancelInfo').disabled = false;
+        document.getElementById('changeInfo').disabled = false;
+    }
+    cancelInfo() {
+        document.getElementById('cancelInfo').disabled = true;
+        document.getElementById('editInfo').disabled = false;
+        document.getElementById('changeInfo').disabled = true;
+        this.loadUserInfo();
+    }
+    changeInfo() {
+        document.getElementById('changeInfo').disabled = true;
+        document.getElementById('editInfo').disabled = false;
+        document.getElementById('cancelInfo').disabled = true;
+    }
+    //--
+    editPassword() {
+        document.getElementById('editPassword').disabled = true;
+        document.getElementById('cancelPassword').disabled = false;
+        document.getElementById('changePassword').disabled = false;
+    }
+    cancelPassword() {
+        document.getElementById('cancelPassword').disabled = true;
+        document.getElementById('editPassword').disabled = false;
+        document.getElementById('changePassword').disabled = true;
+    }
+
+
+    changePassword() {
+        document.getElementById('changePassword').disabled = true;
+        document.getElementById('editPassword').disabled = false;
+        document.getElementById('cancelPassword').disabled = true;
+    }
+    editContact() {
+        document.getElementById('editContact').disabled = true;
+        document.getElementById('cancelContact').disabled = false;
+        document.getElementById('changeContact').disabled = false;
+    }
+    cancelContact() {
+        document.getElementById('cancelContact').disabled = true;
+        document.getElementById('editContact').disabled = false;
+        document.getElementById('changeContact').disabled = true;
+    }
+    changeContact() {
+        document.getElementById('changeContact').disabled = true;
+        document.getElementById('editContact').disabled = false;
+        document.getElementById('cancelContact').disabled = true;
+    }
     render() {
+
+        const relationList = this.state.relations.map((relations, i) => {
+            return (
+                <option value={relations.relationTypeID} key={i}>{relations.description} </option>
+            )
+        })
+        this.loadProvinces();
+        this.loadCantons();
+        this.loadDistricts();
         return (
             <div className="container">
                 <div className="row mt-4 card p-5" >
                     <div className="col-12">
-                        <h1 className="text-center">Configuración del perfil
-                        </h1>
+                        <h1 className="text-center">Configuración del perfil</h1>
                         <br></br>
                         <div className="row">
-                            <div className="col-6">
+                            <div className="col-12 col-lg-6">
                                 <div className="row">
                                     <div className="col-12">
-                                        <h2 className="text-left">Información de usuario</h2>
-                                        <br></br>
+                                        <div className="form-group" align="left">
+                                            <h2 className="text-left">Información de usuario</h2>
+                                        </div>
                                     </div>
                                 </div>
                                 <div className="row">
-                                    <div className="col-6">
-                                        <div class="form-group" align="left">
+                                    <div className="col-12 col-sm-6">
+                                        <div className="form-group" align="left">
                                             <p>Primer nombre</p>
-                                            <input type="text" name="firstName" className="form-control inputText"></input>
-                                            <br></br>
+                                            <input type="text" name="firstName" required className="form-control inputText" value={this.state.firstName || ''} onChange={this.handleInputChange}></input>
+                                        </div>
+                                        <div className="form-group" align="left">
                                             <p>Primer Apellido</p>
-                                            <input type="text" name="firstLastName" className="form-control inputText"></input>
-                                            <br></br>
+                                            <input type="text" name="lastName" required className="form-control inputText" value={this.state.lastName || ''} onChange={this.handleInputChange}></input>
+                                        </div>
+                                        <div className="form-group" align="left">
                                             <p>Teléfono 1</p>
-                                            <input type="text" name="phoneNumber1" className="form-control inputText"></input>
-                                            <br></br>
-                                            <p>Número de cédula</p>
-                                            <input type="text" name="identificationNumber" className="form-control InputText"></input>
+                                            <input type="text" name="phoneNumber1" required className="form-control inputText" value={this.state.phoneNumber1 || ''} onChange={this.handleInputChange}></input>
                                         </div>
                                     </div>
-                                    <div className="col-6">
-                                        <div class="form-group" align="left">
+                                    <div className="col-12 col-sm-6">
+                                        <div className="form-group" align="left">
                                             <p>Segundo nombre</p>
-                                            <input type="text" name="secondName" className="form-control inputText"></input>
-                                            <br></br>
+                                            <input type="text" name="secondName" className="form-control inputText" value={this.state.secondName || ''} onChange={this.handleInputChange}></input>
+                                        </div>
+                                        <div className="form-group" align="left">
                                             <p>Segundo Apellido</p>
-                                            <input type="text" name="secondLastName" className="form-control inputText"></input>
-                                            <br></br>
+                                            <input type="text" name="secondLastName" required className="form-control inputText" value={this.state.secondLastName || ''} onChange={this.handleInputChange}></input>
+                                        </div>
+                                        <div className="form-group" align="left">
                                             <p>Teléfono 2</p>
-                                            <input type="text" name="phoneNumber2" className="form-control inputText"></input>
-                                            <br></br>
-                                            <p>Número de cédula</p>
-                                            <input type="text" name="identificationNumber" className="form-control InputText"></input>
+                                            <input type="text" name="phoneNumber2" className="form-control inputText" value={this.state.phoneNumber2 || ''} onChange={this.handleInputChange}></input>
                                         </div>
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="col-12">
-                                        <div class="form-group" align="left"></div>
-                                        <h2 align="left">Dirección</h2>
-                                        <br></br>
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="col-4">
-                                        <div class="form-group" align="left">
-                                            <p>Provincia</p>
-                                            <select align="left" className="form-control">
-                                                <option value=" ">Provincia</option>
-                                            </select>
-                                            <br></br>
-                                        </div>
-                                    </div>
-                                    <div className="col-4">
-                                        <div class="form-group" align="left">
-                                            <p>Cantón</p>
-                                            <select align="left" className="form-control">
-                                                <option value=" ">Canton</option>
-                                            </select>
-                                            <br></br>
-                                        </div>
-                                    </div>
-                                    <div className="col-4">
-                                        <div class="form-group" align="left">
-                                            <p>Distrito</p>
-                                            <select align="left" className="form-control">
-                                                <option value=" ">Distrito</option>
-                                            </select>
-                                            <br></br>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="col-12">
-                                        <div class="form-group" align="left"></div>
-                                        <p align="left">Otras señas</p>
-                                        <input type="text" name="otherSigns" className="w-100 form-control bigInputText"></input>
-                                        <br></br>
                                     </div>
                                 </div>
 
                                 <div className="row">
-                                    <div className="col-4">
-                                        <div class="form-group" align="left">
-                                            <button align="left" name="SaveUserInfo" className="buttonSizeGeneral">Guardar</button>
-                                        </div>
-                                    </div>
-                                    <div className="col-4">
-                                        <div class="form-group" align="center">
-                                            <button align="left" name="editUserInfo" className="buttonSizeGeneral">Editar</button>
-                                        </div>
-                                    </div>
-                                    <div className="col-4">
-                                        <div class="form-group" align="right">
-                                            <button align="left" name="cancelUserInfo" className="buttonSizeGeneral">Cancelar</button>
+                                    <div className="col-12 col-sm-6">
+                                        <div className="form-group" align="left">
+                                            <p>Número de cédula</p>
+                                            <input type="text" name="identificationID" required className="form-control InputText" value={this.state.identificationID || ''} onChange={this.handleInputChange}></input>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="col-6">
-                                <h2 className="text-left">Cambiar contraseña</h2>
-                                <br></br>
                                 <div className="row">
-                                    <div className="col-6">
-                                        <div class="form-group" align="left">
-                                            <p>Constraseña actual</p>
-                                            <input type="text" name="currentPassword" className="form-control inputText"></input>
+                                    <div className="col-12 col-sm-4">
+                                        <div className="form-group" align="left">
+                                            <h2 align="left">Dirección</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-12 col-sm-4">
+                                        <div className="form-group" align="left">
+                                            <p>Provincia</p>
+                                            <select id="provinceID" name="provinceID" className="form-control" value={this.state.provinceID} onChange={this.handleSelectProvince}>
+                                                {this.state.provinceList}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div className="col-12 col-sm-4">
+                                        <div className="form-group" align="left">
+                                            <p>Cantón</p>
+                                            <select name="cantonID" className="form-control" value={this.state.cantonID} onChange={this.handleSelectCanton}>
+                                                {this.state.cantonList}
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                    <div className="col-12 col-sm-4">
+                                        <div className="form-group" align="left">
+                                            <p>Distrito</p>
+                                            <select name="districtID" className="form-control" value={this.state.districtID} onChange={this.handleInputChange}>
+                                                {this.state.districtList}
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="col-12">
-                                        <div class="row">
-                                            <div className="col-6">
-                                                <div class="form-group" align="left">
-                                                    <p>Contraseña nueva</p>
-                                                    <input type="text" name="newPassword" className="inputText form-control"></input>
-                                                    
+                                        <div className="form-group" align="left">
+                                            <p align="left">Otras señas</p>
+                                            <input type="text" required name="addressLine" value={this.state.addressLine || ''} onChange={this.handleInputChange} className="w-100 form-control bigInputText"></input>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-4">
+                                        <div className="form-group" align="left">
+                                            <button align="left" id="changeInfo" className="buttonSizeGeneral" onClick={this.changeInfo}>Guardar</button>
+                                            <br></br>
+                                        </div>
+                                    </div>
+                                    <div className="col-4">
+                                        <div className="form-group" align="center">
+                                            <button align="left" id="editInfo" className="buttonSizeGeneral" onClick={this.editInfo}>Cambiar</button>
+                                            <br></br>
+                                        </div>
+                                    </div>
+                                    <div className="col-4">
+                                        <div className="form-group" align="right">
+                                            <button align="left" id="cancelInfo" className="buttonSizeGeneral" onClick={this.cancelInfo}>Cancelar</button>
+                                            <br></br>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-12 col-lg-6">
+                                <div className="row">
+                                    <div className="col-12">
+                                        <div className="form-group" align="left">
+                                            <h2 className="text-left">Información de la cuenta</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-6">
+                                        <div className="form-group" align="left">
+                                            <p>Contraseña actual</p>
+                                            <input type="password" required name="password" value={this.state.password || ''} onChange={this.handleInputChange} className="form-control inputText w-100"></input>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="row">
+                                    <div className="col-12">
+                                        <div className="row">
+                                            <div className="col-12 col-sm-6">
+                                                <div className="form-group" align="left">
+                                                    <p>Contraseñ nueva</p>
+                                                    <input type="password" required name="newPassword" className="inputText form-control" value={this.state.newPassword || ''} onChange={this.handleInputChange}></input>
                                                 </div>
                                             </div>
-                                            <div className="col-6">
-                                                <div class="form-group" align="left">
+                                            <div className="col-12 col-sm-6">
+                                                <div className="form-group" align="left">
                                                     <p>Confirmar contraseña nueva</p>
-                                                    <input type="text" name="confirmNewPassword" className="inputText form-control"></input>
-                                                    
+                                                    <input type="password" required name="confirmNewPassword" className="inputText form-control" value={this.state.confirmNewPassword || ''} onChange={this.handleInputChange}></input>
                                                 </div>
                                             </div>
                                         </div>
@@ -146,65 +383,72 @@ class UserConfiguration extends Component {
                                 </div>
                                 <div className="row">
                                     <div className="col-4">
-                                        <div class="form-group" align="left">
-                                            <button align="left" name="ChangePassword" className="buttonSizeGeneral">Guardar</button>
+                                        <div className="form-group" align="left">
+                                            <button align="left" id="changePassword" className="buttonSizeGeneral" onChange={this.changePassword}>Guardar</button>
                                             <br></br>
                                         </div>
                                     </div>
                                     <div className="col-4">
-                                        <div class="form-group" align="center">
-                                            <button align="left" name="editPassword" className="buttonSizeGeneral">Cambiar</button>
+                                        <div className="form-group" align="center">
+                                            <button align="left" id="editPassword" className="buttonSizeGeneral" onChange={this.editPassword}>Cambiar</button>
                                             <br></br>
                                         </div>
                                     </div>
                                     <div className="col-4">
-                                        <div class="form-group" align="right">
-                                            <button align="left" name="cancelPassword" className="buttonSizeGeneral">Cancelar</button>
+                                        <div className="form-group" align="right">
+                                            <button align="left" id="cancelPassword" className="buttonSizeGeneral" onChange={this.cancelPassword}>Cancelar</button>
                                             <br></br>
                                         </div>
                                     </div>
                                 </div>
-                                <br></br>
-                                <h2 className="text-left">Contacto de emergencia</h2>
-                                <br></br>
+                                <div className="row">
+                                    <div className="col-12">
+                                        <div className="form-group" align="left">
+                                            <h2 className="text-left">Contacto de emergencia</h2>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div className="row">
                                     <div className="col-6">
-                                        <div class="form-group" align="left">
+                                        <div className="form-group" align="left">
                                             <p>Nombre</p>
-                                            <input type="text" name="contactName" className="inputText form-control"></input>
+                                            <input type="text" required name="contactName" className="inputText form-control" value={this.state.contactName} onChange={this.handleInputChange}></input>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="row">
-                                    <div className="col-6">
-                                        <div class="form-group" align="left">
+                                    <div className="col-12 col-sm-6">
+                                        <div className="form-group" align="left">
                                             <p>Parentesco</p>
-                                            <input type="text" name="relation" className="inputText form-control"></input>
-                                            <br></br>
+                                            <select name="relationTypeID" className="form-control" onChange={this.handleInputChange}>
+                                                {relationList}
+                                            </select>
                                         </div>
                                     </div>
-                                    <div className="col-6">
-                                        <div class="form-group" align="left">
+                                    <div className="col-12 col-sm-6">
+                                        <div className="form-group" align="left">
                                             <p>Teléfono</p>
-                                            <input type="text" name="phoneNumber" className="inputText form-control"></input>
-                                            <br></br>
+                                            <input type="text" required name="emergencyContactPhoneNumber" className="inputText form-control" value={this.state.emergencyContactPhonenumber} onChange={this.handleInputChange}></input>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="col-4">
-                                        <div class="form-group" align="left">
-                                            <button align="left" name="SaveContact" className="buttonSizeGeneral">Guardar</button>
+                                        <div className="form-group" align="left">
+                                            <button align="left" id="changeContact" className="buttonSizeGeneral" onChange={this.changeContact}>Guardar</button>
+                                            <br></br>
                                         </div>
                                     </div>
                                     <div className="col-4">
-                                        <div class="form-group" align="center">
-                                            <button align="left" name="editContact" className="buttonSizeGeneral">Editar</button>
+                                        <div className="form-group" align="center">
+                                            <button align="left" id="editContact" className="buttonSizeGeneral" onChange={this.editContact}>Cambiar</button>
+                                            <br></br>
                                         </div>
                                     </div>
                                     <div className="col-4">
-                                        <div class="form-group" align="right">
-                                            <button align="left" name="cancelContact" className="buttonSizeGeneral">Cancelar</button>
+                                        <div className="form-group" align="right">
+                                            <button align="left" id="cancelConact" className="buttonSizeGeneral" onChange={this.cancelContact}>Cancelar</button>
+                                            <br></br>
                                         </div>
                                     </div>
                                 </div>

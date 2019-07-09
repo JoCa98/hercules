@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 class AddPhysicalInfo extends Component {
-    weight;
     constructor(props) {
         super(props);
         this.state = {
@@ -41,12 +40,6 @@ class AddPhysicalInfo extends Component {
             .catch(err => console.error(err));
 
         event.preventDefault();
-
-        //Prueba variables de sesión
-        //Se añaden todos los valores dentro de los corchetes separados por coma
-        const {weight} = this.state;
-        sessionStorage.setItem('weight', weight)
-        //console.log("prueba"+ sessionStorage.getItem('test'))
     }
 
     handleInputChange(event) {

@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+import { HashRouter, Route, Switch } from "react-router-dom";
+import { withRouter } from 'react-router';
 import './App.css';
 import ActCodeForm from './components/ActCodeForm';
 import PasswordRecovery from './components/PasswordRecovery';
@@ -22,6 +24,7 @@ import HistoricMedicalInfo from './components/HistoricMedicalInfo';
 import RoutineAdmin from './components/RoutineAdmin';
 import AddPhysicalInfo from './components/AddPhysicalInfo';
 import HistoricMedicalUserInfo from './components/HistoricMedicalUserInfo';
+<<<<<<< HEAD
 
 
 function App() {
@@ -33,6 +36,27 @@ function App() {
       <Footer />
     
     </div>
+=======
+function App() {
+  return (
+    <HashRouter>
+      <Switch>
+        <Fragment >
+          <Header />
+          <Route exact path="/" component={LogIn} />
+          <Fragment>
+          <Route exact path="/UserConfiguration" component={UserConfiguration} />
+            <Route exact path="/SignUp" component={SignUp} />
+            <Fragment>
+              <Route exact path="/ActCodeForm" component={ActCodeForm} />
+            </Fragment>
+          </Fragment>
+          <Footer />
+        </Fragment>
+      </Switch>
+    </HashRouter>
+
+>>>>>>> 80a0bc322e4a900e64451efd8b84d31620b48f9c
   );
 }
 
