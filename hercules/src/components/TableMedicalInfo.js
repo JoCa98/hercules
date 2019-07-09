@@ -55,6 +55,17 @@ class TableMedicalInfo extends Component {
         this.getMedicalInfoHist();
     }
 
+    rowEvent(event) {
+        try {
+            var id = document.getElementById("routineTable").rows[event.target.parentNode.rowIndex].cells[0].innerHTML;
+            sessionStorage.setItem("routineID", id);
+            this.props.history.push(`/RoutineAdmin`);
+        } catch (err) {
+            console.error(err);
+        }
+
+    }
+
     render() {
 
         /**

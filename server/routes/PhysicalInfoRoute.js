@@ -23,4 +23,23 @@ router.post('/addPhysicalInfo', function (req, res) {
 
 });
 
+/**
+  *Method to execute the procedure stored in the database
+  *to obtain the data of physical info of the users 
+  * 
+  * @param {Request}
+  * @param {Response}
+*/
+router.get('/getPhysicalInfoByID',  (req, res) => {
+  connection.query("CALL proc_getPhysicalInfoByPartyID('"+ req.query.partyID +"');",
+   function(err,results){
+      if (results) {
+          res.send(results);
+        }
+        else {
+          console.log(err);
+        }
+  });
+});
+
 module.exports = router;

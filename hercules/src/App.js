@@ -9,7 +9,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import NavbarAdmin from './components/NavbarAdmin';
 import HomeAdmin from './components/HomeAdmin';
-import HistoricPhysicalInfo from './components/HistoricPhysicalInfo';
+import HistoricPhysicalUserInfo from './components/HistoricPhysicalUserInfo';
 import HistoricRoutineInfo from './components/HistoricRoutineInfo';
 import NavbarUserHome from './components/NavbarUserHome';
 import UserHome from './components/UserHome';
@@ -18,7 +18,7 @@ import SignUp from './components/SignUp';
 import UserConfiguration from './components/UserConfiguration';
 import LogIn from './components/LogIn';
 import ConsultUser from './components/ConsultUser';
-import AdminHistoricPhysicalInfo from './components/AdminHistoricPhysicalInfo';
+import HistoricPhysicalInfoAdmin from './components/HistoricPhysicalInfoAdmin';
 import AddMedicalForm from './components/AddMedicalForm';
 import HistoricMedicalInfo from './components/HistoricMedicalInfo';
 import RoutineAdmin from './components/RoutineAdmin';
@@ -30,14 +30,15 @@ function App() {
       <Switch>
         <Fragment >
           <Header />
-          <Route exact path="/" component={HistoricRoutineInfo} />
+          <Route exact path="/" component={HistoricMedicalInfo} />
           <Fragment>
           <Route exact path="/UserConfiguration" component={UserConfiguration} />
             <Route exact path="/SignUp" component={SignUp} />
             <Fragment>
               <Route exact path="/ActCodeForm" component={ActCodeForm} />
               <Route exact path="/RoutineAdmin" component={RoutineAdmin} />
-
+              <Route exact path="/AddRoutine" component={AddRoutine} />
+              <Route exact path="/AddMedicalForm" component={AddMedicalForm} />
             </Fragment>
           </Fragment>
           <Footer />
