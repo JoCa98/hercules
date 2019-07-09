@@ -11,8 +11,8 @@
  * The first version of RoutineCarouselReadOnly was written by Ester Molina.
  */
 import React, { Component } from 'react';
-import leftArrowImage from '../appImage/leftArrow.svg';
-import rightArrowImage from '../appImage/rightArrow.svg';
+import leftArrowImage from '../appImage/leftArrow.png';
+import rightArrowImage from '../appImage/rigthArrow.png';
 import axios from "axios";
 
 class RoutineCarouselReadOnly extends Component {
