@@ -9,7 +9,7 @@ var app = express();
 
 // declaration of the routes
 var MedicalInfoRoute = require('./routes/MedicalInfoRoute');
-var RoutineType = require('./routes/RoutineRoute');
+var RoutineRoute = require('./routes/RoutineRoute');
 var AdminRoute = require('./routes/AdminRoute');
 var PhysicalInfoRoute = require('./routes/PhysicalInfoRoute');
 var UserRoute = require('./routes/UserRoute');
@@ -31,7 +31,7 @@ app.use('/', indexRouter);
 app.use('/MedicalInfo', MedicalInfoRoute);
 app.use('/GetExerciseType',GetExerciseType);
 app.use('/AdminRoute', AdminRoute);
-
+app.use('/RoutineRoute', RoutineRoute);
 app.use('/PhysicalInfo', PhysicalInfoRoute);
 app.use('/User', UserRoute);
 // catch 404 and forward to error handler
