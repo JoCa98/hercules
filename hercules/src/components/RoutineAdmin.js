@@ -66,7 +66,7 @@ class RoutineAdmin extends Component {
     render() {
         const name = this.state.userName.map((userName, i) => {
             return(
-                <label className="form-control">Usuario: {userName.fullName}</label>
+                <label className="form-label">Usuario: {userName.fullName}</label>
             )
         })
 
