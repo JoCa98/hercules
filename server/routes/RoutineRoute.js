@@ -25,7 +25,17 @@ router.get("/getExercise", (req, res) => {
       console.log(err);
     }
   });
+});
 
+router.get("/getRoutineHistoric", (req, res) => {
+  connection.query("CALL proc_seeRoutine(" + req.query.partyID + ")", function (err, results) {
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+  });
 });
 
 module.exports = router;

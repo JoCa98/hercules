@@ -1,5 +1,20 @@
+/**
+ * @fileoverview HomeAdmin page, Home of the administrator user that shows the list 
+ *of all users (students and officials), with different search options by carnet, name and ID.
+ *
+ * @version 1.0
+ *
+ * @author    Antony Jimenez G <antony.jimenez@ucrso.info>
+ * History
+ * v1.0 – Initial Release
+ * ----
+ * The first version of HomeAdmin was written by Antony Jimenez G.
+ */
+
+
 import React, { Component } from 'react';
 import plusImage from '../appImage/plusImage.svg';
+import axios from 'axios';
 
 class HistoricRoutineInfo extends Component {
     constructor() {
@@ -14,7 +29,8 @@ class HistoricRoutineInfo extends Component {
         */
         this.state = {
             userName: [{}],
-            partyID: 1
+            partyID: 1,
+            routineHist: [{}]
         }
 
         this.redirect = this.redirect.bind(this);
@@ -26,7 +42,7 @@ class HistoricRoutineInfo extends Component {
     }
 
     /**
-    * Method that can get full name of the user
+    * Method that can get full name of the user and their historic of the routines
     * when the page is load
     */
     componentDidMount() {
@@ -38,18 +54,38 @@ class HistoricRoutineInfo extends Component {
                     const userName = response.data[0];
                     this.setState({ userName });
                 });
+
+            axios.get(`http://localhost:9000/RoutineRoute/getRoutineHistoric`,
+                {
+                    params: { partyID: this.state.partyID }
+                }).then(response => {
+                    const routineHist = response.data[0];
+                    this.setState({ routineHist });
+                });
         } catch (err) {
             console.error(err);
         }
     }
-
-
 
     render() {
 
         const name = this.state.userName.map((userName, i) => {
             return (
                 <label className="form-control">Usuario: {userName.fullName}</label>
+            )
+        })
+
+        const indexRoutineHist = this.state.routineHist.map((routineHist, i) => {
+            return (
+                <tr className="pointer" key={i}>
+                    <td className="diplayNone">{routineHist.routineID}</td>
+                    <td>{routineHist.date}</td>
+                    <td>{routineHist.frecuency}</td>
+                    <td>{routineHist.intensity}</td>
+                    <td>{routineHist.timeLapse}</td>
+                    <td>{routineHist.rtDescription}</td>
+                    <td>{routineHist.otDescription}</td>
+                </tr>
             )
         })
 
@@ -69,28 +105,19 @@ class HistoricRoutineInfo extends Component {
                         </div>
                     </div>
                     <div className="col-9 offset-1 mt-4">
-                        <table class="table">
+                        <table className="table table-sm table-hover">
                             <thead>
                                 <tr>
-                                    <th scope="col">Fecha</th>
-                                    <th scope="col">Tipo rutina</th>
-                                    <th scope="col">Objetivo</th>
-                                    <th scope="col">Frecuencia</th>
-                                    <th scope="col">Intensidad</th>
-                                    <th scope="col">Tiempo</th>
-                                    <th scope="col">Densidad</th>
+                                    <th scope="col" className="align-middle">Fecha</th>
+                                    <th scope="col" className="align-middle">Frecuencia</th>
+                                    <th scope="col" className="align-middle">Intensidad</th>
+                                    <th scope="col" className="align-middle">Lapso de descanso</th>
+                                    <th scope="col" className="align-middle">Tipo de rutina</th>
+                                    <th scope="col" className="align-middle">Objetivo</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th scope="row"></th>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
+                                {indexRoutineHist}
                             </tbody>
                         </table>
                     </div>

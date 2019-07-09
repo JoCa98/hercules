@@ -67,7 +67,6 @@ const name = this.state.userName.map((userName, i) => {
         <label className="form-control">Usuario: {userName.fullName}</label>
     )
 })
-
         return (
             <div className="container">
                 <div className="row card mt-4 p-5">

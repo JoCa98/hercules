@@ -28,7 +28,7 @@ function App() {
     <div className="App">
      
       <Header />      
-      <AddMedicalForm/>
+      <HistoricRoutineInfo/>
       <Footer />
     
     </div>
