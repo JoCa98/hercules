@@ -150,7 +150,7 @@ class TableMedicalInfo extends Component {
                 </ul>
                 <div className="tab-content" id="pills-tabContent">
                     <div className="tab-pane fade show active" id="pills-personal-history" role="tabpanel" aria-labelledby="pills-personal-history-tab">
-                        <table className="table table-sm table-hover">
+                        <table className="table table-sm table-hover" id="medicalInfo">
                             <thead>
                                 <tr>
                                     <th scope="col" className="align-middle">Fecha</th>
