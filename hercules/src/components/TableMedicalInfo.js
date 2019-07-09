@@ -151,72 +151,80 @@ class TableMedicalInfo extends Component {
                 </ul>
                 <div className="tab-content" id="pills-tabContent">
                     <div className="tab-pane fade show active" id="pills-personal-history" role="tabpanel" aria-labelledby="pills-personal-history-tab">
-                        <table className="table table-sm table-hover" id="medicalInfo">
-                            <thead>
-                                <tr>
-                                    <th scope="col" className="align-middle">Fecha</th>
-                                    <th scope="col" className="align-middle">Cod Médico</th>
-                                    <th scope="col" className="align-middle">Patológicos</th>
-                                    <th scope="col" className="align-middle">Alergias</th>
-                                    <th scope="col" className="align-middle">Quirúrgicos</th>
-                                    <th scope="col" className="align-middle">Traumáticos</th>
-                                    <th scope="col" className="align-middle">Tabaquismo</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {indexPersonalHist}
-                            </tbody>
-                        </table>
+                        <div className="table-responsive">
+                            <table className="table table-sm table-hover" id="medicalInfo">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" className="align-middle">Fecha</th>
+                                        <th scope="col" className="align-middle">Cod Médico</th>
+                                        <th scope="col" className="align-middle">Patológicos</th>
+                                        <th scope="col" className="align-middle">Alergias</th>
+                                        <th scope="col" className="align-middle">Quirúrgicos</th>
+                                        <th scope="col" className="align-middle">Traumáticos</th>
+                                        <th scope="col" className="align-middle">Tabaquismo</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {indexPersonalHist}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <div className="tab-pane fade" id="pills-physical-exploration-1" role="tabpanel" aria-labelledby="pills-physical-exploration-1-tab">
-                        <table className="table table-sm table-hover">
-                            <thead>
-                                <tr>
-                                    <th scope="col" className="align-middle">Fecha</th>
-                                    <th scope="col" className="align-middle">Talla (cm)</th>
-                                    <th scope="col" className="align-middle">Peso (kg)</th>
-                                    <th scope="col" className="align-middle">IMC (kg/m²)</th>
-                                    <th scope="col" className="align-middle">Presión Arterial<br />(mmHg)</th>
-                                    <th scope="col" className="align-middle">SpO2 (%)</th>
-                                    <th scope="col" className="align-middle">Frecuencia Cardíaca</th>
-                                    <th scope="col" className="align-middle">Frec. Cardíaca<br />por minuto<br />(ppm)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {indexExploration1}
-                            </tbody>
-                        </table>
+                        <div className="table-responsive">
+                            <table className="table table-sm table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" className="align-middle">Fecha</th>
+                                        <th scope="col" className="align-middle">Talla (cm)</th>
+                                        <th scope="col" className="align-middle">Peso (kg)</th>
+                                        <th scope="col" className="align-middle">IMC (kg/m²)</th>
+                                        <th scope="col" className="align-middle">Presión Arterial<br />(mmHg)</th>
+                                        <th scope="col" className="align-middle">SpO2 (%)</th>
+                                        <th scope="col" className="align-middle">Frecuencia Cardíaca</th>
+                                        <th scope="col" className="align-middle">Frec. Cardíaca<br />por minuto<br />(ppm)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {indexExploration1}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <div className="tab-pane fade" id="pills-physical-exploration-2" role="tabpanel" aria-labelledby="pills-physical-exploration-2-tab">
-                        <table className="table table-sm table-hover">
-                            <thead>
-                                <tr>
-                                    <th scope="col" className="align-middle">Fecha</th>
-                                    <th scope="col" className="align-middle">Neurológico</th>
-                                    <th scope="col" className="align-middle">Cardiopulmonar</th>
-                                    <th scope="col" className="align-middle">Abdomen (cm)</th>
-                                    <th scope="col" className="align-middle">Cintura (cm)</th>
-                                    <th scope="col" className="align-middle">Cadera</th>
-                                    <th scope="col" className="align-middle">Riesgo Cardiovascular</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {indexExploration2}
-                            </tbody>
-                        </table>
+                        <div className="table-responsive">
+                            <table className="table table-sm table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" className="align-middle">Fecha</th>
+                                        <th scope="col" className="align-middle">Neurológico</th>
+                                        <th scope="col" className="align-middle">Cardiopulmonar</th>
+                                        <th scope="col" className="align-middle">Abdomen (cm)</th>
+                                        <th scope="col" className="align-middle">Cintura (cm)</th>
+                                        <th scope="col" className="align-middle">Cadera</th>
+                                        <th scope="col" className="align-middle">Riesgo Cardiovascular</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {indexExploration2}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <div className="tab-pane fade" id="pills-recommendations" role="tabpanel" aria-labelledby="pills-recommendations-tab">
-                        <table className="table table-sm table-hover">
-                            <thead>
-                                <tr>
-                                    <th scope="col" className="align-middle">Fecha</th>
-                                    <th scope="col" className="align-middle">Recomendaciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {indexRecomendations}
-                            </tbody>
-                        </table>
+                        <div className="table-responsive">
+                            <table className="table table-sm table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" className="align-middle">Fecha</th>
+                                        <th scope="col" className="align-middle">Recomendaciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {indexRecomendations}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div >
             </div >
