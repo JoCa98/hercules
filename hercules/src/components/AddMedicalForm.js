@@ -11,6 +11,7 @@
  * The first version of AddMedicalForm was written by Ester Molina.
  */
 import React, { Component } from 'react';
+import axios from 'axios';
 
 
 /*global IMC*/
@@ -80,6 +81,7 @@ class AddMedicalForm extends Component {
         * @type {String}
         */
         this.state = {
+            userName: [{}],
             partyID: 1,
             date: new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate(),
             pathologies: "",
@@ -100,7 +102,8 @@ class AddMedicalForm extends Component {
             waist: 0,
             hip: 0,
             cardiovascularRisk: 0,
-            recommendations: ""
+            recommendations: "",
+            medicalInfo: [{}]
 
         };
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -109,6 +112,39 @@ class AddMedicalForm extends Component {
         this.empty = this.empty.bind(this);
     }
 
+    /**
+    * Method that can get full name of the user and the data if is it an update
+    * when the page is load
+    */
+    componentDidMount(){
+        
+        try {
+            if(sessionStorage.getItem("update")){
+                axios.get("http://localhost:9000/MedicalInfo/getMedicalInfoHist", {
+                    params: {
+                        partyID: this.state.partyID
+                    }
+                }).then(response => {
+                    if (response) {
+                        this.setState({
+                            medicalInfo: response.data[0]
+                        });
+                    }
+                })
+                sessionStorage.setItem("update",false);
+            }
+            
+            axios.get(`http://localhost:9000/User/getUserName`,
+                {
+                    params: { partyID: this.state.partyID }
+                }).then(response => {
+                    const userName = response.data[0];
+                    this.setState({ userName });
+                });
+            } catch (err) {
+                console.error(err);
+            }
+    }
     /**
     * Method that verify that the input text in a input type decimal is a number
     */
@@ -187,6 +223,11 @@ class AddMedicalForm extends Component {
     }
 
     render() {
+        const name = this.state.userName.map((userName, i) => {
+            return (
+                <label className="form-label">Usuario: {userName.fullName}</label>
+            )
+        })
         return (
             <div className="container">
                 <div className="row card mt-4 p-5">
@@ -194,7 +235,7 @@ class AddMedicalForm extends Component {
                         <h1 className="text-left colorBlue">Formulario médico</h1>
                         <div className="row">
                             <div className="col-4 offset-1 text-ceter">
-                                <label className="form-control">Usuario: Jose Carlos Chavez Moran</label>
+                               {name}
                             </div>
                         </div>
                     </div>

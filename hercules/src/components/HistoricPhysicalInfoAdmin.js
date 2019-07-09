@@ -3,7 +3,7 @@ import plusImage from '../appImage/plusImage.svg';
 import TablePhysicalInfo from './TablePhysicalInfo';
 
 
-class AdminHistoricPhysicalInfo extends Component {
+class HistoricPhysicalInfoAdmin extends Component {
 
 
 
@@ -15,9 +15,9 @@ class AdminHistoricPhysicalInfo extends Component {
                         <h1 className="text-left colorBlue">Composición Corporal</h1>
                         <div className="row">
                             <div className="col-4 offset-1 text-ceter">
-                                <label className="form-control">Usuario: Jose Carlos Chavez Moran</label>
+                                <label className="form-label">Usuario: Jose Carlos Chavez Moran</label>
                             </div>
-                            <div className="col-4 offset-1">
+                            <div className="col-4 offset-1 text-center">
                                 <img src={plusImage} onClick={this.redirect} className="buttonSizeGeneral pointer" />
                                 <h4 className="colorBlue pointer" onClick={this.redirect}>Agregar nuevo</h4>
                             </div>
@@ -33,4 +33,4 @@ class AdminHistoricPhysicalInfo extends Component {
 
 }
 
-export default AdminHistoricPhysicalInfo;
+export default HistoricPhysicalInfoAdmin;

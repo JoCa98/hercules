@@ -38,7 +38,10 @@ function App() {
               <Route exact path="/ActCodeForm" component={ActCodeForm} />
               <Route exact path="/RoutineAdmin" component={RoutineAdmin} />
               <Route exact path="/AddRoutine" component={AddRoutine} />
+              <Fragment>
               <Route exact path="/AddMedicalForm" component={AddMedicalForm} />
+              </Fragment>
+            
             </Fragment>
           </Fragment>
           <Footer />

@@ -26,7 +26,6 @@ class TableMedicalInfo extends Component {
         * @type {integer}
         * Property that indicates the user id,
         */
-
         this.state = {
             medicalInfo: [{}],
             partyID: 1
@@ -57,9 +56,12 @@ class TableMedicalInfo extends Component {
 
     rowEvent(event) {
         try {
-            var id = document.getElementById("routineTable").rows[event.target.parentNode.rowIndex].cells[0].innerHTML;
-            sessionStorage.setItem("routineID", id);
-            this.props.history.push(`/RoutineAdmin`);
+            var id = document.getElementById("medicalInfo").rows[event.target.parentNode.rowIndex].cells[0].innerHTML;
+            sessionStorage.setItem("medicalFormID", id);
+            console.log(id);
+            sessionStorage.setItem("update", true);
+            this.props.history.push(`/AddMedicalForm`);
+           console.log("luego de props");
         } catch (err) {
             console.error(err);
         }
@@ -122,7 +124,7 @@ class TableMedicalInfo extends Component {
 
         const indexRecomendations = this.state.medicalInfo.map((medicalInfo, i) => {
             return (
-                <tr className="pointer" key={i}>
+                <tr className="pointer"  key={i}>
                     <td className="diplayNone">{medicalInfo.medicalInfoID}</td>
                     <td>{medicalInfo.date}</td>
                     <td>{medicalInfo.recommendations}</td>
@@ -131,6 +133,7 @@ class TableMedicalInfo extends Component {
         })
 
         return (
+<<<<<<< HEAD
             <div className="container">
                     <div className="col-10 offset-1 mt-4 text-center">
                         <ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">
@@ -218,8 +221,103 @@ class TableMedicalInfo extends Component {
                             </div>
                         </div >
                     </div >
+=======
+            <div>
+            <ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                <li className="nav-item">
+                    <a className="nav-link active aNavbar" id="pills-personal-history-tab" data-toggle="pill" href="#pills-personal-history" role="tab" aria-controls="pills-personal-history" aria-selected="true">Antecedentes<br />personales</a>
+                </li>
+                <li className="nav-item">
+                    <a className="nav-link aNavbar" id="pills-physical-exploration-1-tab" data-toggle="pill" href="#pills-physical-exploration-1" role="tab" aria-controls="pills-physical-exploration-1" aria-selected="false">Exploración<br />Fisica I</a>
+                </li>
+                <li className="nav-item">
+                    <a className="nav-link aNavbar" id="pills-physical-exploration-2-tab" data-toggle="pill" href="#pills-physical-exploration-2" role="tab" aria-controls="pills-physical-exploration-2" aria-selected="false">Exploración<br />Fisica II</a>
+                </li>
+                <li className="nav-item">
+                    <a className="nav-link aNavbar" id="pills-recommendations-tab" data-toggle="pill" href="#pills-recommendations" role="tab" aria-controls="pills-recommendations" aria-selected="false">Recomendaciones<br />médicas</a>
+                </li>
+            </ul>
+            <div className="tab-content" id="pills-tabContent">
+                <div className="tab-pane fade show active" id="pills-personal-history" role="tabpanel" aria-labelledby="pills-personal-history-tab">
+                    <div className="table-responsive">
+                        <table className="table table-sm table-hover" id="medicalInfo">
+                            <thead>
+                                <tr>
+                                    <th scope="col" className="align-middle">Fecha</th>
+                                    <th scope="col" className="align-middle">Cod Médico</th>
+                                    <th scope="col" className="align-middle">Patológicos</th>
+                                    <th scope="col" className="align-middle">Alergias</th>
+                                    <th scope="col" className="align-middle">Quirúrgicos</th>
+                                    <th scope="col" className="align-middle">Traumáticos</th>
+                                    <th scope="col" className="align-middle">Tabaquismo</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {indexPersonalHist}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div className="tab-pane fade" id="pills-physical-exploration-1" role="tabpanel" aria-labelledby="pills-physical-exploration-1-tab">
+                    <div className="table-responsive">
+                        <table className="table table-sm table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col" className="align-middle">Fecha</th>
+                                    <th scope="col" className="align-middle">Talla (cm)</th>
+                                    <th scope="col" className="align-middle">Peso (kg)</th>
+                                    <th scope="col" className="align-middle">IMC (kg/m²)</th>
+                                    <th scope="col" className="align-middle">Presión Arterial<br />(mmHg)</th>
+                                    <th scope="col" className="align-middle">SpO2 (%)</th>
+                                    <th scope="col" className="align-middle">Frecuencia Cardíaca</th>
+                                    <th scope="col" className="align-middle">Frec. Cardíaca<br />por minuto<br />(ppm)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {indexExploration1}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div className="tab-pane fade" id="pills-physical-exploration-2" role="tabpanel" aria-labelledby="pills-physical-exploration-2-tab">
+                    <div className="table-responsive">
+                        <table className="table table-sm table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col" className="align-middle">Fecha</th>
+                                    <th scope="col" className="align-middle">Neurológico</th>
+                                    <th scope="col" className="align-middle">Cardiopulmonar</th>
+                                    <th scope="col" className="align-middle">Abdomen (cm)</th>
+                                    <th scope="col" className="align-middle">Cintura (cm)</th>
+                                    <th scope="col" className="align-middle">Cadera</th>
+                                    <th scope="col" className="align-middle">Riesgo Cardiovascular</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {indexExploration2}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div className="tab-pane fade" id="pills-recommendations" role="tabpanel" aria-labelledby="pills-recommendations-tab">
+                    <div className="table-responsive">
+                        <table className="table table-sm table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col" className="align-middle">Fecha</th>
+                                    <th scope="col" className="align-middle">Recomendaciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {indexRecomendations}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+>>>>>>> 5c062e5723f7303a882e049943023a0d4bfa8cd0
             </div >
-        );
+            </div>
+        )
     }
 }
 
