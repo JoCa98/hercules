@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+import { HashRouter, Route, Switch } from "react-router-dom";
+import { withRouter } from 'react-router';
 import './App.css';
 import ActCodeForm from './components/ActCodeForm';
 import PasswordRecovery from './components/PasswordRecovery';
@@ -22,14 +24,27 @@ import HistoricMedicalInfo from './components/HistoricMedicalInfo';
 import RoutineAdmin from './components/RoutineAdmin';
 import AddPhysicalInfo from './components/AddPhysicalInfo';
 import HistoricMedicalUserInfo from './components/HistoricMedicalUserInfo';
-
 function App() {
   return (
-    <div className="App">
-      <Header />      
-      <HistoricPhysicalUserInfo />
-      <Footer />
-    </div>
+    <HashRouter>
+      <Switch>
+        <Fragment >
+          <Header />
+          <Route exact path="/" component={HistoricRoutineInfo} />
+          <Fragment>
+          <Route exact path="/UserConfiguration" component={UserConfiguration} />
+            <Route exact path="/SignUp" component={SignUp} />
+            <Fragment>
+              <Route exact path="/ActCodeForm" component={ActCodeForm} />
+              <Route exact path="/RoutineAdmin" component={RoutineAdmin} />
+
+            </Fragment>
+          </Fragment>
+          <Footer />
+        </Fragment>
+      </Switch>
+    </HashRouter>
+
   );
 }
 

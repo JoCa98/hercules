@@ -1,15 +1,84 @@
+/**
+ * @fileoverview  AddMedicalForm page, Medical Form that allows to the doctor 
+ * input a new medical form for a user 
+ * 
+ * @version 1.0
+ *
+ * @author    María Ester Molina Richmond <maria.molina@ucrso.info>
+ * History
+ * v1.0 – Initial Release
+ * ----
+ * The first version of AddMedicalForm was written by Ester Molina.
+ */
 import React, { Component } from 'react';
-import { write } from 'fs';
+
 
 /*global IMC*/
-//const state = {
-
-
-//};
 
 class AddMedicalForm extends Component {
     constructor(props) {
         super(props);
+        /**
+        * partyID:
+        * @type {integer}
+        * 
+        * date:
+        * @type {Date}
+        * 
+        * pathologies:
+        * @type {String}
+        *
+        * allergies:
+        * @type {String}
+        * 
+        * traumas:
+        * @type {integer}
+        * 
+        * smoking:
+        * @type {integer}
+        * 
+        * neurologicalInfo:
+        * @type {String}
+        * 
+        * pulmonaryCardioInfo:
+        * @type {String}
+        * 
+        * bloodPressure:
+        * @type {integer}
+        * 
+        * heartRate:
+        * @type {integer}
+        * 
+        * heartRatePerMinute:
+        * @type {integer}
+        * 
+        * Sp02:
+        * @type {integer}
+        * 
+        * weight:
+        * @type {integer}
+        * 
+        * size:
+        * @type {integer}
+        * 
+        * IMC:
+        * @type {integer}
+        * 
+        * abdomen:
+        * @type {integer}
+        * 
+        * waist:
+        * @type {integer}
+        * 
+        * hip:
+        * @type {integer}
+        * 
+        * cardiovascularRisk
+        * @type {integer}
+        * 
+        * recommendations
+        * @type {String}
+        */
         this.state = {
             partyID: 1,
             date: new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate(),
@@ -35,17 +104,17 @@ class AddMedicalForm extends Component {
 
         };
         this.handleInputChange = this.handleInputChange.bind(this);
+        this.inputNumberValidator = this.inputNumberValidator.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        //  this.calcIMC = this.calcIMC.bind(this);
+        this.empty = this.empty.bind(this);
     }
 
+    /**
+    * Method that verify that the input text in a input type decimal is a number
+    */
     inputNumberValidator(event) {
-        const re = /^[0-9]+\.[0-9][0-9]/;
-        const target = event.target;
-        const value = target.value;
-        const name = target.name;
-    
-        // if value is not blank, then test the regex
+       const re = /^[0-9\b]+$/;
+        const { name, value } = event.target;
     
         if (value === "" || re.test(value)) {
           this.setState({
@@ -53,15 +122,16 @@ class AddMedicalForm extends Component {
           });
         }
         
-        if (this.state.weight !== 0) {
-            if (this.state.size !== 0 && this.state.size !== '') {
+        if (this.state.weight !== 0 && this.state.size !== 0) {
                 this.calcIMC();
-
-            }
         }
       }
 
+    /**
+    * Method that submit all the information in the form
+    */
     handleSubmit = event => {
+        if(!this.empty()){
         fetch("http://localhost:9000/MedicalInfo/addMedicalInfo", {
             method: "post",
             body: JSON.stringify(this.state),
@@ -77,33 +147,45 @@ class AddMedicalForm extends Component {
             })
             .catch(err => console.error(err));
         event.preventDefault();
+        } else{
+            alert("Los campos con * son obligatorios");
+        }
     }
 
+    /**
+    * Method that set the state when an input change
+    */
     handleInputChange(event) {
         const { name, value } = event.target;
         this.setState({
             [name]: value
         });
-
     }
 
+    /**
+    * Method that calculate the imc based in the size and weight
+    */
+    //no está bien
     calcIMC() {
         let size = (this.state.size * this.state.size);
-        let imc = (this.state.weight / size) * 10;
+        let imc = (this.state.weight / size)*100 ;
         let round = imc.toFixed(2);
         this.setState({ IMC: round });
     }
 
-    //  load(){
-    //    let imc = this.state.IMC;
-    //if(imc < 18.5){
-    //  imcResult += "Delgadez";
-    // } else if(imc >= 18.5 && imc < 25){
-    //   imcResult += "Saludable";
-    //} else{
-    //  imcResult += "Sobrepeso";
-    // }
-    //}
+    /**
+    * Method that verify that the require inputs are not empty
+    */
+    empty(){
+        if(this.state.smoking == "" || this.state.traumas == "" || this.state.size == "" || this.state.weight == ""
+        || this.state.heartRate == "" || this.state.heartRatePerMinute == "" || this.state.SpO2 == "" || this.state.abdomen == ""
+        || this.state.waist == "" || this.state.hip == "" || this.state.bloodPressure == "" || this.state.cardiovascularRisk == ""){
+            return true;
+        } else{
+            return false;
+        }
+    }
+
     render() {
         return (
             <div className="container">
@@ -157,7 +239,7 @@ class AddMedicalForm extends Component {
                                                 <div className="row">
                                                     <div className="col-12">
                                                         <div className="control-group">
-                                                            <label className="control-label" htmlFor="surgerie">Cirugías</label>
+                                                            <label className="control-label" htmlFor="surgerie">Quirúrgicos</label>
                                                             <div className="controls">
                                                                 <input type="text" id="surgerie" size="70" name="surgeries" value={this.state.surgeries} onChange={this.handleInputChange} />
                                                             </div>
@@ -190,7 +272,7 @@ class AddMedicalForm extends Component {
                                                     </div>
                                                     <div className="col-12 col-md-6">
                                                         <div className="control-group">
-                                                            <label className="control-label" htmlFor="traumas">Traumas*</label>
+                                                            <label className="control-label" htmlFor="traumas">Traumáticos*</label>
                                                         </div>
                                                         <form name="smoking" onChange={this.handleInputChange} value={this.state.traumas} required>
                                                             <div className="row">
@@ -238,7 +320,7 @@ class AddMedicalForm extends Component {
                                                                 <div className="control-group">
                                                                     <label className="control-label" htmlFor="weight">Peso*</label>
                                                                     <div className="controls">
-                                                                        <input type="decimal" id="weight" name="weight" required value={this.state.weight} onChange={this.handleInputChange} size="10" />
+                                                                        <input type="decimal" id="weight" name="weight" required value={this.state.weight} onChange={this.inputNumberValidator} size="10" />
                                                                     </div>
                                                                 </div>
                                                             </div>
