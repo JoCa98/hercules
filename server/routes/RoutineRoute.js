@@ -28,4 +28,16 @@ router.get("/getExercise", (req, res) => {
 
 });
 
+router.get("/getLastType", (req, res) => {
+  connection.query("SELECT * FROM view_latestexercisetype", function (err, results) {
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+  });
+
+});
+
 module.exports = router;

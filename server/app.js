@@ -29,7 +29,6 @@ app.use('/', indexRouter);
 
 //routes
 app.use('/MedicalInfo', MedicalInfoRoute);
-app.use('/GetExerciseType',GetExerciseType);
 app.use('/AdminRoute', AdminRoute);
 app.use('/RoutineRoute', RoutineRoute);
 app.use('/PhysicalInfo', PhysicalInfoRoute);

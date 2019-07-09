@@ -15,10 +15,15 @@ class RoutineCarouselReadOnly extends Component {
             exercise:[{}],
             typeID: 0,
             id: 1,
-            name: "Tipo de ejercicio"
+            name: "Tipo de ejercicio",
+            lastExerciseType: [{}],
+            lastTypeID: ""
         };
         this.exerciseTypeSelect = this.exerciseTypeSelect.bind(this);
         this.valueID = this.valueID.bind(this);
+        this.rigthArrow = this.rigthArrow.bind(this);
+        this.getExerciseData = this.getExerciseData.bind(this);
+        this.leftArrow = this.leftArrow.bind(this);
     }
 
     componentDidMount() {
@@ -26,23 +31,60 @@ class RoutineCarouselReadOnly extends Component {
             this.state.exerciseType = response.data;
             this.setState({ exerciseType: response.data });
         });
- 
+
+       axios.get(`http://localhost:9000/RoutineRoute/getLastType`).then(response => {
+            this.state.lastTypeID = response.data[0];
+            this.setState({lastTypeID: response.data[0]});
+        })
     }
+
+    rigthArrow(){
+       if(this.state.typeID == this.state.lastTypeID.exerciseTypeID){
+       
+        this.state.typeID = 1;
+        this.setState({typeID: 1}); 
+       } else {
+        const value = this.state.typeID + 1;
+        this.state.typeID = value;
+        this.setState({typeID: value});
+       
+       }
+       this.getExerciseData();
+       console.log(this.state.typeID);
+    }
+
+    leftArrow(){
+        if(this.state.typeID == 1){
+        
+         this.state.typeID = this.state.lastTypeID.exerciseTypeID;
+         this.setState({typeID: this.state.lastTypeID.exerciseTypeID}); 
+        } else {
+            const value = this.state.typeID - 1;
+            this.state.typeID = value;
+            this.setState({typeID: value});
+        }
+        this.getExerciseData();
+        console.log(this.state.typeID);
+     }
 
     exerciseTypeSelect(event){
         this.state.typeID = event.value;
         this.state.name = event.label;
         this.setState({ typeID: event.value, name:event.label });
         console.log(this.state.typeID);
-          axios.get(`http://localhost:9000/RoutineRoute/getExercise`, {
-        params: {
-           routineID: this.state.id,
-           id: this.state.typeID
-           }
-        }).then(response => {
-          this.state.exercise = response.data[0];
-         this.setState({ exercise: response.data[0]});
-        });
+        this.getExerciseData();
+    }
+
+    getExerciseData(){
+        axios.get(`http://localhost:9000/RoutineRoute/getExercise`, {
+            params: {
+               routineID: this.state.id,
+               id: this.state.typeID
+               }
+            }).then(response => {
+              this.state.exercise = response.data[0];
+             this.setState({ exercise: response.data[0]});
+            });
     }
 
     valueID(event) {
@@ -71,7 +113,7 @@ class RoutineCarouselReadOnly extends Component {
                         <img src={leftArrowImage} className="buttonSizeGeneral" />
                     </div>
                     <div className="col-8 col-md-4">
-                        <Select placeholder={this.state.name} onChange={this.exerciseTypeSelect} value={this.state.typeID}
+                        <Select placeholder={this.state.name} id="exerciseSelect" onChange={this.exerciseTypeSelect} value={this.state.typeID}
                          options={this.state.exerciseType.map(function (json) {
                             return {
                                 label: json.description,
@@ -81,7 +123,7 @@ class RoutineCarouselReadOnly extends Component {
                         </Select>
                     </div>
                     <div className="col-2 col-md-4">
-                        <img src={rightArrowImage} className="buttonSizeGeneral" />
+                        <img src={rightArrowImage} className="buttonSizeGeneral" onClick={this.rigthArrow}/>
                     </div>
                 </div>
                 <div className="row mt-4">
