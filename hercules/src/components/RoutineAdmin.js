@@ -82,7 +82,7 @@ class RoutineAdmin extends Component {
                         <form className="RoutineAdminForm">
                             <h2 className="text-left colorBlue mb-4">Rutina actual del usuario</h2>
                             <div className="row">
-                                <div className="col-6 col-md-4">
+                                <div className="col-12 col-md-4">
                                    {name}
                                    <br/>
                                 </div>

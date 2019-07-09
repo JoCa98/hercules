@@ -11,8 +11,8 @@
  * The first version of RoutineCarouselReadOnly was written by Ester Molina.
  */
 import React, { Component } from 'react';
-import leftArrowImage from '../appImage/leftArrow.png';
-import rightArrowImage from '../appImage/rigthArrow.png';
+import leftArrowImage from '../appImage/leftArrow.svg';
+import rightArrowImage from '../appImage/rightArrow.svg';
 import axios from "axios";
 
 class RoutineCarouselReadOnly extends Component {
@@ -158,16 +158,16 @@ class RoutineCarouselReadOnly extends Component {
         return (
             <div className="container card">
                 <div className="row mt-4">
-                    <div className="col-2 col-md-4">
+                    <div className="col-2">
                         <img src={leftArrowImage} className="buttonSizeGeneral" onClick={this.leftArrow} />
                     </div>
-                    <div className="col-8 col-md-4">
+                    <div className="col-8">
                         <select name="exerciseSelect" className="form-control" onChange={this.exerciseTypeSelect} value={this.state.typeID} >
                             {exerciseList}
                         </select>
                     </div>
-                    <div className="col-2 col-md-4">
-                        <img src={rightArrowImage} className="buttonSizeGeneral" onClick={this.rigthArrow} />
+                    <div className="col-2">
+                        <img src={rightArrowImage} className="buttonSizeGeneral" onClick={this.rigthArrow} sizes="10px"/>
                     </div>
                 </div>
                 <div className="row mt-4">
