@@ -80,6 +80,7 @@ class AddMedicalForm extends Component {
         * @type {String}
         */
         this.state = {
+            userName: [{}],
             partyID: 1,
             date: new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate(),
             pathologies: "",
@@ -187,6 +188,11 @@ class AddMedicalForm extends Component {
     }
 
     render() {
+        const name = this.state.userName.map((userName, i) => {
+            return (
+                <label className="form-label">Usuario: {userName.fullName}</label>
+            )
+        })
         return (
             <div className="container">
                 <div className="row card mt-4 p-5">
@@ -194,7 +200,7 @@ class AddMedicalForm extends Component {
                         <h1 className="text-left colorBlue">Formulario médico</h1>
                         <div className="row">
                             <div className="col-4 offset-1 text-ceter">
-                                <label className="form-control">Usuario: Jose Carlos Chavez Moran</label>
+                               {name}
                             </div>
                         </div>
                     </div>
