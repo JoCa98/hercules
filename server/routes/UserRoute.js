@@ -54,6 +54,7 @@ router.post('/sendEmail', function (req, res) {
   });
 
 });
+
 router.get('/getRelationType', (req, res) => {
   connection.query("select * from view_relationship", function (err, results) {
     if (results) {
@@ -135,6 +136,19 @@ router.get('/getDataForLogin', (req, res) => {
 
   });
 
+});
+
+router.get('/getUserName', (req, res) => {
+  connection.query("call proc_getUserName(" +  req.query.partyID +")", function (err, results) {
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+
+  });
+  
 });
 
 module.exports = router;
