@@ -23,7 +23,7 @@ class RoutineCarouselReadOnly extends Component {
     }
 
     componentDidMount() {
-        axios.get(`http://localhost:9000/RoutineType/getExerciseType`).then(response => {
+        axios.get(`http://localhost:9000/RoutineRoute/getExerciseType`).then(response => {
             this.state.exerciseType = response.data;
             this.setState({ exerciseType: response.data });
         });
@@ -35,7 +35,7 @@ class RoutineCarouselReadOnly extends Component {
         this.state.name = event.label;
         this.setState({ typeID: event.value, name:event.label });
         console.log(this.state.typeID);
-          axios.get(`http://localhost:9000/RoutineType/getExercise`, {
+          axios.get(`http://localhost:9000/RoutineRoute/getExercise`, {
         params: {
            routineID: this.state.id,
            id: this.state.typeID

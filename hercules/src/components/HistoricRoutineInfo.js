@@ -4,6 +4,18 @@ import plusImage from '../appImage/plusImage.svg';
 class HistoricRoutineInfo extends Component {
     constructor() {
         super();
+        /**
+        * userName
+        * @type {String}
+        * Property that contains the name of the user
+        * partyID
+        * @type {Integer}
+        * Property that contains the id of the user
+        */
+        this.state = {
+            userName: [{}],
+            partyID: 1
+        }
 
         this.redirect = this.redirect.bind(this);
 
@@ -13,7 +25,34 @@ class HistoricRoutineInfo extends Component {
         window.location = "https://www.google.com/";
     }
 
+    /**
+    * Method that can get full name of the user
+    * when the page is load
+    */
+    componentDidMount() {
+        try {
+            axios.get(`http://localhost:9000/User/getUserName`,
+                {
+                    params: { partyID: this.state.partyID }
+                }).then(response => {
+                    const userName = response.data[0];
+                    this.setState({ userName });
+                });
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+
+
     render() {
+
+        const name = this.state.userName.map((userName, i) => {
+            return (
+                <label className="form-control">Usuario: {userName.fullName}</label>
+            )
+        })
+
         return (
             <div className="container">
                 <div className="row card mt-4 p-5">
@@ -21,7 +60,7 @@ class HistoricRoutineInfo extends Component {
                         <h1 className="text-left colorBlue">Lista de rutinas</h1>
                         <div className="row">
                             <div className="col-4 offset-1 text-ceter">
-                                <label className="form-control">Usuario: Jose Carlos Chavez Moran</label>
+                                {name}
                             </div>
                             <div className="col-4 offset-1">
                                 <img src={plusImage} onClick={this.redirect} className="buttonSizeGeneral pointer" />
