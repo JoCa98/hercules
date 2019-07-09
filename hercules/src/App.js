@@ -24,23 +24,22 @@ import HistoricMedicalInfo from './components/HistoricMedicalInfo';
 import RoutineAdmin from './components/RoutineAdmin';
 import AddPhysicalInfo from './components/AddPhysicalInfo';
 import HistoricMedicalUserInfo from './components/HistoricMedicalUserInfo';
-import Test from './components/Test';
 function App() {
   return (
     <HashRouter>
       <Switch>
         <Fragment >
           <Header />
-          <Route exact path="/" component={Test} />
+          <Route exact path="/" component={LogIn} />
           <Fragment>
+          <Route exact path="/UserConfiguration" component={UserConfiguration} />
             <Route exact path="/SignUp" component={SignUp} />
             <Fragment>
               <Route exact path="/ActCodeForm" component={ActCodeForm} />
-              </Fragment>
             </Fragment>
-
-          <Footer />
           </Fragment>
+          <Footer />
+        </Fragment>
       </Switch>
     </HashRouter>
 
