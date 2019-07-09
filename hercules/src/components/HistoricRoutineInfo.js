@@ -34,6 +34,7 @@ class HistoricRoutineInfo extends Component {
         }
 
         this.redirect = this.redirect.bind(this);
+        this.rowEvent =this.rowEvent.bind(this);
 
     }
 
@@ -67,6 +68,17 @@ class HistoricRoutineInfo extends Component {
         }
     }
 
+    rowEvent(event){
+        try{
+            var id = document.getElementById("routineTable").rows[event.target.parentNode.rowIndex].cells[0].innerHTML;
+            sessionStorage.setItem("routineID", id);
+            this.props.history.push(`/RoutineAdmin`);
+        }catch(err){
+            console.error(err);
+        }
+
+    }
+
     render() {
 
         const name = this.state.userName.map((userName, i) => {
@@ -77,8 +89,8 @@ class HistoricRoutineInfo extends Component {
 
         const indexRoutineHist = this.state.routineHist.map((routineHist, i) => {
             return (
-                <tr className="pointer" key={i}>
-                    <td className="diplayNone">{routineHist.routineID}</td>
+                <tr className="pointer" onClick={this.rowEvent} key={i}>
+                    <td className="diplayNone" >{routineHist.routineID}</td>
                     <td>{routineHist.date}</td>
                     <td>{routineHist.frecuency}</td>
                     <td>{routineHist.intensity}</td>
@@ -105,7 +117,7 @@ class HistoricRoutineInfo extends Component {
                         </div>
                     </div>
                     <div className="col-9 offset-1 mt-4">
-                        <table className="table table-sm table-hover">
+                        <table className="table table-sm table-hover" id="routineTable">
                             <thead>
                                 <tr>
                                     <th scope="col" className="align-middle">Fecha</th>
