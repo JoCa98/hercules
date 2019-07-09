@@ -1,6 +1,6 @@
 /**
- * @fileoverview HomeAdmin page, Home of the administrator user that shows the list 
- *of all users (students and officials), with different search options by carnet, name and ID.
+ * @fileoverview HistoricRoutineInfo page, shows the list 
+ *of all routines of one specific user
  *
  * @version 1.0
  *
@@ -8,7 +8,7 @@
  * History
  * v1.0 – Initial Release
  * ----
- * The first version of HomeAdmin was written by Antony Jimenez G.
+ * The first version of HistoricRoutineInfo was written by Antony Jimenez G.
  */
 
 
@@ -39,7 +39,7 @@ class HistoricRoutineInfo extends Component {
     }
 
     redirect() {
-        window.location = "https://www.google.com/";
+        this.props.history.push(`/AddRoutine`);
     }
 
     /**
