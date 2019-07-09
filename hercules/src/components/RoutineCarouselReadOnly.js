@@ -110,7 +110,7 @@ class RoutineCarouselReadOnly extends Component {
             <div className="container card">
                 <div className="row mt-4">
                     <div className="col-2 col-md-4">
-                        <img src={leftArrowImage} className="buttonSizeGeneral" />
+                        <img src={leftArrowImage} className="buttonSizeGeneral" onClick={this.leftArrow}/>
                     </div>
                     <div className="col-8 col-md-4">
                         <Select placeholder={this.state.name} id="exerciseSelect" onChange={this.exerciseTypeSelect} value={this.state.typeID}
