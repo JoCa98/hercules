@@ -50,4 +50,15 @@ router.get("/getLastType", (req, res) => {
 
 });
 
+router.get("/getRoutineInfo", (req,res) =>{
+  connection.query("CALL proc_seeRoutineInfo(" + req.query.routineID + ")", function(err,results) {
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+  });
+});
+
 module.exports = router;

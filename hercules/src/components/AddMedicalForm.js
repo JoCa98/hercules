@@ -1,3 +1,15 @@
+/**
+ * @fileoverview  AddMedicalForm page, Medical Form that allows to the doctor 
+ * input a new medical form for a user 
+ * 
+ * @version 1.0
+ *
+ * @author    María Ester Molina Richmond <maria.molina@ucrso.info>
+ * History
+ * v1.0 – Initial Release
+ * ----
+ * The first version of AddMedicalForm was written by Ester Molina.
+ */
 import React, { Component } from 'react';
 
 
@@ -6,6 +18,67 @@ import React, { Component } from 'react';
 class AddMedicalForm extends Component {
     constructor(props) {
         super(props);
+        /**
+        * partyID:
+        * @type {integer}
+        * 
+        * date:
+        * @type {Date}
+        * 
+        * pathologies:
+        * @type {String}
+        *
+        * allergies:
+        * @type {String}
+        * 
+        * traumas:
+        * @type {integer}
+        * 
+        * smoking:
+        * @type {integer}
+        * 
+        * neurologicalInfo:
+        * @type {String}
+        * 
+        * pulmonaryCardioInfo:
+        * @type {String}
+        * 
+        * bloodPressure:
+        * @type {integer}
+        * 
+        * heartRate:
+        * @type {integer}
+        * 
+        * heartRatePerMinute:
+        * @type {integer}
+        * 
+        * Sp02:
+        * @type {integer}
+        * 
+        * weight:
+        * @type {integer}
+        * 
+        * size:
+        * @type {integer}
+        * 
+        * IMC:
+        * @type {integer}
+        * 
+        * abdomen:
+        * @type {integer}
+        * 
+        * waist:
+        * @type {integer}
+        * 
+        * hip:
+        * @type {integer}
+        * 
+        * cardiovascularRisk
+        * @type {integer}
+        * 
+        * recommendations
+        * @type {String}
+        */
         this.state = {
             partyID: 1,
             date: new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate(),
@@ -36,6 +109,9 @@ class AddMedicalForm extends Component {
         this.empty = this.empty.bind(this);
     }
 
+    /**
+    * Method that verify that the input text in a input type decimal is a number
+    */
     inputNumberValidator(event) {
        const re = /^[0-9\b]+$/;
         const { name, value } = event.target;
@@ -51,6 +127,9 @@ class AddMedicalForm extends Component {
         }
       }
 
+    /**
+    * Method that submit all the information in the form
+    */
     handleSubmit = event => {
         if(!this.empty()){
         fetch("http://localhost:9000/MedicalInfo/addMedicalInfo", {
@@ -73,6 +152,9 @@ class AddMedicalForm extends Component {
         }
     }
 
+    /**
+    * Method that set the state when an input change
+    */
     handleInputChange(event) {
         const { name, value } = event.target;
         this.setState({
@@ -80,6 +162,9 @@ class AddMedicalForm extends Component {
         });
     }
 
+    /**
+    * Method that calculate the imc based in the size and weight
+    */
     //no está bien
     calcIMC() {
         let size = (this.state.size * this.state.size);
@@ -88,6 +173,9 @@ class AddMedicalForm extends Component {
         this.setState({ IMC: round });
     }
 
+    /**
+    * Method that verify that the require inputs are not empty
+    */
     empty(){
         if(this.state.smoking == "" || this.state.traumas == "" || this.state.size == "" || this.state.weight == ""
         || this.state.heartRate == "" || this.state.heartRatePerMinute == "" || this.state.SpO2 == "" || this.state.abdomen == ""
