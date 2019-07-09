@@ -14,7 +14,6 @@ class TablePhysicalInfo extends Component {
         this.redirect = this.redirect.bind(this);
         this.rowEvent = this.rowEvent.bind(this);
         this.getUserPhysicalInfo = this.getUserPhysicalInfo.bind(this);
-
     }
 
     componentDidMount() {

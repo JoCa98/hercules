@@ -13,6 +13,7 @@
 
 import React, { Component } from 'react';
 import axios from 'axios';
+import { Route , withRouter} from 'react-router-dom';
 
 class TableMedicalInfo extends Component {
     constructor(props) {
@@ -31,6 +32,7 @@ class TableMedicalInfo extends Component {
             partyID: 1
         };
         this.getMedicalInfoHist = this.getMedicalInfoHist.bind(this);
+        this.rowEvent = this.rowEvent.bind(this);
     }
 
     getMedicalInfoHist() {
@@ -65,7 +67,6 @@ class TableMedicalInfo extends Component {
         } catch (err) {
             console.error(err);
         }
-
     }
 
     render() {
@@ -223,4 +224,4 @@ class TableMedicalInfo extends Component {
     }
 }
 
-export default TableMedicalInfo;
+export default withRouter(TableMedicalInfo);
