@@ -20,7 +20,6 @@ class RoutineCarouselReadOnly extends Component {
             lastTypeID: ""
         };
         this.exerciseTypeSelect = this.exerciseTypeSelect.bind(this);
-        this.valueID = this.valueID.bind(this);
         this.rigthArrow = this.rigthArrow.bind(this);
         this.getExerciseData = this.getExerciseData.bind(this);
         this.leftArrow = this.leftArrow.bind(this);
@@ -87,10 +86,6 @@ class RoutineCarouselReadOnly extends Component {
             });
     }
 
-    valueID(event) {
-        this.state.typeID = event.target.value;
-        this.setState({ typeID: event.target.value });
-      }
 
     
 
@@ -106,6 +101,11 @@ class RoutineCarouselReadOnly extends Component {
                 </tr>
             )
         })
+        const exerciseList = this.state.exerciseType.map((exercises, i) => {
+            return (
+                <option value={exercises.exerciseTypeID} key={i}>{exercises.description} </option>
+            )
+        })
         return (
             <div className="container card">
                 <div className="row mt-4">
@@ -113,14 +113,10 @@ class RoutineCarouselReadOnly extends Component {
                         <img src={leftArrowImage} className="buttonSizeGeneral" onClick={this.leftArrow}/>
                     </div>
                     <div className="col-8 col-md-4">
-                        <Select placeholder={this.state.name} id="exerciseSelect" onChange={this.exerciseTypeSelect} value={this.state.typeID}
-                         options={this.state.exerciseType.map(function (json) {
-                            return {
-                                label: json.description,
-                                value: json.exerciseTypeID 
-                            };
-                        })}>
-                        </Select>
+                    <select name="exerciseSelect" className="form-control" onChange={this.handleSelectCanton} value={this.state.typeID} >
+                             {exerciseList}             
+                    </select>
+                        
                     </div>
                     <div className="col-2 col-md-4">
                         <img src={rightArrowImage} className="buttonSizeGeneral" onClick={this.rigthArrow}/>

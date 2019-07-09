@@ -24,26 +24,13 @@ import HistoricMedicalInfo from './components/HistoricMedicalInfo';
 import RoutineAdmin from './components/RoutineAdmin';
 import AddPhysicalInfo from './components/AddPhysicalInfo';
 import HistoricMedicalUserInfo from './components/HistoricMedicalUserInfo';
-<<<<<<< HEAD
-
-
-function App() {
-  return (
-    <div className="App">
-     
-      <Header />      
-      <UserHome/>
-      <Footer />
-    
-    </div>
-=======
 function App() {
   return (
     <HashRouter>
       <Switch>
         <Fragment >
           <Header />
-          <Route exact path="/" component={LogIn} />
+          <Route exact path="/" component={UserHome} />
           <Fragment>
           <Route exact path="/UserConfiguration" component={UserConfiguration} />
             <Route exact path="/SignUp" component={SignUp} />
@@ -56,7 +43,6 @@ function App() {
       </Switch>
     </HashRouter>
 
->>>>>>> 80a0bc322e4a900e64451efd8b84d31620b48f9c
   );
 }
 

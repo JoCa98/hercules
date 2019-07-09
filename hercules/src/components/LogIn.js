@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from "axios";
 class LogIn extends Component {
-    constructor(props) {
+   /*constructor(props) {
         super(props);
         this.state = {
             email: "",
@@ -20,7 +20,7 @@ class LogIn extends Component {
         axios.get(`http://localhost:9000/User/isUserValid`, { params: { email: this.state.email, password: this.state.password } }).then(response => {
             console.log("es: " + JSON.parse(JSON.stringify(response.data[0])));
         this.setState({ isUserValid: JSON.parse(
-            e.data[0]))[0]['isUserValid'] });
+            e.data[0])[0]['isUserValid'] });
             if (this.state.isUserValid == 1) {
                 axios.get(`http://localhost:9000/User/getDataForLogin`, { params: { email: this.state.email, password: this.state.password } }).then(response => {
                     this.setState({ partyID: JSON.parse(JSON.stringify(response.data[0]))[0]['partyID'] ,
@@ -36,6 +36,7 @@ class LogIn extends Component {
     goSignUp() {
         this.props.history.push(`/SignUp`);
     }
+
     handleInputChange(event) {
         const { name, value } = event.target;
         this.setState({
@@ -76,6 +77,8 @@ class LogIn extends Component {
             </div>
         )
     }
+    */
 }
 //export default withRouter(LogIn);
+
 export default LogIn;
