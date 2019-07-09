@@ -32,11 +32,12 @@ function App() {
           <Header />
           <Route exact path="/" component={HistoricRoutineInfo} />
           <Fragment>
-          <Route exact path="/RoutineAdmin" component={RoutineAdmin} />
           <Route exact path="/UserConfiguration" component={UserConfiguration} />
             <Route exact path="/SignUp" component={SignUp} />
             <Fragment>
               <Route exact path="/ActCodeForm" component={ActCodeForm} />
+              <Route exact path="/RoutineAdmin" component={RoutineAdmin} />
+
             </Fragment>
           </Fragment>
           <Footer />

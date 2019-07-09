@@ -173,7 +173,7 @@ class RoutineCarouselReadOnly extends Component {
                 <div className="row mt-4">
                     <div className="col-12">
                         <div className="table-responsive">
-                            <table className="table tabe-sm table-hover">
+                            <table className="table table-sm table-hover">
                                 <thead>
                                     <tr>
                                         <th scope="col">Ejercicio</th>
