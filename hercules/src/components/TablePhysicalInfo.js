@@ -24,8 +24,8 @@ class TablePhysicalInfo extends Component {
     }
 
     /**
-     * Method that brings the list of users using the carnet as a search criterion
-     * and loads them to the userlist
+     * Method that brings the list of pshusical information by id
+     * and loads them to physicalInfo
      */
     getUserPhysicalInfo() {
         

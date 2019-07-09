@@ -76,7 +76,7 @@ const name = this.state.userName.map((userName, i) => {
                             <div className="col-4 offset-1 text-ceter">
                                 {name}
                             </div>
-                            <div className="col-4 offset-1">
+                            <div className="col-4 offset-1 text-center">
                                 <img src={plusImage} onClick={this.redirect} className="buttonSizeGeneral pointer" />
                                 <h4 className="colorBlue pointer" onClick={this.redirect}>Agregar nuevo</h4>
                             </div>
