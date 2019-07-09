@@ -14,12 +14,8 @@
 
 import React, { Component } from 'react';
 import plusImage from '../appImage/plusImage.svg';
-<<<<<<< HEAD
-import axios from "axios"; 
-=======
 import axios from 'axios';
 
->>>>>>> 5ccc6ccd6a82d0459e9316a974d29fa09eb05bdc
 class HistoricRoutineInfo extends Component {
     constructor() {
         super();
