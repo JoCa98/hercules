@@ -39,7 +39,7 @@ class HistoricRoutineInfo extends Component {
     }
 
     redirect() {
-        window.location = "https://www.google.com/";
+        this.props.history.push(`/AddRoutine`);
     }
 
     /**

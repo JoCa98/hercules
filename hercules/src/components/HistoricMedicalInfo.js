@@ -39,13 +39,13 @@ class HistoricMedicalInfo extends Component {
     * when the user click the addButton
     */
     redirect() {
-        window.location = "https://www.google.com/";
+        this.props.history.push(`/AddMedicalForm`);
     }
 
-      /**
-    * Method that can get full name of the user
-    * when the page is load
-    */
+    /**
+  * Method that can get full name of the user
+  * when the page is load
+  */
     componentDidMount() {
         try {
             axios.get(`http://localhost:9000/User/getUserName`,
@@ -62,11 +62,11 @@ class HistoricMedicalInfo extends Component {
 
     render() {
 
-const name = this.state.userName.map((userName, i) => {
-    return(
-        <label className="form-control">Usuario: {userName.fullName}</label>
-    )
-})
+        const name = this.state.userName.map((userName, i) => {
+            return (
+                <label className="form-label">Usuario: {userName.fullName}</label>
+            )
+        })
         return (
             <div className="container">
                 <div className="row card mt-4 p-5">
