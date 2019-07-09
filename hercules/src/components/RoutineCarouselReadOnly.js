@@ -13,7 +13,7 @@ class RoutineCarouselReadOnly extends Component {
         this.state = {
             exerciseType: [{}],
             exercise:[{}],
-            typeID: 0,
+            typeID: 1,
             id: 1,
             name: "Tipo de ejercicio",
             lastExerciseType: [{}],
@@ -35,6 +35,8 @@ class RoutineCarouselReadOnly extends Component {
             this.state.lastTypeID = response.data[0];
             this.setState({lastTypeID: response.data[0]});
         })
+
+        this.getExerciseData();
     }
 
     rigthArrow(){
@@ -43,7 +45,7 @@ class RoutineCarouselReadOnly extends Component {
         this.state.typeID = 1;
         this.setState({typeID: 1}); 
        } else {
-        const value = this.state.typeID + 1;
+        const value = parseInt(this.state.typeID) + 1;
         this.state.typeID = value;
         this.setState({typeID: value});
        
@@ -58,18 +60,17 @@ class RoutineCarouselReadOnly extends Component {
          this.state.typeID = this.state.lastTypeID.exerciseTypeID;
          this.setState({typeID: this.state.lastTypeID.exerciseTypeID}); 
         } else {
-            const value = this.state.typeID - 1;
+            const value = parseInt(this.state.typeID)  - 1;
             this.state.typeID = value;
             this.setState({typeID: value});
         }
         this.getExerciseData();
-        console.log(this.state.typeID);
+     
      }
 
     exerciseTypeSelect(event){
-        this.state.typeID = event.value;
-        this.state.name = event.label;
-        this.setState({ typeID: event.value, name:event.label });
+        this.state.typeID = event.target.value;
+        this.setState({ typeID: event.target.value});
         console.log(this.state.typeID);
         this.getExerciseData();
     }
@@ -113,7 +114,7 @@ class RoutineCarouselReadOnly extends Component {
                         <img src={leftArrowImage} className="buttonSizeGeneral" onClick={this.leftArrow}/>
                     </div>
                     <div className="col-8 col-md-4">
-                    <select name="exerciseSelect" className="form-control" onChange={this.handleSelectCanton} value={this.state.typeID} >
+                    <select name="exerciseSelect" className="form-control" onChange={this.exerciseTypeSelect} value={this.state.typeID} >
                              {exerciseList}             
                     </select>
                         
