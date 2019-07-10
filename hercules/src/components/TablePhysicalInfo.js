@@ -14,7 +14,6 @@ class TablePhysicalInfo extends Component {
         this.redirect = this.redirect.bind(this);
         this.rowEvent = this.rowEvent.bind(this);
         this.getUserPhysicalInfo = this.getUserPhysicalInfo.bind(this);
-
     }
 
     componentDidMount() {
@@ -91,7 +90,6 @@ class TablePhysicalInfo extends Component {
             }
 
         })
-
         return (
             <div className="table-responsive">
                 <table className="table table-sm table-hover table-bordered" id="physicalInfoTable">

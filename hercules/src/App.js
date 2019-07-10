@@ -32,13 +32,19 @@ function App() {
           <Header />
           <Route exact path="/" component={ConsultUser} />
           <Fragment>
-          <Route exact path="/UserConfiguration" component={UserConfiguration} />
+            <Route exact path="/UserConfiguration" component={UserConfiguration} />
             <Route exact path="/SignUp" component={SignUp} />
             <Fragment>
               <Route exact path="/ActCodeForm" component={ActCodeForm} />
               <Route exact path="/RoutineAdmin" component={RoutineAdmin} />
               <Route exact path="/AddRoutine" component={AddRoutine} />
-              <Route exact path="/AddMedicalForm" component={AddMedicalForm} />
+              <Fragment>
+                <Route exact path="/AddMedicalForm" component={AddMedicalForm} />
+                <Route exact path="/HistoricMedicalInfo" component={HistoricMedicalInfo} />
+                <Route exact path="/HistoricPhysicalInfoAdmin" component={HistoricPhysicalInfoAdmin} />
+                <Route exact path="/HistoricRoutineInfo" component={HistoricRoutineInfo} />
+              </Fragment>
+
             </Fragment>
           </Fragment>
           <Footer />

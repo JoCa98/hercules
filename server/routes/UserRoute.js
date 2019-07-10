@@ -8,14 +8,14 @@ router.use(cors());
 //para diferenciar metodos post en las comillas de debe de poner el nombre
 router.post('/addUser', function (req, res) {
 
-  connection.query("CALL proc_addUser(" + req.body.identificationID + ",'" + req.body.firstName + "','" + req.body.secondName + 
-                                            "','" + req.body.lastName + "','" + req.body.secondLastName + "','"+ req.body.carnet + 
-                                            "','" + req.body.career + "','" + req.body.birthDate + "'," + req.body.genderID +
-                                            "," + req.body.userTypeID + ",'" + req.body.email + "','" + req.body.password +
-                                            "','" + req.body.startDate + "'," + req.body.districtID + ",'" + req.body.addressLine +
-                                            "','" + req.body.contactName + "'," + req.body.relationTypeID + ",'" + req.body.emergencyContactPhonenumber +
-                                            "','" + req.body.phoneNumber1 + "','" + req.body.phoneNumber2 +
-                                            "')", function (err,result) {
+  connection.query("CALL proc_addUser(" + req.body.identificationID + ",'" + req.body.firstName + "','" + req.body.secondName +
+    "','" + req.body.lastName + "','" + req.body.secondLastName + "','" + req.body.carnet +
+    "','" + req.body.career + "','" + req.body.birthDate + "'," + req.body.genderID +
+    "," + req.body.userTypeID + ",'" + req.body.email + "','" + req.body.password +
+    "','" + req.body.startDate + "'," + req.body.districtID + ",'" + req.body.addressLine +
+    "','" + req.body.contactName + "'," + req.body.relationTypeID + ",'" + req.body.emergencyContactPhonenumber +
+    "','" + req.body.phoneNumber1 + "','" + req.body.phoneNumber2 +
+    "')", function (err, result) {
       if (err) {
         return res.send(err)
       }
@@ -115,7 +115,7 @@ router.get('/getDistricts', (req, res) => {
 });
 
 router.get('/isUserValid', (req, res) => {
-  connection.query("Select fun_isUserValid('" + req.query.email + "','" + req.query.password +"') AS isUserValid", function (err, results) {
+  connection.query("Select fun_isUserValid('" + req.query.email + "','" + req.query.password + "') AS isUserValid", function (err, results) {
     if (results) {
       res.send(results);
     }
@@ -139,7 +139,7 @@ router.get('/getDataForLogin', (req, res) => {
 });
 
 router.get('/getUserName', (req, res) => {
-  connection.query("call proc_getUserName(" +  req.query.partyID +")", function (err, results) {
+  connection.query("call proc_getUserName(" + req.query.partyID + ")", function (err, results) {
     if (results) {
       res.send(results);
     }
@@ -148,7 +148,21 @@ router.get('/getUserName', (req, res) => {
     }
 
   });
-  
+
+});
+
+
+router.get('/getUserBasicInfo', (req, res) => {
+  connection.query("call proc_getUserInfo(" + req.query.partyID + ")", function (err, results) {
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+
+  });
+
 });
 
 module.exports = router;
