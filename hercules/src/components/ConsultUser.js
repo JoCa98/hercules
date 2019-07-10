@@ -30,10 +30,12 @@ class ConsultUser extends Component {
             partyID: 1
         };
         this.getUserBasicInfo = this.getUserBasicInfo.bind(this);
-
+        this.redirectMedical = this.redirectMedical.bind(this);
+        this.redirectPhysical = this.redirectPhysical.bind(this);
+        this.redirectRoutines = this.redirectRoutines.bind(this);
     }
 
-       /**
+    /**
     * Method that can get the basic information a specific user 
     * when the page is load
     */
@@ -51,8 +53,32 @@ class ConsultUser extends Component {
         }
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.getUserBasicInfo();
+    }
+
+    /**
+   * Method that can redirect to the page of HistoricMedicalInfo
+   * when the user click the addButton
+   */
+    redirectMedical() {
+        this.props.history.push(`/HistoricMedicalInfo`);
+    }
+
+    /**
+    * Method that can redirect to the page of TablePhysical
+    * when the user click the addButton
+     */
+    redirectPhysical() {
+        this.props.history.push(`/HistoricPhysicalInfoAdmin`);
+    }
+
+    /**
+     * Method that can redirect to the page of AddMedicalForm
+     * when the user click the addButton
+     */
+    redirectRoutines() {
+        this.props.history.push(`/HistoricRoutineInfo`);
     }
 
     render() {
@@ -69,7 +95,7 @@ class ConsultUser extends Component {
                                     <div className="col-12">
                                         <div class="form-group" align="left">
                                             <label>Nombre completo:&nbsp;&nbsp;</label>
-                                             <label id="fullName">{this.state.userInfo[0].fullName}</label>
+                                            <label id="fullName">{this.state.userInfo[0].fullName}</label>
                                         </div>
                                         <div class="form-group" align="left">
                                             <label>Número de cédula:&nbsp;&nbsp;</label>
@@ -108,7 +134,7 @@ class ConsultUser extends Component {
                                             <label id="signUpDate">{this.state.userInfo[0].startDate}</label>
                                         </div>
                                     </div>
-                                  
+
                                 </div>
                                 <div className="row">
                                     <div className="col-12">
@@ -138,13 +164,13 @@ class ConsultUser extends Component {
                                 <h1 className="text-center">Otros datos</h1>
                                 <div class="form-group" align="left">
                                     <br></br>
-                                    <button className="circularButton w-100" name="medicalInfo">Valoración médica</button>
+                                    <button className="circularButton w-100" name="medicalInfo" onClick={this.redirectMedical}>Valoración médica</button>
                                     <br></br>
                                     <br></br>
-                                    <button className="circularButton w-100" name="physicalInfo">Composición Corporal</button>
+                                    <button className="circularButton w-100" name="physicalInfo" onClick={this.redirectPhysical}>Composición Corporal</button>
                                     <br></br>
                                     <br></br>
-                                    <button className="circularButton w-100" name="Routine">Rutina</button>
+                                    <button className="circularButton w-100" name="Routine" onClick={this.redirectRoutines}>Rutina</button>
                                 </div>
                             </div>
                         </div>
