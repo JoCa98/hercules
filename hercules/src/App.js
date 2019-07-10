@@ -40,7 +40,7 @@ function App() {
               <Route exact path="/AddRoutine" component={AddRoutine} />
               <Fragment>
               <Route exact path="/AddMedicalForm" component={AddMedicalForm} />
-              <Route exact path="/TableMedicalInfo" component={AddMedicalForm} />
+
               </Fragment>
             
             </Fragment>

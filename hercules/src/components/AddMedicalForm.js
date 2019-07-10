@@ -16,6 +16,7 @@ import axios from 'axios';
 
 /*global IMC*/
 
+
 class AddMedicalForm extends Component {
     constructor(props) {
         super(props);
@@ -103,13 +104,15 @@ class AddMedicalForm extends Component {
             hip: 0,
             cardiovascularRisk: 0,
             recommendations: "",
-            medicalInfo: [{}]
+            medicalInfo: [{}],
+            medicalID: 0
 
         };
         this.handleInputChange = this.handleInputChange.bind(this);
         this.inputNumberValidator = this.inputNumberValidator.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.empty = this.empty.bind(this);
+        this.loadData = this.loadData.bind(this);
     }
 
     /**
@@ -117,23 +120,7 @@ class AddMedicalForm extends Component {
     * when the page is load
     */
     componentDidMount(){
-        
         try {
-            if(sessionStorage.getItem("update")){
-                axios.get("http://localhost:9000/MedicalInfo/getMedicalInfoHist", {
-                    params: {
-                        partyID: this.state.partyID
-                    }
-                }).then(response => {
-                    if (response) {
-                        this.setState({
-                            medicalInfo: response.data[0]
-                        });
-                    }
-                })
-                sessionStorage.setItem("update",false);
-            }
-            
             axios.get(`http://localhost:9000/User/getUserName`,
                 {
                     params: { partyID: this.state.partyID }
@@ -141,10 +128,68 @@ class AddMedicalForm extends Component {
                     const userName = response.data[0];
                     this.setState({ userName });
                 });
+
+                if(sessionStorage.getItem("update") === "true"){
+                    this.setState({medicalID:sessionStorage.getItem("medicalFormID")});
+                    axios.get("http://localhost:9000/MedicalInfo/getMedicalInfoHist", {
+                        params: {
+                            partyID: this.state.partyID
+                        }
+                    }).then(response => {
+                        if (response) {
+                            this.setState({medicalInfo: response.data[0]});
+                            this.loadData();
+                        }
+                    })
+                }
             } catch (err) {
                 console.error(err);
             }
     }
+
+    loadData(){
+        var smoke = this.state.medicalInfo[0].smoking;
+        var trauma = this.state.medicalInfo[0].traumas;
+        if(smoke == "Si"){
+        this.setState({smoking:1});
+        document.getElementById("smokingNo").checked = false;
+        document.getElementById("smokingYes").checked = true;
+        }else{
+        this.setState({smoking:0});
+        document.getElementById("smokingYes").checked = false;
+        document.getElementById("smokingNo").checked = true;
+        }
+        if(trauma === "Si"){
+        this.setState({traumas:1});
+        document.getElementById("traumasYes").checked = true;
+        document.getElementById("traumasNo").checked = false;
+        }else{
+        this.setState({traumas:0});
+        document.getElementById("traumasYes").checked = false;
+        document.getElementById("traumasNo").checked = true;
+        }
+        this.setState({pathologies: this.state.medicalInfo[0].pathologies});
+        this.setState({surgeries: this.state.medicalInfo[0].surgeries});
+        this.setState({allergies: this.state.medicalInfo[0].allergies});
+        this.setState({neurologicalInfo: this.state.medicalInfo[0].neurologicalInfo});
+        this.setState({pulmonaryCardioInfo: this.state.medicalInfo[0].pulmonaryCardioInfo});
+        this.setState({bloodPressure: this.state.medicalInfo[0].bloodPressure});
+        this.setState({heartRate: this.state.medicalInfo[0].heartRate});
+        this.setState({heartRatePerMinute: this.state.medicalInfo[0].heartRatePerMinute});
+        this.setState({SpO2: this.state.medicalInfo[0].SpO2});
+        this.setState({weight: this.state.medicalInfo[0].weight});
+        this.setState({size: this.state.medicalInfo[0].size});
+        this.setState({IMC: this.state.medicalInfo[0].IMC});
+        this.setState({abdomen: this.state.medicalInfo[0].abdomen});
+        this.setState({waist: this.state.medicalInfo[0].waist});
+        this.setState({hip: this.state.medicalInfo[0].hip});
+        this.setState({cardiovascularRisk: this.state.medicalInfo[0].cardiovascularRisk});
+        this.setState({recommendations: this.state.medicalInfo[0].recommendations});
+        
+    }
+
+
+
     /**
     * Method that verify that the input text in a input type decimal is a number
     */
@@ -167,6 +212,28 @@ class AddMedicalForm extends Component {
     * Method that submit all the information in the form
     */
     handleSubmit = event => {
+        if(sessionStorage.getItem("update") === "true"){
+            console.log("estoy dentro");
+            if(!this.empty()){
+                fetch(`http://localhost:9000/MedicalInfo/updateMedicalRegister`, {
+                    method: "post",
+                    body: JSON.stringify(this.state),
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json"
+                    }
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data);
+                    })
+                    .catch(err => console.error(err));
+                event.preventDefault();
+                } else{
+                    alert("Los campos con * son obligatorios");
+                }
+            sessionStorage.setItem("update",false);
+        }else {
         if(!this.empty()){
         fetch("http://localhost:9000/MedicalInfo/addMedicalInfo", {
             method: "post",
@@ -186,6 +253,7 @@ class AddMedicalForm extends Component {
         } else{
             alert("Los campos con * son obligatorios");
         }
+    }
     }
 
     /**
@@ -297,14 +365,14 @@ class AddMedicalForm extends Component {
                                                                 <div className="col-2">
                                                                     <div className="controls">
                                                                         <label>SI
-                                                                 <input type="radio" name="smoking" id="smoking" value="1" />
+                                                                 <input type="radio" name="smoking" id="smokingYes" value="1"/>
                                                                         </label>
                                                                     </div>
                                                                 </div>
                                                                 <div className="col-2">
                                                                     <div className="controls">
                                                                         <label>NO
-                                                                 <input type="radio" name="smoking" id="smoking" value="0" checked />
+                                                                 <input type="radio" name="smoking" id="smokingNo" value="0" />
                                                                         </label>
                                                                     </div>
                                                                 </div>
@@ -320,14 +388,14 @@ class AddMedicalForm extends Component {
                                                                 <div className="col-2">
                                                                     <div className="controls">
                                                                         <label> SI
-                                                        <input type="radio" name="traumas" id="traumas" value="1" />
+                                                        <input type="radio" name="traumas" id="traumasYes" value="1" />
                                                                         </label>
                                                                     </div>
                                                                 </div>
                                                                 <div className="col-2">
                                                                     <div className="controls">
                                                                         <label> NO
-                                                        <input type="radio" name="traumas" id="traumas" value="0" checked />
+                                                        <input type="radio" name="traumas" id="traumasNo" value="0" />
                                                                         </label>
                                                                     </div>
                                                                 </div>

@@ -60,10 +60,9 @@ class TableMedicalInfo extends Component {
         try {
             var id = document.getElementById("medicalInfo").rows[event.target.parentNode.rowIndex].cells[0].innerHTML;
             sessionStorage.setItem("medicalFormID", id);
-            console.log(id);
             sessionStorage.setItem("update", true);
             this.props.history.push(`/AddMedicalForm`);
-            console.log("luego de props");
+
         } catch (err) {
             console.error(err);
         }
@@ -78,6 +77,7 @@ class TableMedicalInfo extends Component {
         */
 
         const indexPersonalHist = this.state.medicalInfo.map((medicalInfo, i) => {
+            if (i == 0 && sessionStorage.getItem('userTypeID') == 4) {
             return (
                 <tr className="pointer" onClick={this.rowEvent} key={i}>
                     <td className="diplayNone">{medicalInfo.medicalInfoID}</td>
@@ -89,12 +89,16 @@ class TableMedicalInfo extends Component {
                     <td>{medicalInfo.traumas}</td>
                     <td>{medicalInfo.smoking}</td>
                 </tr>
-            )
+                )
+
+            } 
+                
         })
+    
 
         const indexExploration1 = this.state.medicalInfo.map((medicalInfo, i) => {
             return (
-                <tr className="pointer" key={i}>
+                <tr className="pointer" onClick={this.rowEvent} key={i}>
                     <td className="diplayNone">{medicalInfo.medicalInfoID}</td>
                     <td>{medicalInfo.date}</td>
                     <td>{medicalInfo.size}</td>
@@ -110,7 +114,7 @@ class TableMedicalInfo extends Component {
 
         const indexExploration2 = this.state.medicalInfo.map((medicalInfo, i) => {
             return (
-                <tr className="pointer" key={i}>
+                <tr className="pointer" onClick={this.rowEvent} key={i}>
                     <td className="diplayNone">{medicalInfo.medicalInfoID}</td>
                     <td>{medicalInfo.date}</td>
                     <td>{medicalInfo.neurologicalInfo}</td>
@@ -125,7 +129,7 @@ class TableMedicalInfo extends Component {
 
         const indexRecomendations = this.state.medicalInfo.map((medicalInfo, i) => {
             return (
-                <tr className="pointer" key={i}>
+                <tr className="pointer" onClick={this.rowEvent} key={i}>
                     <td className="diplayNone">{medicalInfo.medicalInfoID}</td>
                     <td>{medicalInfo.date}</td>
                     <td>{medicalInfo.recommendations}</td>
@@ -172,7 +176,7 @@ class TableMedicalInfo extends Component {
                     </div>
                     <div className="tab-pane fade" id="pills-physical-exploration-1" role="tabpanel" aria-labelledby="pills-physical-exploration-1-tab">
                         <div className="table-responsive">
-                            <table className="table table-sm table-hover">
+                            <table className="table table-sm table-hover" id="medicalInfo">
                                 <thead>
                                     <tr>
                                         <th scope="col" className="align-middle">Fecha</th>
@@ -193,7 +197,7 @@ class TableMedicalInfo extends Component {
                     </div>
                     <div className="tab-pane fade" id="pills-physical-exploration-2" role="tabpanel" aria-labelledby="pills-physical-exploration-2-tab">
                         <div className="table-responsive">
-                            <table className="table table-sm table-hover">
+                            <table className="table table-sm table-hover" id="medicalInfo">
                                 <thead>
                                     <tr>
                                         <th scope="col" className="align-middle">Fecha</th>
@@ -213,7 +217,7 @@ class TableMedicalInfo extends Component {
                     </div>
                     <div className="tab-pane fade" id="pills-recommendations" role="tabpanel" aria-labelledby="pills-recommendations-tab">
                         <div className="table-responsive">
-                            <table className="table table-sm table-hover">
+                            <table className="table table-sm table-hover" id="medicalInfo">
                                 <thead>
                                     <tr>
                                         <th scope="col" className="align-middle">Fecha</th>

@@ -45,15 +45,12 @@ class UserHome extends Component {
                 routineID: this.state.routineID,
             }
         }).then(response => {
-
             if (response) {
                 this.setState({
                     routine: response.data[0]
                 });
             }
-
         })
-
     }
     
     render() {
