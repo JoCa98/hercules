@@ -91,51 +91,8 @@ class ConsultUser extends Component {
                                 <div className="row">
                                     <h1 className="text-left">Datos del usuario</h1>
                                 </div>
-<<<<<<< HEAD
-                                <div className="row mt-4">
-                                    <div className="col-6">
-                                        <div class="form-group" align="left">
-                                            <p>Nombre completo:</p>
-                                        </div>
-                                        <div class="form-group" align="left">
-                                            <p>Número de cédula:</p>
-                                        </div>
-                                        <div class="form-group" align="left">
-                                            <p>Número de carné:</p>
-                                        </div>
-                                        <div class="form-group" align="left">
-                                            <p>Dirección:</p>
-                                        </div>
-                                        <div class="form-group" align="left">
-                                            <p>Otras señas:</p>
-                                        </div>
-                                        <div class="form-group" align="left">
-                                            <p>Correo institucional:</p>
-                                        </div>
-                                        <div class="form-group" align="left">
-                                            <p>Teléfono 1:</p>
-                                        </div>
-                                        <div class="form-group" align="left">
-                                            <p>Teléfono 2:</p>
-                                        </div>
-                                        <div class="form-group" align="left">
-                                            <p>Estado:</p>
-                                        </div>
-                                        <div class="form-group" align="left">
-                                            <p>Fecha de registro:</p>
-                                        </div>
-                                    </div>
-                                    <div className="col-6">
-                                        <div class="form-group" align="left">
-                                            <label id="fullName"></label>
-                                        </div>
-                                        <div class="form-group" align="left">
-                                            <label id="identificationNumer"></label>
-                                        </div>
-=======
                                 <div className="row">
                                     <div className="col-12">
->>>>>>> 24bd9963bd4624cd7e493f9df83201581e7cb4af
                                         <div class="form-group" align="left">
                                             <label>Nombre completo:&nbsp;&nbsp;</label>
                                             <label id="fullName">{this.state.userInfo[0].fullName}</label>
@@ -186,24 +143,8 @@ class ConsultUser extends Component {
                                         </div>
                                     </div>
                                 </div>
-<<<<<<< HEAD
-                                <div className="row mt-4">
-                                    <div className="col-6">
-                                        <div class="form-group" align="left">
-                                            <p>Nombre:</p>
-                                        </div>
-                                        <div class="form-group" align="left">
-                                            <p>Teléfono:</p>
-                                        </div>
-                                        <div class="form-group" align="left">
-                                            <p>Parentesco:</p>
-                                        </div>
-                                    </div>
-                                    <div className="col-6">
-=======
                                 <div className="row">
                                     <div className="col-12">
->>>>>>> 24bd9963bd4624cd7e493f9df83201581e7cb4af
                                         <div class="form-group" align="left">
                                             <label>Nombre:&nbsp;&nbsp;</label>
                                             <label id="contactName">{this.state.userInfo[0].contactName}</label>

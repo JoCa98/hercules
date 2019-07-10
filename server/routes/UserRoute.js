@@ -187,6 +187,17 @@ router.get('/isUserValid', (req, res) => {
   });
 });
 
+router.get('/isEmailValid', (req, res) => {
+  connection.query("Select fun_isEmailValid('" + req.query.email + "') AS isEmailValid", function (err, results) {
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+  });
+});
+
 router.get('/getDataForLogin', (req, res) => {
   connection.query("call proc_getDataForLogin('" + req.query.email + "')", function (err, results) {
     if (results) {
