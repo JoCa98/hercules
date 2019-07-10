@@ -69,10 +69,15 @@ h4{
 .bigInputText {
   height: 120px;
   font-size: 18px;
+  resize:none;
 }
 
 .backgroundBlue{
   background: #41ADE7;
+}
+
+.backgroundGrayHeader{
+  background: #ECECEC;
 }
 
 .backgroundGrayFooter{
@@ -87,6 +92,7 @@ h4{
 .logoFooter{
   height: 102px;
   width: 223px;
+  
 }
 
 

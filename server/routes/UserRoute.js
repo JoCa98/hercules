@@ -13,7 +13,7 @@ router.post('/addUser', function (req, res) {
                                             "','" + req.body.career + "','" + req.body.birthDate + "'," + req.body.genderID +
                                             "," + req.body.userTypeID + ",'" + req.body.email + "','" + req.body.password +
                                             "','" + req.body.startDate + "'," + req.body.districtID + ",'" + req.body.addressLine +
-                                            "','" + req.body.contactName + "'," + req.body.relationTypeID + ",'" + req.body.emergencyContactPhonenumber +
+                                            "','" + req.body.contactName + "'," + req.body.relationTypeID + ",'" + req.body.emergencyContactPhoneNumber +
                                             "','" + req.body.phoneNumber1 + "','" + req.body.phoneNumber2 +
                                             "')", function (err,result) {
       if (err) {
@@ -24,6 +24,57 @@ router.post('/addUser', function (req, res) {
       }
     })
 
+});
+
+router.post('/updateUser', function (req, res) {
+  connection.query("CALL proc_updateUser(" + req.body.partyID + ","+req.body.identificationID + ",'" + req.body.firstName + "','" + req.body.secondName + 
+                                            "','" + req.body.lastName + "','" + req.body.secondLastName + "','"+ req.body.carnet + 
+                                            "','" + req.body.career + "','" + + req.body.phoneNumber1 + "','" + req.body.phoneNumber2 +                                            
+                                            "','" +req.body.districtID + "','" + req.body.addressLine +"')", function (err,result) {
+      if (err) {
+        return res.send(err)
+      }
+      else {
+        return res.send(result)
+      }
+    })
+
+});
+
+router.post('/updatePassword', function (req, res) {
+  connection.query("CALL proc_updatePassword('" + req.body.email + "','"+req.body.password +"')", function (err,result) {
+      if (err) {
+        return res.send(err)
+      }
+      else {
+        return res.send(result)
+      }
+    })
+});
+
+router.post('/updateContact', function (req, res) {
+  connection.query("CALL proc_updateEmergencyContact('" + req.body.contactName + "',"+req.body.relationTypeID 
+                                                 + ","+ req.body.emergencyContactID + ",'"+req.body.emergencyContactPhoneNumber  +
+  
+  "')", function (err,result) {
+      if (err) {
+        return res.send(err)
+      }
+      else {
+        return res.send(result)
+      }
+    })
+});
+
+router.get('/getUserInfo', (req, res) => {
+  connection.query("call proc_getUserInfo(" + req.query.partyID + ")", function (err, results) {
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+  });
 });
 
 router.post('/sendEmail', function (req, res) {

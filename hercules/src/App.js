@@ -26,22 +26,19 @@ import AddPhysicalInfo from './components/AddPhysicalInfo';
 import HistoricMedicalUserInfo from './components/HistoricMedicalUserInfo';
 function App() {
   return (
-    <HashRouter>
       <Switch>
         <Fragment >
           <Header />
           <Route exact path="/" component={LogIn} />
           <Fragment>
-          <Route exact path="/UserConfiguration" component={UserConfiguration} />
+            <Route exact path="/UserConfiguration" component={UserConfiguration} />
             <Route exact path="/SignUp" component={SignUp} />
-            <Fragment>
-              <Route exact path="/ActCodeForm" component={ActCodeForm} />
-            </Fragment>
+            <Route exact path="/ActCodeForm" component={ActCodeForm} />
+            <Route exact path="/NavbarUserHome" component={NavbarUserHome} />
           </Fragment>
           <Footer />
         </Fragment>
       </Switch>
-    </HashRouter>
 
   );
 }

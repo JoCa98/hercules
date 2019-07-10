@@ -77,6 +77,7 @@ class ActCodeForm extends Component {
   }
 
   completeSignUp() {
+    console.log("props: " + JSON.stringify(this.props));
     if (this.state.actCode == this.state.activationCode) {
       fetch("http://localhost:9000/User/addUser", {
         method: "post",

@@ -10,9 +10,10 @@ class UserConfiguration extends Component {
             secondName: "",
             lastName: "",
             secondLastName: "",
-            career:"",
-            carnet:"",
-            userTypeID:"",
+            career: "",
+            carnet: "",
+            birthDate: "",
+            userTypeID: "",
             email: "",
             password: "",
             newPassword: "",
@@ -24,6 +25,7 @@ class UserConfiguration extends Component {
             contactName: "",
             relationTypeID: "",
             emergencyContactPhoneNumber: "",
+            emergencyContactID: "",
             relations: [{}],
             provinces: [{}],
             provinceList: null,
@@ -43,21 +45,36 @@ class UserConfiguration extends Component {
         this.handleInputChange = this.handleInputChange.bind(this);
         this.getCantonsByProvince = this.getCantonsByProvince.bind(this);
         this.getDistrictsByCanton = this.getDistrictsByCanton.bind(this);
+
         this.editInfo = this.editInfo.bind(this);
         this.changeInfo = this.changeInfo.bind(this);
         this.cancelInfo = this.cancelInfo.bind(this);
+
         this.editPassword = this.editPassword.bind(this);
-        this.changePassword = this.cancelPassword.bind(this);
-        this.cancelPassword = this.cancelPassword.bind(this);
-        this.editContact = this.editContact.bind(this);
         this.changePassword = this.changePassword.bind(this);
         this.cancelPassword = this.cancelPassword.bind(this);
+
+        this.editContact = this.editContact.bind(this);
+        this.changeContact = this.changeContact.bind(this);
+        this.cancelContact = this.cancelContact.bind(this);
+
+
         this.loadUserInfo = this.loadUserInfo.bind(this);
-        this.loadContactInfo = this.loadContactInfo.bind(this);
-        this.loadAccountInfo = this.loadAccountInfo.bind(this);
         this.getLocalGeoSupID = this.getLocalGeoSupID.bind(this);
+        this.initButtons = this.initButtons.bind(this);
+        this.updateUser = this.updateUser.bind(this);
+        this.updatePassword = this.updatePassword.bind(this);
+        this.updateContact = this.updateContact.bind(this);
+
+        this.enableInfoFields = this.enableInfoFields.bind(this);
+        this.enablePasswordFields = this.enablePasswordFields.bind(this);
+        this.enableContactFields = this.enableContactFields.bind(this);
+        this.initAllFields = this.initAllFields.bind(this);
+
+
     }
     componentDidMount() {
+
         this.loadUserInfo();
         axios.get(`http://localhost:9000/User/getRelationType`).then(response => {
             this.setState({ relations: response.data });
@@ -67,7 +84,8 @@ class UserConfiguration extends Component {
             this.setState({ provinces: response.data });
         });
 
-        this.loadUserInfo();
+        this.initButtons();
+        this.initAllFields();
 
     }
 
@@ -110,30 +128,123 @@ class UserConfiguration extends Component {
                 this.setState({ provinceID: JSON.parse(JSON.stringify(response.data[0]))[0]['localGeoSupID'] });
                 axios.get(`http://localhost:9000/User/getCantons`, { params: { pID: this.state.provinceID } }).then(response => {
                     this.setState({ cantons: response.data[0] });
-
                 });
                 axios.get(`http://localhost:9000/User/getDistricts`, { params: { cID: this.state.cantonID } }).then(response => {
-            this.setState({ districts: response.data[0] });
-        });
+                    this.setState({ districts: response.data[0] });
+                });
             });
         });
 
     }
     loadUserInfo() {
-        this.state.identificationID = sessionStorage.getItem('identificationID');
-        this.state.firstName = sessionStorage.getItem('firstName');
-        this.state.secondName = sessionStorage.getItem('secondName');
-        this.state.lastName = sessionStorage.getItem('lastName');
-        this.state.secondLastName = sessionStorage.getItem('secondLastName');
-        this.state.userTypeID = sessionStorage.getItem('userTypeID');
-        this.state.carnet = sessionStorage.getItem('carnet');
-        this.state.career = sessionStorage.getItem('career');
-        this.state.phoneNumber1 = sessionStorage.getItem('phoneNumber1');
-        this.state.phoneNumber2 = sessionStorage.getItem('phoneNumber2');
-        this.state.districtID = 400; //sessionStorage.getItem('districtID')
-        this.getLocalGeoSupID(this.state.districtID);
-        this.state.addressLine = sessionStorage.getItem('addressLine');
+        axios.get(`http://localhost:9000/User/getUserInfo`, { params: { partyID: sessionStorage.getItem('partyID') } }).then(response => {
+            console.log("dsd: " + JSON.stringify(response.data[0]));
+            response.data[0].map((response) => {
+                this.setState({
+                    identificationID: response.identificationID,
+                    firstName: response.firstName,
+                    secondName: response.secondName,
+                    lastName: response.lastName,
+                    secondLastName: response.secondLastName,
+                    career: response.career,
+                    carnet: response.carnet,
+                    phoneNumber1: response.phoneNumber1,
+                    phoneNumber2: response.phoneNumber2,
+                    districtID: response.districtID,
+                    addressLine: response.addressLine,
+                    contactName: response.contactName,
+                    emergencyContactPhoneNumber: response.emergencyContactPhoneNumber,
+                    emergencyContactID: response.emergencyContactID,
+                    relationTypeID: response.relationTypeID,
+                    birthDate: response.birthDate
+                })
+                this.getLocalGeoSupID(response.districtID);
+            })
 
+        });
+        this.state.userTypeID = sessionStorage.getItem('userTypeID');
+        this.state.email = sessionStorage.getItem('email');;
+
+    }
+
+    updateUser(){
+        console.log("sec: " + this.state.secondName)
+        if(this.state.secondName.trim.length == 0){
+            this.setState({secondLastName:null})
+        }
+        if(this.state.career.trim.length == 0){
+            this.setState({career:null})
+        }
+        if(this.state.carnet.trim.length == 0){
+            this.setState({carnet:null})
+        }
+        console.log("jason: " + JSON.stringify({ email: this.state.email, activationCode: this.state.activationCode }))
+            fetch("http://localhost:9000/User/updateUser", {
+                method: "post",
+                body: JSON.stringify({ partyID: sessionStorage.getItem('partyID'),
+                                       identificationID: this.state.identificationID,
+                                       firstName: this.state.firstName,
+                                       secondName: this.state.secondName,
+                                       lastName: this.state.lastName,
+                                       secondLastName: this.state.secondLastName,
+                                       carnet: this.state.carnet,
+                                       career: this.state.career,
+                                       phoneNumber1: this.state.phoneNumber1,
+                                       phoneNumber2: this.state.phoneNumber2,
+                                       districtID: this.state.districtID,
+                                       addressLine: this.state.addressLine    
+                                    }),
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                })
+                .catch(err => console.error(err));
+      }
+
+      updatePassword(){
+          //Validacion de contraseña
+        console.log("jason: " + JSON.stringify({ email: this.state.email, activationCode: this.state.activationCode }))
+            fetch("http://localhost:9000/User/updatePassword", {
+                method: "post",
+                body: JSON.stringify({ email: sessionStorage.getItem('email'),
+                                       password: this.state.newPassword,  
+                                    }),
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                })
+                .catch(err => console.error(err));
+      }
+
+      updateContact(){
+        //Validacion 
+          fetch("http://localhost:9000/User/updateContact", {
+              method: "post",
+              body: JSON.stringify({ contactName: this.state.contactName,
+                                     relationTypeID: this.state.relationTypeID, 
+                                     emergencyContactID: this.state.emergencyContactID,  
+                                     emergencyContactPhoneNumber: this.state.emergencyContactPhoneNumber,   
+                                  }),
+              headers: {
+                  Accept: "application/json",
+                  "Content-Type": "application/json"
+              }
+          })
+              .then(res => res.json())
+              .then(data => {
+                  console.log(data);
+              })
+              .catch(err => console.error(err));
     }
 
     loadAccountInfo() {
@@ -170,57 +281,136 @@ class UserConfiguration extends Component {
         });
     }
 
+    initButtons() {
+        document.getElementById('cancelInfo').style.display = 'none';
+        document.getElementById('editInfo').style.display = 'block';
+        document.getElementById('changeInfo').style.display = 'none';
+
+        document.getElementById('cancelPassword').style.display = 'none';
+        document.getElementById('editPassword').style.display = 'block';
+        document.getElementById('changePassword').style.display = 'none';
+
+        document.getElementById('cancelContact').style.display = 'none';
+        document.getElementById('editContact').style.display = 'block';
+        document.getElementById('changeContact').style.display = 'none';
+    }
+    initAllFields(){
+        this.enableInfoFields(false);
+        this.enablePasswordFields(false);
+        this.enableContactFields(false);
+    }
+
+    enableInfoFields(value){
+        var disabled = '';
+        if(value == true){
+            disabled = false;
+        } else {
+            disabled = true;
+        }
+        document.getElementById('firstName').disabled = disabled;
+        document.getElementById('secondName').disabled = disabled;
+        document.getElementById('lastName').disabled = disabled;
+        document.getElementById('secondLastName').disabled = disabled;
+        document.getElementById('phoneNumber1').disabled = disabled;
+        document.getElementById('phoneNumber2').disabled = disabled;
+        if (sessionStorage.getItem('userTypeID') == 1){
+            document.getElementById('carnet').disabled = disabled;
+        document.getElementById('career').disabled = disabled;
+        }        
+        document.getElementById('provinceID').disabled = disabled;
+        document.getElementById('cantonID').disabled = disabled;
+        document.getElementById('districtID').disabled = disabled;
+        document.getElementById('addressLine').disabled = disabled;
+        document.getElementById('identificationID').disabled = disabled;
+    }
+    enablePasswordFields(value){
+        var disabled = '';
+        if(value == true){
+            disabled = false;
+        } else {
+            disabled = true;
+        }
+        document.getElementById('password').disabled = disabled;
+        document.getElementById('newPassword').disabled = disabled;
+        document.getElementById('confirmNewPassword').disabled = disabled;        
+    }
+
+    enableContactFields(value){
+        var disabled = '';
+        if(value == true){
+            disabled = false;
+        } else {
+            disabled = true;
+        }
+        document.getElementById('contactName').disabled = disabled;
+        document.getElementById('relationTypeID').disabled = disabled;
+        document.getElementById('emergencyContactPhoneNumber').disabled = disabled;        
+    }
+
     editInfo() {
-        document.getElementById('editInfo').disabled = true;
-        document.getElementById('cancelInfo').disabled = false;
-        document.getElementById('changeInfo').disabled = false;
+        document.getElementById('editInfo').style.display = 'none';
+        document.getElementById('cancelInfo').style.display = 'block';
+        document.getElementById('changeInfo').style.display = 'block';
+        this.enableInfoFields(true)
     }
     cancelInfo() {
-        document.getElementById('cancelInfo').disabled = true;
-        document.getElementById('editInfo').disabled = false;
-        document.getElementById('changeInfo').disabled = true;
+        document.getElementById('cancelInfo').style.display = 'none';
+        document.getElementById('editInfo').style.display = 'block';
+        document.getElementById('changeInfo').style.display = 'none';
         this.loadUserInfo();
+        this.enableInfoFields(false)
     }
     changeInfo() {
-        document.getElementById('changeInfo').disabled = true;
-        document.getElementById('editInfo').disabled = false;
-        document.getElementById('cancelInfo').disabled = true;
+
+        document.getElementById('changeInfo').style.display = 'none';
+        document.getElementById('editInfo').style.display = 'block';
+        document.getElementById('cancelInfo').style.display = 'none';
+        this.updateUser();
+        this.enableInfoFields(false);
     }
-    //--
+    //////////////////////////
     editPassword() {
-        document.getElementById('editPassword').disabled = true;
-        document.getElementById('cancelPassword').disabled = false;
-        document.getElementById('changePassword').disabled = false;
+        document.getElementById('editPassword').style.display = 'none';
+        document.getElementById('cancelPassword').style.display = 'block';
+        document.getElementById('changePassword').style.display = 'block';
+        this.enablePasswordFields(true);
     }
     cancelPassword() {
-        document.getElementById('cancelPassword').disabled = true;
-        document.getElementById('editPassword').disabled = false;
-        document.getElementById('changePassword').disabled = true;
+        document.getElementById('cancelPassword').style.display = 'none';
+        document.getElementById('editPassword').style.display = 'block';
+        document.getElementById('changePassword').style.display = 'none';
+        this.setState({password:"", newPassword:"", confirmNewPassword:""});
+        this.enablePasswordFields(false);
     }
-
-
     changePassword() {
-        document.getElementById('changePassword').disabled = true;
-        document.getElementById('editPassword').disabled = false;
-        document.getElementById('cancelPassword').disabled = true;
+        document.getElementById('changePassword').style.display = 'none';
+        document.getElementById('editPassword').style.display = 'block';
+        document.getElementById('cancelPassword').style.display = 'none';
+        this.updatePassword();
+        this.setState({password:"", newPassword:"", confirmNewPassword:""})
+        this.enablePasswordFields(false);
     }
     editContact() {
-        document.getElementById('editContact').disabled = true;
-        document.getElementById('cancelContact').disabled = false;
-        document.getElementById('changeContact').disabled = false;
+        document.getElementById('editContact').style.display = 'none';
+        document.getElementById('cancelContact').style.display = 'block';
+        document.getElementById('changeContact').style.display = 'block';
+        this.enableContactFields(true);
     }
     cancelContact() {
-        document.getElementById('cancelContact').disabled = true;
-        document.getElementById('editContact').disabled = false;
-        document.getElementById('changeContact').disabled = true;
+        document.getElementById('cancelContact').style.display = 'none';
+        document.getElementById('editContact').style.display = 'block';
+        document.getElementById('changeContact').style.display = 'none';
+        this.loadUserInfo();
+        this.enableContactFields(false);
     }
     changeContact() {
-        document.getElementById('changeContact').disabled = true;
-        document.getElementById('editContact').disabled = false;
-        document.getElementById('cancelContact').disabled = true;
+        document.getElementById('changeContact').style.display = 'none';
+        document.getElementById('editContact').style.display = 'block';
+        document.getElementById('cancelContact').style.display = 'none';
+        this.updateContact();
+        this.enableContactFields(false);
     }
     render() {
-
         const relationList = this.state.relations.map((relations, i) => {
             return (
                 <option value={relations.relationTypeID} key={i}>{relations.description} </option>
@@ -230,6 +420,7 @@ class UserConfiguration extends Component {
         this.loadCantons();
         this.loadDistricts();
         return (
+
             <div className="container">
                 <div className="row mt-4 card p-5" >
                     <div className="col-12">
@@ -248,29 +439,29 @@ class UserConfiguration extends Component {
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
                                             <p>Primer nombre</p>
-                                            <input type="text" name="firstName" required className="form-control inputText" value={this.state.firstName || ''} onChange={this.handleInputChange}></input>
+                                            <input type="text" id="firstName" name="firstName" required className="form-control inputText" value={this.state.firstName || ''} onChange={this.handleInputChange}></input>
                                         </div>
                                         <div className="form-group" align="left">
                                             <p>Primer Apellido</p>
-                                            <input type="text" name="lastName" required className="form-control inputText" value={this.state.lastName || ''} onChange={this.handleInputChange}></input>
+                                            <input type="text" id="lastName" name="lastName" required className="form-control inputText" value={this.state.lastName || ''} onChange={this.handleInputChange}></input>
                                         </div>
                                         <div className="form-group" align="left">
                                             <p>Teléfono 1</p>
-                                            <input type="text" name="phoneNumber1" required className="form-control inputText" value={this.state.phoneNumber1 || ''} onChange={this.handleInputChange}></input>
+                                            <input type="text" id="phoneNumber1" name="phoneNumber1" required className="form-control inputText" value={this.state.phoneNumber1 || ''} onChange={this.handleInputChange}></input>
                                         </div>
                                     </div>
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
                                             <p>Segundo nombre</p>
-                                            <input type="text" name="secondName" className="form-control inputText" value={this.state.secondName || ''} onChange={this.handleInputChange}></input>
+                                            <input type="text" id="secondName" name="secondName" className="form-control inputText" value={this.state.secondName || ''} onChange={this.handleInputChange}></input>
                                         </div>
                                         <div className="form-group" align="left">
                                             <p>Segundo Apellido</p>
-                                            <input type="text" name="secondLastName" required className="form-control inputText" value={this.state.secondLastName || ''} onChange={this.handleInputChange}></input>
+                                            <input type="text" id="secondLastName" name="secondLastName" required className="form-control inputText" value={this.state.secondLastName || ''} onChange={this.handleInputChange}></input>
                                         </div>
                                         <div className="form-group" align="left">
                                             <p>Teléfono 2</p>
-                                            <input type="text" name="phoneNumber2" className="form-control inputText" value={this.state.phoneNumber2 || ''} onChange={this.handleInputChange}></input>
+                                            <input type="text" id="phoneNumber2" name="phoneNumber2" className="form-control inputText" value={this.state.phoneNumber2 || ''} onChange={this.handleInputChange}></input>
                                         </div>
                                     </div>
                                 </div>
@@ -279,7 +470,27 @@ class UserConfiguration extends Component {
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
                                             <p>Número de cédula</p>
-                                            <input type="text" name="identificationID" required className="form-control InputText" value={this.state.identificationID || ''} onChange={this.handleInputChange}></input>
+                                            <input type="text" id="identificationID" name="identificationID" required className="form-control InputText" value={this.state.identificationID || ''} onChange={this.handleInputChange}></input>
+                                        </div>
+                                    </div>
+                                    <div className="col-12 col-sm-6">
+                                        <div className="form-group" align="left">
+                                            <p>Fecha de nacimiento</p>
+                                            <input type="date" name="birthDate" disabled required className="form-control InputText" value={this.state.birthDate || ''} onChange={this.handleInputChange}></input>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-12 col-sm-6">
+                                        <div className="form-group" align="left">
+                                            <p>Carné</p>
+                                            <input type="text" id="carnet" name="carnet" required className="form-control InputText" value={this.state.carnet || ''} onChange={this.handleInputChange}></input>
+                                        </div>
+                                    </div>
+                                    <div className="col-12 col-sm-6">
+                                        <div className="form-group" align="left">
+                                            <p>Carrera</p>
+                                            <input type="text" id="career" name="career" required className="form-control InputText" value={this.state.career || ''} onChange={this.handleInputChange}></input>
                                         </div>
                                     </div>
                                 </div>
@@ -294,7 +505,7 @@ class UserConfiguration extends Component {
                                     <div className="col-12 col-sm-4">
                                         <div className="form-group" align="left">
                                             <p>Provincia</p>
-                                            <select id="provinceID" name="provinceID" className="form-control" value={this.state.provinceID} onChange={this.handleSelectProvince}>
+                                            <select id="provinceID" id="provinceID" name="provinceID" className="form-control" value={this.state.provinceID} onChange={this.handleSelectProvince}>
                                                 {this.state.provinceList}
                                             </select>
                                         </div>
@@ -302,7 +513,7 @@ class UserConfiguration extends Component {
                                     <div className="col-12 col-sm-4">
                                         <div className="form-group" align="left">
                                             <p>Cantón</p>
-                                            <select name="cantonID" className="form-control" value={this.state.cantonID} onChange={this.handleSelectCanton}>
+                                            <select name="cantonID" id="cantonID" className="form-control" value={this.state.cantonID} onChange={this.handleSelectCanton}>
                                                 {this.state.cantonList}
                                             </select>
 
@@ -311,7 +522,7 @@ class UserConfiguration extends Component {
                                     <div className="col-12 col-sm-4">
                                         <div className="form-group" align="left">
                                             <p>Distrito</p>
-                                            <select name="districtID" className="form-control" value={this.state.districtID} onChange={this.handleInputChange}>
+                                            <select name="districtID" id="districtID" className="form-control" value={this.state.districtID} onChange={this.handleInputChange}>
                                                 {this.state.districtList}
                                             </select>
                                         </div>
@@ -321,26 +532,21 @@ class UserConfiguration extends Component {
                                     <div className="col-12">
                                         <div className="form-group" align="left">
                                             <p align="left">Otras señas</p>
-                                            <input type="text" required name="addressLine" value={this.state.addressLine || ''} onChange={this.handleInputChange} className="w-100 form-control bigInputText"></input>
+                                            <textarea type="text" id="addressLine" required name="addressLine" value={this.state.addressLine || ''} onChange={this.handleInputChange} className="bigInputText w-100 form-control bigInputText"></textarea>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="row">
-                                    <div className="col-4">
+                                    <div className="col-6">
                                         <div className="form-group" align="left">
-                                            <button align="left" id="changeInfo" className="buttonSizeGeneral" onClick={this.changeInfo}>Guardar</button>
-                                            <br></br>
-                                        </div>
-                                    </div>
-                                    <div className="col-4">
-                                        <div className="form-group" align="center">
-                                            <button align="left" id="editInfo" className="buttonSizeGeneral" onClick={this.editInfo}>Cambiar</button>
-                                            <br></br>
-                                        </div>
-                                    </div>
-                                    <div className="col-4">
-                                        <div className="form-group" align="right">
                                             <button align="left" id="cancelInfo" className="buttonSizeGeneral" onClick={this.cancelInfo}>Cancelar</button>
+                                            <br></br>
+                                        </div>
+                                    </div>
+                                    <div className="col-6">
+                                        <div className="form-group" align="right">
+                                            <button align="left" id="editInfo" className="buttonSizeGeneral" onClick={this.editInfo}>Cambiar</button>
+                                            <button align="left" id="changeInfo" className="buttonSizeGeneral" onClick={this.changeInfo}>Guardar</button>
                                             <br></br>
                                         </div>
                                     </div>
@@ -358,45 +564,38 @@ class UserConfiguration extends Component {
                                     <div className="col-6">
                                         <div className="form-group" align="left">
                                             <p>Contraseña actual</p>
-                                            <input type="password" required name="password" value={this.state.password || ''} onChange={this.handleInputChange} className="form-control inputText w-100"></input>
+                                            <input type="password" id="password" required name="password" value={this.state.password || ''} onChange={this.handleInputChange} className="form-control inputText w-100"></input>
                                         </div>
                                     </div>
                                 </div>
-
                                 <div className="row">
                                     <div className="col-12">
                                         <div className="row">
                                             <div className="col-12 col-sm-6">
                                                 <div className="form-group" align="left">
-                                                    <p>Contraseñ nueva</p>
-                                                    <input type="password" required name="newPassword" className="inputText form-control" value={this.state.newPassword || ''} onChange={this.handleInputChange}></input>
+                                                    <p>Contraseña nueva</p>
+                                                    <input type="password" id="newPassword" required name="newPassword" className="inputText form-control" value={this.state.newPassword || ''} onChange={this.handleInputChange}></input>
                                                 </div>
                                             </div>
                                             <div className="col-12 col-sm-6">
                                                 <div className="form-group" align="left">
                                                     <p>Confirmar contraseña nueva</p>
-                                                    <input type="password" required name="confirmNewPassword" className="inputText form-control" value={this.state.confirmNewPassword || ''} onChange={this.handleInputChange}></input>
+                                                    <input type="password" id="confirmNewPassword" required name="confirmNewPassword" className="inputText form-control" value={this.state.confirmNewPassword || ''} onChange={this.handleInputChange}></input>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="row">
-                                    <div className="col-4">
+                                    <div className="col-6">
                                         <div className="form-group" align="left">
-                                            <button align="left" id="changePassword" className="buttonSizeGeneral" onChange={this.changePassword}>Guardar</button>
-                                            <br></br>
+                                            <button align="left" id="cancelPassword" className="buttonSizeGeneral" onClick={this.cancelPassword}>Cancelar</button>                                            <br></br>
                                         </div>
                                     </div>
-                                    <div className="col-4">
-                                        <div className="form-group" align="center">
-                                            <button align="left" id="editPassword" className="buttonSizeGeneral" onChange={this.editPassword}>Cambiar</button>
-                                            <br></br>
-                                        </div>
-                                    </div>
-                                    <div className="col-4">
+                                    <div className="col-6">
                                         <div className="form-group" align="right">
-                                            <button align="left" id="cancelPassword" className="buttonSizeGeneral" onChange={this.cancelPassword}>Cancelar</button>
+                                            <button align="left" id="editPassword" className="buttonSizeGeneral" onClick={this.editPassword}>Cambiar</button>
+                                            <button align="left" id="changePassword" className="buttonSizeGeneral" onClick={this.changePassword}>Guardar</button>
                                             <br></br>
                                         </div>
                                     </div>
@@ -412,7 +611,7 @@ class UserConfiguration extends Component {
                                     <div className="col-6">
                                         <div className="form-group" align="left">
                                             <p>Nombre</p>
-                                            <input type="text" required name="contactName" className="inputText form-control" value={this.state.contactName} onChange={this.handleInputChange}></input>
+                                            <input type="text" required name="contactName" id="contactName" className="inputText form-control" value={this.state.contactName} onChange={this.handleInputChange}></input>
                                         </div>
                                     </div>
                                 </div>
@@ -420,7 +619,7 @@ class UserConfiguration extends Component {
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
                                             <p>Parentesco</p>
-                                            <select name="relationTypeID" className="form-control" onChange={this.handleInputChange}>
+                                            <select name="relationTypeID" id="relationTypeID" className="form-control" value={this.state.relationTypeID} onChange={this.handleInputChange}>
                                                 {relationList}
                                             </select>
                                         </div>
@@ -428,28 +627,24 @@ class UserConfiguration extends Component {
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
                                             <p>Teléfono</p>
-                                            <input type="text" required name="emergencyContactPhoneNumber" className="inputText form-control" value={this.state.emergencyContactPhonenumber} onChange={this.handleInputChange}></input>
+                                            <input type="text" required name="emergencyContactPhoneNumber" id="emergencyContactPhoneNumber" className="inputText form-control" value={this.state.emergencyContactPhoneNumber} onChange={this.handleInputChange}></input>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="row">
-                                    <div className="col-4">
+                                    <div className="col-6">
                                         <div className="form-group" align="left">
-                                            <button align="left" id="changeContact" className="buttonSizeGeneral" onChange={this.changeContact}>Guardar</button>
+                                            <button align="left" id="cancelContact" className="buttonSizeGeneral" onClick={this.cancelContact}>Cancelar</button>
                                             <br></br>
                                         </div>
                                     </div>
-                                    <div className="col-4">
-                                        <div className="form-group" align="center">
-                                            <button align="left" id="editContact" className="buttonSizeGeneral" onChange={this.editContact}>Cambiar</button>
-                                            <br></br>
-                                        </div>
-                                    </div>
-                                    <div className="col-4">
+                                    <div className="col-6">
                                         <div className="form-group" align="right">
-                                            <button align="left" id="cancelConact" className="buttonSizeGeneral" onChange={this.cancelContact}>Cancelar</button>
+                                            <button align="left" id="editContact" className="buttonSizeGeneral" onClick={this.editContact}>Cambiar</button>
+                                            <button align="left" id="changeContact" className="buttonSizeGeneral" onClick={this.changeContact}>Guardar</button>
                                             <br></br>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>

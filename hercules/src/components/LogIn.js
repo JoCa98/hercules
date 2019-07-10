@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import axios from "axios";
+
+import NavbarUserHome from './NavbarUserHome';
 class LogIn extends Component {
     constructor(props) {
         super(props);
@@ -18,14 +20,16 @@ class LogIn extends Component {
 
     tryLogin() {
         axios.get(`http://localhost:9000/User/isUserValid`, { params: { email: this.state.email, password: this.state.password } }).then(response => {
-            console.log("es: " + JSON.parse(JSON.stringify(response.data[0])));
-        this.setState({ isUserValid: JSON.parse(JSON.stringify(response.data[0]))[0]['isUserValid'] });
-            if (this.state.isUserValid == 1) {
-                axios.get(`http://localhost:9000/User/getDataForLogin`, { params: { email: this.state.email, password: this.state.password } }).then(response => {
-                    this.setState({ partyID: JSON.parse(JSON.stringify(response.data[0]))[0]['partyID'] ,
-                    userTypeID: JSON.parse(JSON.stringify(response.data[0]))[0]['userTypeID']});
-                    if(this.state.userTypeID == 1 ||this.state.userTypeID == 2){
 
+        this.setState({ isUserValid: JSON.parse(JSON.stringify(response.data))[0]['isUserValid'].data[0]});
+            if (this.state.isUserValid == 1) {
+                sessionStorage.setItem('email', this.state.email);
+                    sessionStorage.setItem('password', this.state.password);
+                axios.get(`http://localhost:9000/User/getDataForLogin`, { params: { email: this.state.email, password: this.state.password } }).then(response => {
+                    sessionStorage.setItem('partyID', JSON.parse(JSON.stringify(response.data[0]))[0]['partyID']);
+                    sessionStorage.setItem('userTypeID', JSON.parse(JSON.stringify(response.data[0]))[0]['userTypeID']);
+                    if(this.state.userTypeID == 1 ||this.state.userTypeID == 2){
+                        sessionStorage.setItem('userTypeID',3)
                     }
                 });
             }
@@ -33,6 +37,7 @@ class LogIn extends Component {
     }
 
     goSignUp() {
+        
         this.props.history.push(`/SignUp`);
     }
     handleInputChange(event) {
@@ -42,12 +47,17 @@ class LogIn extends Component {
         });
     }
     render() {
+        console.log("props1: " + JSON.stringify(this.props));
         return (
+            
+            
             <div className="container">
                 <div className="row mt-4 " >
                     <div className="col-3">
                     </div>
                     <div className="col-6 card p-5">
+                        
+                    <NavbarUserHome/>
                         <h1 className="text-center">Ingreso al sistema del gimnasio</h1>
                         <br></br>
                         <div className="row mt-4 " ></div>

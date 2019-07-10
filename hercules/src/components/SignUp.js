@@ -12,7 +12,7 @@ class SignUp extends Component {
             secondLastName: "",
             carnet: "",
             career: "",
-            birthDate: "",
+            birthDate: (new Date().getFullYear() - 17) + "-" +("0"+ (new Date().getMonth() + 1)).slice(-2) + "-" + ("0"+new Date().getDate()).slice(-2),
             genderID: "1",
             userTypeID: "2",
             email: "",
@@ -60,7 +60,6 @@ class SignUp extends Component {
         var initCantonID = 30;
         var initDistrictID = 242;
         axios.get(`http://localhost:9000/User/getRelationType`).then(response => {
-            this.state.relations = response.data;
             this.setState({ relations: response.data });
         });
         axios.get(`http://localhost:9000/User/getProvinces`).then(response => {
@@ -171,6 +170,7 @@ class SignUp extends Component {
 
     goActCodeForm() {
         this.GetCode();
+        console.log("fecha defecto: " + this.state.birthDate);
         sessionStorage.setItem('identificationID', this.state.identificationID);
         sessionStorage.setItem('firstName', this.state.firstName);
         sessionStorage.setItem('secondName', this.state.secondName);
@@ -311,7 +311,7 @@ class SignUp extends Component {
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
                                             <p>Fecha de nacimiento</p>
-                                            <input type="date" name="birthDate" required  onChange={this.handleInputChange} className="form-control InputText"></input>
+                                            <input type="date" name="birthDate" required  onChange={this.handleInputChange} value={this.state.birthDate} className="form-control InputText"></input>
                                         </div>
 
                                     </div>
