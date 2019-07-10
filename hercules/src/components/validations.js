@@ -29,8 +29,10 @@ class validations extends Component {
         
     }
     validateEmailField(value){
-        return new RegExp("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$").test(value);        
+        return new RegExp("^(([\w-]+\.)+[\w-]+|([a-zA-Z]{1}|[\w-]{2,}))@((ucr.ac.cr)|(UCR.AC.CR))$").test(value);   
     }
-    
+    validateAdminEmailField(value){
+        return new RegExp("^(([\w-]+\.)+[\w-]+|([a-zA-Z]{1}|[\w-]{2,}))@(([a-zA-Z]+[\w-]+\.){1,2}[a-zA-Z]{2,4})$").test(value);
+    }
 }
 export default validations;
