@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import bcrypt from 'bcryptjs';
 class Hash extends Component {
     constructor(props) {
         super(props);
@@ -7,7 +8,7 @@ class Hash extends Component {
     }
 
     encode(value) {
-        
+        //return  bcrypt.hashSync(value, crypto.randomByto)
     }
     
     

@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import axios from "axios";
 import validations from './validations';
+import Hash from './Hash';
 class UserConfiguration extends Component {
     constructor(props) {
         super(props);
         this.state = {
             validations: new validations(),
+            Hash: new Hash(),
             identificationID: "",
             firstName: "",
             secondName: "",
@@ -361,6 +363,7 @@ class UserConfiguration extends Component {
     }
 
     editInfo() {
+        // alert(this.state.Hash.encode("hola"))
         document.getElementById('editInfo').style.display = 'none';
         document.getElementById('cancelInfo').style.display = 'block';
         document.getElementById('changeInfo').style.display = 'block';
@@ -381,18 +384,18 @@ class UserConfiguration extends Component {
             || this.state.identificationID.toString().trim().length == 0) {
             alert("Todos los datos del usuarios deben estar llenos");
         } else if (!this.state.validations.validateTextField(this.state.firstName)
-            || (!this.state.secondLastName.trim().length == 0 & !this.state.validations.validateTextField(this.state.secondName))
+            || (!this.state.secondName.trim().length == 0 & !this.state.validations.validateTextField(this.state.secondName))
             || !this.state.validations.validateTextField(this.state.lastName)
             || !this.state.validations.validateTextField(this.state.secondLastName)
         ) {
             alert("Los datos del nombre solo pueden estar compuestos por letras");
-         } else if (!this.state.validations.validatePhoneNumberField(this.state.phoneNumber1
+        } else if (!this.state.validations.validatePhoneNumberField(this.state.phoneNumber1
             || (!this.state.phoneNumber2.trim().length == 0 & !this.state.validations.validatePhoneNumberField(this.state.phoneNumber2))
-            )) {
-                alert("Los números telefónicos deben estar compuestos por 8 dígitos");
-            
+        )) {
+            alert("Los números telefónicos deben estar compuestos por 8 dígitos");
+
         } else if (this.state.carnet != "N/A" & !this.state.validations.validateCarnetField(this.state.carnet)) {
-            alert("El carné debe estar compuesto por una letra inicial y 5 dígitos");
+            alert("El carné debe estar compuesto por 1 letra inicial y 5 dígitos");
         }
         else {
             if (window.confirm("¿Está seguro se actualizar los datos de usuario?") == true) {
@@ -420,6 +423,7 @@ class UserConfiguration extends Component {
         this.enablePasswordFields(false);
     }
     changePassword() {
+        //validad y encriptar
         if (document.getElementById('password').value.length == 0 || document.getElementById('newPassword').value.length == 0
             || document.getElementById('confirmNewPassword').value.length == 0) {
             alert("Todos los campos de contraseña deben estar llenos")
@@ -454,15 +458,20 @@ class UserConfiguration extends Component {
         this.enableContactFields(false);
     }
     changeContact() {
-
-        if (window.confirm("¿Está seguro de actualizar los datos del contacto de emergencia?") == true) {
-
-            document.getElementById('changeContact').style.display = 'none';
-            document.getElementById('editContact').style.display = 'block';
-            document.getElementById('cancelContact').style.display = 'none';
-            this.updateContact();
-            this.enableContactFields(false);
+        if (this.state.emergencyContactPhoneNumber.trim().length == 0 || this.state.contactName.trim().length == 0) {
+            alert("Todos los datos del contacto de emergencia deben estar llenos");
+        } else if (!this.state.validations.validatePhoneNumberField(this.state.emergencyContactPhoneNumber)) {
+            alert("El número teléfonico del contacto de emergencia debe estar compuesto por 8 dígitos");
+        } else {
+            if (window.confirm("¿Está seguro de actualizar los datos del contacto de emergencia?") == true) {
+                document.getElementById('changeContact').style.display = 'none';
+                document.getElementById('editContact').style.display = 'block';
+                document.getElementById('cancelContact').style.display = 'none';
+                this.updateContact();
+                this.enableContactFields(false);
+            }
         }
+
     }
     render() {
         console.log("cargo en render: " + this.state.provinceID)

@@ -25,6 +25,7 @@ import RoutineAdmin from './components/RoutineAdmin';
 import AddPhysicalInfo from './components/AddPhysicalInfo';
 import HistoricMedicalUserInfo from './components/HistoricMedicalUserInfo';
 import validations from './components/validations';
+import Hash from './components/Hash';
 function App() {
   return (
       <Switch>

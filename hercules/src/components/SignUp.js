@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import axios from "axios";
+import validations from './validations';
+import Hash from './Hash';
 
 class SignUp extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            validations: new validations(),
+            Hash: new Hash(),
             identificationID: "",
             firstName: "",
             secondName: "",
@@ -12,11 +16,12 @@ class SignUp extends Component {
             secondLastName: "",
             carnet: "",
             career: "",
-            birthDate: (new Date().getFullYear() - 17) + "-" +("0"+ (new Date().getMonth() + 1)).slice(-2) + "-" + ("0"+new Date().getDate()).slice(-2),
+            birthDate: (new Date().getFullYear() - 17) + "-" + ("0" + (new Date().getMonth() + 1)).slice(-2) + "-" + ("0" + new Date().getDate()).slice(-2),
             genderID: "1",
             userTypeID: "2",
             email: "",
             password: "",
+            confirmPassword: "",
             phoneNumber1: "",
             phoneNumber2: "",
             startDate: new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate(),
@@ -58,7 +63,7 @@ class SignUp extends Component {
         this.selectFemale();
         var initProvinceID = 2;
         var initCantonID = 30;
-        var initDistrictID = 242;
+        //var initDistrictID = 242;
         axios.get(`http://localhost:9000/User/getRelationType`).then(response => {
             this.setState({ relations: response.data });
         });
@@ -119,26 +124,26 @@ class SignUp extends Component {
             document.getElementById('cbWorker').checked = false;
             document.getElementById('divStudent1').style.display = 'block';
             document.getElementById('divStudent2').style.display = 'block';
-            this.state.userTypeID = 1;
+            this.state.userTypeID = 2;
         } else {
             document.getElementById('cbWorker').checked = true;
             document.getElementById('divStudent1').style.display = 'none';
             document.getElementById('divStudent2').style.display = 'none';
-            this.state.userTypeID = 2;
+            this.state.userTypeID = 1;
         }
     }
 
     selectWorker() {
         if (document.getElementById('cbWorker').checked == true) {
-            document.getElementById('cbStudent').checked = false;            
+            document.getElementById('cbStudent').checked = false;
             document.getElementById('divStudent1').style.display = 'none';
             document.getElementById('divStudent2').style.display = 'none';
-            this.state.userTypeID = 2;
+            this.state.userTypeID = 1;
         } else {
-            document.getElementById('cbStudent').checked = true;            
+            document.getElementById('cbStudent').checked = true;
             document.getElementById('divStudent1').style.display = 'block';
             document.getElementById('divStudent2').style.display = 'block';
-            this.state.userTypeID = 1;
+            this.state.userTypeID = 2;
         }
     }
     showStudentFields() {
@@ -169,32 +174,61 @@ class SignUp extends Component {
     }
 
     goActCodeForm() {
-        this.GetCode();
-        console.log("fecha defecto: " + this.state.birthDate);
-        sessionStorage.setItem('identificationID', this.state.identificationID);
-        sessionStorage.setItem('firstName', this.state.firstName);
-        sessionStorage.setItem('secondName', this.state.secondName);
-        sessionStorage.setItem('lastName', this.state.lastName);
-        sessionStorage.setItem('secondLastName', this.state.secondLastName);
-        sessionStorage.setItem('carnet', this.state.carnet);
-        sessionStorage.setItem('career', this.state.career);
-        sessionStorage.setItem('birthDate', this.state.birthDate);
-        sessionStorage.setItem('phoneNumber1', this.state.phoneNumber1);
-        sessionStorage.setItem('phoneNumber2', this.state.phoneNumber2);
-        sessionStorage.setItem('genderID', this.state.genderID);
-        sessionStorage.setItem('userTypeID', this.state.userTypeID);
-        sessionStorage.setItem('email', this.state.email);
-        sessionStorage.setItem('password', this.state.password);
-        sessionStorage.setItem('startDate', this.state.startDate);
-        sessionStorage.setItem('activationCode', this.state.activationCode);
-        sessionStorage.setItem('districtID', this.state.districtID);
-        sessionStorage.setItem('addressLine', this.state.addressLine);
-        sessionStorage.setItem('contactName', this.state.contactName);
-        sessionStorage.setItem('relationTypeID', this.state.relationTypeID);
-        sessionStorage.setItem('emergencyContactPhoneNumber', this.state.emergencyContactPhoneNumber);
-        console.log("Codigo: " + this.state.activationCode);
-        this.sendEmail();
-        this.props.history.push(`/ActCodeForm`);
+        if (this.state.firstName.trim().length == 0 || this.state.lastName.trim().length == 0
+            || this.state.secondLastName.trim().length == 0 || this.state.phoneNumber1.trim().length == 0
+            || this.state.phoneNumber2.toString().trim().length == 0 || this.state.contactName.toString().trim().length == 0
+            || this.state.email.trim().length == 0 || this.state.password.trim().length == 0
+            || this.state.confirmPassword.toString().trim().length == 0 || this.state.addressLine.toString().trim().length == 0
+            || this.state.emergencyContactPhoneNumber.toString().trim().length == 0 || this.state.confirmPassword.toString().trim().length == 0
+        ) {
+            alert("Todos los campos obligatorios  deben estar llenos");
+        } else if (!this.state.validations.validateTextField(this.state.firstName)
+            || !(this.state.secondName.trim().length != 0 & this.state.validations.validateTextField(this.state.secondName))
+            || !this.state.validations.validateTextField(this.state.lastName)
+            || !this.state.validations.validateTextField(this.state.secondLastName)
+            || (this.state.userTypeID == 2 & this.state.carnet.trim().length != 0 & this.state.career.trim().length != 0)
+        ) {
+            alert("validacion: " + (!this.state.secondName.trim().length == 0 & !this.state.validations.validateTextField(this.state.secondName)))
+            alert("Los datos del nombre solo pueden estar compuestos por letras");
+        } else if (this.state.userTypeID == 2) {
+            if (!this.state.validations.validateCarnetField(this.state.carnet)) {
+                alert("El carné debe estar compuesto por 1 letra inicial y 5 dígitos");
+            } else if (!this.state.validations.validateCarnetField(this.state.carnet)) {
+                alert("El carné debe estar compuesto por 1 letra inicial y 5 dígitos");
+            }
+
+        } else if (!this.state.validations.validatePhoneNumberField(this.state.phoneNumber1
+            || (!this.state.phoneNumber2.trim().length == 0
+                & !this.state.validations.validatePhoneNumberField(this.state.phoneNumber2)))) {
+            alert("Los números telefónicos deben estar compuestos por 8 dígitos");
+        } else if (!this.state.validations.validatePhoneNumberField(this.state.phoneNumber1)) {
+            alert("Los números telefónicos deben estar compuestos por 8 dígitos");
+        } else {
+            this.GetCode();
+            sessionStorage.setItem('identificationID', this.state.identificationID);
+            sessionStorage.setItem('firstName', this.state.firstName);
+            sessionStorage.setItem('secondName', this.state.secondName);
+            sessionStorage.setItem('lastName', this.state.lastName);
+            sessionStorage.setItem('secondLastName', this.state.secondLastName);
+            sessionStorage.setItem('carnet', this.state.carnet);
+            sessionStorage.setItem('career', this.state.career);
+            sessionStorage.setItem('birthDate', this.state.birthDate);
+            sessionStorage.setItem('phoneNumber1', this.state.phoneNumber1);
+            sessionStorage.setItem('phoneNumber2', this.state.phoneNumber2);
+            sessionStorage.setItem('genderID', this.state.genderID);
+            sessionStorage.setItem('userTypeID', this.state.userTypeID);
+            sessionStorage.setItem('email', this.state.email);
+            sessionStorage.setItem('password', this.state.password);
+            sessionStorage.setItem('startDate', this.state.startDate);
+            sessionStorage.setItem('activationCode', this.state.activationCode);
+            sessionStorage.setItem('districtID', this.state.districtID);
+            sessionStorage.setItem('addressLine', this.state.addressLine);
+            sessionStorage.setItem('contactName', this.state.contactName);
+            sessionStorage.setItem('relationTypeID', this.state.relationTypeID);
+            sessionStorage.setItem('emergencyContactPhoneNumber', this.state.emergencyContactPhoneNumber);
+            this.sendEmail();
+            this.props.history.push(`/ActCodeForm`);
+        }
     }
 
     sendEmail() {
@@ -269,11 +303,11 @@ class SignUp extends Component {
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
                                             <p>Segundo nombre</p>
-                                            <input type="text"  name="secondName" className="form-control inputText" value={this.state.secondName} onChange={this.handleInputChange}></input>
+                                            <input type="text" name="secondName" className="form-control inputText" value={this.state.secondName} onChange={this.handleInputChange}></input>
                                         </div>
                                         <div className="form-group" align="left">
                                             <p>Segundo Apellido</p>
-                                            <input type="text" name="secondLastName" required  className="form-control inputText" value={this.state.secondLastName} onChange={this.handleInputChange}></input>
+                                            <input type="text" name="secondLastName" required className="form-control inputText" value={this.state.secondLastName} onChange={this.handleInputChange}></input>
                                         </div>
                                         <div className="form-group" align="left">
                                             <p>Teléfono 2</p>
@@ -305,13 +339,13 @@ class SignUp extends Component {
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
                                             <p>Número de cédula</p>
-                                            <input type="text" name="identificationID" required  className="form-control InputText" value={this.state.identificationID} onChange={this.handleInputChange}></input>
+                                            <input type="text" name="identificationID" required className="form-control InputText" value={this.state.identificationID} onChange={this.handleInputChange}></input>
                                         </div>
                                     </div>
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
                                             <p>Fecha de nacimiento</p>
-                                            <input type="date" name="birthDate" required  onChange={this.handleInputChange} value={this.state.birthDate} className="form-control InputText"></input>
+                                            <input type="date" name="birthDate" required onChange={this.handleInputChange} value={this.state.birthDate} className="form-control InputText"></input>
                                         </div>
 
                                     </div>
@@ -368,7 +402,7 @@ class SignUp extends Component {
                                     <div className="col-12">
                                         <div className="form-group" align="left">
                                             <p align="left">Otras señas</p>
-                                            <input type="text"  required  name="addressLine" value={this.state.addressLine} onChange={this.handleInputChange} className="w-100 form-control bigInputText"></input>
+                                            <input type="text" required name="addressLine" value={this.state.addressLine} onChange={this.handleInputChange} className="w-100 form-control bigInputText"></input>
                                         </div>
                                     </div>
                                 </div>
@@ -383,9 +417,13 @@ class SignUp extends Component {
                                 </div>
                                 <div className="row">
                                     <div className="col-12">
-                                        <div className="form-group" align="left">
-                                            <p>Email</p>
-                                            <input type="text" required  name="email" value={this.state.email} onChange={this.handleInputChange} className="form-control inputText w-100"></input>
+                                        <div className="row">
+                                            <div className="col-12 col-sm-6">
+                                                <div className="form-group" align="left">
+                                                    <p>Email</p>
+                                                    <input type="text" required name="email" value={this.state.email} onChange={this.handleInputChange} className="form-control inputText w-100"></input>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -395,13 +433,13 @@ class SignUp extends Component {
                                             <div className="col-12 col-sm-6">
                                                 <div className="form-group" align="left">
                                                     <p>Contraseña</p>
-                                                    <input type="text" required  name="password" className="inputText form-control" value={this.state.password} onChange={this.handleInputChange}></input>
+                                                    <input type="password" required name="password" className="inputText form-control" value={this.state.password} onChange={this.handleInputChange}></input>
                                                 </div>
                                             </div>
                                             <div className="col-12 col-sm-6">
                                                 <div className="form-group" align="left">
                                                     <p>Confirmar contraseña</p>
-                                                    <input type="text" required  name="confirmPassword" className="inputText form-control"></input>
+                                                    <input type="password" required name="confirmPassword" value={this.state.confirmPassword} onChange={this.handleInputChange} className="inputText form-control"></input>
                                                 </div>
                                             </div>
                                         </div>
@@ -418,7 +456,7 @@ class SignUp extends Component {
                                     <div className="col-6">
                                         <div className="form-group" align="left">
                                             <p>Nombre</p>
-                                            <input type="text" required  name="contactName" className="inputText form-control" value={this.state.contactName} onChange={this.handleInputChange}></input>
+                                            <input type="text" required name="contactName" className="inputText form-control" value={this.state.contactName} onChange={this.handleInputChange}></input>
                                         </div>
                                     </div>
                                 </div>
@@ -434,7 +472,7 @@ class SignUp extends Component {
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
                                             <p>Teléfono</p>
-                                            <input type="text" required  name="emergencyContactPhoneNumber" className="inputText form-control" value={this.state.emergencyContactPhonenumber} onChange={this.handleInputChange}></input>
+                                            <input type="text" required name="emergencyContactPhoneNumber" className="inputText form-control" value={this.state.emergencyContactPhonenumber} onChange={this.handleInputChange}></input>
                                         </div>
                                     </div>
                                 </div>

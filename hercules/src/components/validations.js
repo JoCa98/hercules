@@ -6,6 +6,7 @@ class validations extends Component {
         this.validateNumericField = this.validateNumericField.bind(this);
         this.validateCarnetField = this.validateCarnetField.bind(this);
         this.validatePhoneNumberField = this.validatePhoneNumberField.bind(this);
+        this.validateEmailField = this.validateEmailField.bind(this);
 
     }
 
@@ -26,6 +27,9 @@ class validations extends Component {
     validatePhoneNumberField(value){
         return new RegExp("^([0-9]{8})$").test(value);
         
+    }
+    validateEmailField(value){
+        return new RegExp("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$").test(value);        
     }
     
 }
