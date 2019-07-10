@@ -12,7 +12,7 @@ class ConsultUser extends Component {
                                 <div className="row">
                                     <h1 className="text-left">Datos del usuario</h1>
                                 </div>
-                                <div className="row">
+                                <div className="row mt-4">
                                     <div className="col-6">
                                         <div class="form-group" align="left">
                                             <p>Nombre completo:</p>
@@ -90,7 +90,7 @@ class ConsultUser extends Component {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="row">
+                                <div className="row mt-4">
                                     <div className="col-6">
                                         <div class="form-group" align="left">
                                             <p>Nombre:</p>
