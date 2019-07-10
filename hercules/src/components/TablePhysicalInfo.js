@@ -90,7 +90,6 @@ class TablePhysicalInfo extends Component {
             }
 
         })
-
         return (
             <div className="table-responsive">
                 <table className="table table-sm table-hover table-bordered" id="physicalInfoTable">

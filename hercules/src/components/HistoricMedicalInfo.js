@@ -39,6 +39,7 @@ class HistoricMedicalInfo extends Component {
     * when the user click the addButton
     */
     redirect() {
+        sessionStorage.setItem("update", false);
         this.props.history.push(`/AddMedicalForm`);
     }
 

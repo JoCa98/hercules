@@ -80,6 +80,12 @@ class AddMedicalForm extends Component {
         * 
         * recommendations
         * @type {String}
+        * 
+        * medicalInfo
+        * @type {Array}
+        * 
+        * medicalID
+        * @type {integer}
         */
         this.state = {
             userName: [{}],
@@ -147,6 +153,10 @@ class AddMedicalForm extends Component {
             }
     }
 
+    /**
+    * Method that load the data is it an update 
+    * when the page is load
+    */
     loadData(){
         var smoke = this.state.medicalInfo[0].smoking;
         var trauma = this.state.medicalInfo[0].traumas;

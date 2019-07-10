@@ -13,17 +13,17 @@
 
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Route , withRouter} from 'react-router-dom';
+import { Route, withRouter } from 'react-router-dom';
 
 class TableMedicalInfo extends Component {
     constructor(props) {
         super(props);
         /**
-        *userList:
+        *  medicalInfo:
         * @type {Array}
         * Property that stores the list of medical registers that comes from the database
         * 
-        * searchType:
+        * partyID:
         * @type {integer}
         * Property that indicates the user id,
         */
@@ -35,6 +35,9 @@ class TableMedicalInfo extends Component {
         this.rowEvent = this.rowEvent.bind(this);
     }
 
+    /**
+     * Method that performs the search of al the registers of medical information
+     */
     getMedicalInfoHist() {
         try {
             axios.get(`http://localhost:9000/MedicalInfo/getMedicalInfoHist`,
@@ -50,12 +53,16 @@ class TableMedicalInfo extends Component {
     }
 
     /**
- * Method that performs the search of al the registers of medical information
- */
+     * Method that performs the search of al the registers of medical information
+     */
     componentDidMount() {
+        sessionStorage.setItem('userTypeID', 4);
         this.getMedicalInfoHist();
     }
 
+     /**
+     * Method that allow to select a row of the table
+     */
     rowEvent(event) {
         try {
             var id = document.getElementById("medicalInfo").rows[event.target.parentNode.rowIndex].cells[0].innerHTML;
@@ -78,64 +85,109 @@ class TableMedicalInfo extends Component {
 
         const indexPersonalHist = this.state.medicalInfo.map((medicalInfo, i) => {
             if (i == 0 && sessionStorage.getItem('userTypeID') == 4) {
-            return (
-                <tr className="pointer" onClick={this.rowEvent} key={i}>
-                    <td className="diplayNone">{medicalInfo.medicalInfoID}</td>
-                    <td>{medicalInfo.date}</td>
-                    <td>{medicalInfo.medicalCod}</td>
-                    <td>{medicalInfo.pathologies}</td>
-                    <td>{medicalInfo.allergies}</td>
-                    <td>{medicalInfo.surgeries}</td>
-                    <td>{medicalInfo.traumas}</td>
-                    <td>{medicalInfo.smoking}</td>
-                </tr>
+                return (
+                    <tr className="pointer" onClick={this.rowEvent} key={i}>
+                        <td className="diplayNone">{medicalInfo.medicalInfoID}</td>
+                        <td>{medicalInfo.date}</td>
+                        <td>{medicalInfo.medicalCod}</td>
+                        <td>{medicalInfo.pathologies}</td>
+                        <td>{medicalInfo.allergies}</td>
+                        <td>{medicalInfo.surgeries}</td>
+                        <td>{medicalInfo.traumas}</td>
+                        <td>{medicalInfo.smoking}</td>
+                    </tr>
                 )
-
-            } 
-                
+            } else {
+                return (
+                    <tr key={i}>
+                        <td>{medicalInfo.date}</td>
+                        <td>{medicalInfo.medicalCod}</td>
+                        <td>{medicalInfo.pathologies}</td>
+                        <td>{medicalInfo.allergies}</td>
+                        <td>{medicalInfo.surgeries}</td>
+                        <td>{medicalInfo.traumas}</td>
+                        <td>{medicalInfo.smoking}</td>
+                    </tr>
+                )
+            }
         })
-    
-
         const indexExploration1 = this.state.medicalInfo.map((medicalInfo, i) => {
-            return (
-                <tr className="pointer" onClick={this.rowEvent} key={i}>
-                    <td className="diplayNone">{medicalInfo.medicalInfoID}</td>
-                    <td>{medicalInfo.date}</td>
-                    <td>{medicalInfo.size}</td>
-                    <td>{medicalInfo.weight}</td>
-                    <td>{medicalInfo.IMC}</td>
-                    <td>{medicalInfo.bloodPressure}</td>
-                    <td>{medicalInfo.SpO2}</td>
-                    <td>{medicalInfo.heartRate}</td>
-                    <td>{medicalInfo.heartRatePerMinute}</td>
-                </tr>
-            )
+            if (i == 0 && sessionStorage.getItem('userTypeID') == 4) {
+                return (
+                    <tr className="pointer" onClick={this.rowEvent} key={i}>
+                        <td className="diplayNone">{medicalInfo.medicalInfoID}</td>
+                        <td>{medicalInfo.date}</td>
+                        <td>{medicalInfo.size}</td>
+                        <td>{medicalInfo.weight}</td>
+                        <td>{medicalInfo.IMC}</td>
+                        <td>{medicalInfo.bloodPressure}</td>
+                        <td>{medicalInfo.SpO2}</td>
+                        <td>{medicalInfo.heartRate}</td>
+                        <td>{medicalInfo.heartRatePerMinute}</td>
+                    </tr>
+                )
+            } else {
+                return (
+                    <tr key={i}>
+                        <td>{medicalInfo.date}</td>
+                        <td>{medicalInfo.size}</td>
+                        <td>{medicalInfo.weight}</td>
+                        <td>{medicalInfo.IMC}</td>
+                        <td>{medicalInfo.bloodPressure}</td>
+                        <td>{medicalInfo.SpO2}</td>
+                        <td>{medicalInfo.heartRate}</td>
+                        <td>{medicalInfo.heartRatePerMinute}</td>
+                    </tr>
+                )
+            }
         })
 
         const indexExploration2 = this.state.medicalInfo.map((medicalInfo, i) => {
-            return (
-                <tr className="pointer" onClick={this.rowEvent} key={i}>
-                    <td className="diplayNone">{medicalInfo.medicalInfoID}</td>
-                    <td>{medicalInfo.date}</td>
-                    <td>{medicalInfo.neurologicalInfo}</td>
-                    <td>{medicalInfo.pulmonaryCardioInfo}</td>
-                    <td>{medicalInfo.abdomen}</td>
-                    <td>{medicalInfo.waist}</td>
-                    <td>{medicalInfo.hip}</td>
-                    <td>{medicalInfo.cardiovascularRisk}</td>
-                </tr>
-            )
+            if (i == 0 && sessionStorage.getItem('userTypeID') == 4) {
+                return (
+                    <tr className="pointer" onClick={this.rowEvent} key={i}>
+                        <td className="diplayNone">{medicalInfo.medicalInfoID}</td>
+                        <td>{medicalInfo.date}</td>
+                        <td>{medicalInfo.neurologicalInfo}</td>
+                        <td>{medicalInfo.pulmonaryCardioInfo}</td>
+                        <td>{medicalInfo.abdomen}</td>
+                        <td>{medicalInfo.waist}</td>
+                        <td>{medicalInfo.hip}</td>
+                        <td>{medicalInfo.cardiovascularRisk}</td>
+                    </tr>
+                )
+            } else {
+                return (
+                    <tr key={i}>
+                        <td>{medicalInfo.date}</td>
+                        <td>{medicalInfo.neurologicalInfo}</td>
+                        <td>{medicalInfo.pulmonaryCardioInfo}</td>
+                        <td>{medicalInfo.abdomen}</td>
+                        <td>{medicalInfo.waist}</td>
+                        <td>{medicalInfo.hip}</td>
+                        <td>{medicalInfo.cardiovascularRisk}</td>
+                    </tr>
+                )
+            }
         })
 
         const indexRecomendations = this.state.medicalInfo.map((medicalInfo, i) => {
-            return (
-                <tr className="pointer" onClick={this.rowEvent} key={i}>
-                    <td className="diplayNone">{medicalInfo.medicalInfoID}</td>
-                    <td>{medicalInfo.date}</td>
-                    <td>{medicalInfo.recommendations}</td>
-                </tr>
-            )
-        })
+            if (i == 0 && sessionStorage.getItem('userTypeID') == 4) {
+                return (
+                    <tr className="pointer" onClick={this.rowEvent} key={i}>
+                        <td className="diplayNone">{medicalInfo.medicalInfoID}</td>
+                        <td>{medicalInfo.date}</td>
+                        <td>{medicalInfo.recommendations}</td>
+                    </tr>
+                )
+            } else {
+                return (
+                    <tr key={i}>
+                        <td>{medicalInfo.date}</td>
+                        <td>{medicalInfo.recommendations}</td>
+                    </tr>
+                )}
+            })
 
         return (
             <div >
