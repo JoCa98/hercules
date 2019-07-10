@@ -11,6 +11,5 @@ class Hash extends Component {
         //return  bcrypt.hashSync(value, crypto.randomByto)
     }
     
-    
 }
 export default Hash;
