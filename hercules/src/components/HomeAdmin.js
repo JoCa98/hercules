@@ -165,6 +165,7 @@ class HomeAdmin extends Component {
         *this is stored in a constant that is used in the code of the page
         */
         const userListVisual = this.state.userList.map((userList, i) => {
+            
             return (
                 <tr className="pointer" onClick={this.rowEvent} key={i}>
                     <td className="diplayNone">{userList.partyID}</td>

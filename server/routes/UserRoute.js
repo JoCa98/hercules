@@ -166,7 +166,7 @@ router.get('/getDistricts', (req, res) => {
 });
 
 router.get('/isUserValid', (req, res) => {
-  connection.query("Select fun_isUserValid('" + req.query.email + "','" + req.query.password +"') AS isUserValid", function (err, results) {
+  connection.query("Select fun_isUserValid('" + req.query.email + "','" + req.query.password + "') AS isUserValid", function (err, results) {
     if (results) {
       res.send(results);
     }
@@ -190,7 +190,7 @@ router.get('/getDataForLogin', (req, res) => {
 });
 
 router.get('/getUserName', (req, res) => {
-  connection.query("call proc_getUserName(" +  req.query.partyID +")", function (err, results) {
+  connection.query("call proc_getUserName(" + req.query.partyID + ")", function (err, results) {
     if (results) {
       res.send(results);
     }
@@ -199,7 +199,21 @@ router.get('/getUserName', (req, res) => {
     }
 
   });
-  
+
+});
+
+
+router.get('/getUserBasicInfo', (req, res) => {
+  connection.query("call proc_getUserInfo(" + req.query.partyID + ")", function (err, results) {
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+
+  });
+
 });
 
 module.exports = router;

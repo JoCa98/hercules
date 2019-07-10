@@ -1,12 +1,94 @@
+/**
+ * @fileoverview  AddMedicalForm page, Medical Form that allows to the doctor 
+ * input a new medical form for a user 
+ * 
+ * @version 1.0
+ *
+ * @author    María Ester Molina Richmond <maria.molina@ucrso.info>
+ * History
+ * v1.0 – Initial Release
+ * ----
+ * The first version of AddMedicalForm was written by Ester Molina.
+ */
 import React, { Component } from 'react';
+import axios from 'axios';
 
 
 /*global IMC*/
 
+
 class AddMedicalForm extends Component {
     constructor(props) {
         super(props);
+        /**
+        * partyID:
+        * @type {integer}
+        * 
+        * date:
+        * @type {Date}
+        * 
+        * pathologies:
+        * @type {String}
+        *
+        * allergies:
+        * @type {String}
+        * 
+        * traumas:
+        * @type {integer}
+        * 
+        * smoking:
+        * @type {integer}
+        * 
+        * neurologicalInfo:
+        * @type {String}
+        * 
+        * pulmonaryCardioInfo:
+        * @type {String}
+        * 
+        * bloodPressure:
+        * @type {integer}
+        * 
+        * heartRate:
+        * @type {integer}
+        * 
+        * heartRatePerMinute:
+        * @type {integer}
+        * 
+        * Sp02:
+        * @type {integer}
+        * 
+        * weight:
+        * @type {integer}
+        * 
+        * size:
+        * @type {integer}
+        * 
+        * IMC:
+        * @type {integer}
+        * 
+        * abdomen:
+        * @type {integer}
+        * 
+        * waist:
+        * @type {integer}
+        * 
+        * hip:
+        * @type {integer}
+        * 
+        * cardiovascularRisk
+        * @type {integer}
+        * 
+        * recommendations
+        * @type {String}
+        * 
+        * medicalInfo
+        * @type {Array}
+        * 
+        * medicalID
+        * @type {integer}
+        */
         this.state = {
+            userName: [{}],
             partyID: 1,
             date: new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate(),
             pathologies: "",
@@ -27,15 +109,100 @@ class AddMedicalForm extends Component {
             waist: 0,
             hip: 0,
             cardiovascularRisk: 0,
-            recommendations: ""
+            recommendations: "",
+            medicalInfo: [{}],
+            medicalID: 0
 
         };
         this.handleInputChange = this.handleInputChange.bind(this);
         this.inputNumberValidator = this.inputNumberValidator.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.empty = this.empty.bind(this);
+        this.loadData = this.loadData.bind(this);
     }
 
+    /**
+    * Method that can get full name of the user and the data if is it an update
+    * when the page is load
+    */
+    componentDidMount(){
+        try {
+            axios.get(`http://localhost:9000/User/getUserName`,
+                {
+                    params: { partyID: this.state.partyID }
+                }).then(response => {
+                    const userName = response.data[0];
+                    this.setState({ userName });
+                });
+
+                if(sessionStorage.getItem("update") === "true"){
+                    this.setState({medicalID:sessionStorage.getItem("medicalFormID")});
+                    axios.get("http://localhost:9000/MedicalInfo/getMedicalInfoHist", {
+                        params: {
+                            partyID: this.state.partyID
+                        }
+                    }).then(response => {
+                        if (response) {
+                            this.setState({medicalInfo: response.data[0]});
+                            this.loadData();
+                        }
+                    })
+                }
+            } catch (err) {
+                console.error(err);
+            }
+    }
+
+    /**
+    * Method that load the data is it an update 
+    * when the page is load
+    */
+    loadData(){
+        var smoke = this.state.medicalInfo[0].smoking;
+        var trauma = this.state.medicalInfo[0].traumas;
+        if(smoke == "Si"){
+        this.setState({smoking:1});
+        document.getElementById("smokingNo").checked = false;
+        document.getElementById("smokingYes").checked = true;
+        }else{
+        this.setState({smoking:0});
+        document.getElementById("smokingYes").checked = false;
+        document.getElementById("smokingNo").checked = true;
+        }
+        if(trauma === "Si"){
+        this.setState({traumas:1});
+        document.getElementById("traumasYes").checked = true;
+        document.getElementById("traumasNo").checked = false;
+        }else{
+        this.setState({traumas:0});
+        document.getElementById("traumasYes").checked = false;
+        document.getElementById("traumasNo").checked = true;
+        }
+        this.setState({pathologies: this.state.medicalInfo[0].pathologies});
+        this.setState({surgeries: this.state.medicalInfo[0].surgeries});
+        this.setState({allergies: this.state.medicalInfo[0].allergies});
+        this.setState({neurologicalInfo: this.state.medicalInfo[0].neurologicalInfo});
+        this.setState({pulmonaryCardioInfo: this.state.medicalInfo[0].pulmonaryCardioInfo});
+        this.setState({bloodPressure: this.state.medicalInfo[0].bloodPressure});
+        this.setState({heartRate: this.state.medicalInfo[0].heartRate});
+        this.setState({heartRatePerMinute: this.state.medicalInfo[0].heartRatePerMinute});
+        this.setState({SpO2: this.state.medicalInfo[0].SpO2});
+        this.setState({weight: this.state.medicalInfo[0].weight});
+        this.setState({size: this.state.medicalInfo[0].size});
+        this.setState({IMC: this.state.medicalInfo[0].IMC});
+        this.setState({abdomen: this.state.medicalInfo[0].abdomen});
+        this.setState({waist: this.state.medicalInfo[0].waist});
+        this.setState({hip: this.state.medicalInfo[0].hip});
+        this.setState({cardiovascularRisk: this.state.medicalInfo[0].cardiovascularRisk});
+        this.setState({recommendations: this.state.medicalInfo[0].recommendations});
+        
+    }
+
+
+
+    /**
+    * Method that verify that the input text in a input type decimal is a number
+    */
     inputNumberValidator(event) {
        const re = /^[0-9\b]+$/;
         const { name, value } = event.target;
@@ -51,7 +218,32 @@ class AddMedicalForm extends Component {
         }
       }
 
+    /**
+    * Method that submit all the information in the form
+    */
     handleSubmit = event => {
+        if(sessionStorage.getItem("update") === "true"){
+            console.log("estoy dentro");
+            if(!this.empty()){
+                fetch(`http://localhost:9000/MedicalInfo/updateMedicalRegister`, {
+                    method: "post",
+                    body: JSON.stringify(this.state),
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json"
+                    }
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data);
+                    })
+                    .catch(err => console.error(err));
+                event.preventDefault();
+                } else{
+                    alert("Los campos con * son obligatorios");
+                }
+            sessionStorage.setItem("update",false);
+        }else {
         if(!this.empty()){
         fetch("http://localhost:9000/MedicalInfo/addMedicalInfo", {
             method: "post",
@@ -72,7 +264,11 @@ class AddMedicalForm extends Component {
             alert("Los campos con * son obligatorios");
         }
     }
+    }
 
+    /**
+    * Method that set the state when an input change
+    */
     handleInputChange(event) {
         const { name, value } = event.target;
         this.setState({
@@ -80,6 +276,9 @@ class AddMedicalForm extends Component {
         });
     }
 
+    /**
+    * Method that calculate the imc based in the size and weight
+    */
     //no está bien
     calcIMC() {
         let size = (this.state.size * this.state.size);
@@ -88,6 +287,9 @@ class AddMedicalForm extends Component {
         this.setState({ IMC: round });
     }
 
+    /**
+    * Method that verify that the require inputs are not empty
+    */
     empty(){
         if(this.state.smoking == "" || this.state.traumas == "" || this.state.size == "" || this.state.weight == ""
         || this.state.heartRate == "" || this.state.heartRatePerMinute == "" || this.state.SpO2 == "" || this.state.abdomen == ""
@@ -99,6 +301,11 @@ class AddMedicalForm extends Component {
     }
 
     render() {
+        const name = this.state.userName.map((userName, i) => {
+            return (
+                <label className="form-label">Usuario: {userName.fullName}</label>
+            )
+        })
         return (
             <div className="container">
                 <div className="row card mt-4 p-5">
@@ -106,7 +313,7 @@ class AddMedicalForm extends Component {
                         <h1 className="text-left colorBlue">Formulario médico</h1>
                         <div className="row">
                             <div className="col-4 offset-1 text-ceter">
-                                <label className="form-control">Usuario: Jose Carlos Chavez Moran</label>
+                               {name}
                             </div>
                         </div>
                     </div>
@@ -168,14 +375,14 @@ class AddMedicalForm extends Component {
                                                                 <div className="col-2">
                                                                     <div className="controls">
                                                                         <label>SI
-                                                                 <input type="radio" name="smoking" id="smoking" value="1" />
+                                                                 <input type="radio" name="smoking" id="smokingYes" value="1"/>
                                                                         </label>
                                                                     </div>
                                                                 </div>
                                                                 <div className="col-2">
                                                                     <div className="controls">
                                                                         <label>NO
-                                                                 <input type="radio" name="smoking" id="smoking" value="0" checked />
+                                                                 <input type="radio" name="smoking" id="smokingNo" value="0" />
                                                                         </label>
                                                                     </div>
                                                                 </div>
@@ -191,14 +398,14 @@ class AddMedicalForm extends Component {
                                                                 <div className="col-2">
                                                                     <div className="controls">
                                                                         <label> SI
-                                                        <input type="radio" name="traumas" id="traumas" value="1" />
+                                                        <input type="radio" name="traumas" id="traumasYes" value="1" />
                                                                         </label>
                                                                     </div>
                                                                 </div>
                                                                 <div className="col-2">
                                                                     <div className="controls">
                                                                         <label> NO
-                                                        <input type="radio" name="traumas" id="traumas" value="0" checked />
+                                                        <input type="radio" name="traumas" id="traumasNo" value="0" />
                                                                         </label>
                                                                     </div>
                                                                 </div>

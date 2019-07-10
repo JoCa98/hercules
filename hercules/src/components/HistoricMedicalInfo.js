@@ -1,6 +1,6 @@
 /**
- * @fileoverview HomeAdmin page, Home of the administrator user that shows the list 
- *of all users (students and officials), with different search options by carnet, name and ID.
+ * @fileoverview HistoricMedicalInfo page, this page call the component of the table
+ * and get the medical information of one specific user 
  *
  * @version 1.0
  *
@@ -8,7 +8,7 @@
  * History
  * v1.0 – Initial Release
  * ----
- * The first version of HomeAdmin was written by Antony Jimenez G.
+ * The first version of HistoricMedicalInfo was written by Antony Jimenez G.
  */
 
 import React, { Component } from 'react';
@@ -39,13 +39,14 @@ class HistoricMedicalInfo extends Component {
     * when the user click the addButton
     */
     redirect() {
-        window.location = "https://www.google.com/";
+        sessionStorage.setItem("update", false);
+        this.props.history.push(`/AddMedicalForm`);
     }
 
-      /**
-    * Method that can get full name of the user
-    * when the page is load
-    */
+    /**
+  * Method that can get full name of the user
+  * when the page is load
+  */
     componentDidMount() {
         try {
             axios.get(`http://localhost:9000/User/getUserName`,
@@ -61,12 +62,11 @@ class HistoricMedicalInfo extends Component {
     }
 
     render() {
-
-const name = this.state.userName.map((userName, i) => {
-    return(
-        <label className="form-control">Usuario: {userName.fullName}</label>
-    )
-})
+        const name = this.state.userName.map((userName, i) => {
+            return (
+                <label className="form-label">Usuario: {userName.fullName}</label>
+            )
+        })
         return (
             <div className="container">
                 <div className="row card mt-4 p-5">
@@ -76,11 +76,11 @@ const name = this.state.userName.map((userName, i) => {
                             <div className="col-4 offset-1 text-ceter">
                                 {name}
                             </div>
-                            <div className="col-4 offset-1">
+                            <div className="col-4 offset-1 text-center">
                                 <img src={plusImage} onClick={this.redirect} className="buttonSizeGeneral pointer" />
                                 <h4 className="colorBlue pointer" onClick={this.redirect}>Agregar nuevo</h4>
                             </div>
-                            <div className="col-12">
+                            <div className="col-12 mt-4 text-center">
                                 <TableMedicalInfo />
                             </div>
                         </div>
