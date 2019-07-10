@@ -35,6 +35,10 @@ class ConsultUser extends Component {
         this.redirectRoutines = this.redirectRoutines.bind(this);
     }
 
+    componentDidMount() {
+        this.getUserBasicInfo();
+    }
+
     /**
     * Method that can get the basic information a specific user 
     * when the page is load
@@ -51,10 +55,6 @@ class ConsultUser extends Component {
         } catch (err) {
             console.error(err);
         }
-    }
-
-    componentDidMount() {
-        this.getUserBasicInfo();
     }
 
     /**
