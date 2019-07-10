@@ -128,6 +128,17 @@ router.get('/getLocalGeoSupID', (req, res) => {
   });
 });
 
+router.get('/getFirstCantonOfProvince', (req, res) => {
+  connection.query("call proc_getFirstCantonOfProvince(" + req.query.provinceID + ")", function (err, results) {
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+  });
+});
+
 router.get('/getProvinces', (req, res) => {
   connection.query("select * from view_provinces", function (err, results) {
     if (results) {

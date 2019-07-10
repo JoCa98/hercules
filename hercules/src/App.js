@@ -24,13 +24,15 @@ import HistoricMedicalInfo from './components/HistoricMedicalInfo';
 import RoutineAdmin from './components/RoutineAdmin';
 import AddPhysicalInfo from './components/AddPhysicalInfo';
 import HistoricMedicalUserInfo from './components/HistoricMedicalUserInfo';
+import validations from './components/validations';
 function App() {
   return (
       <Switch>
         <Fragment >
           <Header />
-          <Route exact path="/" component={ConsultUser} />
+          <Route exact path="/" component={LogIn} />
           <Fragment>
+          <Route exact path="/UserHome" component={UserHome} />
             <Route exact path="/UserConfiguration" component={UserConfiguration} />
             <Route exact path="/SignUp" component={SignUp} />
             <Fragment>

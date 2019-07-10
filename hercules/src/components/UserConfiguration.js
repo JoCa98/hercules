@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import axios from "axios";
-
+import validations from './validations';
 class UserConfiguration extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            validations: new validations(),
             identificationID: "",
             firstName: "",
             secondName: "",
@@ -38,6 +39,7 @@ class UserConfiguration extends Component {
         };
 
         this.handleSelectProvince = this.handleSelectProvince.bind(this);
+        this.loadRelations = this.loadRelations.bind(this);
         this.loadProvinces = this.loadProvinces.bind(this);
         this.loadCantons = this.loadCantons.bind(this);
         this.handleSelectCanton = this.handleSelectCanton.bind(this);
@@ -45,7 +47,7 @@ class UserConfiguration extends Component {
         this.handleInputChange = this.handleInputChange.bind(this);
         this.getCantonsByProvince = this.getCantonsByProvince.bind(this);
         this.getDistrictsByCanton = this.getDistrictsByCanton.bind(this);
-
+        this.getFirstCantonOfProvince = this.getFirstCantonOfProvince.bind(this);
         this.editInfo = this.editInfo.bind(this);
         this.changeInfo = this.changeInfo.bind(this);
         this.cancelInfo = this.cancelInfo.bind(this);
@@ -92,6 +94,7 @@ class UserConfiguration extends Component {
     getCantonsByProvince(value) {
         axios.get(`http://localhost:9000/User/getCantons`, { params: { pID: value } }).then(response => {
             this.setState({ cantons: response.data[0] });
+
         });
     };
     getDistrictsByCanton(value) {
@@ -99,6 +102,13 @@ class UserConfiguration extends Component {
             this.setState({ districts: response.data[0] });
         });
     };
+    loadRelations() {
+        this.state.relationList = this.state.relations.map((relations, i) => {
+            return (
+                <option value={relations.relationTypeID} key={i}>{relations.description} </option>
+            )
+        })
+    }
 
     loadProvinces() {
         this.state.provinceList = this.state.provinces.map((provinces, i) => {
@@ -109,18 +119,47 @@ class UserConfiguration extends Component {
     }
     loadCantons() {
         this.state.cantonList = this.state.cantons.map((cantons, i) => {
+            if (i == 0 & this.state.cantonID == undefined) {
+                this.state.cantonID = cantons.cantonID
+            }
             return (
                 <option value={cantons.cantonID} key={i}>{cantons.cantonDescription}</option>
             )
         });
+        document.getElementById('cantonID')
     }
     loadDistricts() {
         this.state.districtList = this.state.districts.map((districts, i) => {
+            if (i == 0) {
+                this.state.districtID = districts.districtID
+            }
+
             return (
                 <option value={districts.districtID} key={i}>{districts.districtDescription}</option>
             )
         });
     }
+
+    getFirstCantonOfProvince(value) {
+        axios.get(`http://localhost:9000/User/getFirstCantonOfProvince`, { params: { provinceID: value } }).then(response => {
+            return JSON.parse(JSON.stringify(response.data[0]))[0]['cantonID']
+        });
+    }
+    handleSelectProvince(event) {
+        this.handleInputChange(event);
+        var value = event.target.value;
+        this.getCantonsByProvince(value);
+        this.loadCantons();
+
+    }
+
+    handleSelectCanton(event) {
+        this.handleInputChange(event);
+        var value = event.target.value;
+        this.getDistrictsByCanton(value);
+        this.loadDistricts();
+    }
+
     getLocalGeoSupID(value) {
         axios.get(`http://localhost:9000/User/getLocalGeoSupID`, { params: { localGeoSupID: value } }).then(response => {
             this.setState({ cantonID: JSON.parse(JSON.stringify(response.data[0]))[0]['localGeoSupID'] });
@@ -163,88 +202,83 @@ class UserConfiguration extends Component {
 
         });
         this.state.userTypeID = sessionStorage.getItem('userTypeID');
-        this.state.email = sessionStorage.getItem('email');;
-
+        this.state.email = sessionStorage.getItem('email');
     }
 
-    updateUser(){
+    updateUser() {
+
         console.log("sec: " + this.state.secondName)
-        if(this.state.secondName.trim.length == 0){
-            this.setState({secondLastName:null})
+        if (this.state.secondName.trim.length == 0) {
+            this.setState({ secondLastName: null })
         }
-        if(this.state.career.trim.length == 0){
-            this.setState({career:null})
-        }
-        if(this.state.carnet.trim.length == 0){
-            this.setState({carnet:null})
-        }
-        console.log("jason: " + JSON.stringify({ email: this.state.email, activationCode: this.state.activationCode }))
-            fetch("http://localhost:9000/User/updateUser", {
-                method: "post",
-                body: JSON.stringify({ partyID: sessionStorage.getItem('partyID'),
-                                       identificationID: this.state.identificationID,
-                                       firstName: this.state.firstName,
-                                       secondName: this.state.secondName,
-                                       lastName: this.state.lastName,
-                                       secondLastName: this.state.secondLastName,
-                                       carnet: this.state.carnet,
-                                       career: this.state.career,
-                                       phoneNumber1: this.state.phoneNumber1,
-                                       phoneNumber2: this.state.phoneNumber2,
-                                       districtID: this.state.districtID,
-                                       addressLine: this.state.addressLine    
-                                    }),
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json"
-                }
+        fetch("http://localhost:9000/User/updateUser", {
+            method: "post",
+            body: JSON.stringify({
+                partyID: sessionStorage.getItem('partyID'),
+                identificationID: this.state.identificationID,
+                firstName: this.state.firstName,
+                secondName: this.state.secondName,
+                lastName: this.state.lastName,
+                secondLastName: this.state.secondLastName,
+                carnet: this.state.carnet,
+                career: this.state.career,
+                phoneNumber1: this.state.phoneNumber1,
+                phoneNumber2: this.state.phoneNumber2,
+                districtID: this.state.districtID,
+                addressLine: this.state.addressLine
+            }),
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
             })
-                .then(res => res.json())
-                .then(data => {
-                    console.log(data);
-                })
-                .catch(err => console.error(err));
-      }
+            .catch(err => console.error(err));
+        alert("Los datos de usuario fueron actualizados");
+    }
 
-      updatePassword(){
-          //Validacion de contraseña
-        console.log("jason: " + JSON.stringify({ email: this.state.email, activationCode: this.state.activationCode }))
-            fetch("http://localhost:9000/User/updatePassword", {
-                method: "post",
-                body: JSON.stringify({ email: sessionStorage.getItem('email'),
-                                       password: this.state.newPassword,  
-                                    }),
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json"
-                }
+    updatePassword() {
+        fetch("http://localhost:9000/User/updatePassword", {
+            method: "post",
+            body: JSON.stringify({
+                email: sessionStorage.getItem('email'),
+                password: this.state.newPassword,
+            }),
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
             })
-                .then(res => res.json())
-                .then(data => {
-                    console.log(data);
-                })
-                .catch(err => console.error(err));
-      }
+            .catch(err => console.error(err));
+    }
 
-      updateContact(){
+    updateContact() {
         //Validacion 
-          fetch("http://localhost:9000/User/updateContact", {
-              method: "post",
-              body: JSON.stringify({ contactName: this.state.contactName,
-                                     relationTypeID: this.state.relationTypeID, 
-                                     emergencyContactID: this.state.emergencyContactID,  
-                                     emergencyContactPhoneNumber: this.state.emergencyContactPhoneNumber,   
-                                  }),
-              headers: {
-                  Accept: "application/json",
-                  "Content-Type": "application/json"
-              }
-          })
-              .then(res => res.json())
-              .then(data => {
-                  console.log(data);
-              })
-              .catch(err => console.error(err));
+        fetch("http://localhost:9000/User/updateContact", {
+            method: "post",
+            body: JSON.stringify({
+                contactName: this.state.contactName,
+                relationTypeID: this.state.relationTypeID,
+                emergencyContactID: this.state.emergencyContactID,
+                emergencyContactPhoneNumber: this.state.emergencyContactPhoneNumber,
+            }),
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+            })
+            .catch(err => console.error(err));
     }
 
     loadAccountInfo() {
@@ -253,27 +287,6 @@ class UserConfiguration extends Component {
         this.state.newPassword = "";
         this.state.confirmNewPassword = "";
     }
-
-    loadContactInfo() {
-        this.state.contactName = sessionStorage.getItem('contactName');
-        this.state.relationTypeID = sessionStorage.getItem('relationTypeID');
-        this.state.emergencyContactPhoneNumber = sessionStorage.getItem('emergencyContactPhoneNumber');
-    }
-
-    handleSelectProvince(event) {
-        var value = event.target.value;
-        this.getCantonsByProvince(value);
-        this.loadCantons();
-        this.handleInputChange(event);
-    }
-
-    handleSelectCanton(event) {
-        var value = event.target.value;
-        this.getDistrictsByCanton(value);
-        this.loadDistricts();
-        this.handleInputChange(event);
-    }
-
     handleInputChange(event) {
         const { name, value } = event.target;
         this.setState({
@@ -294,15 +307,15 @@ class UserConfiguration extends Component {
         document.getElementById('editContact').style.display = 'block';
         document.getElementById('changeContact').style.display = 'none';
     }
-    initAllFields(){
+    initAllFields() {
         this.enableInfoFields(false);
         this.enablePasswordFields(false);
         this.enableContactFields(false);
     }
 
-    enableInfoFields(value){
+    enableInfoFields(value) {
         var disabled = '';
-        if(value == true){
+        if (value == true) {
             disabled = false;
         } else {
             disabled = true;
@@ -313,38 +326,38 @@ class UserConfiguration extends Component {
         document.getElementById('secondLastName').disabled = disabled;
         document.getElementById('phoneNumber1').disabled = disabled;
         document.getElementById('phoneNumber2').disabled = disabled;
-        if (sessionStorage.getItem('userTypeID') == 1){
+        if (sessionStorage.getItem('userTypeID') == 1) {
             document.getElementById('carnet').disabled = disabled;
-        document.getElementById('career').disabled = disabled;
-        }        
+            document.getElementById('career').disabled = disabled;
+        }
         document.getElementById('provinceID').disabled = disabled;
         document.getElementById('cantonID').disabled = disabled;
         document.getElementById('districtID').disabled = disabled;
         document.getElementById('addressLine').disabled = disabled;
         document.getElementById('identificationID').disabled = disabled;
     }
-    enablePasswordFields(value){
+    enablePasswordFields(value) {
         var disabled = '';
-        if(value == true){
+        if (value == true) {
             disabled = false;
         } else {
             disabled = true;
         }
         document.getElementById('password').disabled = disabled;
         document.getElementById('newPassword').disabled = disabled;
-        document.getElementById('confirmNewPassword').disabled = disabled;        
+        document.getElementById('confirmNewPassword').disabled = disabled;
     }
 
-    enableContactFields(value){
+    enableContactFields(value) {
         var disabled = '';
-        if(value == true){
+        if (value == true) {
             disabled = false;
         } else {
             disabled = true;
         }
         document.getElementById('contactName').disabled = disabled;
         document.getElementById('relationTypeID').disabled = disabled;
-        document.getElementById('emergencyContactPhoneNumber').disabled = disabled;        
+        document.getElementById('emergencyContactPhoneNumber').disabled = disabled;
     }
 
     editInfo() {
@@ -362,11 +375,35 @@ class UserConfiguration extends Component {
     }
     changeInfo() {
 
-        document.getElementById('changeInfo').style.display = 'none';
-        document.getElementById('editInfo').style.display = 'block';
-        document.getElementById('cancelInfo').style.display = 'none';
-        this.updateUser();
-        this.enableInfoFields(false);
+        if (this.state.firstName.trim().length == 0 || this.state.lastName.trim().length == 0
+            || this.state.secondLastName.trim().length == 0 || this.state.phoneNumber1.trim().length == 0
+            || this.state.career.trim().length == 0 || this.state.carnet.trim().length == 0
+            || this.state.identificationID.toString().trim().length == 0) {
+            alert("Todos los datos del usuarios deben estar llenos");
+        } else if (!this.state.validations.validateTextField(this.state.firstName)
+            || (!this.state.secondLastName.trim().length == 0 & !this.state.validations.validateTextField(this.state.secondName))
+            || !this.state.validations.validateTextField(this.state.lastName)
+            || !this.state.validations.validateTextField(this.state.secondLastName)
+        ) {
+            alert("Los datos del nombre solo pueden estar compuestos por letras");
+         } else if (!this.state.validations.validatePhoneNumberField(this.state.phoneNumber1
+            || (!this.state.phoneNumber2.trim().length == 0 & !this.state.validations.validatePhoneNumberField(this.state.phoneNumber2))
+            )) {
+                alert("Los números telefónicos deben estar compuestos por 8 dígitos");
+            
+        } else if (this.state.carnet != "N/A" & !this.state.validations.validateCarnetField(this.state.carnet)) {
+            alert("El carné debe estar compuesto por una letra inicial y 5 dígitos");
+        }
+        else {
+            if (window.confirm("¿Está seguro se actualizar los datos de usuario?") == true) {
+                document.getElementById('changeInfo').style.display = 'none';
+                document.getElementById('editInfo').style.display = 'block';
+                document.getElementById('cancelInfo').style.display = 'none';
+                this.updateUser();
+                this.enableInfoFields(false);
+            }
+        }
+
     }
     //////////////////////////
     editPassword() {
@@ -379,16 +416,29 @@ class UserConfiguration extends Component {
         document.getElementById('cancelPassword').style.display = 'none';
         document.getElementById('editPassword').style.display = 'block';
         document.getElementById('changePassword').style.display = 'none';
-        this.setState({password:"", newPassword:"", confirmNewPassword:""});
+        this.setState({ password: "", newPassword: "", confirmNewPassword: "" });
         this.enablePasswordFields(false);
     }
     changePassword() {
-        document.getElementById('changePassword').style.display = 'none';
-        document.getElementById('editPassword').style.display = 'block';
-        document.getElementById('cancelPassword').style.display = 'none';
-        this.updatePassword();
-        this.setState({password:"", newPassword:"", confirmNewPassword:""})
-        this.enablePasswordFields(false);
+        if (document.getElementById('password').value.length == 0 || document.getElementById('newPassword').value.length == 0
+            || document.getElementById('confirmNewPassword').value.length == 0) {
+            alert("Todos los campos de contraseña deben estar llenos")
+        } else if (this.state.password != sessionStorage.getItem('password')) {
+            alert("La contraseña actual es incorrecta");
+        } else if (this.state.newPassword != this.state.confirmNewPassword) {
+            alert("Las contraseñas no coinciden");
+        } else {
+            if (window.confirm("¿Está seguro de actualizar los datos de la contraseña?") == true) {
+                document.getElementById('changePassword').style.display = 'none';
+                document.getElementById('editPassword').style.display = 'block';
+                document.getElementById('cancelPassword').style.display = 'none';
+                this.updatePassword();
+                this.setState({ password: "", newPassword: "", confirmNewPassword: "" })
+                this.enablePasswordFields(false);
+            }
+        }
+
+
     }
     editContact() {
         document.getElementById('editContact').style.display = 'none';
@@ -404,18 +454,19 @@ class UserConfiguration extends Component {
         this.enableContactFields(false);
     }
     changeContact() {
-        document.getElementById('changeContact').style.display = 'none';
-        document.getElementById('editContact').style.display = 'block';
-        document.getElementById('cancelContact').style.display = 'none';
-        this.updateContact();
-        this.enableContactFields(false);
+
+        if (window.confirm("¿Está seguro de actualizar los datos del contacto de emergencia?") == true) {
+
+            document.getElementById('changeContact').style.display = 'none';
+            document.getElementById('editContact').style.display = 'block';
+            document.getElementById('cancelContact').style.display = 'none';
+            this.updateContact();
+            this.enableContactFields(false);
+        }
     }
     render() {
-        const relationList = this.state.relations.map((relations, i) => {
-            return (
-                <option value={relations.relationTypeID} key={i}>{relations.description} </option>
-            )
-        })
+        console.log("cargo en render: " + this.state.provinceID)
+        this.loadRelations();
         this.loadProvinces();
         this.loadCantons();
         this.loadDistricts();
@@ -589,7 +640,8 @@ class UserConfiguration extends Component {
                                 <div className="row">
                                     <div className="col-6">
                                         <div className="form-group" align="left">
-                                            <button align="left" id="cancelPassword" className="buttonSizeGeneral" onClick={this.cancelPassword}>Cancelar</button>                                            <br></br>
+                                            <button align="left" id="cancelPassword" className="buttonSizeGeneral" onClick={this.cancelPassword}>Cancelar</button>
+                                            <br></br>
                                         </div>
                                     </div>
                                     <div className="col-6">
@@ -620,7 +672,7 @@ class UserConfiguration extends Component {
                                         <div className="form-group" align="left">
                                             <p>Parentesco</p>
                                             <select name="relationTypeID" id="relationTypeID" className="form-control" value={this.state.relationTypeID} onChange={this.handleInputChange}>
-                                                {relationList}
+                                                {this.state.relationList}
                                             </select>
                                         </div>
                                     </div>
