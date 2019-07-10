@@ -167,7 +167,7 @@ class RoutineCarouselReadOnly extends Component {
                         </select>
                     </div>
                     <div className="col-2">
-                        <img src={rightArrowImage} className="buttonSizeGeneral" onClick={this.rigthArrow} sizes="10px"/>
+                        <img src={rightArrowImage} className="buttonSizeGeneral" onClick={this.rigthArrow} />
                     </div>
                 </div>
                 <div className="row mt-4">

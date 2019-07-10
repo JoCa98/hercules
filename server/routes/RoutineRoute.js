@@ -61,4 +61,15 @@ router.get("/getRoutineInfo", (req,res) =>{
   });
 });
 
+router.get("/getAllExercises", (req, res) => {
+  connection.query("CALL proc_getAllExercises(" + req.query.id + ")", function (err, results) {
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+  });
+});
+
 module.exports = router;
