@@ -17,7 +17,7 @@ class Header extends Component {
     if (sessionStorage.getItem('userTypeID') != null) {
       if (sessionStorage.getItem('userTypeID') == 1 || sessionStorage.getItem('userTypeID') == 2) {
         navbar = <NavbarUserHome />
-      } else {
+      } else if (sessionStorage.getItem('userTypeID') == 3 || sessionStorage.getItem('userTypeID') == 4){
         navbar = <NavbarAdmin />
       }
     }

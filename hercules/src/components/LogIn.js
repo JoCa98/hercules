@@ -20,9 +20,8 @@ class LogIn extends Component {
     }
 
     tryLogin() {
-        console.log(this.props.location.pathname);
+        //console.log(this.props.location.pathname);
         //window.location.reload();
-        sessionStorage.setItem('userTypeID', 3);
         axios.get(`http://localhost:9000/User/isEmailValid`, { params: { email: this.state.email } }).then(response => {
             this.setState({ isUserValid: JSON.parse(JSON.stringify(response.data))[0]['isEmailValid'].data[0] });
             if (this.state.isUserValid == 1) {
@@ -36,8 +35,8 @@ class LogIn extends Component {
                             sessionStorage.setItem('userTypeID', JSON.parse(JSON.stringify(response.data[0]))[0]['userTypeID']);
                             if (sessionStorage.getItem('userTypeID') == 1 || sessionStorage.getItem('userTypeID') == 2) {
                                 this.props.history.push(`/UserConfiguration`);
-                            } else {
-
+                            } else if (sessionStorage.getItem('userTypeID') == 3 || sessionStorage.getItem('userTypeID') == 4){
+                                this.props.history.push(`/UserConfiguration`);
                             }
                         });
                     } else {
