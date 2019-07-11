@@ -56,6 +56,8 @@ class SignUp extends Component {
         this.selectMale = this.selectMale.bind(this);
         this.selectStudent = this.selectStudent.bind(this);
         this.selectWorker = this.selectWorker.bind(this);
+        this.validEmail = this.validEmail.bind(this);
+        this.showPasswordFields = this.showPasswordFields.bind(this);
         //this.handleSubmit = this.handleSubmit.bind(this);
     }
     componentDidMount() {
@@ -160,7 +162,16 @@ class SignUp extends Component {
             this.state.genderID = 2;
         }
     }
-
+    showPasswordFields() {
+        var show = document.getElementById('showPasswordFields').checked;
+        if (show == true) {
+            document.getElementById('password').type = "text";
+            document.getElementById('confirmPassword').type = "text";
+        } else {
+            document.getElementById('password').type = "password";
+            document.getElementById('confirmPassword').type = "password";
+        }
+    }
     selectFemale() {
         if (document.getElementById('cbFemale').checked == true) {
             document.getElementById('cbMale').checked = false;
@@ -171,44 +182,59 @@ class SignUp extends Component {
         }
     }
 
-    validEmail(){
-        axios.get(`http://localhost:9000/User/isEmailValid`, { params: { email: this.state.email} }).then(response => {
-            return JSON.parse(JSON.stringify(response.data))[0]['isEmailValid'].data[0];
+    validEmail() {
+        axios.get(`http://localhost:9000/User/isEmailValid`, { params: { email: this.state.email } }).then(response => {
+            return JSON.parse(JSON.stringify(response.data))[0]['isUserExist'].data[0];
+        });
+    }
+    validIdentification() {
+        axios.get(`http://localhost:9000/User/isIdentificationValid`, { params: { identificationID: this.state.identificationID } }).then(response => {
+            return JSON.parse(JSON.stringify(response.data))[0]['isUserExist'].data[0];
+        });
+    }
+    validCarnet() {
+        axios.get(`http://localhost:9000/User/isCarnetValid`, { params: { carnet: this.state.carnet } }).then(response => {
+            return JSON.parse(JSON.stringify(response.data))[0]['isUserExist'].data[0];
         });
     }
 
     goActCodeForm() {
+        alert("inicio pruebas");
         if (this.state.firstName.trim().length == 0 || this.state.lastName.trim().length == 0
             || this.state.secondLastName.trim().length == 0 || this.state.phoneNumber1.trim().length == 0
             || this.state.phoneNumber2.toString().trim().length == 0 || this.state.contactName.toString().trim().length == 0
             || this.state.email.trim().length == 0 || this.state.password.trim().length == 0
             || this.state.confirmPassword.toString().trim().length == 0 || this.state.addressLine.toString().trim().length == 0
-            || this.state.emergencyContactPhoneNumber.toString().trim().length == 0 || this.state.confirmPassword.toString().trim().length == 0
+            || this.state.emergencyContactPhoneNumber.toString().trim().length == 0
+            || (this.state.userTypeID == 1 & (this.state.carnet.trim().length == 0 || this.state.career.trim().length == 0))
         ) {
             alert("Todos los campos obligatorios  deben estar llenos");
         } else if (!this.state.validations.validateTextField(this.state.firstName)
             || !(this.state.secondName.trim().length != 0 & this.state.validations.validateTextField(this.state.secondName))
             || !this.state.validations.validateTextField(this.state.lastName)
             || !this.state.validations.validateTextField(this.state.secondLastName)
-            || !(this.state.userTypeID == 2 & this.state.carnet.trim().length != 0 & this.state.career.trim().length != 0)
         ) {
-            alert("validacion: " + (!this.state.secondName.trim().length == 0 & !this.state.validations.validateTextField(this.state.secondName)))
-            alert("Los datos del nombre solo pueden estar compuestos por letras");
-        } else if (this.state.userTypeID == 2) {
-            if (!this.state.validations.validateCarnetField(this.state.carnet)) {
-                alert("El carné debe estar compuesto por 1 letra inicial y 5 dígitos");
-            }
+            alert("Los datos del nombre solo pueden estar compuestos por letras y extensión mínima de 2 caracteres");
+        } else if (this.state.userTypeID == 1 & !this.state.validations.validateCarnetField(this.state.carnet)) {
+            alert("El carné debe estar compuesto por 1 letra inicial y 5 dígitos");
+        } else if (this.state.userTypeID == 1 & this.validCarnet() == 1) {
+            alert("El carné ingresado ya corresponde a otro usuario registrado");
         } else if (!this.state.validations.validatePhoneNumberField(this.state.phoneNumber1)
             || (!this.state.phoneNumber2.trim().length == 0
                 & !this.state.validations.validatePhoneNumberField(this.state.phoneNumber2))
-            || !this.state.validations.validatePhoneNumberField(this.state.emergencyContactPhoneNumber)
-        ) {
+            || !this.state.validations.validatePhoneNumberField(this.state.emergencyContactPhoneNumber)) {
             alert("Los números telefónicos deben estar compuestos por 8 dígitos");
         } else if (!this.state.validations.validateEmailField(this.state.email)) {
-            alert("Debe utilizar su cuenta  de correo institucional");
-        } else if (this.validEmail()== 1) {
+            alert("correo:" + this.state.email);
+            alert("Debe utilizar su cuenta de correo institucional");
+        } else if (this.validEmail() == 1) {
             alert("El correo ingresado ya corresponde a otro usuario registrado");
+        } else if (!this.state.validations.validateIdentification(this.state.identificationID)) {
+            alert("El formato de la cédula ingresada es incorrecto");
+        } else if (this.validIdentification() == 1) {
+            alert("La cédula ingresado ya corresponde a otro usuario registrado");
         } else {
+            alert("paso pruebas");
             this.GetCode();
             sessionStorage.setItem('identificationID', this.state.identificationID);
             sessionStorage.setItem('firstName', this.state.firstName);
@@ -438,18 +464,25 @@ class SignUp extends Component {
                                             <div className="col-12 col-sm-6">
                                                 <div className="form-group" align="left">
                                                     <p>Contraseña</p>
-                                                    <input type="password" required name="password" className="inputText form-control" value={this.state.password} onChange={this.handleInputChange}></input>
+                                                    <input type="password" required name="password" id="password"className="inputText form-control" value={this.state.password} onChange={this.handleInputChange}></input>
                                                 </div>
                                             </div>
                                             <div className="col-12 col-sm-6">
                                                 <div className="form-group" align="left">
                                                     <p>Confirmar contraseña</p>
-                                                    <input type="password" required name="confirmPassword" value={this.state.confirmPassword} onChange={this.handleInputChange} className="inputText form-control"></input>
+                                                    <input type="password" required name="confirmPassword" id="confirmPassword" value={this.state.confirmPassword} onChange={this.handleInputChange} className="inputText form-control"></input>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <row>
+                                <div className="col-12">
+                                        <div className="form-group " align="left">                                            
+                                            <input type="checkbox" id="showPasswordFields" required name="showPasswordFields" onChange={this.showPasswordFields} ></input>Mostrar campos
+                                        </div>
+                                    </div>
+                                </row>
                                 <div className="row">
                                     <div className="col-12">
                                         <div className="form-group" align="left">

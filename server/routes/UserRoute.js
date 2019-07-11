@@ -8,7 +8,7 @@ router.use(cors());
 //para diferenciar metodos post en las comillas de debe de poner el nombre
 router.post('/addUser', function (req, res) {
 
-  connection.query("CALL proc_addUser(" + req.body.identificationID + ",'" + req.body.firstName + "','" + req.body.secondName + 
+  connection.query("CALL proc_addUser('" + req.body.identificationID + "','" + req.body.firstName + "','" + req.body.secondName + 
                                             "','" + req.body.lastName + "','" + req.body.secondLastName + "','"+ req.body.carnet + 
                                             "','" + req.body.career + "','" + req.body.birthDate + "'," + req.body.genderID +
                                             "," + req.body.userTypeID + ",'" + req.body.email + "','" + req.body.password +
@@ -27,7 +27,7 @@ router.post('/addUser', function (req, res) {
 });
 
 router.post('/updateUser', function (req, res) {
-  connection.query("CALL proc_updateUser(" + req.body.partyID + ","+req.body.identificationID + ",'" + req.body.firstName + "','" + req.body.secondName + 
+  connection.query("CALL proc_updateUser(" + req.body.partyID + ",'"+req.body.identificationID + "','" + req.body.firstName + "','" + req.body.secondName + 
                                             "','" + req.body.lastName + "','" + req.body.secondLastName + "','"+ req.body.carnet + 
                                             "','" + req.body.career + "','" + + req.body.phoneNumber1 + "','" + req.body.phoneNumber2 +                                            
                                             "','" +req.body.districtID + "','" + req.body.addressLine +"')", function (err,result) {
@@ -67,7 +67,7 @@ router.post('/updateContact', function (req, res) {
 });
 
 router.get('/getUserInfo', (req, res) => {
-  connection.query("call proc_getUserInfo(" + req.query.partyID + ")", function (err, results) {
+  connection.query("call proc_getUserInfoForConfig(" + req.query.partyID + ")", function (err, results) {
     if (results) {
       res.send(results);
     }
@@ -197,6 +197,27 @@ router.get('/isEmailValid', (req, res) => {
     }
   });
 });
+router.get('/isCarnetValid', (req, res) => {
+  connection.query("Select fun_isCarnetValid('" + req.query.carnet + "') AS isCarnetValid", function (err, results) {
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+  });
+});
+router.get('/isIdentificationValid', (req, res) => {
+  connection.query("Select fun_isIdentificationValid('" + req.query.identificationID + "') AS isIdentificationValid", function (err, results) {
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+  });
+});
+
 
 router.get('/getDataForLogin', (req, res) => {
   connection.query("call proc_getDataForLogin('" + req.query.email + "')", function (err, results) {
