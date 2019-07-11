@@ -14,7 +14,7 @@ class AddRoutine extends Component {
             RestTime:0,
             routineTypeID:1,
             objectiveID: 1,
-            partyID:1,
+            partyID:sessionStorage.getItem("partyID"),
             date: new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate(),
             routineID:0,
             exerciseList :[]
