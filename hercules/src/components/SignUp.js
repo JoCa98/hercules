@@ -207,7 +207,7 @@ class SignUp extends Component {
                     alert("carnet valid "+ carnetValid + "  userType" + this.state.userTypeID);
                     if (this.state.firstName.trim().length == 0 || this.state.lastName.trim().length == 0
                         || this.state.secondLastName.trim().length == 0 || this.state.phoneNumber1.trim().length == 0
-                        || this.state.phoneNumber2.toString().trim().length == 0 || this.state.contactName.toString().trim().length == 0
+                         || this.state.contactName.toString().trim().length == 0
                         || this.state.email.trim().length == 0 || this.state.password.trim().length == 0
                         || this.state.confirmPassword.toString().trim().length == 0 || this.state.addressLine.toString().trim().length == 0
                         || this.state.emergencyContactPhoneNumber.toString().trim().length == 0

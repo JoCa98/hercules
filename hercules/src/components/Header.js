@@ -12,8 +12,9 @@ class Header extends Component {
   }
 
   render() {
-    let navbar;
-    if (sessionStorage.getItem('userTypeID') != undefined) {
+    console.log(sessionStorage.getItem('userTypeID'))
+    var navbar;
+    if (sessionStorage.getItem('userTypeID') != null) {
       if (sessionStorage.getItem('userTypeID') == 1 || sessionStorage.getItem('userTypeID') == 2) {
         navbar = <NavbarUserHome />
       } else {
@@ -21,20 +22,20 @@ class Header extends Component {
       }
     }
     return (
-      <div className="container-fluid backgroundBlue p-1">
-        <div className="row ">
-          <div className="col-10 text-left">
-            <img src={logo} className="logo w-50 h-100" alt="logo" />
-          </div>
-          <div className="col-2 text-right">
-            <img src={logoGym} className="logo w-50 h-100" alt="logo" />
+      <div>
+        <div className="container-fluid backgroundBlue p-1">
+          <div className="row ">
+            <div className="col-8">
+              <img src={logo} className="logo" alt="logo" />
+            </div>
+            <div className="col-2 ">
+              <img src={logoGym} className="logo" alt="logo" />
+            </div>
           </div>
         </div>
-        <div>
-        </div>
+        {navbar}
+
       </div>
-
-
     )
   }
 }
