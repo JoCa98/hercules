@@ -93,6 +93,7 @@ class ActCodeForm extends Component {
         })
         .catch(err => console.error(err));
     } else {
+      alert("El código ingresado es incorrecto");
     }
   }
 

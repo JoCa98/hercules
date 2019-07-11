@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import axios from "axios";
+
+import NavbarUserHome from './NavbarUserHome';
 class LogIn extends Component {
-   /*constructor(props) {
+    constructor(props) {
         super(props);
         this.state = {
             email: "",
@@ -18,29 +20,26 @@ class LogIn extends Component {
 
     tryLogin() {
         axios.get(`http://localhost:9000/User/isUserValid`, { params: { email: this.state.email, password: this.state.password } }).then(response => {
-            console.log("es: " + JSON.parse(JSON.stringify(response.data[0])));
-<<<<<<< HEAD
-        this.setState({ isUserValid: JSON.parse(
-            e.data[0])[0]['isUserValid'] });
-=======
-        this.setState({ isUserValid: JSON.parse(JSON.stringify(response.data[0]))[0]['isUserValid'] });
->>>>>>> d30edc3c092ba52fd18b75179345400ab100b8be
-            if (this.state.isUserValid == 1) {
-                axios.get(`http://localhost:9000/User/getDataForLogin`, { params: { email: this.state.email, password: this.state.password } }).then(response => {
-                    this.setState({ partyID: JSON.parse(JSON.stringify(response.data[0]))[0]['partyID'] ,
-                    userTypeID: JSON.parse(JSON.stringify(response.data[0]))[0]['userTypeID']});
-                    if(this.state.userTypeID == 1 ||this.state.userTypeID == 2){
 
-                    }
+            this.setState({ isUserValid: JSON.parse(JSON.stringify(response.data))[0]['isUserValid'].data[0] });
+            if (this.state.isUserValid == 1) {
+                sessionStorage.setItem('email', this.state.email);
+                sessionStorage.setItem('password', this.state.password);
+                axios.get(`http://localhost:9000/User/getDataForLogin`, { params: { email: this.state.email, password: this.state.password } }).then(response => {
+                    sessionStorage.setItem('partyID', JSON.parse(JSON.stringify(response.data[0]))[0]['partyID']);
+                    sessionStorage.setItem('userTypeID', JSON.parse(JSON.stringify(response.data[0]))[0]['userTypeID']);
+                    if (sessionStorage.getItem('userTypeID') == 1 || sessionStorage.getItem('userTypeID') == 2 ) {
+                        this.props.history.push(`/UserConfiguration`);                    }
+
                 });
             }
         });
+        
     }
 
     goSignUp() {
         this.props.history.push(`/SignUp`);
     }
-
     handleInputChange(event) {
         const { name, value } = event.target;
         this.setState({
@@ -48,18 +47,23 @@ class LogIn extends Component {
         });
     }
     render() {
+
         return (
+
+
             <div className="container">
                 <div className="row mt-4 " >
                     <div className="col-3">
                     </div>
                     <div className="col-6 card p-5">
+
+                        <NavbarUserHome />
                         <h1 className="text-center">Ingreso al sistema del gimnasio</h1>
                         <br></br>
                         <div className="row mt-4 " ></div>
                         <div className="form-group" align="left">
                             <p>Correo institucional</p>
-                            <input type="text" name="email" value={this.state.email} className="form-control inputText w-100"onChange={this.handleInputChange}></input>
+                            <input type="text" name="email" value={this.state.email} className="form-control inputText w-100" onChange={this.handleInputChange}></input>
                             <br></br>
                             <p>Contraseña</p>
                             <input type="text" name="password" value={this.state.password} className="form-control inputText w-100" onChange={this.handleInputChange}></input>
@@ -81,8 +85,6 @@ class LogIn extends Component {
             </div>
         )
     }
-    */
 }
 //export default withRouter(LogIn);
-
 export default LogIn;
