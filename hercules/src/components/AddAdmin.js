@@ -52,7 +52,7 @@ class AddAdmin extends Component {
             var isEmailValid = JSON.parse(JSON.stringify(response.data))[0]['isEmailValid'].data[0];
             if (this.empty()) {
                 alert("Los campos con * son obligatorios");
-            } else if (!this.emailValidator()) {
+            } else if (!this.state.validations.validateAdminEmailField(this.state.email)) {
                 alert("El email no tiene el formato correcto");
             } else if (!this.handlePasswordValidation()) {
                 alert("Las contraseñas deben ser iguales");
