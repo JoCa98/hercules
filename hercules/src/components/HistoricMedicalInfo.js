@@ -29,7 +29,7 @@ class HistoricMedicalInfo extends Component {
       */
         this.state = {
             userName: [{}],
-            partyID: sessionStorage.getItem("partyID")
+            partyID: sessionStorage.getItem("userPartyID")
         }
         this.redirect = this.redirect.bind(this);
     }

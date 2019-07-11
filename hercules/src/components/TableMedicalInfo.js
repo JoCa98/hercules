@@ -29,7 +29,7 @@ class TableMedicalInfo extends Component {
         */
         this.state = {
             medicalInfo: [{}],
-            partyID: 1
+            partyID: 0
         };
         this.getMedicalInfoHist = this.getMedicalInfoHist.bind(this);
         this.rowEvent = this.rowEvent.bind(this);
@@ -40,6 +40,7 @@ class TableMedicalInfo extends Component {
      */
     getMedicalInfoHist() {
         try {
+
             axios.get(`http://localhost:9000/MedicalInfo/getMedicalInfoHist`,
                 {
                     params: { partyID: this.state.partyID }
@@ -56,7 +57,19 @@ class TableMedicalInfo extends Component {
      * Method that performs the search of al the registers of medical information
      */
     componentDidMount() {
-        sessionStorage.setItem('userTypeID', 4);
+        
+        if(sessionStorage.getItem('userTypeID') == 1 || sessionStorage.getItem('userTypeID') == 2){
+            
+            this.setState({
+                partyID: sessionStorage.getItem('partyID')
+            })
+        }else if(sessionStorage.getItem('userTypeID') == 3 || sessionStorage.getItem('userTypeID') == 4){
+            this.setState({
+                partyID: sessionStorage.getItem('userPartyID')
+            })
+        }
+
+        
         this.getMedicalInfoHist();
     }
 

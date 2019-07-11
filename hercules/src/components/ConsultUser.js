@@ -27,7 +27,7 @@ class ConsultUser extends Component {
         */
         this.state = {
             userInfo: [{}],
-            partyID: sessionStorage.getItem("partyID")
+            partyID: sessionStorage.getItem("userPartyID")
         };
         this.getUserBasicInfo = this.getUserBasicInfo.bind(this);
         this.redirectMedical = this.redirectMedical.bind(this);

@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import axios from "axios";
 
-
-
 class TablePhysicalInfo extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            physicalInfo: [{}]
+            physicalInfo: [{}],
+            partyID: 0
         };
 
         this.redirect = this.redirect.bind(this);
@@ -17,8 +16,16 @@ class TablePhysicalInfo extends Component {
     }
 
     componentDidMount() {
-        sessionStorage.setItem('userTypeID', 4);
-        sessionStorage.setItem('partyID', 1);
+        if(sessionStorage.getItem('userTypeID') == 1 || sessionStorage.getItem('userTypeID') == 2){
+            
+            this.setState({
+                partyID: sessionStorage.getItem('partyID')
+            })
+        }else if(sessionStorage.getItem('userTypeID') == 3 || sessionStorage.getItem('userTypeID') == 4){
+            this.setState({
+                partyID: sessionStorage.getItem('userPartyID')
+            })
+        }
         this.getUserPhysicalInfo();
     }
 
@@ -30,7 +37,7 @@ class TablePhysicalInfo extends Component {
         
         try {
             axios.get(`http://localhost:9000/PhysicalInfo/getPhysicalInfoByID`,
-                { params: { partyID:  sessionStorage.getItem('partyID')} }).then(response => {
+                { params: { partyID:  this.state.partyID} }).then(response => {
                     console.log(response.data[0]);
                     const physicalInfo = response.data[0];
                     this.setState({ physicalInfo });
