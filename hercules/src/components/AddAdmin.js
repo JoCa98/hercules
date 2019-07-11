@@ -13,12 +13,15 @@
 
 import React, { Component } from 'react';
 import axios from 'axios';
+import validations from './validations';
+import { parse } from 'querystring';
 
 class AddAdmin extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
+            validations: new validations(),
             userTypeID: 3,
             identificationID: 0,
             firstName: "",
@@ -27,8 +30,7 @@ class AddAdmin extends Component {
             secondLastName: "",
             email: "",
             password: "",
-            confirmPassword: "",
-            emailExist: 1
+            confirmPassword: ""
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -37,84 +39,53 @@ class AddAdmin extends Component {
         this.handlePasswordValidation = this.handlePasswordValidation.bind(this);
         this.inputNumberValidator = this.inputNumberValidator.bind(this);
         this.emailValidator = this.emailValidator.bind(this);
-        this.validateIfUserExistByEmail = this.validateIfUserExistByEmail.bind(this);
-        this.loadIfUserExistByEmail = this.loadIfUserExistByEmail.bind(this);
-    }
+        this.validEmail = this.validEmail.bind(this);
 
-    componentDidMount() {
-        this.loadIfUserExistByEmail();
     }
 
     /**
         * Method that submit all the information in the form
         */
     handleSubmit = event => {
-        if (!this.empty()) {
-            if (this.emailValidator()) {
-                if (this.handlePasswordValidation()) {
-                    if (!this.validateIfUserExistByEmail()) {
 
-                        fetch("http://localhost:9000/AdminRoute/addAdmin", {
-                            method: "post",
-                            body: JSON.stringify(this.state),
-
-                            headers: {
-                                Accept: "application/json",
-                                "Content-Type": "application/json"
-                            }
-                        })
-                            .then(res => res.json())
-                            .then(data => {
-                                alert("El nuevo administrador ha sido agregado");
-                            })
-                            .catch(err => console.error(err));
-
-                    } else {
-                        document.getElementById("email").value = "";
-                        alert("El email ingresado ya existe");
-                    }
-                } else {
-                    alert("Las contraseñas deben ser iguales");
-                }
-            } else {
+        axios.get(`http://localhost:9000/User/isEmailValid`, { params: { email: this.state.email } }).then(response => {
+            var isEmailValid = JSON.parse(JSON.stringify(response.data))[0]['isEmailValid'].data[0];
+            if (this.empty()) {
+                alert("Los campos con * son obligatorios");
+            } else if (!this.emailValidator()) {
                 alert("El email no tiene el formato correcto");
+            } else if (!this.handlePasswordValidation()) {
+                alert("Las contraseñas deben ser iguales");
+            } else if (!this.state.validations.validateIdentification(this.state.identificationID)) {
+                alert("El formato de la cédula ingresada es incorrecto");
+            } else if (isEmailValid == 1) {
+                document.getElementById("email").value = "";
+                alert("El correo ingresado ya corresponde a otro administrador registrado");
+            } else {
+
+                fetch("http://localhost:9000/AdminRoute/addAdmin", {
+                    method: "post",
+                    body: JSON.stringify(this.state),
+
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json"
+                    }
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        alert("El nuevo administrador ha sido agregado");
+                    })
+                    .catch(err => console.error(err));
+
             }
-        } else {
-            alert("Los campos con * son obligatorios");
-        }
+        });
+
         event.preventDefault();
     }
 
-    validateIfUserExistByEmail() {
+    validEmail() {
 
-        console.log(this.state.emailExist[0].exist);
-
-        this.loadIfUserExistByEmail();
-
-        console.log(this.state.emailExist[0].exist);
-
-        if (this.state.emailExist[0].exist === 1) {
-            return true;
-        } else {
-            return false;
-        }
-
-    }
-
-    loadIfUserExistByEmail() {
-        try {
-
-            axios.get(`http://localhost:9000/AdminRoute/userExistByEmail`,
-                {
-                    params: { email: this.state.email }
-                }).then(response => {
-                    const emailExist = response.data[0];
-                    this.setState({ emailExist });
-                });
-
-        } catch (err) {
-            console.error(err);
-        }
     }
 
     handleInputChange(event) {

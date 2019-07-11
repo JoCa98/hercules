@@ -31,11 +31,7 @@ function App() {
       <Switch>
         <Fragment >
           <Header />
-<<<<<<< HEAD
           <Route exact path="/" component={AddAdmin} />
-=======
-          <Route exact path="/" component={LogIn} />
->>>>>>> eec4122503249e2b8f52784fc200981deb12d75c
           <Fragment>
           <Route exact path="/UserHome" component={UserHome} />
             <Route exact path="/UserConfiguration" component={UserConfiguration} />

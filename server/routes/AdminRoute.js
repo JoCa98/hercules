@@ -109,23 +109,5 @@ router.post('/updateAdmin', (req, res) => {
     });
 });
 
-/**
-*Method to execute the procedure stored in the database
-*to validate if already exist an user by their email
-* 
-* @param {Request}
-* @param {Response}
-*/  
-router.get('/userExistByEmail', (req, res) => {
-  connection.query("CALL proc_userExistByEmail('"  + req.query.email + "')", function (err, results) {
-      if (results) {
-        res.send(results);
-      }
-      else {
-        console.log(err);
-      }
-    });
-});
-
 
 module.exports = router;

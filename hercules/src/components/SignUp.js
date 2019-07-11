@@ -448,11 +448,6 @@ class SignUp extends Component {
                                 </div>
                                 <div className="row">
                                     <div className="col-12">
-<<<<<<< HEAD
-                                        <div className="form-group" align="left">
-                                            <p>Email</p>
-                                            <input type="email" required  name="email" value={this.state.email} onChange={this.handleInputChange} className="form-control inputText w-100"></input>
-=======
                                         <div className="row">
                                             <div className="col-12 col-sm-6">
                                                 <div className="form-group" align="left">
@@ -460,7 +455,6 @@ class SignUp extends Component {
                                                     <input type="text" required name="email" value={this.state.email} onChange={this.handleInputChange} className="form-control inputText w-100"></input>
                                                 </div>
                                             </div>
->>>>>>> eec4122503249e2b8f52784fc200981deb12d75c
                                         </div>
                                     </div>
                                 </div>
