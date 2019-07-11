@@ -50,19 +50,19 @@ class NavbarUserHome extends Component {
                                 <ul className="navbar-nav text-center">
 
                                     <li className="nav-item active ml-4 mt-1">
-                                    <Link to="/UserConfiguration" className="align-middle">Rutina</Link>
+                                        <Link to="/UserConfiguration" className="align-middle">Rutina</Link>
                                     </li>
                                     <li className="nav-item ml-4 mt-1">
-                                    <Link to="/UserConfiguration" className="align-middle">Consulta médica</Link>
+                                        <Link to="/UserConfiguration" className="align-middle">Consulta médica</Link>
                                     </li>
                                     <li className="nav-item ml-4 mt-1">
-                                    <Link to="/UserConfiguration" className="align-middle">Composición corporal</Link>
+                                        <Link to="/UserConfiguration" className="align-middle">Composición corporal</Link>
                                     </li>
                                     <li className="nav-item ml-4 mt-1">
                                         <Link to="/UserConfiguration" className="align-middle">Perfil</Link>
                                     </li>
                                     <li className="nav-item ml-4 mt-1">
-                                    <Link to="/UserConfiguration" className="align-middle">Salir</Link>
+                                        <Link to="/UserConfiguration" className="align-middle">Salir</Link>
                                     </li>
                                 </ul>
                             </div>

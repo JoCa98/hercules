@@ -21,7 +21,7 @@ class LogIn extends Component {
     tryLogin() {
         console.log(this.props.location.pathname);
         //window.location.reload();
-        sessionStorage.setItem('userTypeID',1);
+        sessionStorage.setItem('userTypeID',3);
        /* axios.get(`http://localhost:9000/User/isUserValid`, { params: { email: this.state.email, password: this.state.password } }).then(response => {
 
             this.setState({ isUserValid: JSON.parse(JSON.stringify(response.data))[0]['isUserValid'].data[0] });

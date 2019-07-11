@@ -94,6 +94,18 @@ h4{
   
 }
 
+.logo{
+  width: 40px;
+  
+}
+
+.container-fluid {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
 
 footer{
   height: 210px;
