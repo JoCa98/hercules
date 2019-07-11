@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import axios from "axios";
-
+import Hash from './Hash';
 import NavbarUserHome from './NavbarUserHome';
 class LogIn extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            hash: new Hash(),
             email: "",
             password: "",
             userTypeID: "",
@@ -21,23 +22,32 @@ class LogIn extends Component {
     tryLogin() {
         console.log(this.props.location.pathname);
         //window.location.reload();
-        sessionStorage.setItem('userTypeID',3);
-       /* axios.get(`http://localhost:9000/User/isUserValid`, { params: { email: this.state.email, password: this.state.password } }).then(response => {
-
-            this.setState({ isUserValid: JSON.parse(JSON.stringify(response.data))[0]['isUserValid'].data[0] });
+        sessionStorage.setItem('userTypeID', 3);
+        axios.get(`http://localhost:9000/User/isEmailValid`, { params: { email: this.state.email } }).then(response => {
+            this.setState({ isUserValid: JSON.parse(JSON.stringify(response.data))[0]['isEmailValid'].data[0] });
             if (this.state.isUserValid == 1) {
-                sessionStorage.setItem('email', this.state.email);
-                sessionStorage.setItem('password', this.state.password);
-                axios.get(`http://localhost:9000/User/getDataForLogin`, { params: { email: this.state.email, password: this.state.password } }).then(response => {
-                    sessionStorage.setItem('partyID', JSON.parse(JSON.stringify(response.data[0]))[0]['partyID']);
-                    sessionStorage.setItem('userTypeID', JSON.parse(JSON.stringify(response.data[0]))[0]['userTypeID']);
-                    if (sessionStorage.getItem('userTypeID') == 1 || sessionStorage.getItem('userTypeID') == 2 ) {
-                        this.props.history.push(`/UserConfiguration`);                    }
+                axios.get(`http://localhost:9000/User/getHashPassword`, { params: { email: this.state.email } }).then(response => {
+                    var hashPasswordDB = JSON.parse(JSON.stringify(response.data[0]))[0]['hashPassword']
+                    if (this.state.hash.comparePassword(this.state.password, hashPasswordDB) == true) {
+                        sessionStorage.setItem('email', this.state.email);
+                        sessionStorage.setItem('password', hashPasswordDB);
+                        axios.get(`http://localhost:9000/User/getDataForLogin`, { params: { email: this.state.email, password: this.state.password } }).then(response => {
+                            sessionStorage.setItem('partyID', JSON.parse(JSON.stringify(response.data[0]))[0]['partyID']);
+                            sessionStorage.setItem('userTypeID', JSON.parse(JSON.stringify(response.data[0]))[0]['userTypeID']);
+                            if (sessionStorage.getItem('userTypeID') == 1 || sessionStorage.getItem('userTypeID') == 2) {
+                                this.props.history.push(`/UserConfiguration`);
+                            } else {
 
+                            }
+                        });
+                    } else {
+                        alert("La contraseña ingresada no es correcta.")
+                    }
                 });
+            }else {
+                alert("El correo ingresado no corresponde a ningún usuario registrado")
             }
-        });**/
-        
+        });
     }
 
     goSignUp() {

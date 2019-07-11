@@ -121,7 +121,7 @@ class UserConfiguration extends Component {
     }
     loadCantons() {
         this.state.cantonList = this.state.cantons.map((cantons, i) => {
-            if (i == 0 & this.state.cantonID == undefined) {
+            if (i == 0 && this.state.cantonID == undefined) {
                 this.state.cantonID = cantons.cantonID
             }
             return (
@@ -199,6 +199,8 @@ class UserConfiguration extends Component {
                     relationTypeID: response.relationTypeID,
                     birthDate: response.birthDate
                 })
+                sessionStorage.setItem('currentIdentificationID', response.identificationID);
+                sessionStorage.setItem('currentCarnet', response.carnet);
                 this.getLocalGeoSupID(response.districtID);
             })
 
@@ -210,9 +212,13 @@ class UserConfiguration extends Component {
     updateUser() {
 
         console.log("sec: " + this.state.secondName)
-        if (this.state.secondName.trim.length == 0) {
+        if (this.state.secondName.trim().length == 0) {
             this.setState({ secondLastName: null })
         }
+        if (this.state.phoneNumber2.trim().length == 0) {
+            this.setState({ phoneNumber2: null })
+        }
+
         fetch("http://localhost:9000/User/updateUser", {
             method: "post",
             body: JSON.stringify({
@@ -239,7 +245,7 @@ class UserConfiguration extends Component {
                 console.log(data);
             })
             .catch(err => console.error(err));
-        alert("Los datos de usuario fueron actualizados");
+        alert("Los datos de usuario fueron actualizados con éxito");
     }
 
     updatePassword() {
@@ -247,7 +253,7 @@ class UserConfiguration extends Component {
             method: "post",
             body: JSON.stringify({
                 email: sessionStorage.getItem('email'),
-                password: this.state.newPassword,
+                password: this.state.Hash.encode(this.state.newPassword),
             }),
             headers: {
                 Accept: "application/json",
@@ -259,6 +265,7 @@ class UserConfiguration extends Component {
                 console.log(data);
             })
             .catch(err => console.error(err));
+        alert("La contraseña fue cambiada con éxito");
     }
 
     updateContact() {
@@ -281,6 +288,7 @@ class UserConfiguration extends Component {
                 console.log(data);
             })
             .catch(err => console.error(err));
+        alert("Los datos del usuario de emergencia fueron actualizadoscon éxito");
     }
 
     loadAccountInfo() {
@@ -378,34 +386,48 @@ class UserConfiguration extends Component {
         this.enableInfoFields(false)
     }
     changeInfo() {
-        if (this.state.firstName.trim().length == 0 || this.state.lastName.trim().length == 0
-            || this.state.secondLastName.trim().length == 0 || this.state.phoneNumber1.trim().length == 0
-            || this.state.career.trim().length == 0 || this.state.carnet.trim().length == 0
-            || this.state.identificationID.toString().trim().length == 0) {
-            alert("Todos los datos del usuarios deben estar llenos");
-        } else if (!this.state.validations.validateTextField(this.state.firstName)
-            || (!this.state.secondName.trim().length == 0 & !this.state.validations.validateTextField(this.state.secondName))
-            || !this.state.validations.validateTextField(this.state.lastName)
-            || !this.state.validations.validateTextField(this.state.secondLastName)
-        ) {
-            alert("Los datos del nombre solo pueden estar compuestos por letras");
-        } else if (!this.state.validations.validatePhoneNumberField(this.state.phoneNumber1
-            || (!this.state.phoneNumber2.trim().length == 0 & !this.state.validations.validatePhoneNumberField(this.state.phoneNumber2))
-        )) {
-            alert("Los números telefónicos deben estar compuestos por 8 dígitos");
+        axios.get(`http://localhost:9000/User/isIdentificationValid`, { params: { identificationID: this.state.identificationID } }).then(response => {
+            var identificationIDValid = JSON.parse(JSON.stringify(response.data))[0]['isIdentificationValid'].data[0];
 
-        } else if (this.state.carnet != "N/A" & !this.state.validations.validateCarnetField(this.state.carnet)) {
-            alert("El carné debe estar compuesto por 1 letra inicial y 5 dígitos");
-        }
-        else {
-            if (window.confirm("¿Está seguro se actualizar los datos de usuario?") == true) {
-                document.getElementById('changeInfo').style.display = 'none';
-                document.getElementById('editInfo').style.display = 'block';
-                document.getElementById('cancelInfo').style.display = 'none';
-                this.updateUser();
-                this.enableInfoFields(false);
-            }
-        }
+            axios.get(`http://localhost:9000/User/isCarnetValid`, { params: { carnet: this.state.carnet } }).then(response => {
+                var carnetValid = JSON.parse(JSON.stringify(response.data))[0]['isCarnetValid'].data[0];
+                if (this.state.firstName.trim().length == 0 || this.state.lastName.trim().length == 0
+                    //|| this.state.secondLastName.trim().length == 0 || this.state.phoneNumber1.trim().length == 0
+                    || this.state.career.trim().length == 0 || this.state.carnet.trim().length == 0
+                    || this.state.identificationID.toString().trim().length == 0) {
+                    alert("Todos los datos del usuarios deben estar llenos");
+                } else if (!this.state.validations.validateTextField(this.state.firstName.trim())
+                    || ((this.state.secondName.trim() != "") && (!this.state.validations.validateTextField(this.state.secondName.trim())))
+                    || !this.state.validations.validateTextField(this.state.lastName.trim())
+                    || ((this.state.secondLastName.trim() != "") && (!this.state.validations.validateTextField(this.state.secondLastName.trim())))
+                ) {
+                    alert("Los datos del nombre solo pueden estar compuestos por letras y extensión mínima de 2 caracteres");
+                } else if (!this.state.validations.validatePhoneNumberField(this.state.phoneNumber1
+                    || (!this.state.phoneNumber2.trim().length == 0 && !this.state.validations.validatePhoneNumberField(this.state.phoneNumber2))
+                )) {
+                    alert("Los números telefónicos deben estar compuestos por 8 dígitos");
+
+                } else if (this.state.carnet != "N/A" && !this.state.validations.validateCarnetField(this.state.carnet)) {
+                    alert("El carné debe estar compuesto por 1 letra inicial y 5 dígitos");
+                } else if (this.state.carnet != "N/A" && carnetValid == 1 && (this.state.carnet != sessionStorage.getItem('currentCarnet'))) {
+                    alert("El carné ingresado ya corresponde a otro usuario registrado");
+                } else if (!this.state.validations.validateIdentification(this.state.identificationID)) {
+                    alert("El formato de la cédula ingresada es incorrecto");
+                } else if (identificationIDValid == 1 && (this.state.identificationID != sessionStorage.getItem('currentIdentificationID'))) {
+                    alert("La cédula ingresado ya corresponde a otro usuario registrado");
+
+                } else {
+                    if (window.confirm("¿Está seguro se actualizar los datos de usuario?") == true) {
+                        document.getElementById('changeInfo').style.display = 'none';
+                        document.getElementById('editInfo').style.display = 'block';
+                        document.getElementById('cancelInfo').style.display = 'none';
+                        this.updateUser();
+                        this.enableInfoFields(false);
+                    }
+                }
+            });
+        });
+
 
     }
     //////////////////////////
@@ -423,14 +445,14 @@ class UserConfiguration extends Component {
         this.enablePasswordFields(false);
     }
     changePassword() {
-        //validad y encriptar
         if (document.getElementById('password').value.length == 0 || document.getElementById('newPassword').value.length == 0
             || document.getElementById('confirmNewPassword').value.length == 0) {
             alert("Todos los campos de contraseña deben estar llenos")
-        } else if (this.state.password != sessionStorage.getItem('password')) {
+        } else if (this.state.hash.encode(this.state.password, sessionStorage.getItem('password'))) {
             alert("La contraseña actual es incorrecta");
         } else if (this.state.newPassword != this.state.confirmNewPassword) {
-            alert("Las contraseñas no coinciden");
+            alert("Los campos de nueva contraseña no coinciden");
+
         } else {
             if (window.confirm("¿Está seguro de actualizar los datos de la contraseña?") == true) {
                 document.getElementById('changePassword').style.display = 'none';
@@ -458,6 +480,9 @@ class UserConfiguration extends Component {
     changeContact() {
         if (this.state.emergencyContactPhoneNumber.trim().length == 0 || this.state.contactName.trim().length == 0) {
             alert("Todos los datos del contacto de emergencia deben estar llenos");
+
+        } else if (!this.state.validations.validateTextField(this.state.contactName)) {
+            alert("El nombre del contacto de emergencia solo pueden estar compuesto por letras y extensión mínima de 2 caracteres");
         } else if (!this.state.validations.validatePhoneNumberField(this.state.emergencyContactPhoneNumber)) {
             alert("El número teléfonico del contacto de emergencia debe estar compuesto por 8 dígitos");
         } else {
