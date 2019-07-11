@@ -112,7 +112,6 @@ class AddMedicalForm extends Component {
             recommendations: "",
             medicalInfo: [{}],
             medicalID: 0
-
         };
         this.handleInputChange = this.handleInputChange.bind(this);
         this.inputNumberValidator = this.inputNumberValidator.bind(this);
@@ -223,7 +222,6 @@ class AddMedicalForm extends Component {
     */
     handleSubmit = event => {
         if(sessionStorage.getItem("update") === "true"){
-            console.log("estoy dentro");
             if(!this.empty()){
                 fetch(`http://localhost:9000/MedicalInfo/updateMedicalRegister`, {
                     method: "post",

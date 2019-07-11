@@ -92,7 +92,10 @@ class ActCodeForm extends Component {
           console.log(data);
         })
         .catch(err => console.error(err));
+        alert("El registro fue completado con éxito. Ahora será redirigido a la pantalla de ingreso")
+        this.props.history.push(`/`);
     } else {
+      alert("El código ingresado es incorrecto");
     }
   }
 
