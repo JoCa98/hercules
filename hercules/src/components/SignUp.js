@@ -451,8 +451,8 @@ class SignUp extends Component {
                                         <div className="row">
                                             <div className="col-12 col-sm-6">
                                                 <div className="form-group" align="left">
-                                                    <p>Email</p>
-                                                    <input type="text" required name="email" value={this.state.email} onChange={this.handleInputChange} className="form-control inputText w-100"></input>
+                                                    <p>Email<font color="red">*</font></p>
+                                                    <input type="text" title="Solo correo institucional" placeholder="Ej: correo@ucr.ac.cr" required name="email" value={this.state.email} onChange={this.handleInputChange} className="form-control inputText w-100"></input>
                                                 </div>
                                             </div>
                                         </div>
@@ -463,14 +463,14 @@ class SignUp extends Component {
                                         <div className="row">
                                             <div className="col-12 col-sm-6">
                                                 <div className="form-group" align="left">
-                                                    <p>Contraseña</p>
-                                                    <input type="password" required name="password" id="password"className="inputText form-control" value={this.state.password} onChange={this.handleInputChange}></input>
+                                                    <p>Contraseña<font color="red">*</font></p>
+                                                    <input type="password" title="Debe contener letras y números" required name="password" id="password"className="inputText form-control" value={this.state.password} onChange={this.handleInputChange}></input>
                                                 </div>
                                             </div>
                                             <div className="col-12 col-sm-6">
                                                 <div className="form-group" align="left">
-                                                    <p>Confirmar contraseña</p>
-                                                    <input type="password" required name="confirmPassword" id="confirmPassword" value={this.state.confirmPassword} onChange={this.handleInputChange} className="inputText form-control"></input>
+                                                    <p>Confirmar contraseña<font color="red">*</font></p>
+                                                    <input type="password" title="Vuelva a introducir su contraseña" required name="confirmPassword" id="confirmPassword" value={this.state.confirmPassword} onChange={this.handleInputChange} className="inputText form-control"></input>
                                                 </div>
                                             </div>
                                         </div>

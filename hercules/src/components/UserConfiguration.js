@@ -633,7 +633,7 @@ class UserConfiguration extends Component {
                                 <div className="row">
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
-                                            <p>Contraseña actual</p>
+                                            <p>Contraseña actual<font color="red">*</font></p>
                                             <input type="password" id="password" required name="password" value={this.state.password || ''} onChange={this.handleInputChange} className="form-control inputText w-100"></input>
                                         </div>
                                     </div>
@@ -643,14 +643,14 @@ class UserConfiguration extends Component {
                                         <div className="row">
                                             <div className="col-12 col-sm-6">
                                                 <div className="form-group" align="left">
-                                                    <p>Contraseña nueva</p>
-                                                    <input type="password" id="newPassword" required name="newPassword" className="inputText form-control" value={this.state.newPassword || ''} onChange={this.handleInputChange}></input>
+                                                    <p>Contraseña nueva<font color="red">*</font></p>
+                                                    <input type="password" title="Debe contener letras y números" id="newPassword" required name="newPassword" className="inputText form-control" value={this.state.newPassword || ''} onChange={this.handleInputChange}></input>
                                                 </div>
                                             </div>
                                             <div className="col-12 col-sm-6">
                                                 <div className="form-group" align="left">
-                                                    <p>Confirmar contraseña nueva</p>
-                                                    <input type="password" id="confirmNewPassword" required name="confirmNewPassword" className="inputText form-control" value={this.state.confirmNewPassword || ''} onChange={this.handleInputChange}></input>
+                                                    <p>Confirmar contraseña nueva<font color="red">*</font></p>
+                                                    <input type="password" title="Vuelva a introducir la contraseña nueva" id="confirmNewPassword" required name="confirmNewPassword" className="inputText form-control" value={this.state.confirmNewPassword || ''} onChange={this.handleInputChange}></input>
                                                 </div>
                                             </div>
                                         </div>
