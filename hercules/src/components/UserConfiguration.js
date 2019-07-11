@@ -498,30 +498,30 @@ class UserConfiguration extends Component {
                                 <div className="row">
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
-                                            <p>Primer nombre</p>
-                                            <input type="text" id="firstName" name="firstName" required className="form-control inputText" value={this.state.firstName || ''} onChange={this.handleInputChange}></input>
+                                            <p>Primer nombre<font color="red">*</font></p>
+                                            <input type="text" placeholder="Ej: Kevin" id="firstName" name="firstName" required className="form-control inputText" value={this.state.firstName || ''} onChange={this.handleInputChange}></input>
                                         </div>
                                         <div className="form-group" align="left">
-                                            <p>Primer Apellido</p>
-                                            <input type="text" id="lastName" name="lastName" required className="form-control inputText" value={this.state.lastName || ''} onChange={this.handleInputChange}></input>
+                                            <p>Primer Apellido<font color="red">*</font></p>
+                                            <input type="text" placeholder="Ej: Jiménez" id="lastName" name="lastName" required className="form-control inputText" value={this.state.lastName || ''} onChange={this.handleInputChange}></input>
                                         </div>
                                         <div className="form-group" align="left">
-                                            <p>Teléfono 1</p>
-                                            <input type="text" id="phoneNumber1" name="phoneNumber1" required className="form-control inputText" value={this.state.phoneNumber1 || ''} onChange={this.handleInputChange}></input>
+                                            <p>Teléfono 1<font color="red">*</font></p>
+                                            <input type="text" placeholder="########" id="phoneNumber1" name="phoneNumber1" required className="form-control inputText" value={this.state.phoneNumber1 || ''} onChange={this.handleInputChange}></input>
                                         </div>
                                     </div>
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
                                             <p>Segundo nombre</p>
-                                            <input type="text" id="secondName" name="secondName" className="form-control inputText" value={this.state.secondName || ''} onChange={this.handleInputChange}></input>
+                                            <input type="text" placeholder="Ej: José" id="secondName" name="secondName" className="form-control inputText" value={this.state.secondName || ''} onChange={this.handleInputChange}></input>
                                         </div>
                                         <div className="form-group" align="left">
                                             <p>Segundo Apellido</p>
-                                            <input type="text" id="secondLastName" name="secondLastName" required className="form-control inputText" value={this.state.secondLastName || ''} onChange={this.handleInputChange}></input>
+                                            <input type="text" placeholder="Ej: Molina" id="secondLastName" name="secondLastName" required className="form-control inputText" value={this.state.secondLastName || ''} onChange={this.handleInputChange}></input>
                                         </div>
                                         <div className="form-group" align="left">
                                             <p>Teléfono 2</p>
-                                            <input type="text" id="phoneNumber2" name="phoneNumber2" className="form-control inputText" value={this.state.phoneNumber2 || ''} onChange={this.handleInputChange}></input>
+                                            <input type="text" placeholder="########" id="phoneNumber2" name="phoneNumber2" className="form-control inputText" value={this.state.phoneNumber2 || ''} onChange={this.handleInputChange}></input>
                                         </div>
                                     </div>
                                 </div>
@@ -529,13 +529,13 @@ class UserConfiguration extends Component {
                                 <div className="row">
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
-                                            <p>Número de cédula</p>
-                                            <input type="text" id="identificationID" name="identificationID" required className="form-control InputText" value={this.state.identificationID || ''} onChange={this.handleInputChange}></input>
+                                            <p>Número de cédula<font color="red">*</font></p>
+                                            <input type="text" placeholder="#########" id="identificationID" name="identificationID" required className="form-control InputText" value={this.state.identificationID || ''} onChange={this.handleInputChange}></input>
                                         </div>
                                     </div>
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
-                                            <p>Fecha de nacimiento</p>
+                                            <p>Fecha de nacimiento<font color="red">*</font></p>
                                             <input type="date" name="birthDate" disabled required className="form-control InputText" value={this.state.birthDate || ''} onChange={this.handleInputChange}></input>
                                         </div>
                                     </div>
@@ -543,14 +543,14 @@ class UserConfiguration extends Component {
                                 <div className="row">
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
-                                            <p>Carné</p>
-                                            <input type="text" id="carnet" name="carnet" required className="form-control InputText" value={this.state.carnet || ''} onChange={this.handleInputChange}></input>
+                                            <p>Carné<font color="red">*</font></p>
+                                            <input type="text" placeholder="Ej: A00000" id="carnet" name="carnet" required className="form-control InputText" value={this.state.carnet || ''} onChange={this.handleInputChange}></input>
                                         </div>
                                     </div>
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
-                                            <p>Carrera</p>
-                                            <input type="text" id="career" name="career" required className="form-control InputText" value={this.state.career || ''} onChange={this.handleInputChange}></input>
+                                            <p>Carrera<font color="red">*</font></p>
+                                            <input type="text" placeholder="Ej: Informática Empresarial" id="career" name="career" required className="form-control InputText" value={this.state.career || ''} onChange={this.handleInputChange}></input>
                                         </div>
                                     </div>
                                 </div>
@@ -564,7 +564,7 @@ class UserConfiguration extends Component {
                                 <div className="row">
                                     <div className="col-12 col-sm-4">
                                         <div className="form-group" align="left">
-                                            <p>Provincia</p>
+                                            <p>Provincia<font color="red">*</font></p>
                                             <select id="provinceID" id="provinceID" name="provinceID" className="form-control" value={this.state.provinceID} onChange={this.handleSelectProvince}>
                                                 {this.state.provinceList}
                                             </select>
@@ -572,7 +572,7 @@ class UserConfiguration extends Component {
                                     </div>
                                     <div className="col-12 col-sm-4">
                                         <div className="form-group" align="left">
-                                            <p>Cantón</p>
+                                            <p>Cantón<font color="red">*</font></p>
                                             <select name="cantonID" id="cantonID" className="form-control" value={this.state.cantonID} onChange={this.handleSelectCanton}>
                                                 {this.state.cantonList}
                                             </select>
@@ -581,7 +581,7 @@ class UserConfiguration extends Component {
                                     </div>
                                     <div className="col-12 col-sm-4">
                                         <div className="form-group" align="left">
-                                            <p>Distrito</p>
+                                            <p>Distrito<font color="red">*</font></p>
                                             <select name="districtID" id="districtID" className="form-control" value={this.state.districtID} onChange={this.handleInputChange}>
                                                 {this.state.districtList}
                                             </select>
@@ -591,8 +591,8 @@ class UserConfiguration extends Component {
                                 <div className="row">
                                     <div className="col-12">
                                         <div className="form-group" align="left">
-                                            <p align="left">Otras señas</p>
-                                            <textarea type="text" id="addressLine" required name="addressLine" value={this.state.addressLine || ''} onChange={this.handleInputChange} className="bigInputText w-100 form-control bigInputText"></textarea>
+                                            <p align="left">Otras señas<font color="red">*</font></p>
+                                            <textarea type="text" placeholder="Ej: Cerca del árbol de aguacate, casa color verde." id="addressLine" required name="addressLine" value={this.state.addressLine || ''} onChange={this.handleInputChange} className="bigInputText w-100 form-control bigInputText"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -671,7 +671,7 @@ class UserConfiguration extends Component {
                                 <div className="row">
                                     <div className="col-6">
                                         <div className="form-group" align="left">
-                                            <p>Nombre</p>
+                                            <p>Nombre<font color="red">*</font></p>
                                             <input type="text" required name="contactName" id="contactName" className="inputText form-control" value={this.state.contactName} onChange={this.handleInputChange}></input>
                                         </div>
                                     </div>
@@ -679,7 +679,7 @@ class UserConfiguration extends Component {
                                 <div className="row">
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
-                                            <p>Parentesco</p>
+                                            <p>Parentesco<font color="red">*</font></p>
                                             <select name="relationTypeID" id="relationTypeID" className="form-control" value={this.state.relationTypeID} onChange={this.handleInputChange}>
                                                 {this.state.relationList}
                                             </select>
@@ -687,7 +687,7 @@ class UserConfiguration extends Component {
                                     </div>
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
-                                            <p>Teléfono</p>
+                                            <p>Teléfono<font color="red">*</font></p>
                                             <input type="text" required name="emergencyContactPhoneNumber" id="emergencyContactPhoneNumber" className="inputText form-control" value={this.state.emergencyContactPhoneNumber} onChange={this.handleInputChange}></input>
                                         </div>
                                     </div>
