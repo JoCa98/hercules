@@ -32,13 +32,20 @@ class RoutineCarouselWrite extends Component {
             exercise: [{}],
             typeID: 1,
             id: 1,
-            lastTypeID: ""
+            lastTypeID: "",
+            list:[],
+            exerciseID : 0,
+            exist:false
+
         };
+       
         this.exerciseTypeSelect = this.exerciseTypeSelect.bind(this);
         this.rigthArrow = this.rigthArrow.bind(this);
         this.getExerciseData = this.getExerciseData.bind(this);
         this.leftArrow = this.leftArrow.bind(this);
         this.rowEvent = this.rowEvent.bind(this);
+        this.addExercise = this.addExercise.bind(this);
+     
     }
 
     /**
@@ -54,15 +61,17 @@ class RoutineCarouselWrite extends Component {
     axios.get(`http://localhost:9000/RoutineRoute/getLastType`).then(response => {
         this.state.lastTypeID = response.data[0];
         this.setState({ lastTypeID: response.data[0] });
-    })
-    console.log(this.state.typeID);
+    });
+
+   
    this.getExerciseData();
+   
 }
 
 /**
-    * Method that change the state of the typeID to change the exercises
-    */
-   rigthArrow() {
+* Method that change the state of the typeID to change the exercises
+*/
+rigthArrow() {
     if (this.state.typeID == this.state.lastTypeID.exerciseTypeID) {
         this.state.typeID = 1;
         this.setState({ typeID: 1 });
@@ -116,14 +125,67 @@ getExerciseData() {
 }
 
     rowEvent(event){
-        var i = event.target.parentNode.rowIndex - 1;
-        var id = document.getElementById("routines").rows[event.target.parentNode.rowIndex].cells[0].innerHTML;
-        document.getElementById("weight" + i).disabled = false;
-        document.getElementById("series"+ i).disabled = false;
-        document.getElementById("repetitions"+ i).disabled = false;
-        document.getElementById("minutes" + i).disabled = false;
+        
+    const id = document.getElementById("routines").rows[event.target.parentNode.rowIndex].cells[0].innerHTML;
+        this.setState({
+         exerciseID: id   
+        });
+       document.getElementById("weightInput").disabled = false;
+       document.getElementById("seriesInput").disabled = false;
+       document.getElementById("repetitionsInput").disabled = false;
+       document.getElementById("minutesInput").disabled = false; 
+
+        if (this.state.list.length !== 0) {
+            this.state.list.map((ex) => {
+                if (ex.exerciseID == this.state.exerciseID) {
+                    document.getElementById("weightInput").value = ex.charge;
+                    document.getElementById("seriesInput").value = ex.series;
+                    document.getElementById("repetitionsInput").value = ex.repetitions;
+                    document.getElementById("minutesInput").value = ex.minutes;
+                    document.getElementById("add").display = "none";
+                    document.getElementById("edit").display = "show";
+                    document.getElementById("delete").display = "show";
+
+
+                    this.setState({exist:true});
+                }else{
+                    this.setState({exist:false});
+
+                }
+            })
+        }
 
     }
+    addExercise(){
+        if(document.getElementById("weightInput") !== "" && document.getElementById("seriesInput")!== ""
+        &&  document.getElementById("repetitionsInput") !== "" && document.getElementById("minutesInput")!==""){
+            var obj = {exerciseID: this.state.exerciseID, minutes: document.getElementById("minutesInput").value,
+            charge: document.getElementById("weightInput").value,
+            repetitions:document.getElementById("repetitionsInput").value,
+            series: document.getElementById("seriesInput").value} 
+
+            if(this.state.exist){
+                console.log(this.state.list);
+                alert("El ejercicio ya fue agregado");
+            }else{
+                this.state.list.push(obj);
+            }
+            
+                  
+            }
+
+        sessionStorage.setItem("exerciseList", this.state.list);
+ 
+       document.getElementById("weightInput").value = "";
+       document.getElementById("seriesInput").value = "";
+       document.getElementById("repetitionsInput").value = "";
+       document.getElementById("minutesInput").value = "";
+       document.getElementById("weightInput").disabled = true;
+       document.getElementById("seriesInput").disabled = true;
+       document.getElementById("repetitionsInput").disabled = true;
+       document.getElementById("minutesInput").disabled = true;
+    }
+
     render() {
         /**
         * The exercise.map is for create a table with the exercises information
@@ -132,16 +194,12 @@ getExerciseData() {
         return (
             <tr className="pointer" key={i}>
                 <td className="diplayNone">{exercise.exerciseID}</td>
-                <td onClick={this.rowEvent}>{exercise.description}</td>
-                <td><input type="number" id={"weight" + i} disabled={true} /></td>
-                <td><input type="number" id={"series" + i} disabled={true}/></td>
-                <td><input type="number" id={"repetitions" + i} disabled={true}/></td>
-                <td><input type="number" id={"minutes" + i} disabled={true}/></td>
+                <td onClick={this.rowEvent} >{exercise.description}</td>
             </tr>
         )
     })
 
-    /**
+        /**
         * The exerciseType.map is for create the options to the dropdown
         */
        const exerciseList = this.state.exerciseType.map((exercises, i) => {
@@ -165,16 +223,12 @@ getExerciseData() {
                     </div>
                 </div>
                 <div className="row mt-4">
-                    <div className="col-12">
+                    <div className="col-6">
                         <div className="table-responsive">
                             <table className="table table-sm table-hover" id="routines">
                                 <thead>
                                     <tr>
                                         <th scope="col">Ejercicio</th>
-                                        <th scope="col">Carga/Peso</th>
-                                        <th scope="col">Series</th>
-                                        <th scope="col">Repeticiones</th>
-                                        <th scope="col">Minutos</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -182,6 +236,31 @@ getExerciseData() {
                                 </tbody>
                             </table>
                         </div>
+                    </div>
+                    <div className="col-6">
+                        <form>
+                        <div className="form-group">
+                            <p>Carga/Peso</p>
+                            <input type="number" id="weightInput" className ="form-control" disabled></input>
+                        </div>
+                        <div className="form-group">
+                            <p>Series</p>
+                            <input type="number" id="seriesInput" className ="form-control" disabled></input>
+                        </div>
+                        <div className="form-group">
+                            <p>Repeticiones</p>
+                            <input type="number" id="repetitionsInput" className ="form-control" disabled></input>
+                        </div>
+                        <div className="form-group">
+                            <p>Minutos</p>
+                            <input type="number" id="minutesInput"  className ="form-control" disabled></input>
+                        </div>
+                        <div className="form-group" align="right">
+                        <button align="right" id="add" className="buttonSizeGeneral" onClick={this.addExercise}>Agregar</button>
+                        <button align="right" id="edit" className="buttonSizeGeneral" onClick={this.addExercise} display="none">Editar</button>
+                        <button align="right" id="delete" className="buttonSizeGeneral" onClick={this.addExercise} display="none" >Eliminar</button>
+                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
