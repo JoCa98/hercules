@@ -31,7 +31,7 @@ function App() {
       <Switch>
         <Fragment >
           <Header />
-          <Route exact path="/" component={AddAdmin} />
+          <Route exact path="/" component={AddRoutine} />
           <Fragment>
           <Route exact path="/UserHome" component={UserHome} />
             <Route exact path="/UserConfiguration" component={UserConfiguration} />
@@ -46,7 +46,6 @@ function App() {
                 <Route exact path="/HistoricPhysicalInfoAdmin" component={HistoricPhysicalInfoAdmin} />
                 <Route exact path="/HistoricRoutineInfo" component={HistoricRoutineInfo} />
               </Fragment>
-
             </Fragment>
           </Fragment>
           <Footer />
