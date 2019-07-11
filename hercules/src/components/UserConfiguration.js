@@ -377,7 +377,6 @@ class UserConfiguration extends Component {
         this.enableInfoFields(false)
     }
     changeInfo() {
-
         if (this.state.firstName.trim().length == 0 || this.state.lastName.trim().length == 0
             || this.state.secondLastName.trim().length == 0 || this.state.phoneNumber1.trim().length == 0
             || this.state.career.trim().length == 0 || this.state.carnet.trim().length == 0

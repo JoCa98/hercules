@@ -56,6 +56,7 @@ class SignUp extends Component {
         this.selectMale = this.selectMale.bind(this);
         this.selectStudent = this.selectStudent.bind(this);
         this.selectWorker = this.selectWorker.bind(this);
+        this.validEmail = this.validEmail.bind(this);
         //this.handleSubmit = this.handleSubmit.bind(this);
     }
     componentDidMount() {
@@ -171,44 +172,44 @@ class SignUp extends Component {
         }
     }
 
-    validEmail(){
-        axios.get(`http://localhost:9000/User/isEmailValid`, { params: { email: this.state.email} }).then(response => {
+    validEmail() {
+        axios.get(`http://localhost:9000/User/isEmailValid`, { params: { email: this.state.email } }).then(response => {
             return JSON.parse(JSON.stringify(response.data))[0]['isEmailValid'].data[0];
         });
     }
 
     goActCodeForm() {
+        alert("inicio pruebas");
         if (this.state.firstName.trim().length == 0 || this.state.lastName.trim().length == 0
             || this.state.secondLastName.trim().length == 0 || this.state.phoneNumber1.trim().length == 0
             || this.state.phoneNumber2.toString().trim().length == 0 || this.state.contactName.toString().trim().length == 0
             || this.state.email.trim().length == 0 || this.state.password.trim().length == 0
             || this.state.confirmPassword.toString().trim().length == 0 || this.state.addressLine.toString().trim().length == 0
-            || this.state.emergencyContactPhoneNumber.toString().trim().length == 0 || this.state.confirmPassword.toString().trim().length == 0
+            || this.state.emergencyContactPhoneNumber.toString().trim().length == 0
+            || (this.state.userTypeID == 1 & (this.state.carnet.trim().length == 0 || this.state.career.trim().length == 0))
         ) {
             alert("Todos los campos obligatorios  deben estar llenos");
         } else if (!this.state.validations.validateTextField(this.state.firstName)
             || !(this.state.secondName.trim().length != 0 & this.state.validations.validateTextField(this.state.secondName))
             || !this.state.validations.validateTextField(this.state.lastName)
-            || !this.state.validations.validateTextField(this.state.secondLastName)
-            || !(this.state.userTypeID == 2 & this.state.carnet.trim().length != 0 & this.state.career.trim().length != 0)
+            || !this.state.validations.validateTextField(this.state.secondLastName)            
         ) {
-            alert("validacion: " + (!this.state.secondName.trim().length == 0 & !this.state.validations.validateTextField(this.state.secondName)))
-            alert("Los datos del nombre solo pueden estar compuestos por letras");
-        } else if (this.state.userTypeID == 2) {
-            if (!this.state.validations.validateCarnetField(this.state.carnet)) {
+            alert("Los datos del nombre solo pueden estar compuestos por letras y extensión mínima de 2 caracteres");
+        } else if (this.state.userTypeID == 1 & !this.state.validations.validateCarnetField(this.state.carnet)) {
                 alert("El carné debe estar compuesto por 1 letra inicial y 5 dígitos");
-            }
+            
         } else if (!this.state.validations.validatePhoneNumberField(this.state.phoneNumber1)
             || (!this.state.phoneNumber2.trim().length == 0
                 & !this.state.validations.validatePhoneNumberField(this.state.phoneNumber2))
-            || !this.state.validations.validatePhoneNumberField(this.state.emergencyContactPhoneNumber)
-        ) {
+            || !this.state.validations.validatePhoneNumberField(this.state.emergencyContactPhoneNumber)) {
             alert("Los números telefónicos deben estar compuestos por 8 dígitos");
         } else if (!this.state.validations.validateEmailField(this.state.email)) {
-            alert("Debe utilizar su cuenta  de correo institucional");
-        } else if (this.validEmail()== 1) {
+            alert("correo:" + this.state.email);
+            alert("Debe utilizar su cuenta de correo institucional");
+        } else if (this.validEmail() == 1) {
             alert("El correo ingresado ya corresponde a otro usuario registrado");
         } else {
+            alert("paso pruebas");
             this.GetCode();
             sessionStorage.setItem('identificationID', this.state.identificationID);
             sessionStorage.setItem('firstName', this.state.firstName);

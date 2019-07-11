@@ -77,7 +77,6 @@ class ActCodeForm extends Component {
   }
 
   completeSignUp() {
-    console.log("props: " + JSON.stringify(this.props));
     if (this.state.actCode == this.state.activationCode) {
       fetch("http://localhost:9000/User/addUser", {
         method: "post",
@@ -94,6 +93,7 @@ class ActCodeForm extends Component {
         })
         .catch(err => console.error(err));
     } else {
+      alert("El código ingresado es incorrecto");
     }
   }
 
