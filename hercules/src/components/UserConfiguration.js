@@ -74,7 +74,7 @@ class UserConfiguration extends Component {
         this.enablePasswordFields = this.enablePasswordFields.bind(this);
         this.enableContactFields = this.enableContactFields.bind(this);
         this.initAllFields = this.initAllFields.bind(this);
-
+        this.showPasswordFields = this.showPasswordFields.bind(this);
 
     }
     componentDidMount() {
@@ -348,6 +348,7 @@ class UserConfiguration extends Component {
         document.getElementById('password').disabled = disabled;
         document.getElementById('newPassword').disabled = disabled;
         document.getElementById('confirmNewPassword').disabled = disabled;
+        document.getElementById('showPasswordFields').disabled = disabled;
     }
 
     enableContactFields(value) {
@@ -440,8 +441,6 @@ class UserConfiguration extends Component {
                 this.enablePasswordFields(false);
             }
         }
-
-
     }
     editContact() {
         document.getElementById('editContact').style.display = 'none';
@@ -470,7 +469,19 @@ class UserConfiguration extends Component {
                 this.enableContactFields(false);
             }
         }
+    }
 
+    showPasswordFields() {
+        var show = document.getElementById('showPasswordFields').checked;
+        if (show == true) {
+            document.getElementById('password').type = "text";
+            document.getElementById('newPassword').type = "text";
+            document.getElementById('confirmNewPassword').type = "text";
+        } else {
+            document.getElementById('password').type = "password";
+            document.getElementById('newPassword').type = "password";
+            document.getElementById('confirmNewPassword').type = "password";
+        }
     }
     render() {
         console.log("cargo en render: " + this.state.provinceID)
@@ -620,7 +631,7 @@ class UserConfiguration extends Component {
                                     </div>
                                 </div>
                                 <div className="row">
-                                    <div className="col-6">
+                                    <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
                                             <p>Contraseña actual</p>
                                             <input type="password" id="password" required name="password" value={this.state.password || ''} onChange={this.handleInputChange} className="form-control inputText w-100"></input>
@@ -645,6 +656,13 @@ class UserConfiguration extends Component {
                                         </div>
                                     </div>
                                 </div>
+                                <row>
+                                    <div className="col-12">
+                                        <div className="form-group " align="left">
+                                            <input type="checkbox" id="showPasswordFields" required name="showPasswordFields" onChange={this.showPasswordFields} ></input>Mostrar campos
+                                        </div>
+                                    </div>
+                                </row>
                                 <div className="row">
                                     <div className="col-6">
                                         <div className="form-group" align="left">
@@ -660,6 +678,7 @@ class UserConfiguration extends Component {
                                         </div>
                                     </div>
                                 </div>
+
                                 <div className="row">
                                     <div className="col-12">
                                         <div className="form-group" align="left">
@@ -712,6 +731,7 @@ class UserConfiguration extends Component {
                     </div>
                 </div>
             </div>
+
         )
     }
 }

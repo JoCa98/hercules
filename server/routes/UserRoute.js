@@ -197,6 +197,27 @@ router.get('/isEmailValid', (req, res) => {
     }
   });
 });
+router.get('/isCarnetValid', (req, res) => {
+  connection.query("Select fun_isCarnetValid('" + req.query.carnet + "') AS isCarnetValid", function (err, results) {
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+  });
+});
+router.get('/isIdentificationValid', (req, res) => {
+  connection.query("Select fun_isIdentificationValid('" + req.query.identificationID + "') AS isIdentificationValid", function (err, results) {
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+  });
+});
+
 
 router.get('/getDataForLogin', (req, res) => {
   connection.query("call proc_getDataForLogin('" + req.query.email + "')", function (err, results) {
