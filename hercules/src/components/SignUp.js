@@ -18,7 +18,7 @@ class SignUp extends Component {
             career: "",
             birthDate: (new Date().getFullYear() - 17) + "-" + ("0" + (new Date().getMonth() + 1)).slice(-2) + "-" + ("0" + new Date().getDate()).slice(-2),
             genderID: "1",
-            userTypeID: "2",
+            userTypeID: "1",
             email: "",
             password: "",
             confirmPassword: "",
@@ -56,7 +56,10 @@ class SignUp extends Component {
         this.selectMale = this.selectMale.bind(this);
         this.selectStudent = this.selectStudent.bind(this);
         this.selectWorker = this.selectWorker.bind(this);
-        this.validEmail = this.validEmail.bind(this);
+
+
+
+
         this.showPasswordFields = this.showPasswordFields.bind(this);
         //this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -182,84 +185,91 @@ class SignUp extends Component {
         }
     }
 
-    validEmail() {
-        axios.get(`http://localhost:9000/User/isEmailValid`, { params: { email: this.state.email } }).then(response => {
-            return JSON.parse(JSON.stringify(response.data))[0]['isUserExist'].data[0];
-        });
-    }
+
     validIdentification() {
-        axios.get(`http://localhost:9000/User/isIdentificationValid`, { params: { identificationID: this.state.identificationID } }).then(response => {
-            return JSON.parse(JSON.stringify(response.data))[0]['isUserExist'].data[0];
-        });
+
     }
     validCarnet() {
-        axios.get(`http://localhost:9000/User/isCarnetValid`, { params: { carnet: this.state.carnet } }).then(response => {
-            return JSON.parse(JSON.stringify(response.data))[0]['isUserExist'].data[0];
-        });
+
     }
 
     goActCodeForm() {
-        alert("inicio pruebas");
-        if (this.state.firstName.trim().length == 0 || this.state.lastName.trim().length == 0
-            || this.state.secondLastName.trim().length == 0 || this.state.phoneNumber1.trim().length == 0
-            || this.state.phoneNumber2.toString().trim().length == 0 || this.state.contactName.toString().trim().length == 0
-            || this.state.email.trim().length == 0 || this.state.password.trim().length == 0
-            || this.state.confirmPassword.toString().trim().length == 0 || this.state.addressLine.toString().trim().length == 0
-            || this.state.emergencyContactPhoneNumber.toString().trim().length == 0
-            || (this.state.userTypeID == 1 & (this.state.carnet.trim().length == 0 || this.state.career.trim().length == 0))
-        ) {
-            alert("Todos los campos obligatorios  deben estar llenos");
-        } else if (!this.state.validations.validateTextField(this.state.firstName)
-            || !(this.state.secondName.trim().length != 0 & this.state.validations.validateTextField(this.state.secondName))
-            || !this.state.validations.validateTextField(this.state.lastName)
-            || !this.state.validations.validateTextField(this.state.secondLastName)
-        ) {
-            alert("Los datos del nombre solo pueden estar compuestos por letras y extensión mínima de 2 caracteres");
-        } else if (this.state.userTypeID == 1 & !this.state.validations.validateCarnetField(this.state.carnet)) {
-            alert("El carné debe estar compuesto por 1 letra inicial y 5 dígitos");
-        } else if (this.state.userTypeID == 1 & this.validCarnet() == 1) {
-            alert("El carné ingresado ya corresponde a otro usuario registrado");
-        } else if (!this.state.validations.validatePhoneNumberField(this.state.phoneNumber1)
-            || (!this.state.phoneNumber2.trim().length == 0
-                & !this.state.validations.validatePhoneNumberField(this.state.phoneNumber2))
-            || !this.state.validations.validatePhoneNumberField(this.state.emergencyContactPhoneNumber)) {
-            alert("Los números telefónicos deben estar compuestos por 8 dígitos");
-        } else if (!this.state.validations.validateEmailField(this.state.email)) {
-            alert("correo:" + this.state.email);
-            alert("Debe utilizar su cuenta de correo institucional");
-        } else if (this.validEmail() == 1) {
-            alert("El correo ingresado ya corresponde a otro usuario registrado");
-        } else if (!this.state.validations.validateIdentification(this.state.identificationID)) {
-            alert("El formato de la cédula ingresada es incorrecto");
-        } else if (this.validIdentification() == 1) {
-            alert("La cédula ingresado ya corresponde a otro usuario registrado");
-        } else {
-            alert("paso pruebas");
-            this.GetCode();
-            sessionStorage.setItem('identificationID', this.state.identificationID);
-            sessionStorage.setItem('firstName', this.state.firstName);
-            sessionStorage.setItem('secondName', this.state.secondName);
-            sessionStorage.setItem('lastName', this.state.lastName);
-            sessionStorage.setItem('secondLastName', this.state.secondLastName);
-            sessionStorage.setItem('carnet', this.state.carnet);
-            sessionStorage.setItem('career', this.state.career);
-            sessionStorage.setItem('birthDate', this.state.birthDate);
-            sessionStorage.setItem('phoneNumber1', this.state.phoneNumber1);
-            sessionStorage.setItem('phoneNumber2', this.state.phoneNumber2);
-            sessionStorage.setItem('genderID', this.state.genderID);
-            sessionStorage.setItem('userTypeID', this.state.userTypeID);
-            sessionStorage.setItem('email', this.state.email);
-            sessionStorage.setItem('password', this.state.password);
-            sessionStorage.setItem('startDate', this.state.startDate);
-            sessionStorage.setItem('activationCode', this.state.activationCode);
-            sessionStorage.setItem('districtID', this.state.districtID);
-            sessionStorage.setItem('addressLine', this.state.addressLine);
-            sessionStorage.setItem('contactName', this.state.contactName);
-            sessionStorage.setItem('relationTypeID', this.state.relationTypeID);
-            sessionStorage.setItem('emergencyContactPhoneNumber', this.state.emergencyContactPhoneNumber);
-            this.sendEmail();
-            this.props.history.push(`/ActCodeForm`);
-        }
+
+        alert("inicio pruebas: ");
+        axios.get(`http://localhost:9000/User/isEmailValid`, { params: { email: this.state.email } }).then(response => {
+            var emailValid = JSON.parse(JSON.stringify(response.data))[0]['isEmailValid'].data[0]
+            axios.get(`http://localhost:9000/User/isIdentificationValid`, { params: { identificationID: this.state.identificationID } }).then(response => {
+                var identificationIDValid = JSON.parse(JSON.stringify(response.data))[0]['isIdentificationValid'].data[0];
+                alert("id "+ identificationIDValid);
+                axios.get(`http://localhost:9000/User/isCarnetValid`, { params: { carnet: this.state.carnet } }).then(response => {
+                    
+                    var carnetValid = JSON.parse(JSON.stringify(response.data))[0]['isCarnetValid'].data[0];
+                    alert("carnet valid "+ carnetValid + "  userType" + this.state.userTypeID);
+                    if (this.state.firstName.trim().length == 0 || this.state.lastName.trim().length == 0
+                        || this.state.secondLastName.trim().length == 0 || this.state.phoneNumber1.trim().length == 0
+                         || this.state.contactName.toString().trim().length == 0
+                        || this.state.email.trim().length == 0 || this.state.password.trim().length == 0
+                        || this.state.confirmPassword.toString().trim().length == 0 || this.state.addressLine.toString().trim().length == 0
+                        || this.state.emergencyContactPhoneNumber.toString().trim().length == 0
+                        || (this.state.userTypeID == 1 & (this.state.carnet.trim().length == 0 || this.state.career.trim().length == 0))
+                    ) {
+                        alert("Todos los campos obligatorios  deben estar llenos");
+                    } else if (!this.state.validations.validateTextField(this.state.firstName)
+                        || !(this.state.secondName.trim().length != 0 & this.state.validations.validateTextField(this.state.secondName))
+                        || !this.state.validations.validateTextField(this.state.lastName)
+                        || !this.state.validations.validateTextField(this.state.secondLastName)
+                    ) {
+                        alert("Los datos del nombre solo pueden estar compuestos por letras y extensión mínima de 2 caracteres");
+                    } else if (this.state.userTypeID == 1 & !this.state.validations.validateCarnetField(this.state.carnet)) {
+                        alert("El carné debe estar compuesto por 1 letra inicial y 5 dígitos");
+                    } else if (this.state.userTypeID == 1 & carnetValid == 1) {
+                        alert("El carné ingresado ya corresponde a otro usuario registrado");
+                    } else if (!this.state.validations.validatePhoneNumberField(this.state.phoneNumber1)
+                        || (!this.state.phoneNumber2.trim().length == 0
+                            & !this.state.validations.validatePhoneNumberField(this.state.phoneNumber2))
+                        || !this.state.validations.validatePhoneNumberField(this.state.emergencyContactPhoneNumber)) {
+                        alert("Los números telefónicos deben estar compuestos por 8 dígitos");
+                    } else if (!this.state.validations.validateEmailField(this.state.email)) {
+                        //alert("correo:" + this.state.email);
+                        alert("Debe utilizar su cuenta de correo institucional");
+                    } else if (emailValid == 1) {
+                        alert("El correo ingresado ya corresponde a otro usuario registrado");
+                    } else if (!this.state.validations.validateIdentification(this.state.identificationID)) {
+                        alert("El formato de la cédula ingresada es incorrecto");
+                    } else if (identificationIDValid == 1) {
+                        alert("La cédula ingresado ya corresponde a otro usuario registrado");
+                    } else {
+                        alert("paso pruebas");
+                        this.GetCode();
+                        sessionStorage.setItem('identificationID', this.state.identificationID);
+                        sessionStorage.setItem('firstName', this.state.firstName);
+                        sessionStorage.setItem('secondName', this.state.secondName);
+                        sessionStorage.setItem('lastName', this.state.lastName);
+                        sessionStorage.setItem('secondLastName', this.state.secondLastName);
+                        sessionStorage.setItem('carnet', this.state.carnet);
+                        sessionStorage.setItem('career', this.state.career);
+                        sessionStorage.setItem('birthDate', this.state.birthDate);
+                        sessionStorage.setItem('phoneNumber1', this.state.phoneNumber1);
+                        sessionStorage.setItem('phoneNumber2', this.state.phoneNumber2);
+                        sessionStorage.setItem('genderID', this.state.genderID);
+                        sessionStorage.setItem('userTypeID', this.state.userTypeID);
+                        sessionStorage.setItem('email', this.state.email);
+                        sessionStorage.setItem('password', this.state.password);
+                        sessionStorage.setItem('startDate', this.state.startDate);
+                        sessionStorage.setItem('activationCode', this.state.activationCode);
+                        sessionStorage.setItem('districtID', this.state.districtID);
+                        sessionStorage.setItem('addressLine', this.state.addressLine);
+                        sessionStorage.setItem('contactName', this.state.contactName);
+                        sessionStorage.setItem('relationTypeID', this.state.relationTypeID);
+                        sessionStorage.setItem('emergencyContactPhoneNumber', this.state.emergencyContactPhoneNumber);
+                        this.sendEmail();
+                        this.props.history.push(`/ActCodeForm`);
+                    }
+                });
+            });
+
+        });
+
     }
 
     sendEmail() {
@@ -464,7 +474,7 @@ class SignUp extends Component {
                                             <div className="col-12 col-sm-6">
                                                 <div className="form-group" align="left">
                                                     <p>Contraseña</p>
-                                                    <input type="password" required name="password" id="password"className="inputText form-control" value={this.state.password} onChange={this.handleInputChange}></input>
+                                                    <input type="password" required name="password" id="password" className="inputText form-control" value={this.state.password} onChange={this.handleInputChange}></input>
                                                 </div>
                                             </div>
                                             <div className="col-12 col-sm-6">
@@ -477,8 +487,8 @@ class SignUp extends Component {
                                     </div>
                                 </div>
                                 <row>
-                                <div className="col-12">
-                                        <div className="form-group " align="left">                                            
+                                    <div className="col-12">
+                                        <div className="form-group " align="left">
                                             <input type="checkbox" id="showPasswordFields" required name="showPasswordFields" onChange={this.showPasswordFields} ></input>Mostrar campos
                                         </div>
                                     </div>
