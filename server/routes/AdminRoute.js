@@ -16,7 +16,6 @@ const router = express.Router();
 var cors = require("cors");
 router.use(cors());
 
-
 /**
  *Method to execute the procedure stored in the database
  *to obtain the data of the users using the card as a search criterion
@@ -24,16 +23,16 @@ router.use(cors());
  * @param {Request}
  * @param {Response}
 */
-router.get('/getUsersByCarnet',  (req, res) => {
-    connection.query("CALL proc_getUsersByCarnet('"+ req.query.carnet +"');", function(err,results){
-        if (results) {
-            res.send(results);
-          }
-          else {
-            console.log(err);
-          }
-    });
+router.get('/getUsersByCarnet', (req, res) => {
+  connection.query("CALL proc_getUsersByCarnet('" + req.query.carnet + "');", function (err, results) {
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
   });
+});
 
 /**
   *Method to execute the procedure stored in the database
@@ -42,16 +41,17 @@ router.get('/getUsersByCarnet',  (req, res) => {
   * @param {Request}
   * @param {Response}
 */
-  router.get('/getUsersByName',  (req, res) => {
-    connection.query("CALL proc_getUsersByName('"+ req.query.name +"');", function(err,results){
-        if (results) {
-            res.send(results);
-          }
-          else {
-            console.log(err);
-          }
-    });
+router.get('/getUsersByName', (req, res) => {
+  connection.query("CALL proc_getUsersByName('" + req.query.name + "');", function (err, results) {
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
   });
+});
+
 /**
   *Method to execute the procedure stored in the database
   *to obtain the data of the users using the identificationID as a search criterion
@@ -59,16 +59,73 @@ router.get('/getUsersByCarnet',  (req, res) => {
   * @param {Request}
   * @param {Response}
 */
-  router.get('/getUsersByIdentification',  (req, res) => {
-    connection.query("CALL proc_getUsersByIdentificationID('"+ req.query.identificationID +"');",
-     function(err,results){
-        if (results) {
-            res.send(results);
-          }
-          else {
-            console.log(err);
-          }
+router.get('/getUsersByIdentification', (req, res) => {
+  connection.query("CALL proc_getUsersByIdentificationID('" + req.query.identificationID + "');",
+    function (err, results) {
+      if (results) {
+        res.send(results);
+      }
+      else {
+        console.log(err);
+      }
     });
-  });
+});
+
+/**
+*Method to execute the procedure stored in the database
+*to create a new administer
+* 
+* @param {Request}
+* @param {Response}
+*/  
+router.post('/addAdmin', (req, res) => {
+  connection.query("CALL proc_addAdmin(" + req.body.userTypeID + "," + req.body.identificationID + ",'" + req.body.firstName + "','" + req.body.secondName + "','" + req.body.firstLastName + "','"
+    + req.body.secondLastName + "','" + req.body.email + "','" + req.body.password + "')", function (err, results) {
+      if (results) {
+        res.send(results);
+      }
+      else {
+        console.log(err);
+      }
+    });
+});
+
+/**
+*Method to execute the procedure stored in the database
+*to update a administer
+* 
+* @param {Request}
+* @param {Response}
+*/  
+router.post('/updateAdmin', (req, res) => {
+  connection.query("CALL proc_addAdmin(" + req.query.partyID + req.query.userTypeID + "," + req.query.identificationID + ",'" + req.query.firstName + "','" + req.query.secondName + "','" + req.query.lastName + "','"
+    + req.query.secondLastName + "','" + req.query.email + "','" + req.query.password + "')", function (err, results) {
+      if (results) {
+        res.send(results);
+      }
+      else {
+        console.log(err);
+      }
+    });
+});
+
+/**
+*Method to execute the procedure stored in the database
+*to validate if already exist an user by their email
+* 
+* @param {Request}
+* @param {Response}
+*/  
+router.get('/userExistByEmail', (req, res) => {
+  connection.query("CALL proc_userExistByEmail('"  + req.query.email + "')", function (err, results) {
+      if (results) {
+        res.send(results);
+      }
+      else {
+        console.log(err);
+      }
+    });
+});
+
 
 module.exports = router;

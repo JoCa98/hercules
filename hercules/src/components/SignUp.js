@@ -385,7 +385,7 @@ class SignUp extends Component {
                                     <div className="col-12">
                                         <div className="form-group" align="left">
                                             <p>Email</p>
-                                            <input type="text" required  name="email" value={this.state.email} onChange={this.handleInputChange} className="form-control inputText w-100"></input>
+                                            <input type="email" required  name="email" value={this.state.email} onChange={this.handleInputChange} className="form-control inputText w-100"></input>
                                         </div>
                                     </div>
                                 </div>
