@@ -35,7 +35,8 @@ class RoutineCarouselWrite extends Component {
             lastTypeID: "",
             list:[],
             exerciseID : 0,
-            exist:false
+            exist:false,
+            index:0
 
         };
        
@@ -45,6 +46,9 @@ class RoutineCarouselWrite extends Component {
         this.leftArrow = this.leftArrow.bind(this);
         this.rowEvent = this.rowEvent.bind(this);
         this.addExercise = this.addExercise.bind(this);
+        this.initButtons = this.initButtons.bind(this);
+        this.deleteExercise = this.deleteExercise.bind(this);
+        this.editExercise = this.editExercise.bind(this);
      
     }
 
@@ -63,7 +67,7 @@ class RoutineCarouselWrite extends Component {
         this.setState({ lastTypeID: response.data[0] });
     });
 
-   
+   this.initButtons();
    this.getExerciseData();
    
 }
@@ -124,38 +128,99 @@ getExerciseData() {
     });
 }
 
+initButtons(){
+    document.getElementById("edit").style.display = 'none';
+    document.getElementById("delete").style.display = 'none';
+}
+
     rowEvent(event){
         
     const id = document.getElementById("routines").rows[event.target.parentNode.rowIndex].cells[0].innerHTML;
-        this.setState({
-         exerciseID: id   
-        });
+    var a =  document.getElementsByTagName("tr");
+    for (var i = 0; i < a.length; i++) {
+        a[i].classList.remove('table-info');
+    }
+    document.getElementById("routines").rows[event.target.parentNode.rowIndex].classList.add("table-info");
+
+    this.setState({ exerciseID: id });
+    
        document.getElementById("weightInput").disabled = false;
        document.getElementById("seriesInput").disabled = false;
        document.getElementById("repetitionsInput").disabled = false;
        document.getElementById("minutesInput").disabled = false; 
 
         if (this.state.list.length !== 0) {
-            this.state.list.map((ex) => {
-                if (ex.exerciseID == this.state.exerciseID) {
+            this.state.list.map((ex, i) => {
+                if (ex.exerciseID == id) {
+       
+                    this.setState({exist:true, index: i});
                     document.getElementById("weightInput").value = ex.charge;
                     document.getElementById("seriesInput").value = ex.series;
                     document.getElementById("repetitionsInput").value = ex.repetitions;
                     document.getElementById("minutesInput").value = ex.minutes;
-                    document.getElementById("add").display = "none";
-                    document.getElementById("edit").display = "show";
-                    document.getElementById("delete").display = "show";
-
-
-                    this.setState({exist:true});
+                    document.getElementById("add").style.display = "none";
+                    document.getElementById("edit").style.display = "initial";
+                    document.getElementById("delete").style.display = "initial";
+                    
                 }else{
+                   
                     this.setState({exist:false});
-
+                    document.getElementById("weightInput").value = "";
+                    document.getElementById("seriesInput").value = "";
+                    document.getElementById("repetitionsInput").value = "";
+                    document.getElementById("minutesInput").value = "";
+                    document.getElementById("add").style.display = "initial";
+                    document.getElementById("edit").style.display = "none";
+                    document.getElementById("delete").style.display = "none";
                 }
             })
         }
+    }
+
+    editExercise(){
+        if(this.state.exist){
+            this.state.list[this.state.index].repetitions = document.getElementById("repetitionsInput").value ;
+            this.state.list[this.state.index].series = document.getElementById("seriesInput").value ;
+            this.state.list[this.state.index].minutes = document.getElementById("minutesInput").value ;
+            this.state.list[this.state.index].charge = document.getElementById("weightInput").value ;
+           alert("Se ha editado con éxito");
+        }else{
+           alert("El elemento no se encuentra");
+        }
+        sessionStorage.setItem("exerciseList", this.state.list);
+ 
+        document.getElementById("weightInput").value = "";
+        document.getElementById("seriesInput").value = "";
+        document.getElementById("repetitionsInput").value = "";
+        document.getElementById("minutesInput").value = "";
+        document.getElementById("weightInput").disabled = true;
+        document.getElementById("seriesInput").disabled = true;
+        document.getElementById("repetitionsInput").disabled = true;
+        document.getElementById("minutesInput").disabled = true;
 
     }
+
+    deleteExercise(){
+        if(this.state.exist){
+            this.state.list.splice(this.state.index,1);
+           alert("Se ha eliminado con éxito");
+        }else{
+           alert("El elemento no se encuentra");
+        }
+
+        sessionStorage.setItem("exerciseList", this.state.list);
+ 
+        document.getElementById("weightInput").value = "";
+        document.getElementById("seriesInput").value = "";
+        document.getElementById("repetitionsInput").value = "";
+        document.getElementById("minutesInput").value = "";
+        document.getElementById("weightInput").disabled = true;
+        document.getElementById("seriesInput").disabled = true;
+        document.getElementById("repetitionsInput").disabled = true;
+        document.getElementById("minutesInput").disabled = true;
+    }
+
+
     addExercise(){
         if(document.getElementById("weightInput") !== "" && document.getElementById("seriesInput")!== ""
         &&  document.getElementById("repetitionsInput") !== "" && document.getElementById("minutesInput")!==""){
@@ -169,10 +234,10 @@ getExerciseData() {
                 alert("El ejercicio ya fue agregado");
             }else{
                 this.state.list.push(obj);
+                alert("El ejercicio ha sido agregado con éxito");
+
             }
-            
-                  
-            }
+        }
 
         sessionStorage.setItem("exerciseList", this.state.list);
  
@@ -185,6 +250,8 @@ getExerciseData() {
        document.getElementById("repetitionsInput").disabled = true;
        document.getElementById("minutesInput").disabled = true;
     }
+
+    
 
     render() {
         /**
@@ -257,8 +324,8 @@ getExerciseData() {
                         </div>
                         <div className="form-group" align="right">
                         <button align="right" id="add" className="buttonSizeGeneral" onClick={this.addExercise}>Agregar</button>
-                        <button align="right" id="edit" className="buttonSizeGeneral" onClick={this.addExercise} display="none">Editar</button>
-                        <button align="right" id="delete" className="buttonSizeGeneral" onClick={this.addExercise} display="none" >Eliminar</button>
+                        <button align="right" id="edit" className="buttonSizeGeneral" onClick={this.editExercise} >Editar</button>
+                        <button align="right" id="delete" className="buttonSizeGeneral" onClick={this.deleteExercise} >Eliminar</button>
                         </div>
                         </form>
                     </div>
