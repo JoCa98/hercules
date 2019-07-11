@@ -29,7 +29,7 @@ class HistoricRoutineInfo extends Component {
         */
         this.state = {
             userName: [{}],
-            partyID: 1,
+            partyID: sessionStorage.getItem("userPartyID"),
             routineHist: [{}]
         }
 

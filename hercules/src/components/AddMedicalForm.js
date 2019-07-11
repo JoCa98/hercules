@@ -89,7 +89,7 @@ class AddMedicalForm extends Component {
         */
         this.state = {
             userName: [{}],
-            partyID: 1,
+            partyID: sessionStorage.getItem("userPartyID"),
             date: new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate(),
             pathologies: "",
             allergies: "",

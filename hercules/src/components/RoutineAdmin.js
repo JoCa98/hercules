@@ -32,7 +32,7 @@ class RoutineAdmin extends Component {
             routineID: sessionStorage.getItem("routineID"),
             routine: [{}],
             userName: [{}],
-            partyID: 1
+            partyID: sessionStorage.getItem("userPartyID")
         };
     }
 

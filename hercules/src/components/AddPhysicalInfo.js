@@ -4,7 +4,7 @@ class AddPhysicalInfo extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            partyID: 1,
+            partyID: sessionStorage.getItem("userPartyID"),
             date: new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate(),
             weight: "",
             aerobicThreshold: "",
