@@ -34,5 +34,8 @@ class validations extends Component {
     validateAdminEmailField(value){
         return new RegExp("^(([\w-]+\.)+[\w-]+|([a-zA-Z]{1}|[\w-]{2,}))@(([a-zA-Z]+[\w-]+\.){1,2}[a-zA-Z]{2,4})$").test(value);
     }
+    validateIdentification(value){
+        return (new RegExp("^([1-7])(\\d{8})$").test(value) || new RegExp("^1(\\d{3})((..))(\\d{4,9})$").test(value));
+    }
 }
 export default validations;

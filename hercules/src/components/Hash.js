@@ -8,7 +8,13 @@ class Hash extends Component {
     }
 
     encode(value) {
-        //return  bcrypt.hashSync(value, crypto.randomByto)
+        var salt = bcrypt.genSaltSync(10);
+        return  bcrypt.hashSync(value, salt);
+    }
+
+    comparePassword(text, hash)
+    {
+        return bcrypt.compareSync(text, hash);
     }
     
 }
