@@ -15,12 +15,14 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import validations from './validations';
 import { parse } from 'querystring';
+import Hash from './Hash';
 
 class AddAdmin extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
+            hash: new Hash(),
             validations: new validations(),
             userTypeID: 3,
             identificationID: 0,
@@ -67,6 +69,9 @@ class AddAdmin extends Component {
                 document.getElementById("email").value = "";
                 alert("El correo ingresado ya corresponde a otro administrador registrado");
             } else {
+                this.setState({
+                    password: this.state.hash.encode(this.state.password)
+                })
 
                 fetch("http://localhost:9000/AdminRoute/addAdmin", {
                     method: "post",

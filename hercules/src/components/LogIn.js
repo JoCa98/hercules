@@ -16,6 +16,7 @@ class LogIn extends Component {
         this.goSignUp = this.goSignUp.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.tryLogin = this.tryLogin.bind(this);
+        this.goPasswordRecovery = this.goPasswordRecovery.bind(this);
 
     }
 
@@ -36,7 +37,7 @@ class LogIn extends Component {
                             if (sessionStorage.getItem('userTypeID') == 1 || sessionStorage.getItem('userTypeID') == 2) {
                                 this.props.history.push(`/UserConfiguration`);
                             } else if (sessionStorage.getItem('userTypeID') == 3 || sessionStorage.getItem('userTypeID') == 4){
-                                this.props.history.push(`/UserConfiguration`);
+                                this.props.history.push(`/UserHome`);
                             }
                         });
                     } else {
@@ -51,6 +52,10 @@ class LogIn extends Component {
 
     goSignUp() {
         this.props.history.push(`/SignUp`);
+    }
+
+    goPasswordRecovery() {
+        this.props.history.push(`/PasswordRecovery`);
     }
     handleInputChange(event) {
         const { name, value } = event.target;
@@ -79,7 +84,7 @@ class LogIn extends Component {
                             <button align="left" name="logIn" className="buttonSizeGeneral w-100" onClick={this.tryLogin}>Ingresar</button>
                             <br></br>
                             <br></br>
-                            <a href="url">Recuperar contraseña</a>
+                            <a href="javascript:void(0);" onClick={this.goPasswordRecovery}>Recuperar contraseña</a>
                             <br></br>
                             <a href="javascript:void(0);" onClick={this.goSignUp}>Registrarse</a>
                             <br></br>

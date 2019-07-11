@@ -6,10 +6,6 @@ import NavbarUserHome from './NavbarUserHome';
 
 class Header extends Component {
 
-  constructor(props) {
-    super(props);
-
-  }
 
   render() {
     console.log(sessionStorage.getItem('userTypeID'))
