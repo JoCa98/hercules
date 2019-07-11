@@ -12,7 +12,6 @@ class Header extends Component {
   }
 
   render() {
-    console.log("rendeeer")
     let navbar;
     if (sessionStorage.getItem('userTypeID') != undefined) {
       if (sessionStorage.getItem('userTypeID') == 1 || sessionStorage.getItem('userTypeID') == 2) {
