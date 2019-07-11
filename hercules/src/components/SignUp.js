@@ -159,7 +159,6 @@ class SignUp extends Component {
             document.getElementById('cbFemale').checked = true;
             this.state.genderID = 2;
         }
-
     }
 
     selectFemale() {
@@ -169,8 +168,13 @@ class SignUp extends Component {
         } else {
             document.getElementById('cbMale').checked = true;
             this.state.genderID = 1;
-
         }
+    }
+
+    validEmail(){
+        axios.get(`http://localhost:9000/User/isEmailValid`, { params: { email: this.state.email} }).then(response => {
+            return JSON.parse(JSON.stringify(response.data))[0]['isEmailValid'].data[0];
+        });
     }
 
     goActCodeForm() {
@@ -186,23 +190,24 @@ class SignUp extends Component {
             || !(this.state.secondName.trim().length != 0 & this.state.validations.validateTextField(this.state.secondName))
             || !this.state.validations.validateTextField(this.state.lastName)
             || !this.state.validations.validateTextField(this.state.secondLastName)
-            || (this.state.userTypeID == 2 & this.state.carnet.trim().length != 0 & this.state.career.trim().length != 0)
+            || !(this.state.userTypeID == 2 & this.state.carnet.trim().length != 0 & this.state.career.trim().length != 0)
         ) {
             alert("validacion: " + (!this.state.secondName.trim().length == 0 & !this.state.validations.validateTextField(this.state.secondName)))
             alert("Los datos del nombre solo pueden estar compuestos por letras");
         } else if (this.state.userTypeID == 2) {
             if (!this.state.validations.validateCarnetField(this.state.carnet)) {
                 alert("El carné debe estar compuesto por 1 letra inicial y 5 dígitos");
-            } else if (!this.state.validations.validateCarnetField(this.state.carnet)) {
-                alert("El carné debe estar compuesto por 1 letra inicial y 5 dígitos");
             }
-
-        } else if (!this.state.validations.validatePhoneNumberField(this.state.phoneNumber1
+        } else if (!this.state.validations.validatePhoneNumberField(this.state.phoneNumber1)
             || (!this.state.phoneNumber2.trim().length == 0
-                & !this.state.validations.validatePhoneNumberField(this.state.phoneNumber2)))) {
+                & !this.state.validations.validatePhoneNumberField(this.state.phoneNumber2))
+            || !this.state.validations.validatePhoneNumberField(this.state.emergencyContactPhoneNumber)
+        ) {
             alert("Los números telefónicos deben estar compuestos por 8 dígitos");
-        } else if (!this.state.validations.validatePhoneNumberField(this.state.phoneNumber1)) {
-            alert("Los números telefónicos deben estar compuestos por 8 dígitos");
+        } else if (!this.state.validations.validateEmailField(this.state.email)) {
+            alert("Debe utilizar su cuenta  de correo institucional");
+        } else if (this.validEmail()== 1) {
+            alert("El correo ingresado ya corresponde a otro usuario registrado");
         } else {
             this.GetCode();
             sessionStorage.setItem('identificationID', this.state.identificationID);

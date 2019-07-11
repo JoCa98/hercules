@@ -19,7 +19,6 @@ class LogIn extends Component {
     }
 
     tryLogin() {
-        //this.props.history.push(`/UserHome`);
         axios.get(`http://localhost:9000/User/isUserValid`, { params: { email: this.state.email, password: this.state.password } }).then(response => {
 
             this.setState({ isUserValid: JSON.parse(JSON.stringify(response.data))[0]['isUserValid'].data[0] });
