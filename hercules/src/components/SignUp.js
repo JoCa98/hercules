@@ -181,16 +181,14 @@ class SignUp extends Component {
     }
 
     goActCodeForm() {
-
-        alert("inicio pruebas: ");
         axios.get(`http://localhost:9000/User/isEmailValid`, { params: { email: this.state.email } }).then(response => {
             var emailValid = JSON.parse(JSON.stringify(response.data))[0]['isEmailValid'].data[0]
             axios.get(`http://localhost:9000/User/isIdentificationValid`, { params: { identificationID: this.state.identificationID } }).then(response => {
                 var identificationIDValid = JSON.parse(JSON.stringify(response.data))[0]['isIdentificationValid'].data[0];
-                alert("id " + identificationIDValid);
+               
                 axios.get(`http://localhost:9000/User/isCarnetValid`, { params: { carnet: this.state.carnet } }).then(response => {
                     var carnetValid = JSON.parse(JSON.stringify(response.data))[0]['isCarnetValid'].data[0];
-                    alert("carnet valid " + carnetValid + "  userType" + this.state.userTypeID);
+                    
                     if (this.state.firstName.trim().length == 0 || this.state.lastName.trim().length == 0
                         || this.state.secondLastName.trim().length == 0 || this.state.phoneNumber1.trim().length == 0
                         || this.state.contactName.toString().trim().length == 0
