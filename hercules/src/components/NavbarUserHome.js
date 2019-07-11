@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from "axios";
 
-import {Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 class NavbarUserHome extends Component {
     constructor(props) {
@@ -29,7 +29,7 @@ class NavbarUserHome extends Component {
         this.handleInputChange = this.handleInputChange.bind(this);
     }
 
-  
+
 
     handleInputChange(event) {
         const { name, value } = event.target;
@@ -39,28 +39,38 @@ class NavbarUserHome extends Component {
     }
     render() {
         return (
-            <nav className="navbar navbar-expand-sm bg-light justify-content-end" backgroud-color="ECECEC">
-                <ul className="nav justify-content-end">
-                    <li className="nav-item active">
-                        <a className="nav-link" href="#">Inicio<span className="sr-only">(current)</span></a>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href="#">Valoraciones físicas</a>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href="#">Valoraciones médicas</a>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href="#">Composición física</a>
-                    </li>
-                    <li className="nav-item">
-                        <Link to="/UserConfiguration">Perfil</Link>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href="javascript:void(0);">Salir</a>
-                    </li>
-                </ul>
-            </nav>
+            <div className="container-fluid navbarColor">
+                <div className="row ">
+                    <div className="col-12 text-center">
+                        <nav className="navbar navbar-expand-md navbarColor justify-content-end">
+                            <button class="navbar-toggler icon-bar navbar-light" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+                                <span class="navbar-toggler-icon "></span>
+                            </button>
+                            <div class="collapse navbar-collapse flex-grow-0" id="navbarSupportedContent">
+                                <ul className="navbar-nav text-center">
+
+                                    <li className="nav-item active ml-4 mt-1">
+                                    <Link to="/UserConfiguration" className="align-middle">Rutina</Link>
+                                    </li>
+                                    <li className="nav-item ml-4 mt-1">
+                                    <Link to="/UserConfiguration" className="align-middle">Consulta médica</Link>
+                                    </li>
+                                    <li className="nav-item ml-4 mt-1">
+                                    <Link to="/UserConfiguration" className="align-middle">Composición corporal</Link>
+                                    </li>
+                                    <li className="nav-item ml-4 mt-1">
+                                        <Link to="/UserConfiguration" className="align-middle">Perfil</Link>
+                                    </li>
+                                    <li className="nav-item ml-4 mt-1">
+                                    <Link to="/UserConfiguration" className="align-middle">Salir</Link>
+                                    </li>
+                                </ul>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+
         )
     }
 }

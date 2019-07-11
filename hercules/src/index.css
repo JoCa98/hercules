@@ -140,6 +140,11 @@ a{
   font-size: 13px;
 }
 
+.navbarColor{
+  background-color: #ECECEC;
+  position: relative;
+}
+
 .pointer {
   cursor: pointer;
 }

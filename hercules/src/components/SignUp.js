@@ -476,13 +476,13 @@ class SignUp extends Component {
                                         </div>
                                     </div>
                                 </div>
-                                <row>
+                                <div className="row">
                                 <div className="col-12">
                                         <div className="form-group " align="left">                                            
                                             <input type="checkbox" id="showPasswordFields" required name="showPasswordFields" onChange={this.showPasswordFields} ></input>Mostrar campos
                                         </div>
                                     </div>
-                                </row>
+                                </div>
                                 <div className="row">
                                     <div className="col-12">
                                         <div className="form-group" align="left">

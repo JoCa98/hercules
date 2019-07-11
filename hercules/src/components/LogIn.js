@@ -19,7 +19,10 @@ class LogIn extends Component {
     }
 
     tryLogin() {
-        axios.get(`http://localhost:9000/User/isUserValid`, { params: { email: this.state.email, password: this.state.password } }).then(response => {
+        console.log(this.props.location.pathname);
+        //window.location.reload();
+        sessionStorage.setItem('userTypeID',1);
+       /* axios.get(`http://localhost:9000/User/isUserValid`, { params: { email: this.state.email, password: this.state.password } }).then(response => {
 
             this.setState({ isUserValid: JSON.parse(JSON.stringify(response.data))[0]['isUserValid'].data[0] });
             if (this.state.isUserValid == 1) {
@@ -33,7 +36,7 @@ class LogIn extends Component {
 
                 });
             }
-        });
+        });**/
         
     }
 
@@ -53,11 +56,7 @@ class LogIn extends Component {
 
             <div className="container">
                 <div className="row mt-4 " >
-                    <div className="col-3">
-                    </div>
-                    <div className="col-6 card p-5">
-
-                        <NavbarUserHome />
+                    <div className="col-12 col-lg-6 offset-lg-3 card p-5">
                         <h1 className="text-center">Ingreso al sistema del gimnasio</h1>
                         <br></br>
                         <div className="row mt-4 " ></div>
