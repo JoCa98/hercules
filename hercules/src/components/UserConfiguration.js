@@ -265,7 +265,7 @@ class UserConfiguration extends Component {
                 console.log(data);
             })
             .catch(err => console.error(err));
-            alert("La contraseña fue cambiada con éxito");
+        alert("La contraseña fue cambiada con éxito");
     }
 
     updateContact() {
@@ -288,7 +288,7 @@ class UserConfiguration extends Component {
                 console.log(data);
             })
             .catch(err => console.error(err));
-            alert("Los datos del usuario de emergencia fueron actualizadoscon éxito");
+        alert("Los datos del usuario de emergencia fueron actualizadoscon éxito");
     }
 
     loadAccountInfo() {
@@ -396,10 +396,10 @@ class UserConfiguration extends Component {
                     || this.state.career.trim().length == 0 || this.state.carnet.trim().length == 0
                     || this.state.identificationID.toString().trim().length == 0) {
                     alert("Todos los datos del usuarios deben estar llenos");
-                } else if (!this.state.validations.validateTextField(this.state.firstName)
-                    || (!this.state.secondName.trim().length == 0 && !this.state.validations.validateTextField(this.state.secondName))
-                    || !this.state.validations.validateTextField(this.state.lastName)
-                    || !this.state.validations.validateTextField(this.state.secondLastName)
+                } else if (!this.state.validations.validateTextField(this.state.firstName.trim())
+                    || ((this.state.secondName.trim() != "") && (!this.state.validations.validateTextField(this.state.secondName.trim())))
+                    || !this.state.validations.validateTextField(this.state.lastName.trim())
+                    || ((this.state.secondLastName.trim() != "") && (!this.state.validations.validateTextField(this.state.secondLastName.trim())))
                 ) {
                     alert("Los datos del nombre solo pueden estar compuestos por letras y extensión mínima de 2 caracteres");
                 } else if (!this.state.validations.validatePhoneNumberField(this.state.phoneNumber1
@@ -408,7 +408,7 @@ class UserConfiguration extends Component {
                     alert("Los números telefónicos deben estar compuestos por 8 dígitos");
 
                 } else if (this.state.carnet != "N/A" && !this.state.validations.validateCarnetField(this.state.carnet)) {
-                    alert("El carné debe estar compuesto por 1 letra inicial y 5 dígitos");                    
+                    alert("El carné debe estar compuesto por 1 letra inicial y 5 dígitos");
                 } else if (this.state.carnet != "N/A" && carnetValid == 1 && (this.state.carnet != sessionStorage.getItem('currentCarnet'))) {
                     alert("El carné ingresado ya corresponde a otro usuario registrado");
                 } else if (!this.state.validations.validateIdentification(this.state.identificationID)) {
@@ -480,9 +480,9 @@ class UserConfiguration extends Component {
     changeContact() {
         if (this.state.emergencyContactPhoneNumber.trim().length == 0 || this.state.contactName.trim().length == 0) {
             alert("Todos los datos del contacto de emergencia deben estar llenos");
-            
-        }else if (!this.state.validations.validateTextField(this.state.contactName)) {
-                alert("El nombre del contacto de emergencia solo pueden estar compuesto por letras y extensión mínima de 2 caracteres");
+
+        } else if (!this.state.validations.validateTextField(this.state.contactName)) {
+            alert("El nombre del contacto de emergencia solo pueden estar compuesto por letras y extensión mínima de 2 caracteres");
         } else if (!this.state.validations.validatePhoneNumberField(this.state.emergencyContactPhoneNumber)) {
             alert("El número teléfonico del contacto de emergencia debe estar compuesto por 8 dígitos");
         } else {

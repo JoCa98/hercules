@@ -36,10 +36,8 @@ class AddAdmin extends Component {
         this.handleInputChange = this.handleInputChange.bind(this);
         this.empty = this.empty.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handlePasswordValidation = this.handlePasswordValidation.bind(this);
         this.inputNumberValidator = this.inputNumberValidator.bind(this);
         this.emailValidator = this.emailValidator.bind(this);
-        this.validEmail = this.validEmail.bind(this);
 
     }
 
@@ -50,14 +48,21 @@ class AddAdmin extends Component {
 
         axios.get(`http://localhost:9000/User/isEmailValid`, { params: { email: this.state.email } }).then(response => {
             var isEmailValid = JSON.parse(JSON.stringify(response.data))[0]['isEmailValid'].data[0];
+
             if (this.empty()) {
                 alert("Los campos con * son obligatorios");
-            } else if (!this.state.validations.validateAdminEmailField(this.state.email)) {
-                alert("El email no tiene el formato correcto");
-            } else if (!this.handlePasswordValidation()) {
-                alert("Las contraseñas deben ser iguales");
+            } else if (!this.state.validations.validateTextField(this.state.firstName.trim())
+                || ((this.state.secondName.trim() != "") && (!this.state.validations.validateTextField(this.state.secondName.trim())))
+                || !this.state.validations.validateTextField(this.state.firstLastName.trim())
+                || ((this.state.secondLastName.trim() != "") && (!this.state.validations.validateTextField(this.state.secondLastName.trim()))) 
+            ) {
+                alert("Los datos del nombre solo pueden estar compuestos por letras y extensión mínima de 2 caracteres");
             } else if (!this.state.validations.validateIdentification(this.state.identificationID)) {
                 alert("El formato de la cédula ingresada es incorrecto");
+            } else if (!this.state.validations.validateAdminEmailField(this.state.email)) {
+                alert("El email no tiene el formato correcto");
+            } else if (this.state.password != this.state.confirmPassword) {
+                alert("Los campos de contraseña no coinciden");
             } else if (isEmailValid == 1) {
                 document.getElementById("email").value = "";
                 alert("El correo ingresado ya corresponde a otro administrador registrado");
@@ -84,26 +89,11 @@ class AddAdmin extends Component {
         event.preventDefault();
     }
 
-    validEmail() {
-
-    }
-
     handleInputChange(event) {
         const { name, value } = event.target;
         this.setState({
             [name]: value
         });
-    }
-
-    /**
-    * Method that verify that the input password in a input type decimal is a number
-    */
-    handlePasswordValidation() {
-        if (this.state.password !== this.state.confirmPassword) {
-            return false;
-        } else {
-            return true;
-        }
     }
 
     /**

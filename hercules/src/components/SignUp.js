@@ -187,23 +187,23 @@ class SignUp extends Component {
             var emailValid = JSON.parse(JSON.stringify(response.data))[0]['isEmailValid'].data[0]
             axios.get(`http://localhost:9000/User/isIdentificationValid`, { params: { identificationID: this.state.identificationID } }).then(response => {
                 var identificationIDValid = JSON.parse(JSON.stringify(response.data))[0]['isIdentificationValid'].data[0];
-                alert("id "+ identificationIDValid);
-                axios.get(`http://localhost:9000/User/isCarnetValid`, { params: { carnet: this.state.carnet } }).then(response => {                    
+                alert("id " + identificationIDValid);
+                axios.get(`http://localhost:9000/User/isCarnetValid`, { params: { carnet: this.state.carnet } }).then(response => {
                     var carnetValid = JSON.parse(JSON.stringify(response.data))[0]['isCarnetValid'].data[0];
-                    alert("carnet valid "+ carnetValid + "  userType" + this.state.userTypeID);
+                    alert("carnet valid " + carnetValid + "  userType" + this.state.userTypeID);
                     if (this.state.firstName.trim().length == 0 || this.state.lastName.trim().length == 0
                         || this.state.secondLastName.trim().length == 0 || this.state.phoneNumber1.trim().length == 0
-                         || this.state.contactName.toString().trim().length == 0
+                        || this.state.contactName.toString().trim().length == 0
                         || this.state.email.trim().length == 0 || this.state.password.trim().length == 0
                         || this.state.confirmPassword.toString().trim().length == 0 || this.state.addressLine.toString().trim().length == 0
                         || this.state.emergencyContactPhoneNumber.toString().trim().length == 0
                         || (this.state.userTypeID == 1 && (this.state.carnet.trim().length == 0 || this.state.career.trim().length == 0))
                     ) {
                         alert("Todos los campos obligatorios  deben estar llenos");
-                    } else if (!this.state.validations.validateTextField(this.state.firstName)
-                        || !(this.state.secondName.trim().length != 0 && !this.state.validations.validateTextField(this.state.secondName))
-                        || !this.state.validations.validateTextField(this.state.lastName)
-                        || !this.state.validations.validateTextField(this.state.secondLastName)
+                    } else if (!this.state.validations.validateTextField(this.state.firstName.trim())
+                        || ((this.state.secondName.trim() != "") && (!this.state.validations.validateTextField(this.state.secondName.trim())))
+                        || !this.state.validations.validateTextField(this.state.lastName.trim())
+                        || ((this.state.secondLastName.trim() != "") && (!this.state.validations.validateTextField(this.state.secondLastName.trim())))
                     ) {
                         alert("Los datos del nombre solo pueden estar compuestos por letras y extensión mínima de 2 caracteres");
                     } else if (this.state.userTypeID == 1 && !this.state.validations.validateCarnetField(this.state.carnet)) {
@@ -223,8 +223,8 @@ class SignUp extends Component {
                         alert("El formato de la cédula ingresada es incorrecto");
                     } else if (identificationIDValid == 1) {
                         alert("La cédula ingresado ya corresponde a otro usuario registrado");
-                    }else if (this.state.password != this.state.confirmPassword) {
-                            alert("Los campos de contraseña no coinciden");
+                    } else if (this.state.password != this.state.confirmPassword) {
+                        alert("Los campos de contraseña no coinciden");
                     } else {
                         this.GetCode();
                         sessionStorage.setItem('identificationID', this.state.identificationID);
@@ -232,22 +232,22 @@ class SignUp extends Component {
                         sessionStorage.setItem('secondName', this.state.secondName);
                         sessionStorage.setItem('lastName', this.state.lastName);
                         sessionStorage.setItem('secondLastName', this.state.secondLastName);
-                        if(this.state.carnet.trim() == ""){
+                        if (this.state.carnet.trim() == "") {
                             sessionStorage.setItem('carnet', null);
-                        }else {
+                        } else {
                             sessionStorage.setItem('carnet', this.state.carnet);
-                        }                       
+                        }
                         sessionStorage.setItem('carnet', this.state.carnet);
-                        if(this.state.career.trim() == ""){
+                        if (this.state.career.trim() == "") {
                             sessionStorage.setItem('career', null);
-                        }else {
+                        } else {
                             sessionStorage.setItem('career', this.state.career);
                         }
                         sessionStorage.setItem('birthDate', this.state.birthDate);
                         sessionStorage.setItem('phoneNumber1', this.state.phoneNumber1);
-                        if(this.state.phoneNumber2.trim() == ""){
+                        if (this.state.phoneNumber2.trim() == "") {
                             sessionStorage.setItem('phoneNumber2', null);
-                        }else {
+                        } else {
                             sessionStorage.setItem('phoneNumber2', this.state.phoneNumber2);
                         }
                         sessionStorage.setItem('genderID', this.state.genderID);
@@ -491,7 +491,7 @@ class SignUp extends Component {
                                             <input type="checkbox" id="showPasswordFields" required name="showPasswordFields" onChange={this.showPasswordFields} ></input>Mostrar campos
                                         </div>
                                     </div>
-                                    </div>
+                                </div>
                                 <div className="row">
                                     <div className="col-12">
                                         <div className="form-group" align="left">
