@@ -31,7 +31,7 @@ function App() {
       <Switch>
         <Fragment >
           <Header />
-          <Route exact path="/" component={AddRoutine} />
+          <Route exact path="/" component={UserHome} />
           <Fragment>
           <Route exact path="/UserHome" component={UserHome} />
             <Route exact path="/UserConfiguration" component={UserConfiguration} />

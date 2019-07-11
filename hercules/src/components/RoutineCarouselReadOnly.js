@@ -158,16 +158,21 @@ class RoutineCarouselReadOnly extends Component {
         return (
             <div className="container card">
                 <div className="row mt-4">
-                    <div className="col-2">
-                        <img src={leftArrowImage} className="buttonSizeGeneral" onClick={this.leftArrow} />
-                    </div>
-                    <div className="col-8">
-                        <select name="exerciseSelect" className="form-control" onChange={this.exerciseTypeSelect} value={this.state.typeID} >
-                            {exerciseList}
-                        </select>
-                    </div>
-                    <div className="col-2">
-                        <img src={rightArrowImage} className="buttonSizeGeneral" onClick={this.rigthArrow} />
+                <div className="col-12">
+                    <div className="row">
+                       
+                            <div className="col-3" align="center">
+                                <img src={leftArrowImage} className="arrows pointer" onClick={this.leftArrow} responsive />
+                            </div>
+                            <div className="col-6 " align="center">
+                                <select name="exerciseTypeDropDown" className="form-control" float="center" onChange={this.exerciseTypeSelect} value={this.state.typeID}>
+                                    {exerciseList}
+                                </select>
+                            </div>
+                            <div className="col-3 " align="center">
+                                <img src={rightArrowImage} className="arrows pointer"  onClick={this.rigthArrow} responsive />
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div className="row mt-4">

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import plusImage from '../appImage/plusImage.svg';
 import TablePhysicalInfo from './TablePhysicalInfo';
-
+import axios from "axios";
 
 class HistoricPhysicalInfoAdmin extends Component {
 

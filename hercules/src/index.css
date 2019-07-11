@@ -194,3 +194,8 @@ a{
   border-width: 1px;
   border-radius: 3px;
 }
+
+.arrows{
+width: 45px;
+height: 45px;
+}
