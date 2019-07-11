@@ -23,19 +23,31 @@ class Header extends Component {
     }
     return (
       <div>
-        <div className="container-fluid backgroundBlue p-1">
-          <div className="row ">
-            <div className="col-8">
-              <img src={logo} className="logo" alt="logo" />
+        <div className="container-fluid backgroundBlue">
+          <div className="row p-2">
+          <div className="d-block d-sm-none col-8">
+              <img src={logo} className="logoUCRMovil" alt="logo" responsive />
             </div>
-            <div className="col-2 ">
-              <img src={logoGym} className="logo" alt="logo" />
+            <div className="d-none d-sm-block d-md-none col-sm-8">
+              <img src={logo} className="logoUCRMovilSM" alt="logo" responsive />
+            </div>
+            <div className="d-none d-md-block col-sm-8">
+              <img src={logo} className="logoUCRMDToAll" alt="logo" responsive />
+            </div>
+            <div className="d-block d-sm-none col-4 text-right">
+              <img src={logoGym} className="logoGYMMovil " alt="logo" responsive />
+            </div>
+            <div className="d-none d-sm-block d-md-none col-sm-4 text-right">
+              <img src={logoGym} className="logoGYMMovilSM" alt="logo" responsive />
+            </div>
+            <div className="d-none d-md-block col-sm-4 text-right">
+              <img src={logoGym} className="logoGYMMovilMDToAll" alt="logo" responsive />
             </div>
           </div>
         </div>
         {navbar}
-
       </div>
+
     )
   }
 }

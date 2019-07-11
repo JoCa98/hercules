@@ -94,16 +94,35 @@ h4{
   
 }
 
-.logo{
-  width: 40px;
-  
+
+.logoUCRMovil{
+  width: 250px;
+  height: 35px;
 }
 
-.container-fluid {
-  padding-right: 15px;
-  padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto;
+.logoUCRMovilSM{
+  width: 400px;
+  height: 56px;
+}
+
+.logoUCRMDToAll{
+  width: 600px;
+  height: 84px;
+}
+
+.logoGYMMovil{
+  width: 35px;
+  height: 30px;
+}
+
+.logoGYMMovilSM{
+  width: 66px;
+  height: 56px;
+}
+
+.logoGYMMovilMDToAll{
+  width: 94px;
+  height: 80px;
 }
 
 
