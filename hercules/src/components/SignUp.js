@@ -275,18 +275,16 @@ class SignUp extends Component {
                     ) {
                         alert("Todos los campos obligatorios  deben estar llenos");
                     } else if (!this.state.validations.validateTextField(this.state.firstName.trim())
-                        || ((this.state.secondName.trim() != "") && (!this.state.validations.validateTextField(this.state.secondName.trim())))
+                        || (this.state.secondName != null && (this.state.secondName.trim().length != 0) && (!this.state.validations.validateTextField(this.state.secondName.trim())))
                         || !this.state.validations.validateTextField(this.state.lastName.trim())
-                        || ((this.state.secondLastName.trim() != "") && (!this.state.validations.validateTextField(this.state.secondLastName.trim())))
-                    ) {
+                        || (this.state.secondLastName != null && (this.state.secondLastName.trim().length != 0) && (!this.state.validations.validateTextField(this.state.secondLastName.trim())))) {
                         alert("Los datos del nombre solo pueden estar compuestos por letras y extensión mínima de 2 caracteres");
                     } else if (this.state.userTypeID == 1 && !this.state.validations.validateCarnetField(this.state.carnet)) {
                         alert("El carné debe estar compuesto por 1 letra inicial y 5 dígitos");
                     } else if (this.state.userTypeID == 1 && carnetValid == 1) {
                         alert("El carné ingresado ya corresponde a otro usuario registrado");
                     } else if (!this.state.validations.validatePhoneNumberField(this.state.phoneNumber1)
-                        || (!this.state.phoneNumber2.trim().length == 0
-                            & !this.state.validations.validatePhoneNumberField(this.state.phoneNumber2))
+                        || ((this.state.phoneNumber2.trim().length != 0) && (!this.state.validations.validatePhoneNumberField(this.state.phoneNumber2)))
                         || !this.state.validations.validatePhoneNumberField(this.state.emergencyContactPhoneNumber)) {
                         alert("Los números telefónicos deben estar compuestos por 8 dígitos");
                     } else if (!this.state.validations.validateEmailField(this.state.email)) {
@@ -299,6 +297,8 @@ class SignUp extends Component {
                         alert("La cédula ingresado ya corresponde a otro usuario registrado");
                     } else if (this.state.password != this.state.confirmPassword) {
                         alert("Los campos de contraseña no coinciden");
+                    } else if (!this.state.validations.validatePasswordField(this.state.password) ||!this.state.validations.validatePasswordField(this.state.confirmPassword)) {
+                        alert("La contraseña debe contar con una extensión mínima de 8 caracteres y estar compuesta almenos por números y letras");
                     } else {
                         this.GetCode();
                         sessionStorage.setItem('identificationID', this.state.identificationID);

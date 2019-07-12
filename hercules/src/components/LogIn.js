@@ -17,7 +17,16 @@ class LogIn extends Component {
         this.handleInputChange = this.handleInputChange.bind(this);
         this.tryLogin = this.tryLogin.bind(this);
         this.goPasswordRecovery = this.goPasswordRecovery.bind(this);
+        this.showPasswordFields = this.showPasswordFields.bind(this);
+    }
 
+    showPasswordFields() {
+        var show = document.getElementById('showPasswordFields').checked;
+        if (show == true) {
+            document.getElementById('password').type = "text";
+        } else {
+            document.getElementById('password').type = "password";
+        }
     }
 
     tryLogin() {
@@ -81,7 +90,10 @@ class LogIn extends Component {
                             <input type="text" name="email" value={this.state.email} className="form-control inputText w-100" onChange={this.handleInputChange}></input>
                             <br></br>
                             <p>Contraseña</p>
-                            <input type="password" name="password" value={this.state.password} className="form-control inputText w-100" onChange={this.handleInputChange}></input>
+                            <input type="text" name="password" id="password" value={this.state.password} className="form-control inputText w-100" onChange={this.handleInputChange}></input>
+                            
+                            <input type="checkbox" id="showPasswordFields" required name="showPasswordFields" onChange={this.showPasswordFields} ></input>Mostrar contraseña
+                            <br></br>
                             <br></br>
                             <button align="left" name="logIn" className="buttonSizeGeneral w-100" onClick={this.tryLogin}>Ingresar</button>
                             <br></br>
