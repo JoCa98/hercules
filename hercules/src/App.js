@@ -50,7 +50,6 @@ function App() {
           <Route exact path="/AddPhysicalInfo" component={AddPhysicalInfo}/>
           <Route exact path="/AddAdmin" component={AddAdmin}/>
           <Route exact path="/HistoricMedicalUserInfo" component={HistoricMedicalUserInfo}/>
-          <Route exact path="/AddAdmin" component={AddAdmin}/>
           <Route exact path="/PasswordRecovery" component={PasswordRecovery}/>
         </Fragment>
         <Footer />
