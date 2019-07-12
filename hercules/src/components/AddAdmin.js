@@ -167,7 +167,7 @@ class AddAdmin extends Component {
                             <div className="row">
                                 <div className="col-6">
                                     <div className="form-group" align="left">
-                                        <p align="justify">Tipo de administrador</p>
+                                        <p align="justify">Tipo de administrador<font color="red">*</font></p>
                                         <select value={this.state.userTypeID} align="justify" name="userTypeID" className="form-control" onChange={this.handleInputChange}>
                                             <option defaultValue="3" >Médico</option>
                                             <option value="4">Gimnasio</option>

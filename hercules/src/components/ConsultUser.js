@@ -17,13 +17,13 @@ class ConsultUser extends Component {
     constructor(props) {
         super(props);
         /**
-        *userList:
+        *userInfo:
         * @type {Array}
-        * Property that stores the list of medical registers that comes from the database
+        * Property that stores the user information that comes from the database
         * 
-        * searchType:
+        * partyID:
         * @type {integer}
-        * Property that indicates the user id,
+        * Property that indicates the user id
         */
         this.state = {
             userInfo: [{}],
