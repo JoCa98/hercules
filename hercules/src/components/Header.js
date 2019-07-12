@@ -8,7 +8,6 @@ class Header extends Component {
 
 
   render() {
-    console.log(sessionStorage.getItem('userTypeID'))
     var navbar;
     if (sessionStorage.getItem('userTypeID') != null) {
       if (sessionStorage.getItem('userTypeID') == 1 || sessionStorage.getItem('userTypeID') == 2) {
@@ -43,7 +42,6 @@ class Header extends Component {
         </div>
         {navbar}
       </div>
-
     )
   }
 }
