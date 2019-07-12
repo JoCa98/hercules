@@ -1,6 +1,6 @@
 /**
  * @fileoverview AddAdmin page, this page create a new administer or edit an existing admin
- * this form can create a medical admin and a general admin, this general
+ * this form can create a medical admin and/or a general admin, this general
  * admin its the only who can create admins
  * @version 1.0
  *
@@ -141,6 +141,10 @@ class AddAdmin extends Component {
             return false;
         }
     }
+
+     /**
+    * Method that allows that the password can be shown
+    */
     showPasswordFields() {
         var show = document.getElementById('showPasswordFields').checked;
         if (show == true) {
@@ -173,7 +177,7 @@ class AddAdmin extends Component {
                                 <div className="col-6">
                                     <div className="form-group" align="left">
                                         <p align="justify">Cédula*</p>
-                                        <input type="text" name="identificationID" className="form-control" onChange={this.inputNumberValidator} required></input>
+                                        <input type="text" name="identificationID" placeholder="#########" className="form-control" onChange={this.inputNumberValidator} required></input>
                                     </div>
                                 </div>
                             </div>
@@ -181,35 +185,35 @@ class AddAdmin extends Component {
                             <div className="row">
                                 <div className="col-6">
                                     <div className="form-group" align="left">
-                                        <p align="justify">Primer nombre*</p>
-                                        <input type="text" name="firstName" className="form-control" onChange={this.handleInputChange} required></input>
+                                        <p align="justify">Primer nombre<font color="red">*</font></p>
+                                        <input type="text" name="firstName" placeholder="Ej: Kevin" className="form-control" onChange={this.handleInputChange} required></input>
                                         <br></br>
-                                        <p align="justify">Primer Apellido*</p>
-                                        <input type="text" name="firstLastName" className="form-control" onChange={this.handleInputChange} required></input>
+                                        <p align="justify">Primer Apellido<font color="red">*</font></p>
+                                        <input type="text" name="firstLastName" placeholder="Ej: Jiménez" className="form-control" onChange={this.handleInputChange} required></input>
                                     </div>
                                 </div>
                                 <div className="col-6">
                                     <div className="form-group" align="left">
                                         <p align="justify">Segundo nombre</p>
-                                        <input type="text" name="secondName" className="form-control" onChange={this.handleInputChange}></input>
+                                        <input type="text" name="secondName" placeholder="Ej: José" className="form-control" onChange={this.handleInputChange}></input>
                                         <br></br>
                                         <p align="justify">Segundo Apellido</p>
-                                        <input type="text" name="secondLastName" className="form-control" onChange={this.handleInputChange}></input>
+                                        <input type="text" name="secondLastName" placeholder="Ej: Molina" className="form-control" onChange={this.handleInputChange}></input>
                                     </div>
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="col-12">
                                     <div className="form-group" align="left">
-                                        <p align="justify">Email*</p>
-                                        <input type="email" id="email" name="email" className="form-control" onChange={this.handleInputChange} required></input>
+                                        <p align="justify">Email<font color="red">*</font></p>
+                                        <input type="email" id="email" name="email" placeholder="Ej: correo@mail.com" className="form-control" onChange={this.handleInputChange} required></input>
                                         <br></br>
-                                        <p align="justify">Contraseña*</p>
-                                        <input type="password" id = "password" name="password" className="form-control" onChange={this.handleInputChange} required></input>
+                                        <p align="justify">Contraseña<font color="red">*</font></p>
+                                        <input type="password" id = "password" placeholder="Contraseña" name="password" className="form-control" onChange={this.handleInputChange} required></input>
                                         <br></br>
-                                        <p align="justify">Confirmar contraseña*</p>
+                                        <p align="justify">Confirmar contraseña<font color="red">*</font></p>
                                         <input type="password" id = "confirmPassword" name="confirmPassword" className="form-control" onChange={this.handleInputChange} required></input>
-                                        <input type="checkbox" id="showPasswordFields" name="showPasswordFields" onChange={this.showPasswordFields} ></input>Mostrar campos
+                                        <input type="checkbox" id="showPasswordFields" placeholder="Contraseña" name="showPasswordFields" onChange={this.showPasswordFields} ></input>Mostrar campos
                                     </div>
                                 </div>
                             </div>
