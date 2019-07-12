@@ -102,7 +102,7 @@ class TableMedicalInfo extends Component {
 
         const indexPersonalHist = this.state.medicalInfo.map((medicalInfo, i) => {
             console.log(sessionStorage.getItem('userTypeID'));
-            if (sessionStorage.getItem('userTypeID') == 4) {
+            if (i === 0 && sessionStorage.getItem('userTypeID') == 3) {
                 return (
                     <tr className="pointer" onClick={this.rowEvent} key={i}>
                         <td className="diplayNone">{medicalInfo.medicalInfoID}</td>
