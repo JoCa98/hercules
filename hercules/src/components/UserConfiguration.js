@@ -287,7 +287,6 @@ class UserConfiguration extends Component {
     }
 
     updateUser() {      
-        alert(this.state.secondLastName);
         fetch("http://localhost:9000/User/updateUser", {
             method: "post",
             body: JSON.stringify({
