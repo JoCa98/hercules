@@ -22,22 +22,22 @@ class Header extends Component {
         <div className="container-fluid backgroundBlue">
           <div className="row p-2">
           <div className="d-block d-sm-none col-8">
-              <img src={logo} className="logoUCRMovil" alt="logo" responsive />
+              <img src={logo} className="logoUCRMovil" alt="logo" />
             </div>
             <div className="d-none d-sm-block d-md-none col-sm-8">
-              <img src={logo} className="logoUCRMovilSM" alt="logo" responsive />
+              <img src={logo} className="logoUCRMovilSM" alt="logo"  />
             </div>
             <div className="d-none d-md-block col-sm-8">
-              <img src={logo} className="logoUCRMDToAll" alt="logo" responsive />
+              <img src={logo} className="logoUCRMDToAll" alt="logo"  />
             </div>
             <div className="d-block d-sm-none col-4 text-right">
-              <img src={logoGym} className="logoGYMMovil " alt="logo" responsive />
+              <img src={logoGym} className="logoGYMMovil " alt="logo"  />
             </div>
             <div className="d-none d-sm-block d-md-none col-sm-4 text-right">
-              <img src={logoGym} className="logoGYMMovilSM" alt="logo" responsive />
+              <img src={logoGym} className="logoGYMMovilSM" alt="logo"  />
             </div>
             <div className="d-none d-md-block col-sm-4 text-right">
-              <img src={logoGym} className="logoGYMMovilMDToAll" alt="logo" responsive />
+              <img src={logoGym} className="logoGYMMovilMDToAll" alt="logo"  />
             </div>
           </div>
         </div>

@@ -16,11 +16,8 @@ class NavbarAdmin extends Component {
                                 <li className="nav-item active ml-4 mt-1">
                                     <Link to="/AddAdmin" className="align-middle">Agregar administrador</Link>
                                 </li>
-                                <li className="nav-item active ml-4 mt-1">                                    
-                                    <Link to="/" className="align-middle">Perfil</Link>
-                                </li>
                                 <li className="nav-item active ml-4 mt-1">
-                                    <Link to="/UserConfiguration" className="align-middle">Salir</Link>
+                                    <Link to="/" className="align-middle" onClick={sessionStorage.clear()}>Salir</Link>
                                 </li>
                             </ul>
                         </nav>

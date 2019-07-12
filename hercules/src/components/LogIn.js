@@ -35,9 +35,11 @@ class LogIn extends Component {
                             sessionStorage.setItem('partyID', JSON.parse(JSON.stringify(response.data[0]))[0]['partyID']);
                             sessionStorage.setItem('userTypeID', JSON.parse(JSON.stringify(response.data[0]))[0]['userTypeID']);
                             if (sessionStorage.getItem('userTypeID') == 1 || sessionStorage.getItem('userTypeID') == 2) {
-                                this.props.history.push(`/UserConfiguration`);
-                            } else if (sessionStorage.getItem('userTypeID') == 3 || sessionStorage.getItem('userTypeID') == 4){
                                 this.props.history.push(`/UserHome`);
+                                window.location.reload();
+                            } else if (sessionStorage.getItem('userTypeID') == 3 || sessionStorage.getItem('userTypeID') == 4){
+                                this.props.history.push(`/HomeAdmin`);
+                                window.location.reload();
                             }
                         });
                     } else {
@@ -79,7 +81,7 @@ class LogIn extends Component {
                             <input type="text" name="email" value={this.state.email} className="form-control inputText w-100" onChange={this.handleInputChange}></input>
                             <br></br>
                             <p>Contraseña</p>
-                            <input type="text" name="password" value={this.state.password} className="form-control inputText w-100" onChange={this.handleInputChange}></input>
+                            <input type="password" name="password" value={this.state.password} className="form-control inputText w-100" onChange={this.handleInputChange}></input>
                             <br></br>
                             <button align="left" name="logIn" className="buttonSizeGeneral w-100" onClick={this.tryLogin}>Ingresar</button>
                             <br></br>
