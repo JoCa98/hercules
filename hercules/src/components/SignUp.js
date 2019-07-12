@@ -67,6 +67,7 @@ class SignUp extends Component {
         this.selectFemale();
         var initProvinceID = 2;
         var initCantonID = 30;
+        var initDistrictID = 242;
         axios.get(`http://localhost:9000/User/getRelationType`).then(response => {
             this.setState({ relations: response.data });
         });
@@ -87,6 +88,8 @@ class SignUp extends Component {
                     <option value={cantons.cantonID} key={i}>{cantons.cantonDescription}</option>
                 )
             });
+            this.setState({ cantonID: initCantonID });
+            document.getElementById('cantonID').value = initCantonID
         });
         axios.get(`http://localhost:9000/User/getDistricts`, { params: { cID: initCantonID } }).then(response => {
             this.setState({ districts: response.data[0] });
@@ -95,6 +98,8 @@ class SignUp extends Component {
                     <option value={districts.districtID} key={i}>{districts.districtDescription}</option>
                 )
             });
+            this.setState({ districtID: initDistrictID });
+            document.getElementById('districtID').value = initDistrictID 
         });
     }
 
@@ -151,7 +156,6 @@ class SignUp extends Component {
     getDistrict(event) {
         this.setState({ districtID: event.target.value });
         document.getElementById('districtID').value = event.target.value;
-        alert("distrito antes de:" + this.state.districtID)
     };
 
     loadCantons() {
