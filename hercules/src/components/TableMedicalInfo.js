@@ -69,6 +69,7 @@ class TableMedicalInfo extends Component {
             this.setState({
                 partyID: sessionStorage.getItem('userPartyID')
             })
+            
             value = sessionStorage.getItem('userPartyID');
         }
 
@@ -100,7 +101,8 @@ class TableMedicalInfo extends Component {
         */
 
         const indexPersonalHist = this.state.medicalInfo.map((medicalInfo, i) => {
-            if (i === 0 && sessionStorage.getItem('userTypeID') === 4) {
+            console.log(sessionStorage.getItem('userTypeID'));
+            if (i === 0 && sessionStorage.getItem('userTypeID') == 3) {
                 return (
                     <tr className="pointer" onClick={this.rowEvent} key={i}>
                         <td className="diplayNone">{medicalInfo.medicalInfoID}</td>
@@ -129,6 +131,7 @@ class TableMedicalInfo extends Component {
         })
         const indexExploration1 = this.state.medicalInfo.map((medicalInfo, i) => {
             if (i === 0 && sessionStorage.getItem('userTypeID') === 4) {
+                console.log("dentro");
                 return (
                     <tr className="pointer" onClick={this.rowEvent} key={i}>
                         <td className="diplayNone">{medicalInfo.medicalInfoID}</td>
