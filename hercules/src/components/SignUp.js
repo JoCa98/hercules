@@ -99,7 +99,7 @@ class SignUp extends Component {
                 )
             });
             this.setState({ districtID: initDistrictID });
-            document.getElementById('districtID').value = initDistrictID 
+            document.getElementById('districtID').value = initDistrictID
         });
     }
 
@@ -270,7 +270,7 @@ class SignUp extends Component {
                     var carnetValid = JSON.parse(JSON.stringify(response.data))[0]['isCarnetValid'].data[0];
 
                     if (this.state.firstName.trim().length == 0 || this.state.lastName.trim().length == 0
-                        || this.state.secondLastName.trim().length == 0 || this.state.phoneNumber1.trim().length == 0
+                        || this.state.phoneNumber1.trim().length == 0
                         || this.state.contactName.toString().trim().length == 0
                         || this.state.email.trim().length == 0 || this.state.password.trim().length == 0
                         || this.state.confirmPassword.toString().trim().length == 0 || this.state.addressLine.toString().trim().length == 0
@@ -283,26 +283,30 @@ class SignUp extends Component {
                         || !this.state.validations.validateTextField(this.state.lastName.trim())
                         || (this.state.secondLastName != null && (this.state.secondLastName.trim().length != 0) && (!this.state.validations.validateTextField(this.state.secondLastName.trim())))) {
                         alert("Los datos del nombre solo pueden estar compuestos por letras y extensión mínima de 2 caracteres");
-                    } else if (this.state.userTypeID == 1 && !this.state.validations.validateCarnetField(this.state.carnet)) {
-                        alert("El carné debe estar compuesto por 1 letra inicial y 5 dígitos");
-                    } else if (this.state.userTypeID == 1 && carnetValid == 1) {
-                        alert("El carné ingresado ya corresponde a otro usuario registrado");
                     } else if (!this.state.validations.validatePhoneNumberField(this.state.phoneNumber1)
                         || ((this.state.phoneNumber2.trim().length != 0) && (!this.state.validations.validatePhoneNumberField(this.state.phoneNumber2)))
                         || !this.state.validations.validatePhoneNumberField(this.state.emergencyContactPhoneNumber)) {
                         alert("Los números telefónicos deben estar compuestos por 8 dígitos");
+                    } else if (!this.state.validations.validateIdentification(this.state.identificationID)) {
+                        alert("El formato de la cédula ingresada es incorrecto");
+                    } else if (identificationIDValid == 1) {
+                        alert("La cédula ingresada ya corresponde a otro usuario registrado");
+                    } else if (this.state.userTypeID == 1 && !this.state.validations.validateCarnetField(this.state.carnet)) {
+                        alert("El carné debe estar compuesto por 1 letra inicial y 5 dígitos");
+                    } else if (this.state.userTypeID == 1 && carnetValid == 1) {
+                        alert("El carné ingresado ya corresponde a otro usuario registrado");
+                    } else if (this.state.userTypeID == 1 && !this.state.validations.validateTextField(this.state.career.trim())) {
+                        alert("El dato de la carrera solo debe de contener letras.");
                     } else if (!this.state.validations.validateEmailField(this.state.email)) {
                         alert("Debe utilizar su cuenta de correo institucional");
                     } else if (emailValid == 1) {
                         alert("El correo ingresado ya corresponde a otro usuario registrado");
-                    } else if (!this.state.validations.validateIdentification(this.state.identificationID)) {
-                        alert("El formato de la cédula ingresada es incorrecto");
-                    } else if (identificationIDValid == 1) {
-                        alert("La cédula ingresado ya corresponde a otro usuario registrado");
                     } else if (this.state.password != this.state.confirmPassword) {
                         alert("Los campos de contraseña no coinciden");
-                    } else if (!this.state.validations.validatePasswordField(this.state.password) ||!this.state.validations.validatePasswordField(this.state.confirmPassword)) {
-                        alert("La contraseña debe contar con una extensión mínima de 8 caracteres y estar compuesta almenos por números y letras");
+                    } else if (!this.state.validations.validatePasswordField(this.state.password) || !this.state.validations.validatePasswordField(this.state.confirmPassword)) {
+                        alert("La contraseña debe contar con una extensión entre de 8 y 16 caracteres y estar compuesta al menos por números y letras");
+                    } else if (!this.state.validations.validateTextField(this.state.contactName.trim())) {
+                        alert("El nombre del contacto de emergencia solo debe contener letras");
                     } else {
                         this.GetCode();
                         sessionStorage.setItem('identificationID', this.state.identificationID);
@@ -310,19 +314,21 @@ class SignUp extends Component {
                         sessionStorage.setItem('secondName', this.state.secondName);
                         sessionStorage.setItem('lastName', this.state.lastName);
                         sessionStorage.setItem('secondLastName', this.state.secondLastName);
+                        if (this.state.userTypeID == 1) {
+                            sessionStorage.setItem('carnet', this.state.carnet.toUpperCase());
+                            sessionStorage.setItem('career', this.state.career);
+                        } else if (this.state.userTypeID == 2) {
+                            sessionStorage.setItem('carnet', '');
+                            sessionStorage.setItem('career', '');
+                        }
 
-                        sessionStorage.setItem('carnet', this.state.carnet);
-                        sessionStorage.setItem('career', this.state.career);
                         sessionStorage.setItem('birthDate', this.state.birthDate);
                         sessionStorage.setItem('phoneNumber1', this.state.phoneNumber1);
-
                         sessionStorage.setItem('phoneNumber2', this.state.phoneNumber2);
-
-                        alert("distrito antes de:" + this.state.districtID)
                         sessionStorage.setItem('genderID', this.state.genderID);
-                        sessionStorage.setItem('userTypeID', this.state.userTypeID);
-                        sessionStorage.setItem('email', this.state.email);
-                        sessionStorage.setItem('password', this.state.hash.encode(this.state.password));
+                        sessionStorage.setItem('userTypeIDRegister', this.state.userTypeID);
+                        sessionStorage.setItem('emailRegister', this.state.email);
+                        sessionStorage.setItem('passwordRegister', this.state.hash.encode(this.state.password));
                         sessionStorage.setItem('startDate', this.state.startDate);
                         sessionStorage.setItem('activationCode', this.state.activationCode);
                         sessionStorage.setItem('districtID', this.state.districtID);
@@ -523,7 +529,7 @@ class SignUp extends Component {
                                             <div className="col-12 col-sm-6">
                                                 <div className="form-group" align="left">
                                                     <p title="Campo obligatorio">Email<font color="red">*</font></p>
-                                                    <input type="text" title="Únicamenta correos institucionales" placeholder="correo@ucr.ac.cr" required name="email" value={this.state.email} onChange={this.handleInputChange} className="form-control inputText w-100"></input>
+                                                    <input type="text" title="Únicamenta correos institucionales" placeholder="Ej: correo@ucr.ac.cr" required name="email" value={this.state.email} onChange={this.handleInputChange} className="form-control inputText w-100"></input>
                                                 </div>
                                             </div>
                                         </div>

@@ -83,8 +83,9 @@ class AddRoutine extends Component {
                 .catch(err => console.error(err));
 
                this.addExercise();
-               
+               this.props.history.push(`/HistoricRoutineInfo`);
             e.preventDefault();
+            
             }else{
                 alert("Debe agregar ejercicios");
             }

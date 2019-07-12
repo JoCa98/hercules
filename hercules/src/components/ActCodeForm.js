@@ -16,9 +16,9 @@ class ActCodeForm extends Component {
       career: sessionStorage.getItem('career'),
       birthDate: sessionStorage.getItem('birthDate'),
       genderID: sessionStorage.getItem('genderID'),
-      userTypeID: sessionStorage.getItem('userTypeID'),
-      email: sessionStorage.getItem('email'),
-      password: sessionStorage.getItem('password'),
+      userTypeID: sessionStorage.getItem('userTypeIDRegister'),
+      email: sessionStorage.getItem('emailRegister'),
+      password: sessionStorage.getItem('passwordRegister'),
       phoneNumber1: sessionStorage.getItem('phoneNumber1'),
       phoneNumber2: sessionStorage.getItem('phoneNumber2'),
       startDate: sessionStorage.getItem('startDate'),
@@ -70,6 +70,7 @@ class ActCodeForm extends Component {
         })
         .catch(err => console.error(err));
         alert("El registro fue completado con éxito. Ahora será redirigido a la pantalla de ingreso")
+        sessionStorage.clear();
         this.props.history.push(`/`);
     } else {
       alert("El código ingresado es incorrecto");
@@ -90,6 +91,7 @@ class ActCodeForm extends Component {
                 console.log(data);
             })
             .catch(err => console.error(err));
+            alert("Se reenvió el código de activación, por favor revise su correo institucional.");
   }
 
 
@@ -109,10 +111,10 @@ class ActCodeForm extends Component {
               </div>
               <div className="row mt-4">
                 <div className="col-4">
-                  <button type="button" align="left" name="actCodeButton" className="cssCodeButtonResend"onClick={this.resendCode}> Reenviar código </button>
+                  <button type="button" align="left" name="resendButton" className="cssCodeButtonResend"onClick={this.resendCode}> Reenviar código </button>
                 </div>
                 <div className="col-4 offset-4">
-                  <button type="button" align="right" name="actCodeButton" className="cssCodeButtonConfirm" onClick={this.completeSignUp}> Confirmar </button>
+                  <button type="button" align="right" name="confirmButton" className="cssCodeButtonConfirm" onClick={this.completeSignUp}> Confirmar </button>
                 </div>
               </div>
             </form>

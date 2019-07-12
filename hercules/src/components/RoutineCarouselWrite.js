@@ -278,7 +278,7 @@ initButtons(){
             <div className="container card">
                 <div className="row mt-4">
                     <div className="col-3" align="center">
-                        <img src={leftArrowImage}   className="arrows pointer" onClick={this.leftArrow}  responsive/>
+                        <img src={leftArrowImage}   className="arrows pointer" onClick={this.leftArrow} />
                     </div>
                     <div className="col-6 "  align="center">
                         <select name="exerciseTypeDropDown" className="form-control" float="center" onChange={this.exerciseTypeSelect} value={this.state.typeID}>
@@ -286,7 +286,7 @@ initButtons(){
                         </select>
                     </div>
                     <div className="col-3 "  align="center">
-                        <img src={rightArrowImage}  className="arrows pointer" onClick={this.rigthArrow} responsive/>
+                        <img src={rightArrowImage}  className="arrows pointer" onClick={this.rigthArrow} />
                     </div>
                 </div>
                 <div className="row mt-4">

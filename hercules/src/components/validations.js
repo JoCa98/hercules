@@ -11,7 +11,7 @@ class validations extends Component {
     }
 
     validateTextField(value) {
-        return new RegExp("^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$").test(value);
+        return new RegExp("^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$").test(value);
     }
     validateNumericField(value) {
         return new RegExp("^[0-9]*$").test(value);
@@ -21,7 +21,7 @@ class validations extends Component {
         return new RegExp("^[a-zA-Z][0-9]{5}$").test(value);
     }
     validatePasswordField(value) {
-        return new RegExp("^(?=.*\d).{8,16}$").test(value);
+        return new RegExp("^(?=.*\\d).{8,16}$").test(value);
     }
 
     validatePhoneNumberField(value){
