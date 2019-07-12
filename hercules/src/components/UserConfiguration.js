@@ -7,7 +7,7 @@ class UserConfiguration extends Component {
         super(props);
         this.state = {
             validations: new validations(),
-            Hash: new Hash(),
+            hash: new Hash(),
             identificationID: "",
             firstName: "",
             secondName: "",
@@ -286,16 +286,25 @@ class UserConfiguration extends Component {
         this.state.email = sessionStorage.getItem('email');
     }
 
-    updateUser() {      
+    updateUser() {
+        var secondName = this.state.secondName;
+        var secondLastName = this.state.secondLastName;
+        
+        if (secondName == null) {
+            secondName = '';
+        }
+        if(secondLastName == null){
+            secondLastName = '';
+        }
         fetch("http://localhost:9000/User/updateUser", {
             method: "post",
             body: JSON.stringify({
                 partyID: sessionStorage.getItem('partyID'),
                 identificationID: this.state.identificationID,
                 firstName: this.state.firstName,
-                secondName: this.state.secondName,
+                secondName: secondName,
                 lastName: this.state.lastName,
-                secondLastName: this.state.secondLastName,
+                secondLastName: secondLastName,
                 carnet: this.state.carnet.trim(),
                 career: this.state.career.trim(),
                 phoneNumber1: this.state.phoneNumber1,
@@ -321,7 +330,7 @@ class UserConfiguration extends Component {
             method: "post",
             body: JSON.stringify({
                 email: sessionStorage.getItem('email'),
-                password: this.state.Hash.encode(this.state.newPassword),
+                password: this.state.hash.encode(this.state.newPassword),
             }),
             headers: {
                 Accept: "application/json",
@@ -356,7 +365,7 @@ class UserConfiguration extends Component {
                 console.log(data);
             })
             .catch(err => console.error(err));
-        alert("Los datos del usuario de emergencia fueron actualizadoscon éxito");
+        alert("Los datos del contacto de emergencia fueron actualizados con éxito");
     }
 
     loadAccountInfo() {
@@ -497,7 +506,7 @@ class UserConfiguration extends Component {
 
 
     }
-    //////////////////////////
+    
     editPassword() {
         document.getElementById('editPassword').style.display = 'none';
         document.getElementById('cancelPassword').style.display = 'block';
@@ -515,7 +524,7 @@ class UserConfiguration extends Component {
         if (document.getElementById('password').value.length == 0 || document.getElementById('newPassword').value.length == 0
             || document.getElementById('confirmNewPassword').value.length == 0) {
             alert("Todos los campos de contraseña deben estar llenos")
-        } else if (this.state.hash.encode(this.state.password, sessionStorage.getItem('password'))) {
+        } else if (this.state.hash.comparePassword(this.state.password, sessionStorage.getItem('password'))) {
             alert("La contraseña actual es incorrecta");
         } else if (!this.state.validations.validatePasswordField(this.state.newPassword) ||!this.state.validations.validatePasswordField(this.state.confirmNewPassword)) {
             alert("La contraseña debe contar con una extensión mínima de 8 caracteres y estar compuesta almenos por números y letras");
