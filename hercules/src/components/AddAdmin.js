@@ -40,7 +40,7 @@ class AddAdmin extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.inputNumberValidator = this.inputNumberValidator.bind(this);
         this.emailValidator = this.emailValidator.bind(this);
-
+        this.showPasswordFields = this.showPasswordFields.bind(this);
     }
 
     /**
@@ -54,9 +54,9 @@ class AddAdmin extends Component {
             if (this.empty()) {
                 alert("Los campos con * son obligatorios");
             } else if (!this.state.validations.validateTextField(this.state.firstName.trim())
-                || ((this.state.secondName.trim() != "") && (!this.state.validations.validateTextField(this.state.secondName.trim())))
+                || (this.state.secondName != null && (this.state.secondName.trim() != "") && (!this.state.validations.validateTextField(this.state.secondName.trim())))
                 || !this.state.validations.validateTextField(this.state.firstLastName.trim())
-                || ((this.state.secondLastName.trim() != "") && (!this.state.validations.validateTextField(this.state.secondLastName.trim()))) 
+                || (this.state.secondLastName != null && (this.state.secondLastName.trim() != "") && (!this.state.validations.validateTextField(this.state.secondLastName.trim()))) 
             ) {
                 alert("Los datos del nombre solo pueden estar compuestos por letras y extensión mínima de 2 caracteres");
             } else if (!this.state.validations.validateIdentification(this.state.identificationID)) {
@@ -140,6 +140,16 @@ class AddAdmin extends Component {
             return false;
         }
     }
+    showPasswordFields() {
+        var show = document.getElementById('showPasswordFields').checked;
+        if (show == true) {
+            document.getElementById('password').type = "text";
+            document.getElementById('confirmPassword').type = "text";
+        } else {
+            document.getElementById('password').type = "password";
+            document.getElementById('confirmPassword').type = "password";
+        }
+    }
 
     render() {
         return (
@@ -194,10 +204,11 @@ class AddAdmin extends Component {
                                         <input type="email" id="email" name="email" className="form-control" onChange={this.handleInputChange} required></input>
                                         <br></br>
                                         <p align="justify">Contraseña*</p>
-                                        <input type="password" name="password" className="form-control" onChange={this.handleInputChange} required></input>
+                                        <input type="password" id = "password" name="password" className="form-control" onChange={this.handleInputChange} required></input>
                                         <br></br>
                                         <p align="justify">Confirmar contraseña*</p>
-                                        <input type="password" name="confirmPassword" className="form-control" onChange={this.handleInputChange} required></input>
+                                        <input type="password" id = "confirmPassword" name="confirmPassword" className="form-control" onChange={this.handleInputChange} required></input>
+                                        <input type="checkbox" id="showPasswordFields" required name="showPasswordFields" onChange={this.showPasswordFields} ></input>Mostrar campos
                                     </div>
                                 </div>
                             </div>
