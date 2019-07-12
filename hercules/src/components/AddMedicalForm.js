@@ -258,6 +258,7 @@ class AddMedicalForm extends Component {
             })
             .catch(err => console.error(err));
         event.preventDefault();
+        this.props.history.push(`/HistoricMedicalInfo`);
         } else{
             alert("Los campos con * son obligatorios");
         }

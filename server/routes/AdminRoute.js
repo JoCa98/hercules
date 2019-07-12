@@ -60,7 +60,7 @@ router.get('/getUsersByName', (req, res) => {
   * @param {Response}
 */
 router.get('/getUsersByIdentification', (req, res) => {
-  connection.query("CALL proc_getUsersByIdentificationID('" + req.query.identificationID + "');",
+  connection.query("CALL proc_getUsersByIdentificationID(" + req.query.identificationID + ");",
     function (err, results) {
       if (results) {
         res.send(results);

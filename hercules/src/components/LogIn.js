@@ -52,11 +52,11 @@ class LogIn extends Component {
                             }
                         });
                     } else {
-                        alert("La contraseña ingresada no es correcta.")
+                        alert("Contraseña y/o correo ingresados no son correctos.")
                     }
                 });
             }else {
-                alert("El correo ingresado no corresponde a ningún usuario registrado")
+                alert("Contraseña y/o correo ingresados no son correctos.")
             }
         });
     }
