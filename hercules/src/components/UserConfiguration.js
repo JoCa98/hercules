@@ -601,15 +601,15 @@ class UserConfiguration extends Component {
                                 <div className="row">
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
-                                            <p>Primer nombre<font color="red">*</font></p>
+                                            <p title="Campo obligatorio">Primer nombre<font color="red">*</font></p>
                                             <input type="text" placeholder="Ej: Kevin" id="firstName" name="firstName" required className="form-control inputText" value={this.state.firstName || ''} onChange={this.handleInputChange}></input>
                                         </div>
                                         <div className="form-group" align="left">
-                                            <p>Primer Apellido<font color="red">*</font></p>
+                                            <p title="Campo obligatorio">Primer Apellido<font color="red">*</font></p>
                                             <input type="text" placeholder="Ej: Jiménez" id="lastName" name="lastName" required className="form-control inputText" value={this.state.lastName || ''} onChange={this.handleInputChange}></input>
                                         </div>
                                         <div className="form-group" align="left">
-                                            <p>Teléfono 1<font color="red">*</font></p>
+                                            <p title="Campo obligatorio">Teléfono 1<font color="red">*</font></p>
                                             <input type="text" placeholder="########" id="phoneNumber1" name="phoneNumber1" required className="form-control inputText" value={this.state.phoneNumber1 || ''} onChange={this.handleInputChange}></input>
                                         </div>
                                     </div>
@@ -632,13 +632,13 @@ class UserConfiguration extends Component {
                                 <div className="row">
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
-                                            <p>Número de cédula<font color="red">*</font></p>
-                                            <input type="text" placeholder="#########" id="identificationID" name="identificationID" required className="form-control InputText" value={this.state.identificationID || ''} onChange={this.handleInputChange}></input>
+                                            <p title="Campo obligatorio">Número de cédula<font color="red">*</font></p>
+                                            <input type="text" title="Número de cédula o cédula de residencia" placeholder="#########" id="identificationID" name="identificationID" required className="form-control InputText" value={this.state.identificationID || ''} onChange={this.handleInputChange}></input>
                                         </div>
                                     </div>
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
-                                            <p>Fecha de nacimiento<font color="red">*</font></p>
+                                            <p title="Campo obligatorio">Fecha de nacimiento<font color="red">*</font></p>
                                             <input type="date" name="birthDate" disabled required className="form-control InputText" value={this.state.birthDate || ''} onChange={this.handleInputChange}></input>
                                         </div>
                                     </div>
@@ -646,13 +646,13 @@ class UserConfiguration extends Component {
                                 <div className="row">
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
-                                            <p>Carné<font color="red">*</font></p>
+                                            <p title="Campo obligatorio">Carné<font color="red">*</font></p>
                                             <input type="text" placeholder="Ej: A00000" id="carnet" name="carnet" required className="form-control InputText" value={this.state.carnet || ''} onChange={this.handleInputChange}></input>
                                         </div>
                                     </div>
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
-                                            <p>Carrera<font color="red">*</font></p>
+                                            <p title="Campo obligatorio">Carrera<font color="red">*</font></p>
                                             <input type="text" placeholder="Ej: Informática Empresarial" id="career" name="career" required className="form-control InputText" value={this.state.career || ''} onChange={this.handleInputChange}></input>
                                         </div>
                                     </div>
@@ -667,7 +667,7 @@ class UserConfiguration extends Component {
                                 <div className="row">
                                     <div className="col-12 col-sm-4">
                                         <div className="form-group" align="left">
-                                            <p>Provincia<font color="red">*</font></p>
+                                            <p title="Campo obligatorio">Provincia<font color="red">*</font></p>
                                             <select id="provinceID" id="provinceID" name="provinceID" className="form-control" onChange={this.getCantonsByProvince}>
                                                 {this.state.provinceList}
                                             </select>
@@ -675,7 +675,7 @@ class UserConfiguration extends Component {
                                     </div>
                                     <div className="col-12 col-sm-4">
                                         <div className="form-group" align="left">
-                                            <p>Cantón<font color="red">*</font></p>
+                                            <p title="Campo obligatorio">Cantón<font color="red">*</font></p>
                                             <select name="cantonID" id="cantonID" className="form-control" onChange={this.getDistrictsByCanton}>
                                                 {this.state.cantonList}
                                             </select>
@@ -684,7 +684,7 @@ class UserConfiguration extends Component {
                                     </div>
                                     <div className="col-12 col-sm-4">
                                         <div className="form-group" align="left">
-                                            <p>Distrito<font color="red">*</font></p>
+                                            <p title="Campo obligatorio">Distrito<font color="red">*</font></p>
                                             <select name="districtID" id="districtID" className="form-control" value={this.state.districtID} onChange={this.getDistrict}>
                                                 {this.state.districtList}
                                             </select>
@@ -694,7 +694,7 @@ class UserConfiguration extends Component {
                                 <div className="row">
                                     <div className="col-12">
                                         <div className="form-group" align="left">
-                                            <p align="left">Otras señas<font color="red">*</font></p>
+                                            <p title="Campo obligatorio" align="left">Otras señas<font color="red">*</font></p>
                                             <textarea type="text" placeholder="Ej: Cerca del árbol de aguacate, casa color verde." id="addressLine" required name="addressLine" value={this.state.addressLine || ''} onChange={this.handleInputChange} className="bigInputText w-100 form-control bigInputText"></textarea>
                                         </div>
                                     </div>
@@ -726,7 +726,7 @@ class UserConfiguration extends Component {
                                 <div className="row">
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
-                                            <p>Contraseña actual<font color="red">*</font></p>
+                                            <p title="Campo obligatorio">Contraseña actual<font color="red">*</font></p>
                                             <input type="password" id="password" required name="password" value={this.state.password || ''} onChange={this.handleInputChange} className="form-control inputText w-100"></input>
                                         </div>
                                     </div>
@@ -736,13 +736,13 @@ class UserConfiguration extends Component {
                                         <div className="row">
                                             <div className="col-12 col-sm-6">
                                                 <div className="form-group" align="left">
-                                                    <p>Contraseña nueva<font color="red">*</font></p>
+                                                    <p title="Campo obligatorio">Contraseña nueva<font color="red">*</font></p>
                                                     <input type="password" title="Debe contener letras y números" id="newPassword" required name="newPassword" className="inputText form-control" value={this.state.newPassword || ''} onChange={this.handleInputChange}></input>
                                                 </div>
                                             </div>
                                             <div className="col-12 col-sm-6">
                                                 <div className="form-group" align="left">
-                                                    <p>Confirmar contraseña nueva<font color="red">*</font></p>
+                                                    <p title="Campo obligatorio">Confirmar contraseña nueva<font color="red">*</font></p>
                                                     <input type="password" title="Vuelva a introducir la contraseña nueva" id="confirmNewPassword" required name="confirmNewPassword" className="inputText form-control" value={this.state.confirmNewPassword || ''} onChange={this.handleInputChange}></input>
                                                 </div>
                                             </div>
@@ -782,7 +782,7 @@ class UserConfiguration extends Component {
                                 <div className="row">
                                     <div className="col-6">
                                         <div className="form-group" align="left">
-                                            <p>Nombre<font color="red">*</font></p>
+                                            <p title="Campo obligatorio">Nombre<font color="red">*</font></p>
                                             <input type="text" required name="contactName" id="contactName" className="inputText form-control" value={this.state.contactName} onChange={this.handleInputChange}></input>
                                         </div>
                                     </div>
@@ -790,7 +790,7 @@ class UserConfiguration extends Component {
                                 <div className="row">
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
-                                            <p>Parentesco<font color="red">*</font></p>
+                                            <p title="Campo obligatorio">Parentesco<font color="red">*</font></p>
                                             <select name="relationTypeID" id="relationTypeID" className="form-control" value={this.state.relationTypeID} onChange={this.handleInputChange}>
                                                 {this.state.relationList}
                                             </select>
@@ -798,7 +798,7 @@ class UserConfiguration extends Component {
                                     </div>
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
-                                            <p>Teléfono<font color="red">*</font></p>
+                                            <p title="Campo obligatorio">Teléfono<font color="red">*</font></p>
                                             <input type="text" required name="emergencyContactPhoneNumber" id="emergencyContactPhoneNumber" className="inputText form-control" value={this.state.emergencyContactPhoneNumber} onChange={this.handleInputChange}></input>
                                         </div>
                                     </div>

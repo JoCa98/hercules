@@ -390,37 +390,37 @@ class SignUp extends Component {
                                 <div className="row">
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
-                                            <p>Primer nombre</p>
-                                            <input type="text" name="firstName" required className="form-control inputText" value={this.state.firstName} onChange={this.handleInputChange}></input>
+                                            <p title="Campo obligatorio">Primer nombre<font color="red">*</font></p>
+                                            <input type="text" placeholder="Ej: Kevin" name="firstName" required className="form-control inputText" value={this.state.firstName} onChange={this.handleInputChange}></input>
                                         </div>
                                         <div className="form-group" align="left">
-                                            <p>Primer Apellido</p>
-                                            <input type="text" name="lastName" required className="form-control inputText" value={this.state.lastName} onChange={this.handleInputChange}></input>
+                                            <p title="Campo obligatorio">Primer Apellido<font color="red">*</font></p>
+                                            <input type="text" placeholder="Ej: Jiménez" name="lastName" required className="form-control inputText" value={this.state.lastName} onChange={this.handleInputChange}></input>
                                         </div>
                                         <div className="form-group" align="left">
-                                            <p>Teléfono 1</p>
-                                            <input type="text" name="phoneNumber1" required className="form-control inputText" value={this.state.phoneNumber1} onChange={this.handleInputChange}></input>
+                                            <p title="Campo obligatorio">Teléfono 1<font color="red">*</font></p>
+                                            <input type="text" placeholder="########" name="phoneNumber1" required className="form-control inputText" value={this.state.phoneNumber1} onChange={this.handleInputChange}></input>
                                         </div>
                                     </div>
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
                                             <p>Segundo nombre</p>
-                                            <input type="text" name="secondName" className="form-control inputText" value={this.state.secondName} onChange={this.handleInputChange}></input>
+                                            <input type="text" placeholder="Ej: José" name="secondName" className="form-control inputText" value={this.state.secondName} onChange={this.handleInputChange}></input>
                                         </div>
                                         <div className="form-group" align="left">
                                             <p>Segundo Apellido</p>
-                                            <input type="text" name="secondLastName" required className="form-control inputText" value={this.state.secondLastName} onChange={this.handleInputChange}></input>
+                                            <input type="text" placeholder="Ej: Molina" name="secondLastName" required className="form-control inputText" value={this.state.secondLastName} onChange={this.handleInputChange}></input>
                                         </div>
                                         <div className="form-group" align="left">
                                             <p>Teléfono 2</p>
-                                            <input type="text" name="phoneNumber2" className="form-control inputText" value={this.state.phoneNumber2} onChange={this.handleInputChange}></input>
+                                            <input type="text" placeholder="#########" name="phoneNumber2" className="form-control inputText" value={this.state.phoneNumber2} onChange={this.handleInputChange}></input>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
-                                            <p>Tipo de usuario</p>
+                                            <p title="Campo obligatorio">Tipo de usuario<font color="red">*</font></p>
                                             <input type="checkbox" id="cbStudent" name="cbStudent" onClick={this.selectStudent} ></input>Estudiante
 
                                             <br></br>
@@ -429,7 +429,7 @@ class SignUp extends Component {
                                     </div>
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
-                                            <p>Sexo</p>
+                                            <p title="Campo obligatorio">Sexo<font color="red">*</font></p>
                                             <input type="checkbox" id="cbMale" name="cbMale" onClick={this.selectMale} ></input>Maculino
                                             <br></br>
                                             <input type="checkbox" id="cbFemale" name="cbFemale" onClick={this.selectFemale} ></input>Femenino
@@ -440,13 +440,13 @@ class SignUp extends Component {
                                 <div className="row">
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
-                                            <p>Número de cédula</p>
-                                            <input type="text" name="identificationID" required className="form-control InputText" value={this.state.identificationID} onChange={this.handleInputChange}></input>
+                                            <p title="Campo obligatorio">Número de cédula<font color="red">*</font></p>
+                                            <input type="text" title="Número de cédula o cédula de residencia" placeholder="#########" name="identificationID" required className="form-control InputText" value={this.state.identificationID} onChange={this.handleInputChange}></input>
                                         </div>
                                     </div>
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
-                                            <p>Fecha de nacimiento</p>
+                                            <p title="Campo obligatorio">Fecha de nacimiento<font color="red">*</font></p>
                                             <input type="date" name="birthDate" required onChange={this.handleInputChange} value={this.state.birthDate} className="form-control InputText"></input>
                                         </div>
 
@@ -455,14 +455,14 @@ class SignUp extends Component {
                                 <div className="row" >
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left" id="divStudent1">
-                                            <p>Número de carné</p>
-                                            <input type="text" name="carnet" maxLength="6" value={this.state.carnet} onChange={this.handleInputChange} className="form-control InputText"></input>
+                                            <p title="Campo obligatorio">Número de carné<font color="red">*</font></p>
+                                            <input type="text" placeholder="Ej: A00000" name="carnet" maxLength="6" value={this.state.carnet} onChange={this.handleInputChange} className="form-control InputText"></input>
                                         </div>
                                     </div>
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left" id="divStudent2">
-                                            <p>Carrera</p>
-                                            <input type="text" name="career" value={this.state.career} onChange={this.handleInputChange} className="form-control InputText"></input>
+                                            <p title="Campo obligatorio">Carrera<font color="red">*</font></p>
+                                            <input type="text" placeholder="Ej: Informática Empresarial" name="career" value={this.state.career} onChange={this.handleInputChange} className="form-control InputText"></input>
                                         </div>
                                     </div>
                                 </div>
@@ -476,7 +476,7 @@ class SignUp extends Component {
                                 <div className="row">
                                     <div className="col-12 col-sm-4">
                                         <div className="form-group" align="left">
-                                            <p>Provincia</p>
+                                            <p title="Campo obligatorio">Provincia<font color="red">*</font></p>
                                             <select name="provinceID" id="provinceID" className="form-control" onChange={this.getCantonsByProvince}>
                                                 {this.state.provinceList}
                                             </select>
@@ -484,7 +484,7 @@ class SignUp extends Component {
                                     </div>
                                     <div className="col-12 col-sm-4">
                                         <div className="form-group" align="left">
-                                            <p>Cantón</p>
+                                            <p title="Campo obligatorio">Cantón<font color="red">*</font></p>
                                             <select name="cantonID" id="cantonID" className="form-control" onChange={this.getDistrictsByCanton}>
                                                 {this.state.cantonList}
                                             </select>
@@ -493,7 +493,7 @@ class SignUp extends Component {
                                     </div>
                                     <div className="col-12 col-sm-4">
                                         <div className="form-group" align="left">
-                                            <p>Distrito</p>
+                                            <p title="Campo obligatorio">Distrito<font color="red">*</font></p>
                                             <select name="districtID" id="districtID" className="form-control" onChange={this.getDistrict} value={this.districtID}>
                                                 {this.state.districtList}
                                             </select>
@@ -502,9 +502,9 @@ class SignUp extends Component {
                                 </div>
                                 <div className="row">
                                     <div className="col-12">
-                                        <div className="form-group" align="left">
-                                            <p align="left">Otras señas</p>
-                                            <input type="text" required name="addressLine" value={this.state.addressLine} onChange={this.handleInputChange} className="w-100 form-control bigInputText"></input>
+                                        <div className="form-group text-left">
+                                            <p title="Campo obligatorio">Otras señas<font color="red">*</font></p>
+                                            <textarea type="text" placeholder="Ej: Cerca del árbol de aguacate, casa color verde." required name="addressLine" value={this.state.addressLine} onChange={this.handleInputChange} className="w-100 form-control bigInputText"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -522,8 +522,8 @@ class SignUp extends Component {
                                         <div className="row">
                                             <div className="col-12 col-sm-6">
                                                 <div className="form-group" align="left">
-                                                    <p>Email</p>
-                                                    <input type="text" required name="email" value={this.state.email} onChange={this.handleInputChange} className="form-control inputText w-100"></input>
+                                                    <p title="Campo obligatorio">Email<font color="red">*</font></p>
+                                                    <input type="text" title="Únicamenta correos institucionales" placeholder="correo@ucr.ac.cr" required name="email" value={this.state.email} onChange={this.handleInputChange} className="form-control inputText w-100"></input>
                                                 </div>
                                             </div>
                                         </div>
@@ -534,14 +534,14 @@ class SignUp extends Component {
                                         <div className="row">
                                             <div className="col-12 col-sm-6">
                                                 <div className="form-group" align="left">
-                                                    <p>Contraseña</p>
-                                                    <input type="password" required name="password" id="password" className="inputText form-control" value={this.state.password} onChange={this.handleInputChange}></input>
+                                                    <p title="Campo obligatorio">Contraseña<font color="red">*</font></p>
+                                                    <input type="password" title="Debe de contener letras y números" placeholder="Contraseña" required name="password" id="password" className="inputText form-control" value={this.state.password} onChange={this.handleInputChange}></input>
                                                 </div>
                                             </div>
                                             <div className="col-12 col-sm-6">
                                                 <div className="form-group" align="left">
-                                                    <p>Confirmar contraseña</p>
-                                                    <input type="password" required name="confirmPassword" id="confirmPassword" value={this.state.confirmPassword} onChange={this.handleInputChange} className="inputText form-control"></input>
+                                                    <p title="Campo obligatorio">Confirmar contraseña<font color="red">*</font></p>
+                                                    <input type="password" title="Vuelva a escribir su contraseña" placeholder="Confirmar contraseña" required name="confirmPassword" id="confirmPassword" value={this.state.confirmPassword} onChange={this.handleInputChange} className="inputText form-control"></input>
                                                 </div>
                                             </div>
                                         </div>
@@ -564,15 +564,15 @@ class SignUp extends Component {
                                 <div className="row">
                                     <div className="col-6">
                                         <div className="form-group" align="left">
-                                            <p>Nombre</p>
-                                            <input type="text" required name="contactName" className="inputText form-control" value={this.state.contactName} onChange={this.handleInputChange}></input>
+                                            <p title="Campo obligatorio">Nombre<font color="red">*</font></p>
+                                            <input type="text" placeholder="Ej: Juan Piedra" required name="contactName" className="inputText form-control" value={this.state.contactName} onChange={this.handleInputChange}></input>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
-                                            <p>Parentesco</p>
+                                            <p title="Campo obligatorio">Parentesco<font color="red">*</font></p>
                                             <select name="relationTypeID" className="form-control" onChange={this.handleInputChange}>
                                                 {relationList}
                                             </select>
@@ -580,8 +580,8 @@ class SignUp extends Component {
                                     </div>
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
-                                            <p>Teléfono</p>
-                                            <input type="text" required name="emergencyContactPhoneNumber" className="inputText form-control" value={this.state.emergencyContactPhonenumber} onChange={this.handleInputChange}></input>
+                                            <p title="Campo obligatorio">Teléfono<font color="red">*</font></p>
+                                            <input type="text" placeholder="########" required name="emergencyContactPhoneNumber" className="inputText form-control" value={this.state.emergencyContactPhonenumber} onChange={this.handleInputChange}></input>
                                         </div>
                                     </div>
                                 </div>
