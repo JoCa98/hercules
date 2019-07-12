@@ -28,20 +28,12 @@ import validations from './components/validations';
 import Hash from './components/Hash';
 function App() {
   return (
-<<<<<<< HEAD
-      <Switch>
-        <Fragment >
-          <Header />
-          <Route exact path="/" component={AddRoutine} />
-          <Fragment>
-=======
     <Switch>
       <Fragment >
         <Header />
         <Route exact path="/" component={LogIn} />
         <Fragment>
 
->>>>>>> 8a0ea84d9dcba041d824130e7662de4528a7c074
           <Route exact path="/UserHome" component={UserHome} />
           <Route exact path="/UserConfiguration" component={UserConfiguration} />
           <Route exact path="/SignUp" component={SignUp} />
