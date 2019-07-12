@@ -32,8 +32,9 @@ class SignUp extends Component {
             emergencyContactPhoneNumber: "",
             activationCode: "",
             relations: [{}],
+            provinceList: null,
             provinces: [{}],
-            provinceID: "2",
+            provinceID: "",
             cantons: [{}],
             cantonList: null,
             cantonID: "30",
@@ -46,9 +47,11 @@ class SignUp extends Component {
         this.loadCantons = this.loadCantons.bind(this);
         this.handleSelectCanton = this.handleSelectCanton.bind(this);
         this.loadDistricts = this.loadDistricts.bind(this);
+        this.loadProvinces = this.loadProvinces.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.getCantonsByProvince = this.getCantonsByProvince.bind(this);
         this.getDistrictsByCanton = this.getDistrictsByCanton.bind(this);
+        this.getDistrict = this.getDistrict.bind(this);
         this.sendEmail = this.sendEmail.bind(this);
         this.goActCodeForm = this.goActCodeForm.bind(this);
         this.GetCode = this.GetCode.bind(this);
@@ -69,31 +72,104 @@ class SignUp extends Component {
         });
         axios.get(`http://localhost:9000/User/getProvinces`).then(response => {
             this.setState({ provinces: response.data });
+            this.provinceList = this.state.provinces.map((provinces, i) => {
+                return (
+                    <option value={provinces.provinceID} key={i}>{provinces.provinceDescription} </option>
+                )
+            })
+            this.setState({ provinceID: initProvinceID });
+            document.getElementById('provinceID').value = initProvinceID
         });
         axios.get(`http://localhost:9000/User/getCantons`, { params: { pID: initProvinceID } }).then(response => {
             this.setState({ cantons: response.data[0] });
+            this.state.cantonList = this.state.cantons.map((cantons, i) => {
+                return (
+                    <option value={cantons.cantonID} key={i}>{cantons.cantonDescription}</option>
+                )
+            });
         });
         axios.get(`http://localhost:9000/User/getDistricts`, { params: { cID: initCantonID } }).then(response => {
             this.setState({ districts: response.data[0] });
+            this.state.districtList = this.state.districts.map((districts, i) => {
+                return (
+                    <option value={districts.districtID} key={i}>{districts.districtDescription}</option>
+                )
+            });
         });
     }
 
-    getCantonsByProvince(value) {
-        axios.get(`http://localhost:9000/User/getCantons`, { params: { pID: value } }).then(response => {
+    getCantonsByProvince(event) {
+        this.setState({ provinceID: event.target.value });
+        document.getElementById('provinceID').value = event.target.value
+        axios.get(`http://localhost:9000/User/getCantons`, { params: { pID: event.target.value } }).then(response => {
             this.setState({ cantons: response.data[0] });
+            var cantonValue;
+            this.state.cantonList = this.state.cantons.map((cantons, i) => {
+                if (i == 0) {
+                    cantonValue = cantons.cantonID
+                } return (
+                    <option value={cantons.cantonID} key={i}>{cantons.cantonDescription}</option>
+                )
+            });
+            this.setState({ cantonID: cantonValue });
+            document.getElementById('cantonID').value = cantonValue
+            axios.get(`http://localhost:9000/User/getDistricts`, { params: { cID: cantonValue } }).then(response => {
+                this.setState({ districts: response.data[0] });
+                var districtValue;
+                this.state.districtList = this.state.districts.map((districts, i) => {
+                    if (i == 0) {
+                        districtValue = districts.districtID
+                    }
+                    return (
+                        <option value={districts.districtID} key={i}>{districts.districtDescription}</option>
+                    )
+                });
+                this.setState({ districtID: districtValue });
+                document.getElementById('districtID').value = districtValue;
+            });
         });
     };
-    getDistrictsByCanton(value) {
-        axios.get(`http://localhost:9000/User/getDistricts`, { params: { cID: value } }).then(response => {
+    getDistrictsByCanton(event) {
+        this.setState({ cantonID: event.target.value });
+        document.getElementById('cantonID').value = event.target.value
+        axios.get(`http://localhost:9000/User/getDistricts`, { params: { cID: event.target.value } }).then(response => {
             this.setState({ districts: response.data[0] });
+            var districtValue;
+            this.state.districtList = this.state.districts.map((districts, i) => {
+                if (i == 0) {
+                    districtValue = districts.districtID
+                }
+                return (
+                    <option value={districts.districtID} key={i}>{districts.districtDescription}</option>
+                )
+            });
+            this.setState({ districtID: districtValue });
+            document.getElementById('districtID').value = districtValue;
         });
     };
+
+    getDistrict(event) {
+        this.setState({ districtID: event.target.value });
+        document.getElementById('districtID').value = event.target.value;
+        alert("distrito antes de:" + this.state.districtID)
+    };
+
     loadCantons() {
         this.state.cantonList = this.state.cantons.map((cantons, i) => {
             return (
                 <option value={cantons.cantonID} key={i}>{cantons.cantonDescription}</option>
             )
         });
+
+    }
+
+    loadProvinces() {
+        this.state.provinceList = this.state.provinces.map((provinces, i) => {
+            return (
+                <option value={provinces.provinceID} key={i}>{provinces.provinceDescription}</option>
+            )
+        });
+
     }
     loadDistricts() {
         this.state.districtList = this.state.districts.map((districts, i) => {
@@ -106,7 +182,7 @@ class SignUp extends Component {
     handleSelectProvince(event) {
         var value = event.target.value;
         this.getCantonsByProvince(value);
-        this.loadCantons();
+        //this.loadCantons();
     }
 
     handleSelectCanton(event) {
@@ -181,16 +257,14 @@ class SignUp extends Component {
     }
 
     goActCodeForm() {
-
-        alert("inicio pruebas: ");
         axios.get(`http://localhost:9000/User/isEmailValid`, { params: { email: this.state.email } }).then(response => {
             var emailValid = JSON.parse(JSON.stringify(response.data))[0]['isEmailValid'].data[0]
             axios.get(`http://localhost:9000/User/isIdentificationValid`, { params: { identificationID: this.state.identificationID } }).then(response => {
                 var identificationIDValid = JSON.parse(JSON.stringify(response.data))[0]['isIdentificationValid'].data[0];
-                alert("id " + identificationIDValid);
+
                 axios.get(`http://localhost:9000/User/isCarnetValid`, { params: { carnet: this.state.carnet } }).then(response => {
                     var carnetValid = JSON.parse(JSON.stringify(response.data))[0]['isCarnetValid'].data[0];
-                    alert("carnet valid " + carnetValid + "  userType" + this.state.userTypeID);
+
                     if (this.state.firstName.trim().length == 0 || this.state.lastName.trim().length == 0
                         || this.state.secondLastName.trim().length == 0 || this.state.phoneNumber1.trim().length == 0
                         || this.state.contactName.toString().trim().length == 0
@@ -232,24 +306,15 @@ class SignUp extends Component {
                         sessionStorage.setItem('secondName', this.state.secondName);
                         sessionStorage.setItem('lastName', this.state.lastName);
                         sessionStorage.setItem('secondLastName', this.state.secondLastName);
-                        if (this.state.carnet.trim() == "") {
-                            sessionStorage.setItem('carnet', null);
-                        } else {
-                            sessionStorage.setItem('carnet', this.state.carnet);
-                        }
+
                         sessionStorage.setItem('carnet', this.state.carnet);
-                        if (this.state.career.trim() == "") {
-                            sessionStorage.setItem('career', null);
-                        } else {
-                            sessionStorage.setItem('career', this.state.career);
-                        }
+                        sessionStorage.setItem('career', this.state.career);
                         sessionStorage.setItem('birthDate', this.state.birthDate);
                         sessionStorage.setItem('phoneNumber1', this.state.phoneNumber1);
-                        if (this.state.phoneNumber2.trim() == "") {
-                            sessionStorage.setItem('phoneNumber2', null);
-                        } else {
-                            sessionStorage.setItem('phoneNumber2', this.state.phoneNumber2);
-                        }
+
+                        sessionStorage.setItem('phoneNumber2', this.state.phoneNumber2);
+
+                        alert("distrito antes de:" + this.state.districtID)
                         sessionStorage.setItem('genderID', this.state.genderID);
                         sessionStorage.setItem('userTypeID', this.state.userTypeID);
                         sessionStorage.setItem('email', this.state.email);
@@ -272,7 +337,6 @@ class SignUp extends Component {
     }
 
     sendEmail() {
-        console.log("jason: " + JSON.stringify({ email: this.state.email, activationCode: this.state.activationCode }))
         fetch("http://localhost:9000/User/sendEmail", {
             method: "post",
             body: JSON.stringify({ email: this.state.email, activationCode: this.state.activationCode }),
@@ -295,18 +359,12 @@ class SignUp extends Component {
         });
     }
     render() {
-        const provinceList = this.state.provinces.map((provinces, i) => {
-            return (
-                <option value={provinces.provinceID} key={i}>{provinces.provinceDescription} </option>
-            )
-
-
-        })
         const relationList = this.state.relations.map((relations, i) => {
             return (
                 <option value={relations.relationTypeID} key={i}>{relations.description} </option>
             )
         })
+        this.loadProvinces()
         this.loadCantons();
         this.loadDistricts();
 
@@ -415,15 +473,15 @@ class SignUp extends Component {
                                     <div className="col-12 col-sm-4">
                                         <div className="form-group" align="left">
                                             <p>Provincia</p>
-                                            <select name="provinceID" className="form-control" value="2" onChange={this.handleSelectProvince}>
-                                                {provinceList}
+                                            <select name="provinceID" id="provinceID" className="form-control" onChange={this.getCantonsByProvince}>
+                                                {this.state.provinceList}
                                             </select>
                                         </div>
                                     </div>
                                     <div className="col-12 col-sm-4">
                                         <div className="form-group" align="left">
                                             <p>Cantón</p>
-                                            <select name="cantonID" className="form-control" value="30" onChange={this.handleSelectCanton}>
+                                            <select name="cantonID" id="cantonID" className="form-control" onChange={this.getDistrictsByCanton}>
                                                 {this.state.cantonList}
                                             </select>
 
@@ -432,7 +490,7 @@ class SignUp extends Component {
                                     <div className="col-12 col-sm-4">
                                         <div className="form-group" align="left">
                                             <p>Distrito</p>
-                                            <select name="districtID" className="form-control" value="242" onChange={this.handleInputChange}>
+                                            <select name="districtID" id="districtID" className="form-control" onChange={this.getDistrict} value={this.districtID}>
                                                 {this.state.districtList}
                                             </select>
                                         </div>
