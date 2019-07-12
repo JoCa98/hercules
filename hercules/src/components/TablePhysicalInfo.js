@@ -16,28 +16,32 @@ class TablePhysicalInfo extends Component {
     }
 
     componentDidMount() {
+        var value = "";
         if(sessionStorage.getItem('userTypeID') == 1 || sessionStorage.getItem('userTypeID') == 2){
             
             this.setState({
                 partyID: sessionStorage.getItem('partyID')
             })
+            value = sessionStorage.getItem('partyID');
         }else if(sessionStorage.getItem('userTypeID') == 3 || sessionStorage.getItem('userTypeID') == 4){
             this.setState({
                 partyID: sessionStorage.getItem('userPartyID')
             })
+            value = sessionStorage.getItem('userPartyID');
         }
-        this.getUserPhysicalInfo();
+
+        this.getUserPhysicalInfo(value);
     }
 
     /**
      * Method that brings the list of pshusical information by id
      * and loads them to physicalInfo
      */
-    getUserPhysicalInfo() {
+    getUserPhysicalInfo(value) {
         
         try {
             axios.get(`http://localhost:9000/PhysicalInfo/getPhysicalInfoByID`,
-                { params: { partyID:  this.state.partyID} }).then(response => {
+                { params: { partyID:  value} }).then(response => {
                     console.log(response.data[0]);
                     const physicalInfo = response.data[0];
                     this.setState({ physicalInfo });
@@ -54,7 +58,7 @@ class TablePhysicalInfo extends Component {
 
     rowEvent(event) {
         try {
-            alert(document.getElementById("physicalInfoTable").rows[event.target.parentNode.rowIndex].cells[0].innerHTML);
+           // alert(document.getElementById("physicalInfoTable").rows[event.target.parentNode.rowIndex].cells[0].innerHTML);
         } catch (err) {
             console.error(err);
         }

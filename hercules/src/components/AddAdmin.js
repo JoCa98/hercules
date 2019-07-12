@@ -85,6 +85,7 @@ class AddAdmin extends Component {
                     .then(res => res.json())
                     .then(data => {
                         alert("El nuevo administrador ha sido agregado");
+                        this.props.history.push(`/HomeAdmin`);
                     })
                     .catch(err => console.error(err));
 
@@ -208,7 +209,7 @@ class AddAdmin extends Component {
                                         <br></br>
                                         <p align="justify">Confirmar contraseña*</p>
                                         <input type="password" id = "confirmPassword" name="confirmPassword" className="form-control" onChange={this.handleInputChange} required></input>
-                                        <input type="checkbox" id="showPasswordFields" required name="showPasswordFields" onChange={this.showPasswordFields} ></input>Mostrar campos
+                                        <input type="checkbox" id="showPasswordFields" name="showPasswordFields" onChange={this.showPasswordFields} ></input>Mostrar campos
                                     </div>
                                 </div>
                             </div>

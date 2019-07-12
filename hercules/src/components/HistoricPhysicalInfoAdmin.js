@@ -5,8 +5,8 @@ import axios from "axios";
 
 class HistoricPhysicalInfoAdmin extends Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         /**
         * userName
         * @type {String}
@@ -19,6 +19,8 @@ class HistoricPhysicalInfoAdmin extends Component {
             userName: [{}],
             partyID: sessionStorage.getItem("userPartyID"),
         }
+
+        this.redirect = this.redirect.bind(this);
     }
 
     componentDidMount() {
@@ -33,6 +35,11 @@ class HistoricPhysicalInfoAdmin extends Component {
         } catch (err) {
             console.error(err);
         }
+    }
+
+    redirect() {
+
+        this.props.history.push(`/AddPhysicalInfo`);
     }
     
     render() {
