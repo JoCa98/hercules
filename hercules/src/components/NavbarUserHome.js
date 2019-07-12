@@ -1,10 +1,19 @@
 import React, { Component } from 'react';
 import axios from "axios";
-
 import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router';
 
 class NavbarUserHome extends Component {
-    
+    constructor(props){
+        super(props);
+        this.logOut = this.logOut.bind(this);
+    }
+
+    logOut(){
+        this.props.history.push(`/`);
+        window.location.reload();
+        sessionStorage.clear();
+    }
     render() {
         return (
             <div className="container-fluid navbarColor">
@@ -27,10 +36,10 @@ class NavbarUserHome extends Component {
                                         <Link to="/HistoricPhysicalUserInfo" className="align-middle">Composición corporal</Link>
                                     </li>
                                     <li className="nav-item ml-4 mt-1">
-                                        <Link to="/" className="align-middle">Perfil</Link>
+                                        <Link to="/UserConfiguration" className="align-middle">Perfil</Link>
                                     </li>
                                     <li className="nav-item ml-4 mt-1">
-                                        <Link to="/UserConfiguration" className="align-middle">Salir</Link>
+                                        <Link to="/" className="align-middle" onClick={this.logOut}>Salir</Link>
                                     </li>
                                 </ul>
                             </div>
@@ -42,4 +51,4 @@ class NavbarUserHome extends Component {
         )
     }
 }
-export default NavbarUserHome;
+export default withRouter(NavbarUserHome);

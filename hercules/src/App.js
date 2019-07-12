@@ -33,6 +33,7 @@ function App() {
         <Header />
         <Route exact path="/" component={LogIn} />
         <Fragment>
+
           <Route exact path="/UserHome" component={UserHome} />
           <Route exact path="/UserConfiguration" component={UserConfiguration} />
           <Route exact path="/SignUp" component={SignUp} />

@@ -1,7 +1,18 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router';
 
 class NavbarAdmin extends Component {
+    constructor(props){
+        super(props);
+        this.logOut = this.logOut.bind(this);
+    }
+
+    logOut(){
+        this.props.history.push(`/`);
+        window.location.reload();
+        sessionStorage.clear();
+    }
 
     render() {
         return (
@@ -17,7 +28,7 @@ class NavbarAdmin extends Component {
                                     <Link to="/AddAdmin" className="align-middle">Agregar administrador</Link>
                                 </li>
                                 <li className="nav-item active ml-4 mt-1">
-                                    <Link to="/" className="align-middle" onClick={sessionStorage.clear()}>Salir</Link>
+                                    <Link to="/" className="align-middle" onClick={this.logOut}>Salir</Link>
                                 </li>
                             </ul>
                         </nav>
@@ -27,4 +38,4 @@ class NavbarAdmin extends Component {
         )
     }
 }
-export default NavbarAdmin;
+export default withRouter(NavbarAdmin);
