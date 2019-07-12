@@ -31,28 +31,6 @@ class ActCodeForm extends Component {
       actCode: "",
 
     }
-    console.log(
-      "id " + sessionStorage.getItem('identificationID') + "  " +
-      "nom1 " + sessionStorage.getItem('firstName') + "  " +
-      "nom2 " + sessionStorage.getItem('secondName') + "  " +
-      "ape1 " + sessionStorage.getItem('lastName') + "  " +
-      "ape2 " + sessionStorage.getItem('secondLastName') + "  " +
-      "carnet " + sessionStorage.getItem('carnet') + "  " +
-      "car " + sessionStorage.getItem('career') + "  " +
-      "nac " + sessionStorage.getItem('birthDate') + "  " +
-      "gener " + sessionStorage.getItem('genderID') + "  " +
-      "userTy " + sessionStorage.getItem('userTypeID') + "  " +
-      "email " + sessionStorage.getItem('email') + "  " +
-      "pass " + sessionStorage.getItem('password') + "  " +
-      "num2 " + sessionStorage.getItem('phoneNumber1') + "  " +
-      "num1 " + sessionStorage.getItem('phoneNumber2') + "  " +
-      "fechaIni " + sessionStorage.getItem('startDate') + "  " +
-      "distrito " + sessionStorage.getItem('districtID') + "  " +
-      "linea " + sessionStorage.getItem('addressLine') + "  " +
-      "ecNombre " + sessionStorage.getItem('contactName') + "  " +
-      "rel " + sessionStorage.getItem('relationTypeID') + "  " +
-      "ecNum " + sessionStorage.getItem('emergencyContactPhoneNumber')
-    );
     this.handleInputChange = this.handleInputChange.bind(this);
     this.completeSignUp = this.completeSignUp.bind(this);
     this.resendCode = this.resendCode.bind(this);
@@ -89,7 +67,6 @@ class ActCodeForm extends Component {
       })
         .then(res => res.json())
         .then(data => {
-          console.log(data);
         })
         .catch(err => console.error(err));
         alert("El registro fue completado con éxito. Ahora será redirigido a la pantalla de ingreso")
@@ -100,7 +77,6 @@ class ActCodeForm extends Component {
   }
 
   resendCode(){
-    console.log("jason: " + JSON.stringify({ email: this.state.email, activationCode: this.state.activationCode }))
         fetch("http://localhost:9000/User/sendEmail", {
             method: "post",
             body: JSON.stringify({ email: this.state.email, activationCode: this.state.activationCode }),

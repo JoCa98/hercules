@@ -32,8 +32,8 @@ class validations extends Component {
         return new RegExp("^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]{1}|[\\w-]{2,}))@((ucr.ac.cr)|(UCR.AC.CR))$").test(value);   
     }
     validateAdminEmailField(value){
-        //return new RegExp("^(([\w-]+\.)+[\w-]+|([a-zA-Z]{1}|[\w-]{2,}))@(([a-zA-Z]+[\w-]+\.){1,2}[a-zA-Z]{2,4})$").test(value);
-        return new RegExp("^[_a-z0-9-]+(.[_a-z0-9-]+)*@[a-z0-9-]+(.[a-z0-9-]+)*[.][a-z]{2,4}$").test(value);
+        return new RegExp("^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]{1}|[\\w-]{2,}))@(([a-zA-Z]+[\\w-]+\\.){1,2}[a-zA-Z]{2,4})$").test(value);
+        //return new RegExp("^[_a-z0-9-]+(.[_a-z0-9-]+)*@[a-z0-9-]+(.[a-z0-9-]+)*[.][a-z]{2,4}$").test(value);
     }
     validateIdentification(value){
         return (new RegExp("^([1-7])(\\d{8})$").test(value) || new RegExp("^1(\\d{3})((..))(\\d{4,9})$").test(value));

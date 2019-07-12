@@ -49,7 +49,7 @@ class TablePhysicalInfo extends Component {
 
 
     redirect() {
-        window.location = "https://www.google.com/";
+        //window.location = "https://www.google.com/";
     }
 
     rowEvent(event) {

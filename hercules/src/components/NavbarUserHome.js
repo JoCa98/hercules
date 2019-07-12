@@ -1,41 +1,18 @@
 import React, { Component } from 'react';
 import axios from "axios";
-
 import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router';
 
 class NavbarUserHome extends Component {
-    constructor(props) {
+    constructor(props){
         super(props);
-        this.state = {
-            identificationID: "",
-            firstName: "",
-            secondName: "",
-            lastName: "",
-            secondLastName: "",
-            career: "",
-            carnet: "",
-            userTypeID: "",
-            email: "",
-            password: "",
-            phoneNumber1: "",
-            phoneNumber2: "",
-            districtID: "",
-            addressLine: "",
-            contactName: "",
-            relationTypeID: "",
-            emergencyContactPhoneNumber: "",
-        };
-
-        this.handleInputChange = this.handleInputChange.bind(this);
+        this.logOut = this.logOut.bind(this);
     }
 
-
-
-    handleInputChange(event) {
-        const { name, value } = event.target;
-        this.setState({
-            [name]: value
-        });
+    logOut(){
+        this.props.history.push(`/`);
+        window.location.reload();
+        sessionStorage.clear();
     }
     render() {
         return (
@@ -50,19 +27,19 @@ class NavbarUserHome extends Component {
                                 <ul className="navbar-nav text-center">
 
                                     <li className="nav-item active ml-4 mt-1">
-                                        <Link to="/UserConfiguration" className="align-middle">Rutina</Link>
+                                        <Link to="/UserHome" className="align-middle">Rutina</Link>
                                     </li>
                                     <li className="nav-item ml-4 mt-1">
-                                        <Link to="/UserConfiguration" className="align-middle">Consulta médica</Link>
+                                        <Link to="/HistoricMedicalUserInfo" className="align-middle">Consulta médica</Link>
                                     </li>
                                     <li className="nav-item ml-4 mt-1">
-                                        <Link to="/UserConfiguration" className="align-middle">Composición corporal</Link>
+                                        <Link to="/HistoricPhysicalUserInfo" className="align-middle">Composición corporal</Link>
                                     </li>
                                     <li className="nav-item ml-4 mt-1">
                                         <Link to="/UserConfiguration" className="align-middle">Perfil</Link>
                                     </li>
                                     <li className="nav-item ml-4 mt-1">
-                                        <Link to="/UserConfiguration" className="align-middle">Salir</Link>
+                                        <Link to="/" className="align-middle" onClick={this.logOut}>Salir</Link>
                                     </li>
                                 </ul>
                             </div>
@@ -74,4 +51,4 @@ class NavbarUserHome extends Component {
         )
     }
 }
-export default NavbarUserHome;
+export default withRouter(NavbarUserHome);

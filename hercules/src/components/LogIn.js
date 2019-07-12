@@ -16,7 +16,17 @@ class LogIn extends Component {
         this.goSignUp = this.goSignUp.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.tryLogin = this.tryLogin.bind(this);
+        this.goPasswordRecovery = this.goPasswordRecovery.bind(this);
+        this.showPasswordFields = this.showPasswordFields.bind(this);
+    }
 
+    showPasswordFields() {
+        var show = document.getElementById('showPasswordFields').checked;
+        if (show == true) {
+            document.getElementById('password').type = "text";
+        } else {
+            document.getElementById('password').type = "password";
+        }
     }
 
     tryLogin() {
@@ -34,9 +44,11 @@ class LogIn extends Component {
                             sessionStorage.setItem('partyID', JSON.parse(JSON.stringify(response.data[0]))[0]['partyID']);
                             sessionStorage.setItem('userTypeID', JSON.parse(JSON.stringify(response.data[0]))[0]['userTypeID']);
                             if (sessionStorage.getItem('userTypeID') == 1 || sessionStorage.getItem('userTypeID') == 2) {
-                                this.props.history.push(`/UserConfiguration`);
+                                this.props.history.push(`/UserHome`);
+                                window.location.reload();
                             } else if (sessionStorage.getItem('userTypeID') == 3 || sessionStorage.getItem('userTypeID') == 4){
-                                this.props.history.push(`/UserConfiguration`);
+                                this.props.history.push(`/HomeAdmin`);
+                                window.location.reload();
                             }
                         });
                     } else {
@@ -51,6 +63,10 @@ class LogIn extends Component {
 
     goSignUp() {
         this.props.history.push(`/SignUp`);
+    }
+
+    goPasswordRecovery() {
+        this.props.history.push(`/PasswordRecovery`);
     }
     handleInputChange(event) {
         const { name, value } = event.target;
@@ -74,12 +90,15 @@ class LogIn extends Component {
                             <input type="text" name="email" value={this.state.email} className="form-control inputText w-100" onChange={this.handleInputChange}></input>
                             <br></br>
                             <p>Contraseña</p>
-                            <input type="text" name="password" value={this.state.password} className="form-control inputText w-100" onChange={this.handleInputChange}></input>
+                            <input type="password" name="password" id="password" value={this.state.password} className="form-control inputText w-100" onChange={this.handleInputChange}></input>
+                            
+                            <input type="checkbox" id="showPasswordFields" required name="showPasswordFields" onChange={this.showPasswordFields} ></input>Mostrar contraseña
+                            <br></br>
                             <br></br>
                             <button align="left" name="logIn" className="buttonSizeGeneral w-100" onClick={this.tryLogin}>Ingresar</button>
                             <br></br>
                             <br></br>
-                            <a href="url">Recuperar contraseña</a>
+                            <a href="javascript:void(0);" onClick={this.goPasswordRecovery}>Recuperar contraseña</a>
                             <br></br>
                             <a href="javascript:void(0);" onClick={this.goSignUp}>Registrarse</a>
                             <br></br>

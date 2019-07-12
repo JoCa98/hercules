@@ -49,6 +49,7 @@ class UserConfiguration extends Component {
         this.handleInputChange = this.handleInputChange.bind(this);
         this.getCantonsByProvince = this.getCantonsByProvince.bind(this);
         this.getDistrictsByCanton = this.getDistrictsByCanton.bind(this);
+        this.getDistrict = this.getDistrict.bind(this);
         this.getFirstCantonOfProvince = this.getFirstCantonOfProvince.bind(this);
         this.editInfo = this.editInfo.bind(this);
         this.changeInfo = this.changeInfo.bind(this);
@@ -79,30 +80,97 @@ class UserConfiguration extends Component {
     }
     componentDidMount() {
 
-        this.loadUserInfo();
+
+        var initProvinceID = 2;
+        var initCantonID = 30;
         axios.get(`http://localhost:9000/User/getRelationType`).then(response => {
             this.setState({ relations: response.data });
         });
-
         axios.get(`http://localhost:9000/User/getProvinces`).then(response => {
             this.setState({ provinces: response.data });
+            this.provinceList = this.state.provinces.map((provinces, i) => {
+                return (
+                    <option value={provinces.provinceID} key={i}>{provinces.provinceDescription} </option>
+                )
+            })
+            this.setState({ provinceID: initProvinceID });
+            document.getElementById('provinceID').value = initProvinceID
         });
-
+        axios.get(`http://localhost:9000/User/getCantons`, { params: { pID: initProvinceID } }).then(response => {
+            this.setState({ cantons: response.data[0] });
+            this.state.cantonList = this.state.cantons.map((cantons, i) => {
+                return (
+                    <option value={cantons.cantonID} key={i}>{cantons.cantonDescription}</option>
+                )
+            });
+        });
+        axios.get(`http://localhost:9000/User/getDistricts`, { params: { cID: initCantonID } }).then(response => {
+            this.setState({ districts: response.data[0] });
+            this.state.districtList = this.state.districts.map((districts, i) => {
+                return (
+                    <option value={districts.districtID} key={i}>{districts.districtDescription}</option>
+                )
+            });
+        });
+        this.loadUserInfo();
         this.initButtons();
         this.initAllFields();
 
     }
 
-    getCantonsByProvince(value) {
-        axios.get(`http://localhost:9000/User/getCantons`, { params: { pID: value } }).then(response => {
+    getCantonsByProvince(event) {
+        this.setState({ provinceID: event.target.value });
+        document.getElementById('provinceID').value = event.target.value
+        axios.get(`http://localhost:9000/User/getCantons`, { params: { pID: event.target.value } }).then(response => {
             this.setState({ cantons: response.data[0] });
-
+            var cantonValue;
+            this.state.cantonList = this.state.cantons.map((cantons, i) => {
+                if (i == 0) {
+                    cantonValue = cantons.cantonID
+                } return (
+                    <option value={cantons.cantonID} key={i}>{cantons.cantonDescription}</option>
+                )
+            });
+            this.setState({ cantonID: cantonValue });
+            document.getElementById('cantonID').value = cantonValue
+            axios.get(`http://localhost:9000/User/getDistricts`, { params: { cID: cantonValue } }).then(response => {
+                this.setState({ districts: response.data[0] });
+                var districtValue;
+                this.state.districtList = this.state.districts.map((districts, i) => {
+                    if (i == 0) {
+                        districtValue = districts.districtID
+                    }
+                    return (
+                        <option value={districts.districtID} key={i}>{districts.districtDescription}</option>
+                    )
+                });
+                this.setState({ districtID: districtValue });
+                document.getElementById('districtID').value = districtValue;
+            });
         });
     };
-    getDistrictsByCanton(value) {
-        axios.get(`http://localhost:9000/User/getDistricts`, { params: { cID: value } }).then(response => {
+    getDistrictsByCanton(event) {
+        this.setState({ cantonID: event.target.value });
+        document.getElementById('cantonID').value = event.target.value
+        axios.get(`http://localhost:9000/User/getDistricts`, { params: { cID: event.target.value } }).then(response => {
             this.setState({ districts: response.data[0] });
+            var districtValue;
+            this.state.districtList = this.state.districts.map((districts, i) => {
+                if (i == 0) {
+                    districtValue = districts.districtID
+                }
+                return (
+                    <option value={districts.districtID} key={i}>{districts.districtDescription}</option>
+                )
+            });
+            this.setState({ districtID: districtValue });
+            document.getElementById('districtID').value = districtValue;
         });
+    };
+
+    getDistrict(event) {
+        this.setState({ districtID: event.target.value });
+        document.getElementById('districtID').value = event.target.value;
     };
     loadRelations() {
         this.state.relationList = this.state.relations.map((relations, i) => {
@@ -121,20 +189,14 @@ class UserConfiguration extends Component {
     }
     loadCantons() {
         this.state.cantonList = this.state.cantons.map((cantons, i) => {
-            if (i == 0 && this.state.cantonID == undefined) {
-                this.state.cantonID = cantons.cantonID
-            }
+
             return (
                 <option value={cantons.cantonID} key={i}>{cantons.cantonDescription}</option>
             )
         });
-        document.getElementById('cantonID')
     }
     loadDistricts() {
         this.state.districtList = this.state.districts.map((districts, i) => {
-            if (i == 0) {
-                this.state.districtID = districts.districtID
-            }
 
             return (
                 <option value={districts.districtID} key={i}>{districts.districtDescription}</option>
@@ -165,22 +227,37 @@ class UserConfiguration extends Component {
     getLocalGeoSupID(value) {
         axios.get(`http://localhost:9000/User/getLocalGeoSupID`, { params: { localGeoSupID: value } }).then(response => {
             this.setState({ cantonID: JSON.parse(JSON.stringify(response.data[0]))[0]['localGeoSupID'] });
+            axios.get(`http://localhost:9000/User/getDistricts`, { params: { cID: JSON.parse(JSON.stringify(response.data[0]))[0]['localGeoSupID'] } }).then(response => {
+                this.setState({ districts: response.data[0] });
+                this.state.districtList = this.state.districts.map((districts, i) => {
+                    return (
+                        <option value={districts.districtID} key={i}>{districts.districtDescription}</option>
+                    )
+                });
+            });
+            document.getElementById('cantonID').value = JSON.parse(JSON.stringify(response.data[0]))[0]['localGeoSupID']
             axios.get(`http://localhost:9000/User/getLocalGeoSupID`, { params: { localGeoSupID: JSON.parse(JSON.stringify(response.data[0]))[0]['localGeoSupID'] } }).then(response => {
                 this.setState({ provinceID: JSON.parse(JSON.stringify(response.data[0]))[0]['localGeoSupID'] });
-                axios.get(`http://localhost:9000/User/getCantons`, { params: { pID: this.state.provinceID } }).then(response => {
+                axios.get(`http://localhost:9000/User/getCantons`, { params: { pID: JSON.parse(JSON.stringify(response.data[0]))[0]['localGeoSupID'] } }).then(response => {
                     this.setState({ cantons: response.data[0] });
+                    this.state.cantonList = this.state.cantons.map((cantons, i) => {
+                        return (
+                            <option value={cantons.cantonID} key={i}>{cantons.cantonDescription}</option>
+                        )
+                    });
                 });
-                axios.get(`http://localhost:9000/User/getDistricts`, { params: { cID: this.state.cantonID } }).then(response => {
-                    this.setState({ districts: response.data[0] });
-                });
+                document.getElementById('provinceID').value = JSON.parse(JSON.stringify(response.data[0]))[0]['localGeoSupID']
             });
         });
 
     }
     loadUserInfo() {
         axios.get(`http://localhost:9000/User/getUserInfo`, { params: { partyID: sessionStorage.getItem('partyID') } }).then(response => {
-            console.log("dsd: " + JSON.stringify(response.data[0]));
             response.data[0].map((response) => {
+                this.getLocalGeoSupID(response.districtID);
+                document.getElementById('districtID').value = response.districtID;
+
+
                 this.setState({
                     identificationID: response.identificationID,
                     firstName: response.firstName,
@@ -201,7 +278,7 @@ class UserConfiguration extends Component {
                 })
                 sessionStorage.setItem('currentIdentificationID', response.identificationID);
                 sessionStorage.setItem('currentCarnet', response.carnet);
-                this.getLocalGeoSupID(response.districtID);
+
             })
 
         });
@@ -209,16 +286,7 @@ class UserConfiguration extends Component {
         this.state.email = sessionStorage.getItem('email');
     }
 
-    updateUser() {
-
-        console.log("sec: " + this.state.secondName)
-        if (this.state.secondName.trim().length == 0) {
-            this.setState({ secondLastName: null })
-        }
-        if (this.state.phoneNumber2.trim().length == 0) {
-            this.setState({ phoneNumber2: null })
-        }
-
+    updateUser() {      
         fetch("http://localhost:9000/User/updateUser", {
             method: "post",
             body: JSON.stringify({
@@ -228,11 +296,11 @@ class UserConfiguration extends Component {
                 secondName: this.state.secondName,
                 lastName: this.state.lastName,
                 secondLastName: this.state.secondLastName,
-                carnet: this.state.carnet,
-                career: this.state.career,
+                carnet: this.state.carnet.trim(),
+                career: this.state.career.trim(),
                 phoneNumber1: this.state.phoneNumber1,
-                phoneNumber2: this.state.phoneNumber2,
-                districtID: this.state.districtID,
+                phoneNumber2: this.state.phoneNumber2.trim(),
+                districtID: document.getElementById('districtID').value,
                 addressLine: this.state.addressLine
             }),
             headers: {
@@ -372,7 +440,6 @@ class UserConfiguration extends Component {
     }
 
     editInfo() {
-        // alert(this.state.Hash.encode("hola"))
         document.getElementById('editInfo').style.display = 'none';
         document.getElementById('cancelInfo').style.display = 'block';
         document.getElementById('changeInfo').style.display = 'block';
@@ -392,19 +459,19 @@ class UserConfiguration extends Component {
             axios.get(`http://localhost:9000/User/isCarnetValid`, { params: { carnet: this.state.carnet } }).then(response => {
                 var carnetValid = JSON.parse(JSON.stringify(response.data))[0]['isCarnetValid'].data[0];
                 if (this.state.firstName.trim().length == 0 || this.state.lastName.trim().length == 0
-                    //|| this.state.secondLastName.trim().length == 0 || this.state.phoneNumber1.trim().length == 0
+              ||  this.state.phoneNumber1.trim().length == 0
                     || this.state.career.trim().length == 0 || this.state.carnet.trim().length == 0
                     || this.state.identificationID.toString().trim().length == 0) {
                     alert("Todos los datos del usuarios deben estar llenos");
                 } else if (!this.state.validations.validateTextField(this.state.firstName.trim())
-                    || ((this.state.secondName.trim() != "") && (!this.state.validations.validateTextField(this.state.secondName.trim())))
+                    || (this.state.secondName != null && (this.state.secondName.trim().length != 0) && (!this.state.validations.validateTextField(this.state.secondName.trim())))
                     || !this.state.validations.validateTextField(this.state.lastName.trim())
-                    || ((this.state.secondLastName.trim() != "") && (!this.state.validations.validateTextField(this.state.secondLastName.trim())))
+                    || (this.state.secondLastName != null && (this.state.secondLastName.trim().length != 0) && (!this.state.validations.validateTextField(this.state.secondLastName.trim())))
                 ) {
                     alert("Los datos del nombre solo pueden estar compuestos por letras y extensión mínima de 2 caracteres");
-                } else if (!this.state.validations.validatePhoneNumberField(this.state.phoneNumber1
-                    || (!this.state.phoneNumber2.trim().length == 0 && !this.state.validations.validatePhoneNumberField(this.state.phoneNumber2))
-                )) {
+                } else if (!this.state.validations.validatePhoneNumberField(this.state.phoneNumber1)
+                    || ((this.state.phoneNumber2.trim().length != 0) && (!this.state.validations.validatePhoneNumberField(this.state.phoneNumber2)))) 
+                    {
                     alert("Los números telefónicos deben estar compuestos por 8 dígitos");
 
                 } else if (this.state.carnet != "N/A" && !this.state.validations.validateCarnetField(this.state.carnet)) {
@@ -450,9 +517,10 @@ class UserConfiguration extends Component {
             alert("Todos los campos de contraseña deben estar llenos")
         } else if (this.state.hash.encode(this.state.password, sessionStorage.getItem('password'))) {
             alert("La contraseña actual es incorrecta");
+        } else if (!this.state.validations.validatePasswordField(this.state.newPassword) ||!this.state.validations.validatePasswordField(this.state.confirmNewPassword)) {
+            alert("La contraseña debe contar con una extensión mínima de 8 caracteres y estar compuesta almenos por números y letras");
         } else if (this.state.newPassword != this.state.confirmNewPassword) {
             alert("Los campos de nueva contraseña no coinciden");
-
         } else {
             if (window.confirm("¿Está seguro de actualizar los datos de la contraseña?") == true) {
                 document.getElementById('changePassword').style.display = 'none';
@@ -533,15 +601,15 @@ class UserConfiguration extends Component {
                                 <div className="row">
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
-                                            <p>Primer nombre<font color="red">*</font></p>
+                                            <p title="Campo obligatorio">Primer nombre<font color="red">*</font></p>
                                             <input type="text" placeholder="Ej: Kevin" id="firstName" name="firstName" required className="form-control inputText" value={this.state.firstName || ''} onChange={this.handleInputChange}></input>
                                         </div>
                                         <div className="form-group" align="left">
-                                            <p>Primer Apellido<font color="red">*</font></p>
+                                            <p title="Campo obligatorio">Primer Apellido<font color="red">*</font></p>
                                             <input type="text" placeholder="Ej: Jiménez" id="lastName" name="lastName" required className="form-control inputText" value={this.state.lastName || ''} onChange={this.handleInputChange}></input>
                                         </div>
                                         <div className="form-group" align="left">
-                                            <p>Teléfono 1<font color="red">*</font></p>
+                                            <p title="Campo obligatorio">Teléfono 1<font color="red">*</font></p>
                                             <input type="text" placeholder="########" id="phoneNumber1" name="phoneNumber1" required className="form-control inputText" value={this.state.phoneNumber1 || ''} onChange={this.handleInputChange}></input>
                                         </div>
                                     </div>
@@ -552,7 +620,7 @@ class UserConfiguration extends Component {
                                         </div>
                                         <div className="form-group" align="left">
                                             <p>Segundo Apellido</p>
-                                            <input type="text" placeholder="Ej: Molina" id="secondLastName" name="secondLastName" required className="form-control inputText" value={this.state.secondLastName || ''} onChange={this.handleInputChange}></input>
+                                            <input type="text" placeholder="Ej: Molina" id="secondLastName" name="secondLastName"  className="form-control inputText" value={this.state.secondLastName || ''} onChange={this.handleInputChange}></input>
                                         </div>
                                         <div className="form-group" align="left">
                                             <p>Teléfono 2</p>
@@ -564,13 +632,13 @@ class UserConfiguration extends Component {
                                 <div className="row">
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
-                                            <p>Número de cédula<font color="red">*</font></p>
-                                            <input type="text" placeholder="#########" id="identificationID" name="identificationID" required className="form-control InputText" value={this.state.identificationID || ''} onChange={this.handleInputChange}></input>
+                                            <p title="Campo obligatorio">Número de cédula<font color="red">*</font></p>
+                                            <input type="text" title="Número de cédula o cédula de residencia" placeholder="#########" id="identificationID" name="identificationID" required className="form-control InputText" value={this.state.identificationID || ''} onChange={this.handleInputChange}></input>
                                         </div>
                                     </div>
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
-                                            <p>Fecha de nacimiento<font color="red">*</font></p>
+                                            <p title="Campo obligatorio">Fecha de nacimiento<font color="red">*</font></p>
                                             <input type="date" name="birthDate" disabled required className="form-control InputText" value={this.state.birthDate || ''} onChange={this.handleInputChange}></input>
                                         </div>
                                     </div>
@@ -578,13 +646,13 @@ class UserConfiguration extends Component {
                                 <div className="row">
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
-                                            <p>Carné<font color="red">*</font></p>
+                                            <p title="Campo obligatorio">Carné<font color="red">*</font></p>
                                             <input type="text" placeholder="Ej: A00000" id="carnet" name="carnet" required className="form-control InputText" value={this.state.carnet || ''} onChange={this.handleInputChange}></input>
                                         </div>
                                     </div>
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
-                                            <p>Carrera<font color="red">*</font></p>
+                                            <p title="Campo obligatorio">Carrera<font color="red">*</font></p>
                                             <input type="text" placeholder="Ej: Informática Empresarial" id="career" name="career" required className="form-control InputText" value={this.state.career || ''} onChange={this.handleInputChange}></input>
                                         </div>
                                     </div>
@@ -599,16 +667,16 @@ class UserConfiguration extends Component {
                                 <div className="row">
                                     <div className="col-12 col-sm-4">
                                         <div className="form-group" align="left">
-                                            <p>Provincia<font color="red">*</font></p>
-                                            <select id="provinceID" id="provinceID" name="provinceID" className="form-control" value={this.state.provinceID} onChange={this.handleSelectProvince}>
+                                            <p title="Campo obligatorio">Provincia<font color="red">*</font></p>
+                                            <select id="provinceID" id="provinceID" name="provinceID" className="form-control" onChange={this.getCantonsByProvince}>
                                                 {this.state.provinceList}
                                             </select>
                                         </div>
                                     </div>
                                     <div className="col-12 col-sm-4">
                                         <div className="form-group" align="left">
-                                            <p>Cantón<font color="red">*</font></p>
-                                            <select name="cantonID" id="cantonID" className="form-control" value={this.state.cantonID} onChange={this.handleSelectCanton}>
+                                            <p title="Campo obligatorio">Cantón<font color="red">*</font></p>
+                                            <select name="cantonID" id="cantonID" className="form-control" onChange={this.getDistrictsByCanton}>
                                                 {this.state.cantonList}
                                             </select>
 
@@ -616,8 +684,8 @@ class UserConfiguration extends Component {
                                     </div>
                                     <div className="col-12 col-sm-4">
                                         <div className="form-group" align="left">
-                                            <p>Distrito<font color="red">*</font></p>
-                                            <select name="districtID" id="districtID" className="form-control" value={this.state.districtID} onChange={this.handleInputChange}>
+                                            <p title="Campo obligatorio">Distrito<font color="red">*</font></p>
+                                            <select name="districtID" id="districtID" className="form-control" value={this.state.districtID} onChange={this.getDistrict}>
                                                 {this.state.districtList}
                                             </select>
                                         </div>
@@ -626,7 +694,7 @@ class UserConfiguration extends Component {
                                 <div className="row">
                                     <div className="col-12">
                                         <div className="form-group" align="left">
-                                            <p align="left">Otras señas<font color="red">*</font></p>
+                                            <p title="Campo obligatorio" align="left">Otras señas<font color="red">*</font></p>
                                             <textarea type="text" placeholder="Ej: Cerca del árbol de aguacate, casa color verde." id="addressLine" required name="addressLine" value={this.state.addressLine || ''} onChange={this.handleInputChange} className="bigInputText w-100 form-control bigInputText"></textarea>
                                         </div>
                                     </div>
@@ -658,7 +726,7 @@ class UserConfiguration extends Component {
                                 <div className="row">
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
-                                            <p>Contraseña actual<font color="red">*</font></p>
+                                            <p title="Campo obligatorio">Contraseña actual<font color="red">*</font></p>
                                             <input type="password" id="password" required name="password" value={this.state.password || ''} onChange={this.handleInputChange} className="form-control inputText w-100"></input>
                                         </div>
                                     </div>
@@ -668,26 +736,26 @@ class UserConfiguration extends Component {
                                         <div className="row">
                                             <div className="col-12 col-sm-6">
                                                 <div className="form-group" align="left">
-                                                    <p>Contraseña nueva<font color="red">*</font></p>
+                                                    <p title="Campo obligatorio">Contraseña nueva<font color="red">*</font></p>
                                                     <input type="password" title="Debe contener letras y números" id="newPassword" required name="newPassword" className="inputText form-control" value={this.state.newPassword || ''} onChange={this.handleInputChange}></input>
                                                 </div>
                                             </div>
                                             <div className="col-12 col-sm-6">
                                                 <div className="form-group" align="left">
-                                                    <p>Confirmar contraseña nueva<font color="red">*</font></p>
+                                                    <p title="Campo obligatorio">Confirmar contraseña nueva<font color="red">*</font></p>
                                                     <input type="password" title="Vuelva a introducir la contraseña nueva" id="confirmNewPassword" required name="confirmNewPassword" className="inputText form-control" value={this.state.confirmNewPassword || ''} onChange={this.handleInputChange}></input>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <row>
+                                <div className="row">
                                     <div className="col-12">
                                         <div className="form-group " align="left">
                                             <input type="checkbox" id="showPasswordFields" required name="showPasswordFields" onChange={this.showPasswordFields} ></input>Mostrar campos
                                         </div>
                                     </div>
-                                </row>
+                                    </div>
                                 <div className="row">
                                     <div className="col-6">
                                         <div className="form-group" align="left">
@@ -714,7 +782,7 @@ class UserConfiguration extends Component {
                                 <div className="row">
                                     <div className="col-6">
                                         <div className="form-group" align="left">
-                                            <p>Nombre<font color="red">*</font></p>
+                                            <p title="Campo obligatorio">Nombre<font color="red">*</font></p>
                                             <input type="text" required name="contactName" id="contactName" className="inputText form-control" value={this.state.contactName} onChange={this.handleInputChange}></input>
                                         </div>
                                     </div>
@@ -722,7 +790,7 @@ class UserConfiguration extends Component {
                                 <div className="row">
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
-                                            <p>Parentesco<font color="red">*</font></p>
+                                            <p title="Campo obligatorio">Parentesco<font color="red">*</font></p>
                                             <select name="relationTypeID" id="relationTypeID" className="form-control" value={this.state.relationTypeID} onChange={this.handleInputChange}>
                                                 {this.state.relationList}
                                             </select>
@@ -730,7 +798,7 @@ class UserConfiguration extends Component {
                                     </div>
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
-                                            <p>Teléfono<font color="red">*</font></p>
+                                            <p title="Campo obligatorio">Teléfono<font color="red">*</font></p>
                                             <input type="text" required name="emergencyContactPhoneNumber" id="emergencyContactPhoneNumber" className="inputText form-control" value={this.state.emergencyContactPhoneNumber} onChange={this.handleInputChange}></input>
                                         </div>
                                     </div>
