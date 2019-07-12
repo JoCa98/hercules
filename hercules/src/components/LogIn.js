@@ -90,7 +90,7 @@ class LogIn extends Component {
                             <input type="text" name="email" value={this.state.email} className="form-control inputText w-100" onChange={this.handleInputChange}></input>
                             <br></br>
                             <p>Contraseña</p>
-                            <input type="text" name="password" id="password" value={this.state.password} className="form-control inputText w-100" onChange={this.handleInputChange}></input>
+                            <input type="password" name="password" id="password" value={this.state.password} className="form-control inputText w-100" onChange={this.handleInputChange}></input>
                             
                             <input type="checkbox" id="showPasswordFields" required name="showPasswordFields" onChange={this.showPasswordFields} ></input>Mostrar contraseña
                             <br></br>
