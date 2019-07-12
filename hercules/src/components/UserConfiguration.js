@@ -287,7 +287,7 @@ class UserConfiguration extends Component {
     }
 
     updateUser() {      
-
+        alert(this.state.secondLastName);
         fetch("http://localhost:9000/User/updateUser", {
             method: "post",
             body: JSON.stringify({
@@ -465,14 +465,14 @@ class UserConfiguration extends Component {
                     || this.state.identificationID.toString().trim().length == 0) {
                     alert("Todos los datos del usuarios deben estar llenos");
                 } else if (!this.state.validations.validateTextField(this.state.firstName.trim())
-                    || ((this.state.secondName.trim() != "") && (!this.state.validations.validateTextField(this.state.secondName.trim())))
+                    || (this.state.secondName != null && (this.state.secondName.trim().length != 0) && (!this.state.validations.validateTextField(this.state.secondName.trim())))
                     || !this.state.validations.validateTextField(this.state.lastName.trim())
-                    || ((this.state.secondLastName.trim() != "") && (!this.state.validations.validateTextField(this.state.secondLastName.trim())))
+                    || (this.state.secondLastName != null && (this.state.secondLastName.trim().length != 0) && (!this.state.validations.validateTextField(this.state.secondLastName.trim())))
                 ) {
                     alert("Los datos del nombre solo pueden estar compuestos por letras y extensión mínima de 2 caracteres");
-                } else if (!this.state.validations.validatePhoneNumberField(this.state.phoneNumber1
-                    || (!this.state.phoneNumber2.trim().length == 0 && !this.state.validations.validatePhoneNumberField(this.state.phoneNumber2))
-                )) {
+                } else if (!this.state.validations.validatePhoneNumberField(this.state.phoneNumber1)
+                    || ((this.state.phoneNumber2.trim().length != 0) && (!this.state.validations.validatePhoneNumberField(this.state.phoneNumber2)))) 
+                    {
                     alert("Los números telefónicos deben estar compuestos por 8 dígitos");
 
                 } else if (this.state.carnet != "N/A" && !this.state.validations.validateCarnetField(this.state.carnet)) {
@@ -518,9 +518,10 @@ class UserConfiguration extends Component {
             alert("Todos los campos de contraseña deben estar llenos")
         } else if (this.state.hash.encode(this.state.password, sessionStorage.getItem('password'))) {
             alert("La contraseña actual es incorrecta");
+        } else if (!this.state.validations.validatePasswordField(this.state.newPassword) ||!this.state.validations.validatePasswordField(this.state.confirmNewPassword)) {
+            alert("La contraseña debe contar con una extensión mínima de 8 caracteres y estar compuesta almenos por números y letras");
         } else if (this.state.newPassword != this.state.confirmNewPassword) {
             alert("Los campos de nueva contraseña no coinciden");
-
         } else {
             if (window.confirm("¿Está seguro de actualizar los datos de la contraseña?") == true) {
                 document.getElementById('changePassword').style.display = 'none';
@@ -620,7 +621,7 @@ class UserConfiguration extends Component {
                                         </div>
                                         <div className="form-group" align="left">
                                             <p>Segundo Apellido</p>
-                                            <input type="text" placeholder="Ej: Molina" id="secondLastName" name="secondLastName" required className="form-control inputText" value={this.state.secondLastName || ''} onChange={this.handleInputChange}></input>
+                                            <input type="text" placeholder="Ej: Molina" id="secondLastName" name="secondLastName"  className="form-control inputText" value={this.state.secondLastName || ''} onChange={this.handleInputChange}></input>
                                         </div>
                                         <div className="form-group" align="left">
                                             <p>Teléfono 2</p>
@@ -749,13 +750,13 @@ class UserConfiguration extends Component {
                                         </div>
                                     </div>
                                 </div>
-                                <row>
+                                <div className="row">
                                     <div className="col-12">
                                         <div className="form-group " align="left">
                                             <input type="checkbox" id="showPasswordFields" required name="showPasswordFields" onChange={this.showPasswordFields} ></input>Mostrar campos
                                         </div>
                                     </div>
-                                </row>
+                                    </div>
                                 <div className="row">
                                     <div className="col-6">
                                         <div className="form-group" align="left">
