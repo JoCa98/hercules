@@ -155,6 +155,7 @@ class HomeAdmin extends Component {
         try {
             var userPartyID = document.getElementById("myTable").rows[event.target.parentNode.rowIndex].cells[0].innerHTML;
             sessionStorage.setItem("userPartyID", userPartyID);
+            this.props.history.push("/ConsultUser");
         } catch (err) {
             console.error(err);
         }
