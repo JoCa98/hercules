@@ -176,7 +176,7 @@ class AddAdmin extends Component {
                                 </div>
                                 <div className="col-6">
                                     <div className="form-group" align="left">
-                                        <p align="justify">Cédula*</p>
+                                        <p align="justify">Cédula<font color="red">*</font></p>
                                         <input type="text" name="identificationID" placeholder="#########" className="form-control" onChange={this.inputNumberValidator} required></input>
                                     </div>
                                 </div>

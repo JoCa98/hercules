@@ -29,7 +29,7 @@ class UserHome extends Component {
         * Property that stores the routine info that comes from de database
         */
         this.state = {
-            routineID: 1,
+            partyID: sessionStorage.getItem("partyID"),
             routine: [{}]
         };
 
@@ -40,12 +40,13 @@ class UserHome extends Component {
     * when loading the page for the first time
     */
     componentDidMount() {
-        axios.get("http://localhost:9000/RoutineRoute/getRoutineInfo", {
+        axios.get("http://localhost:9000/RoutineRoute/getRoutineHistoric", {
             params: {
-                routineID: this.state.routineID,
+                partyID: this.state.partyID,
             }
         }).then(response => {
             if (response) {
+                console.log(response.data[0]);
                 this.setState({
                     routine: response.data[0]
                 });
