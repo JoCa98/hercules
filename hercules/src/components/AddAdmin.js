@@ -32,9 +32,11 @@ class AddAdmin extends Component {
             secondLastName: "",
             email: "",
             password: "",
-            confirmPassword: ""
+            confirmPassword: "",
+            medicalCod: ""
         };
 
+        this.showMedicalCod = this.showMedicalCod.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.empty = this.empty.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -56,7 +58,7 @@ class AddAdmin extends Component {
             } else if (!this.state.validations.validateTextField(this.state.firstName.trim())
                 || (this.state.secondName != null && (this.state.secondName.trim() != "") && (!this.state.validations.validateTextField(this.state.secondName.trim())))
                 || !this.state.validations.validateTextField(this.state.firstLastName.trim())
-                || (this.state.secondLastName != null && (this.state.secondLastName.trim() != "") && (!this.state.validations.validateTextField(this.state.secondLastName.trim()))) 
+                || (this.state.secondLastName != null && (this.state.secondLastName.trim() != "") && (!this.state.validations.validateTextField(this.state.secondLastName.trim())))
             ) {
                 alert("Los datos del nombre solo pueden estar compuestos por letras y extensión mínima de 2 caracteres");
             } else if (!this.state.validations.validateIdentification(this.state.identificationID)) {
@@ -100,6 +102,28 @@ class AddAdmin extends Component {
         this.setState({
             [name]: value
         });
+        if (name == "userTypeID") {
+            if (this.state.userTypeID == 4) {
+                document.getElementById("medicalCod").style.display = 'none';
+            } else if (this.state.userTypeID == 3) {
+                document.getElementById("medicalCod").style.display = 'inline';
+            }
+        }
+    }
+
+ /**
+    * Method set the userTypeID value and shows or hide the medicalCod input field
+    */
+    showMedicalCod(event) {
+        const { name, value } = event.target;
+        this.setState({
+            [name]: value
+        });
+        if (this.state.userTypeID == 4) {
+            document.getElementById("medicalCod").style.display = 'none';
+        } else if (this.state.userTypeID == 3) {
+            document.getElementById("medicalCod").style.display = 'inline';
+        }
     }
 
     /**
@@ -142,9 +166,9 @@ class AddAdmin extends Component {
         }
     }
 
-     /**
-    * Method that allows that the password can be shown
-    */
+    /**
+   * Method that allows that the password can be shown
+   */
     showPasswordFields() {
         var show = document.getElementById('showPasswordFields').checked;
         if (show == true) {
@@ -168,7 +192,7 @@ class AddAdmin extends Component {
                                 <div className="col-6">
                                     <div className="form-group" align="left">
                                         <p align="justify">Tipo de administrador<font color="red">*</font></p>
-                                        <select value={this.state.userTypeID} align="justify" name="userTypeID" className="form-control" onChange={this.handleInputChange}>
+                                        <select value={this.state.userTypeID} align="justify" name="userTypeID" className="form-control" onChange={this.showMedicalCod}>
                                             <option defaultValue="3" >Médico</option>
                                             <option value="4">Gimnasio</option>
                                         </select>
@@ -181,7 +205,6 @@ class AddAdmin extends Component {
                                     </div>
                                 </div>
                             </div>
-
                             <div className="row">
                                 <div className="col-6">
                                     <div className="form-group" align="left">
@@ -209,11 +232,19 @@ class AddAdmin extends Component {
                                         <input type="email" id="email" name="email" placeholder="Ej: correo@mail.com" className="form-control" onChange={this.handleInputChange} required></input>
                                         <br></br>
                                         <p align="justify">Contraseña<font color="red">*</font></p>
-                                        <input type="password" id = "password" placeholder="Contraseña" name="password" className="form-control" onChange={this.handleInputChange} required></input>
+                                        <input type="password" id="password" placeholder="Contraseña" name="password" className="form-control" onChange={this.handleInputChange} required></input>
                                         <br></br>
                                         <p align="justify">Confirmar contraseña<font color="red">*</font></p>
-                                        <input type="password" id = "confirmPassword" name="confirmPassword" className="form-control" onChange={this.handleInputChange} required></input>
+                                        <input type="password" id="confirmPassword" name="confirmPassword" className="form-control" onChange={this.handleInputChange} required></input>
                                         <input type="checkbox" id="showPasswordFields" placeholder="Contraseña" name="showPasswordFields" onChange={this.showPasswordFields} ></input>Mostrar campos
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-12">
+                                    <div className="form-group" align="left" id="medicalCod">
+                                        <p align="justify">Código de Médico<font color="red">*</font></p>
+                                        <input type="text" name="medicalCod" placeholder="#########" className="form-control" onChange={this.handleInputChange} required></input>
                                     </div>
                                 </div>
                             </div>

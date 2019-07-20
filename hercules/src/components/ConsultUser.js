@@ -38,6 +38,10 @@ class ConsultUser extends Component {
     componentDidMount() {
         this.getUserBasicInfo();
         console.log(this.state.userInfo[0]);
+        if (sessionStorage.getItem('userTypeID') == 3){
+            document.getElementById("physicalInfo").style.display = 'none';
+            document.getElementById("Routine").style.display = 'none';           
+        }
     }
 
     /**
@@ -168,10 +172,10 @@ class ConsultUser extends Component {
                                     <button className="circularButton w-100" name="medicalInfo" onClick={this.redirectMedical}>Valoración médica</button>
                                     <br></br>
                                     <br></br>
-                                    <button className="circularButton w-100" name="physicalInfo" onClick={this.redirectPhysical}>Composición Corporal</button>
+                                    <button className="circularButton w-100" id="physicalInfo"  name="physicalInfo" onClick={this.redirectPhysical}>Composición Corporal</button>
                                     <br></br>
                                     <br></br>
-                                    <button className="circularButton w-100" name="Routine" onClick={this.redirectRoutines}>Rutina</button>
+                                    <button className="circularButton w-100" id="Routine"  name="Routine" onClick={this.redirectRoutines}>Rutina</button>
                                 </div>
                             </div>
                         </div>
