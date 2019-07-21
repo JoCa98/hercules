@@ -24,16 +24,16 @@ class AddAdmin extends Component {
         this.state = {
             hash: new Hash(),
             validations: new validations(),
-            userTypeID: 3,
-            identificationID: 0,
-            firstName: "",
-            secondName: "",
-            firstLastName: "",
-            secondLastName: "",
-            email: "",
-            password: "",
-            confirmPassword: "",
-            medicalCod: ""
+            userTypeID: "3",
+            identificationID: "0",
+            firstName: null,
+            secondName: null,
+            firstLastName: null,
+            secondLastName: null,
+            email: null,
+            password: null,
+            confirmPassword: null,
+            medicalCod: null
         };
 
         this.showMedicalCod = this.showMedicalCod.bind(this);
@@ -68,7 +68,7 @@ class AddAdmin extends Component {
             } else if (this.state.password != this.state.confirmPassword) {
                 alert("Los campos de contraseña no coinciden");
             } else if (isEmailValid == 1) {
-                document.getElementById("email").value = "";
+                document.getElementById("email").value = null;
                 alert("El correo ingresado ya corresponde a otro administrador registrado");
             } else {
                 this.setState({
@@ -90,7 +90,6 @@ class AddAdmin extends Component {
                         this.props.history.push(`/HomeAdmin`);
                     })
                     .catch(err => console.error(err));
-
             }
         });
 
@@ -102,27 +101,22 @@ class AddAdmin extends Component {
         this.setState({
             [name]: value
         });
-        if (name == "userTypeID") {
-            if (this.state.userTypeID == 4) {
-                document.getElementById("medicalCod").style.display = 'none';
-            } else if (this.state.userTypeID == 3) {
-                document.getElementById("medicalCod").style.display = 'inline';
-            }
-        }
+
     }
 
- /**
-    * Method set the userTypeID value and shows or hide the medicalCod input field
-    */
+    /**
+       * Method set the userTypeID value and shows or hide the medicalCod input field
+       */
     showMedicalCod(event) {
         const { name, value } = event.target;
         this.setState({
             [name]: value
         });
-        if (this.state.userTypeID == 4) {
-            document.getElementById("medicalCod").style.display = 'none';
-        } else if (this.state.userTypeID == 3) {
-            document.getElementById("medicalCod").style.display = 'inline';
+        if (event.target.value != "3") {
+            document.getElementById("medicalCodInput").value = null;
+            document.getElementById("medicalCodDiv").style.display = 'none';
+        } else {
+            document.getElementById("medicalCodDiv").style.display = 'block';
         }
     }
 
@@ -158,11 +152,20 @@ class AddAdmin extends Component {
     * Method that verify that the require inputs are not empty
     */
     empty() {
-        if (this.state.identificationID == "" || this.state.firstName == "" || this.state.firstLastName == "" || this.state.email == ""
-            || this.state.password == "" || this.state.confirmPassword == "") {
-            return true;
+        if (this.state.userTypeID == "3") {
+            if (this.state.identificationID == "" || this.state.firstName == "" || this.state.firstLastName == "" || this.state.email == ""
+                || this.state.password == "" || this.state.confirmPassword == "" || this.state.userTypeID == "") {
+                return true;
+            } else {
+                return false;
+            }
         } else {
-            return false;
+            if (this.state.identificationID == "" || this.state.firstName == "" || this.state.firstLastName == "" || this.state.email == ""
+                || this.state.password == "" || this.state.confirmPassword == "") {
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 
@@ -192,8 +195,8 @@ class AddAdmin extends Component {
                                 <div className="col-6">
                                     <div className="form-group" align="left">
                                         <p align="justify">Tipo de administrador<font color="red">*</font></p>
-                                        <select value={this.state.userTypeID} align="justify" name="userTypeID" className="form-control" onChange={this.showMedicalCod}>
-                                            <option defaultValue="3" >Médico</option>
+                                        <select align="justify" name="userTypeID" className="form-control" onChange={this.showMedicalCod}>
+                                            <option defaultValue="3" value="3">Médico</option>
                                             <option value="4">Gimnasio</option>
                                         </select>
                                     </div>
@@ -242,14 +245,14 @@ class AddAdmin extends Component {
                             </div>
                             <div className="row">
                                 <div className="col-12">
-                                    <div className="form-group" align="left" id="medicalCod">
+                                    <div className="form-group" align="left" id="medicalCodDiv">
                                         <p align="justify">Código de Médico<font color="red">*</font></p>
-                                        <input type="text" name="medicalCod" placeholder="#########" className="form-control" onChange={this.handleInputChange} required></input>
+                                        <input type="text" id="medicalCodInput" name="medicalCod" placeholder="#########" className="form-control" onChange={this.handleInputChange} required></input>
                                     </div>
                                 </div>
                             </div>
                             <div className="row">
-                                <div className="col-md-5 offset-md-7">
+                                <div className=" mt-3 col-md-5 offset-md-7">
                                     <button align="left" className="buttonSizeGeneral">Guardar</button>
                                 </div>
                             </div>
