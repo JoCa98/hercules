@@ -347,6 +347,7 @@ class SignUp extends Component {
     }
 
     sendEmail() {
+        console.log("Enviado")
         fetch("http://localhost:9000/User/sendEmail", {
             method: "post",
             body: JSON.stringify({ email: this.state.email, activationCode: this.state.activationCode }),
@@ -399,24 +400,36 @@ class SignUp extends Component {
                                             <p title="Campo obligatorio">Primer nombre<font color="red">*</font></p>
                                             <input type="text" placeholder="Ej: Kevin" name="firstName" required className="form-control inputText" value={this.state.firstName} onChange={this.handleInputChange}></input>
                                         </div>
-                                        <div className="form-group" align="left">
-                                            <p title="Campo obligatorio">Primer Apellido<font color="red">*</font></p>
-                                            <input type="text" placeholder="Ej: Jiménez" name="lastName" required className="form-control inputText" value={this.state.lastName} onChange={this.handleInputChange}></input>
-                                        </div>
-                                        <div className="form-group" align="left">
-                                            <p title="Campo obligatorio">Teléfono 1<font color="red">*</font></p>
-                                            <input type="text" placeholder="########" name="phoneNumber1" required className="form-control inputText" value={this.state.phoneNumber1} onChange={this.handleInputChange}></input>
-                                        </div>
                                     </div>
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
                                             <p>Segundo nombre</p>
                                             <input type="text" placeholder="Ej: José" name="secondName" className="form-control inputText" value={this.state.secondName} onChange={this.handleInputChange}></input>
                                         </div>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-12 col-sm-6">
+                                        <div className="form-group" align="left">
+                                            <p title="Campo obligatorio">Primer Apellido<font color="red">*</font></p>
+                                            <input type="text" placeholder="Ej: Jiménez" name="lastName" required className="form-control inputText" value={this.state.lastName} onChange={this.handleInputChange}></input>
+                                        </div>
+                                    </div>
+                                    <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
                                             <p>Segundo Apellido</p>
                                             <input type="text" placeholder="Ej: Molina" name="secondLastName" required className="form-control inputText" value={this.state.secondLastName} onChange={this.handleInputChange}></input>
                                         </div>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-12 col-sm-6">
+                                        <div className="form-group" align="left">
+                                            <p title="Campo obligatorio">Teléfono 1<font color="red">*</font></p>
+                                            <input type="text" placeholder="########" name="phoneNumber1" required className="form-control inputText" value={this.state.phoneNumber1} onChange={this.handleInputChange}></input>
+                                        </div>
+                                    </div>
+                                    <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
                                             <p>Teléfono 2</p>
                                             <input type="text" placeholder="#########" name="phoneNumber2" className="form-control inputText" value={this.state.phoneNumber2} onChange={this.handleInputChange}></input>
@@ -530,6 +543,18 @@ class SignUp extends Component {
                                                 <div className="form-group" align="left">
                                                     <p title="Campo obligatorio">Email<font color="red">*</font></p>
                                                     <input type="text" title="Únicamenta correos institucionales" placeholder="Ej: correo@ucr.ac.cr" required name="email" value={this.state.email} onChange={this.handleInputChange} className="form-control inputText w-100"></input>
+
+
+
+
+
+
+
+
+
+
+
+
                                                 </div>
                                             </div>
                                         </div>
