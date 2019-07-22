@@ -347,7 +347,6 @@ class SignUp extends Component {
     }
 
     sendEmail() {
-        console.log("Enviado")
         fetch("http://localhost:9000/User/sendEmail", {
             method: "post",
             body: JSON.stringify({ email: this.state.email, activationCode: this.state.activationCode }),
