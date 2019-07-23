@@ -289,11 +289,11 @@ class UserConfiguration extends Component {
     updateUser() {
         var secondName = this.state.secondName;
         var secondLastName = this.state.secondLastName;
-        
+
         if (secondName == null) {
             secondName = '';
         }
-        if(secondLastName == null){
+        if (secondLastName == null) {
             secondLastName = '';
         }
         fetch("http://localhost:9000/User/updateUser", {
@@ -468,7 +468,7 @@ class UserConfiguration extends Component {
             axios.get(`http://localhost:9000/User/isCarnetValid`, { params: { carnet: this.state.carnet } }).then(response => {
                 var carnetValid = JSON.parse(JSON.stringify(response.data))[0]['isCarnetValid'].data[0];
                 if (this.state.firstName.trim().length == 0 || this.state.lastName.trim().length == 0
-              ||  this.state.phoneNumber1.trim().length == 0
+                    || this.state.phoneNumber1.trim().length == 0
                     || this.state.career.trim().length == 0 || this.state.carnet.trim().length == 0
                     || this.state.identificationID.toString().trim().length == 0) {
                     alert("Todos los datos del usuarios deben estar llenos");
@@ -479,8 +479,7 @@ class UserConfiguration extends Component {
                 ) {
                     alert("Los datos del nombre solo pueden estar compuestos por letras y extensión mínima de 2 caracteres");
                 } else if (!this.state.validations.validatePhoneNumberField(this.state.phoneNumber1)
-                    || ((this.state.phoneNumber2.trim().length != 0) && (!this.state.validations.validatePhoneNumberField(this.state.phoneNumber2)))) 
-                    {
+                    || ((this.state.phoneNumber2.trim().length != 0) && (!this.state.validations.validatePhoneNumberField(this.state.phoneNumber2)))) {
                     alert("Los números telefónicos deben estar compuestos por 8 dígitos");
 
                 } else if (this.state.carnet != "N/A" && !this.state.validations.validateCarnetField(this.state.carnet)) {
@@ -506,7 +505,7 @@ class UserConfiguration extends Component {
 
 
     }
-    
+
     editPassword() {
         document.getElementById('editPassword').style.display = 'none';
         document.getElementById('cancelPassword').style.display = 'block';
@@ -526,7 +525,7 @@ class UserConfiguration extends Component {
             alert("Todos los campos de contraseña deben estar llenos")
         } else if (this.state.hash.comparePassword(this.state.password, sessionStorage.getItem('password'))) {
             alert("La contraseña actual es incorrecta");
-        } else if (!this.state.validations.validatePasswordField(this.state.newPassword) ||!this.state.validations.validatePasswordField(this.state.confirmNewPassword)) {
+        } else if (!this.state.validations.validatePasswordField(this.state.newPassword) || !this.state.validations.validatePasswordField(this.state.confirmNewPassword)) {
             alert("La contraseña debe contar con una extensión mínima de 8 caracteres y estar compuesta almenos por números y letras");
         } else if (this.state.newPassword != this.state.confirmNewPassword) {
             alert("Los campos de nueva contraseña no coinciden");
@@ -613,10 +612,30 @@ class UserConfiguration extends Component {
                                             <p title="Campo obligatorio">Primer nombre<font color="red">*</font></p>
                                             <input type="text" placeholder="Ej: Kevin" id="firstName" name="firstName" required className="form-control inputText" value={this.state.firstName || ''} onChange={this.handleInputChange}></input>
                                         </div>
+                                    </div>
+                                    <div className="col-12 col-sm-6">
+                                        <div className="form-group" align="left">
+                                            <p>Segundo nombre</p>
+                                            <input type="text" placeholder="Ej: José" id="secondName" name="secondName" className="form-control inputText" value={this.state.secondName || ''} onChange={this.handleInputChange}></input>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
                                             <p title="Campo obligatorio">Primer Apellido<font color="red">*</font></p>
                                             <input type="text" placeholder="Ej: Jiménez" id="lastName" name="lastName" required className="form-control inputText" value={this.state.lastName || ''} onChange={this.handleInputChange}></input>
                                         </div>
+                                    </div>
+                                    <div className="col-12 col-sm-6">
+                                        <div className="form-group" align="left">
+                                            <p>Segundo Apellido</p>
+                                            <input type="text" placeholder="Ej: Molina" id="secondLastName" name="secondLastName" className="form-control inputText" value={this.state.secondLastName || ''} onChange={this.handleInputChange}></input>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
                                             <p title="Campo obligatorio">Teléfono 1<font color="red">*</font></p>
                                             <input type="text" placeholder="########" id="phoneNumber1" name="phoneNumber1" required className="form-control inputText" value={this.state.phoneNumber1 || ''} onChange={this.handleInputChange}></input>
@@ -624,20 +643,11 @@ class UserConfiguration extends Component {
                                     </div>
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
-                                            <p>Segundo nombre</p>
-                                            <input type="text" placeholder="Ej: José" id="secondName" name="secondName" className="form-control inputText" value={this.state.secondName || ''} onChange={this.handleInputChange}></input>
-                                        </div>
-                                        <div className="form-group" align="left">
-                                            <p>Segundo Apellido</p>
-                                            <input type="text" placeholder="Ej: Molina" id="secondLastName" name="secondLastName"  className="form-control inputText" value={this.state.secondLastName || ''} onChange={this.handleInputChange}></input>
-                                        </div>
-                                        <div className="form-group" align="left">
                                             <p>Teléfono 2</p>
                                             <input type="text" placeholder="########" id="phoneNumber2" name="phoneNumber2" className="form-control inputText" value={this.state.phoneNumber2 || ''} onChange={this.handleInputChange}></input>
                                         </div>
                                     </div>
                                 </div>
-
                                 <div className="row">
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
@@ -764,7 +774,7 @@ class UserConfiguration extends Component {
                                             <input type="checkbox" id="showPasswordFields" required name="showPasswordFields" onChange={this.showPasswordFields} ></input>Mostrar campos
                                         </div>
                                     </div>
-                                    </div>
+                                </div>
                                 <div className="row">
                                     <div className="col-6">
                                         <div className="form-group" align="left">
@@ -825,7 +835,6 @@ class UserConfiguration extends Component {
                                             <button align="left" id="changeContact" className="buttonSizeGeneral" onClick={this.changeContact}>Guardar</button>
                                             <br></br>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>

@@ -14,7 +14,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import validations from './validations';
-import { parse } from 'querystring';
 import Hash from './Hash';
 
 class AddAdmin extends Component {
@@ -78,7 +77,6 @@ class AddAdmin extends Component {
                 fetch("http://localhost:9000/AdminRoute/addAdmin", {
                     method: "post",
                     body: JSON.stringify(this.state),
-
                     headers: {
                         Accept: "application/json",
                         "Content-Type": "application/json"
@@ -154,19 +152,16 @@ class AddAdmin extends Component {
     empty() {
         if (this.state.userTypeID == "3") {
             if (this.state.identificationID == "" || this.state.firstName == "" || this.state.firstLastName == "" || this.state.email == ""
-                || this.state.password == "" || this.state.confirmPassword == "" || this.state.userTypeID == "") {
+                || this.state.password == "" || this.state.confirmPassword == "" || this.state.medicalCod == "") {
                 return true;
-            } else {
-                return false;
-            }
+            } 
         } else {
             if (this.state.identificationID == "" || this.state.firstName == "" || this.state.firstLastName == "" || this.state.email == ""
                 || this.state.password == "" || this.state.confirmPassword == "") {
                 return true;
-            } else {
-                return false;
-            }
+            } 
         }
+        return false;
     }
 
     /**
@@ -247,7 +242,7 @@ class AddAdmin extends Component {
                                 <div className="col-12">
                                     <div className="form-group" align="left" id="medicalCodDiv">
                                         <p align="justify">Código de Médico<font color="red">*</font></p>
-                                        <input type="text" id="medicalCodInput" name="medicalCod" placeholder="#########" className="form-control" onChange={this.handleInputChange} required></input>
+                                        <input type="text" id="medicalCodInput" name="medicalCod" placeholder="#########" className="form-control" onChange={this.handleInputChange}></input>
                                     </div>
                                 </div>
                             </div>
