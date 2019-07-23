@@ -103,6 +103,17 @@ router.get("/getObjetiveType", (req, res) => {
   });
 });
 
+router.get("/getRoutineID", (req, res) => {
+  connection.query("call proc_getLastRoutineID(" + req.query.partyID + ")", function (err, results) {
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+  });
+});
+
 router.post("/addRoutine", (req, res) => {
   connection.query("CALL proc_addRoutine(" + req.body.Frecuency + "," + req.body.Intensity + "," + req.body.RestTime +
   "," + req.body.Density + ",'" + req.body.date + "'," + req.body.partyID + "," + req.body.routineTypeID + "," + req.body.objectiveID + ")", function (err, results) {
@@ -116,8 +127,8 @@ router.post("/addRoutine", (req, res) => {
 });
 
 router.post("/addExercise", (req, res) => {
-  connection.query("CALL proc_addExercise(" + req.query.routineID + "," + req.query.exerciseID + "," + req.query.series +
-  "," + req.query.repetitions + "," + req.query.charge + "," + req.query.minutes + ")", function (err, results) {
+  connection.query("CALL proc_addExercise(" + req.body.routineID + "," + req.body.exerciseID + "," + req.body.series +
+  "," + req.body.repetitions + "," + req.body.charge + "," + req.body.minutes + ")", function (err, results) {
     if (results) {
       res.send(results);
     }

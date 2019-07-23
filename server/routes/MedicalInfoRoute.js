@@ -11,7 +11,7 @@ router.post('/addMedicalInfo', function (req, res) {
   connection.query("CALL proc_addMedicalInfo(" + req.body.partyID + ",'" + req.body.date + "','" + req.body.pathologies + "','" + req.body.allergies + "','" + req.body.surgeries +
     "'," + req.body.traumas + "," + req.body.smoking + ",'" + req.body.neurologicalInfo + "','" + req.body.pulmonaryCardioInfo + "'," + req.body.bloodPressure +
     "," + req.body.heartRate + "," + req.body.heartRatePerMinute + "," + req.body.SpO2 + "," + req.body.weight + "," +
-    req.body.size + "," + req.body.IMC + "," + req.body.abdomen + "," + req.body.waist + "," + req.body.hip + "," + req.body.cardiovascularRisk + ",'" + req.body.recommendations + "'" + ", 1 )", function (err, result) {
+    req.body.size + "," + req.body.IMC + "," + 0 + "," + req.body.waist + "," + req.body.hip + "," + req.body.cardiovascularRisk + ",'" + req.body.recommendations + "'" + "," + req.body.medicalCod + ")", function (err, result) {
       if (err) {
         return res.send(err)
       }
@@ -25,6 +25,18 @@ router.post('/addMedicalInfo', function (req, res) {
 
 router.get('/getMedicalInfoHist', (req, res) => {
   connection.query("CALL proc_getMedicalInfoByPartyID(" + req.query.partyID + ");", function (err, results) {
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+  }
+  )
+});
+
+router.get('/getMedicalCod', (req, res) => {
+  connection.query("CALL proc_getMedicalCod(" + req.query.partyID + ");", function (err, results) {
     if (results) {
       res.send(results);
     }

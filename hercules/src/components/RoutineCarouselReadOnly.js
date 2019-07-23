@@ -44,7 +44,7 @@ class RoutineCarouselReadOnly extends Component {
             exerciseType: [{}],
             exercise: [{}],
             typeID: 1,
-            id: 1,
+            id:sessionStorage.getItem("routineID"),
             lastTypeID: ""
         };
 

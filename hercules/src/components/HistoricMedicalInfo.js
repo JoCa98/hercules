@@ -56,10 +56,19 @@ class HistoricMedicalInfo extends Component {
                     const userName = response.data[0];
                     this.setState({ userName });
                 });
+
+                if(sessionStorage.getItem("userTypeID") != 3){
+                    document.getElementById("addImage").style.display = "none";
+                    document.getElementById("addText").style.display = "none";
+                }else{
+                    document.getElementById("addImage").style.display = "show";
+                    document.getElementById("addText").style.display = "show";
+                }
         } catch (err) {
             console.error(err);
         }
     }
+
 
     render() {
         const name = this.state.userName.map((userName, i) => {
@@ -73,12 +82,12 @@ class HistoricMedicalInfo extends Component {
                     <div className="col-12">
                         <h1 className="text-left colorBlue">Consulta médica</h1>
                         <div className="row">
-                            <div className="col-4 offset-1 text-ceter">
+                            <div className="col-4 offset-1 text-center">
                                 {name}
                             </div>
                             <div className="col-4 offset-1 text-center">
-                                <img src={plusImage} onClick={this.redirect} className="buttonSizeGeneral pointer" />
-                                <h4 className="colorBlue pointer" onClick={this.redirect}>Agregar nuevo</h4>
+                                <img src={plusImage} id="addImage" onClick={this.redirect} className="buttonSizeGeneral pointer" />
+                                <h4 className="colorBlue pointer" id="addText" onClick={this.redirect}>Agregar nuevo</h4>
                             </div>
                             <div className="col-12 mt-4 text-center">
                                 <TableMedicalInfo />
