@@ -40,9 +40,24 @@ class UserHome extends Component {
     * when loading the page for the first time
     */
     componentDidMount() {
-        axios.get("http://localhost:9000/RoutineRoute/getRoutineHistoric", {
+        var res;
+        axios.get("http://localhost:9000/RoutineRoute/getRoutineID", {
             params: {
                 partyID: this.state.partyID,
+            }
+        }).then(response => {
+            if (response) {
+                console.log(response.data[0]);
+                 res = response.data[0];
+                sessionStorage.setItem("routineID", res.routineID);
+            }
+        })
+
+
+        console.log(sessionStorage.getItem("routineID"));
+        axios.get("http://localhost:9000/RoutineRoute/getRoutineInfo", {
+            params: {
+                routineID: sessionStorage.getItem("routineID"),
             }
         }).then(response => {
             if (response) {
@@ -53,6 +68,7 @@ class UserHome extends Component {
             }
         })
     }
+
     
     render() {
         return (
