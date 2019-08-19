@@ -40,7 +40,7 @@ class UserHome extends Component {
     * when loading the page for the first time
     */
     componentDidMount() {
-        var res;
+        var res = 0;
         axios.get("http://localhost:9000/RoutineRoute/getRoutineID", {
             params: {
                 partyID: this.state.partyID,
@@ -49,7 +49,11 @@ class UserHome extends Component {
             if (response) {
                 console.log(response.data[0]);
                  res = response.data[0];
-                sessionStorage.setItem("routineID", res.routineID);
+                 if(res.value != null){
+                    sessionStorage.setItem("routineID", res[0].routineID);
+                 }else{
+                     console.log("sin rutina");
+                 }
             }
         })
 

@@ -1,0 +1,28 @@
+import React, { Component } from 'react';
+
+class UserHomeWithOut extends Component {
+    render() {
+        return (
+            <div className="container">
+                <div className="row mt-4">
+                    <div className="col-12 card p-5">
+                    <h2 className="text-center colorBlue mb-4">Rutina actual</h2>
+                    <div className="row">
+                                <div className="col-12 col-md-4">
+                                    <div className="row">
+                                        <div className="col-12">
+                                            <label>Aún no cuenta con una rutina</label>
+                                            <br/>
+                                            <label>Diríjase a la oficina de deporte y recreación para que le asignen una</label>
+                                            </div>
+                                            </div>
+                                            </div>
+                                            </div>
+                                            </div>
+                                            </div>
+                                            </div>
+        )
+    }
+}
+
+export default UserHomeWithOut;
