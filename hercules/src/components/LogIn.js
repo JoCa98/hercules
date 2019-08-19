@@ -43,13 +43,19 @@ class LogIn extends Component {
                         axios.get(`http://localhost:9000/User/getDataForLogin`, { params: { email: this.state.email, password: this.state.password } }).then(response => {
                             sessionStorage.setItem('partyID', JSON.parse(JSON.stringify(response.data[0]))[0]['partyID']);
                             sessionStorage.setItem('userTypeID', JSON.parse(JSON.stringify(response.data[0]))[0]['userTypeID']);
-                            if (sessionStorage.getItem('userTypeID') == 1 || sessionStorage.getItem('userTypeID') == 2) {
-                                this.props.history.push(`/UserHome`);
-                                window.location.reload();
-                            } else if (sessionStorage.getItem('userTypeID') == 3 || sessionStorage.getItem('userTypeID') == 4){
-                                this.props.history.push(`/HomeAdmin`);
-                                window.location.reload();
+                            var tempPassword = JSON.parse(JSON.stringify(response.data[0]))[0]['tempPassword'];
+                            if(tempPassword) {
+                                this.props.history.push(`/ChangeTempPassword`);
+                            } else {
+                                if (sessionStorage.getItem('userTypeID') == 1 || sessionStorage.getItem('userTypeID') == 2) {
+                                    this.props.history.push(`/UserHome`);
+                                    window.location.reload();
+                                } else if (sessionStorage.getItem('userTypeID') == 3 || sessionStorage.getItem('userTypeID') == 4){
+                                    this.props.history.push(`/HomeAdmin`);
+                                    window.location.reload();
+                                }
                             }
+                            
                         });
                     } else {
                         alert("Contraseña y/o correo ingresados no son correctos.")

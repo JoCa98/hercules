@@ -523,7 +523,7 @@ class UserConfiguration extends Component {
         if (document.getElementById('password').value.length == 0 || document.getElementById('newPassword').value.length == 0
             || document.getElementById('confirmNewPassword').value.length == 0) {
             alert("Todos los campos de contraseña deben estar llenos")
-        } else if (this.state.hash.comparePassword(this.state.password, sessionStorage.getItem('password'))) {
+        } else if (!this.state.hash.comparePassword(this.state.password, sessionStorage.getItem('password'))) {
             alert("La contraseña actual es incorrecta");
         } else if (!this.state.validations.validatePasswordField(this.state.newPassword) || !this.state.validations.validatePasswordField(this.state.confirmNewPassword)) {
             alert("La contraseña debe contar con una extensión mínima de 8 caracteres y estar compuesta almenos por números y letras");
