@@ -42,7 +42,7 @@ router.post('/updateUser', function (req, res) {
 });
 
 router.post('/updatePassword', function (req, res) {
-  connection.query("CALL proc_updatePassword('" + req.body.email + "','" + req.body.password + "')", function (err, result) {
+  connection.query("CALL proc_updatePassword('" + req.body.email + "','" + req.body.password + "',b'" + req.body.tempPassword +"')", function (err, result) {
     if (err) {
       return res.send(err)
     }

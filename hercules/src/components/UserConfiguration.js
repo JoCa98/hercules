@@ -331,6 +331,7 @@ class UserConfiguration extends Component {
             body: JSON.stringify({
                 email: sessionStorage.getItem('email'),
                 password: this.state.hash.encode(this.state.newPassword),
+                tempPassword: 0
             }),
             headers: {
                 Accept: "application/json",

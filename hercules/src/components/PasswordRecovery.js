@@ -21,6 +21,7 @@ class PasswordRecovery extends Component {
             body: JSON.stringify({
                 email: this.state.email,
                 password: this.state.hash.encode(tempPassword),
+                tempPassword: 1
             }),
             headers: {
                 Accept: "application/json",
@@ -38,7 +39,6 @@ class PasswordRecovery extends Component {
     }
 
     sendTempPasswordEmail(tempPassword) {
-        alert(this.state.email);
         fetch("http://localhost:9000/User/sendTempPasswordEmail", {
             method: "post",
             body: JSON.stringify({ email: this.state.email, tempPassword: tempPassword }),

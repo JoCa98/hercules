@@ -37,6 +37,7 @@ class ChangeTempPassword extends Component {
             body: JSON.stringify({
                 email: sessionStorage.getItem('email'),
                 password: newPassword,
+                tempPassword: 0
             }),
             headers: {
                 Accept: "application/json",
