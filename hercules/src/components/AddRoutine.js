@@ -26,7 +26,8 @@ class AddRoutine extends Component {
             list:[],
             exerciseID : 0,
             exist:false,
-            index:0
+            index:0,
+            idRoutine:0
         }
 
         this.inputNumberValidator = this.inputNumberValidator.bind(this);
@@ -47,6 +48,7 @@ class AddRoutine extends Component {
         this.initButtons = this.initButtons.bind(this);
         this.deleteExercise = this.deleteExercise.bind(this);
         this.editExercise = this.editExercise.bind(this);
+        this.onKeyEvent = this.onKeyEvent.bind(this);
     }
 
     componentDidMount(){
@@ -301,8 +303,8 @@ initButtons(){
     }
 
     handleSubmit(e) {
+        var id;
         if(!this.empty()){
-           
                 console.log("hola");
             fetch("http://localhost:9000/RoutineRoute/addRoutine", {
                 method: "post",
@@ -312,18 +314,29 @@ initButtons(){
                     "Content-Type": "application/json"
                 }
             })
-                .then(res => res.json())
-                
+                .then(response => response.text)
+                .then(function(data){
+                    console.log(data.results);
+                    let res = data.results[0];
+                         id = res.routineID;
+                })
                 .catch(err => console.error(err));
                 
-                this.getRoutineID();
+                this.submitExercise(id);
+                
                 e.preventDefault();
 
-               this.props.history.push(`/HistoricRoutineInfo`);
             }else{
                 alert("Debe agregar ejercicios");
             }
            
+        }
+
+        onKeyEvent(e) {
+            if (e.key == "Enter") {
+                console.log('value', e.key);
+                this.handleSubmit();
+            }
         }
 
     getRoutineID(){
@@ -337,14 +350,14 @@ initButtons(){
          });
     }    
     
-    submitExercise(id){
-        console.log(id[0].routineID + 1)
-       
+     submitExercise(id){
+        console.log(id);
+        if(this.state.idRoutine != 0){
         if(!this.arrayEmpty()){
             this.state.list.map((ex) => {
             fetch("http://localhost:9000/RoutineRoute/addExercise", {
                 method: "post",
-                body: JSON.stringify({routineID:id[0].routineID + 1,
+                body: JSON.stringify({routineID: id,
                     exerciseID: ex.exerciseID,
                     series: ex.series,
                     repetitions: ex.repetitions,
@@ -361,6 +374,10 @@ initButtons(){
                 })
                 .catch(err => console.error(err));
         })
+        this.props.history.push(`/HistoricRoutineInfo`);
+    }else{
+        alert("Debe agregar los datos de la preescripción física");
+    }
     }
 }
 
@@ -430,7 +447,7 @@ initButtons(){
                                                     <p>Tipo de rutina*:</p>
                                                 </div>
                                                 <div className="col-6">
-                                                    <select name="rutineTypeDropdown" align="left" className="form-control" onChange={this.routineTypeSelect} value={this.state.routineTypeID}>
+                                                    <select name="rutineTypeDropdown" align="left" className="form-control" onChange={this.routineTypeSelect} onKeyPress={this.onKeyEvent} value={this.state.routineTypeID}>
                                                        {routineTypeList}
                                                     </select>
                                                 </div>
@@ -442,7 +459,7 @@ initButtons(){
                                                     <p>Objetivo*:</p>
                                                 </div>
                                                 <div className="col-6">
-                                                    <select name="objectiveDropdown" align="left" className="form-control" onChange={this.objectiveSelect} value={this.state.objectiveID}>
+                                                    <select name="objectiveDropdown" align="left" className="form-control" onChange={this.objectiveSelect} onKeyPress={this.onKeyEvent} value={this.state.objectiveID}>
                                                         {objetiveType}
                                                     </select>
                                                 </div>
@@ -459,7 +476,7 @@ initButtons(){
                                                     <p>Frecuencia*:</p>
                                                 </div>
                                                 <div className="col-6">
-                                                    <input type="number" name="Frecuency" className="form-control" onChange={this.inputNumberValidator} />
+                                                    <input type="number" onKeyPress={this.onKeyEvent} name="Frecuency" className="form-control" onChange={this.inputNumberValidator} />
                                                 </div>
                                             </div>
                                         </div>
@@ -469,7 +486,7 @@ initButtons(){
                                                     <p>Intensidad*:</p>
                                                 </div>
                                                 <div className="col-6">
-                                                    <input type="number" name="Intensity" className="form-control" onChange={this.inputNumberValidator} />
+                                                    <input type="number" name="Intensity" onKeyPress={this.onKeyEvent} className="form-control" onChange={this.inputNumberValidator} />
                                                 </div>
                                             </div>
                                         </div>
@@ -484,7 +501,7 @@ initButtons(){
                                                     <p>Densidad*:</p>
                                                 </div>
                                                 <div className="col-6">
-                                                    <input type="number" name="Density" className="form-control" onChange={this.inputNumberValidator} />
+                                                    <input type="number" name="Density" onKeyPress={this.onKeyEvent} className="form-control" onChange={this.inputNumberValidator} />
                                                 </div>
                                             </div>
                                         </div>
@@ -494,7 +511,7 @@ initButtons(){
                                                     <p>Tiempo de descanso*:</p>
                                                 </div>
                                                 <div className="col-6">
-                                                    <input type="number" name="RestTime" className="form-control" onChange={this.inputNumberValidator} />
+                                                    <input type="number" name="RestTime" onKeyPress={this.onKeyEvent} className="form-control" onChange={this.inputNumberValidator} />
                                                 </div>
                                             </div>
                                         </div>

@@ -26,6 +26,7 @@ import AddPhysicalInfo from './components/AddPhysicalInfo';
 import HistoricMedicalUserInfo from './components/HistoricMedicalUserInfo';
 import validations from './components/validations';
 import Hash from './components/Hash';
+import UserHomeWithOut from './components/UserHomeWithOut';
 function App() {
   return (
     <Switch>
@@ -50,6 +51,8 @@ function App() {
           <Route exact path="/AddAdmin" component={AddAdmin}/>
           <Route exact path="/HistoricMedicalUserInfo" component={HistoricMedicalUserInfo}/>
           <Route exact path="/PasswordRecovery" component={PasswordRecovery}/>
+          <Route exact path="/UserHomeWithOut" component={UserHomeWithOut}/>
+
         </Fragment>
         <Footer />
       </Fragment>
