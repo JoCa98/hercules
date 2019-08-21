@@ -7,6 +7,7 @@ class NavbarAdmin extends Component {
         super(props);
         this.homeAdmin = this.homeAdmin.bind(this);
         this.addAdmin = this.addAdmin.bind(this);
+        this.adminConfig = this.adminConfig.bind(this);
         this.logOut = this.logOut.bind(this);
     }
 
@@ -16,6 +17,10 @@ class NavbarAdmin extends Component {
 
     addAdmin() {
         this.props.history.push(`/AddAdmin`);
+    }
+
+    adminConfig(){
+        this.props.history.push(`/ConfigurationAdmin`);
     }
 
     logOut(){
@@ -40,7 +45,7 @@ class NavbarAdmin extends Component {
                             <button className="btn buttonNavbar" onClick={this.addAdmin}>Agregar administrador</button>
                         </li>
                         <li className="nav-item">
-                            <button className="btn buttonNavbar" >Perfil</button>
+                            <button className="btn buttonNavbar" onClick={this.adminConfig} >Perfil</button>
                         </li>
                         <li className="nav-item">
                             <button className="btn buttonNavbar" onClick={this.logOut}>Salir</button>

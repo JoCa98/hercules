@@ -21,8 +21,7 @@ class ConfigurationAdmin extends Component {
         this.state = {
             hash: new Hash(),
             validations: new validations(),
-            //partyID: sessionStorage.getItem("partyID"),
-            partyID: "50",
+            partyID: sessionStorage.getItem("partyID"),
             password: "",
             confirmPassword: ""
         };
@@ -42,16 +41,12 @@ class ConfigurationAdmin extends Component {
         } else if (this.state.password != this.state.confirmPassword) {
             alert("Los campos de contraseña no coinciden");
         } else {
-
-            console.log( this.state.hash.encode(this.state.password));
-            this.setState({
-                password: this.state.hash.encode(this.state.password)
-            });
-            console.log( this.state.hash.encode(this.state.password));
-            
             fetch("http://localhost:9000/AdminRoute/updateAdminPassword", {
                 method: "post",
-                body: JSON.stringify(this.state),
+                body: JSON.stringify({
+                    partyID: this.state.partyID,
+                    password: this.state.hash.encode(this.state.password)
+                }),
                 headers: {
                     Accept: "application/json",
                     "Content-Type": "application/json"
