@@ -35,36 +35,31 @@ class NavbarUserHome extends Component {
     }
     render() {
         return (
-           
-               
-                        <nav className="navbar navbar-expand-md navbarColor justify-content-end">
-                            <button class="navbar-toggler icon-bar navbar-light" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
-                                <span class="navbar-toggler-icon "></span>
-                            </button>
-                            <div class="collapse navbar-collapse flex-grow-0" id="navbarSupportedContent">
-                                <ul className="navbar-nav text-center">
+            <nav className="navbar navbar-expand-md navbarColor justify-content-end">
+                <button class="navbar-toggler icon-bar navbar-light" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+                    <span class="navbar-toggler-icon "></span>
+                </button>
+                <div class="collapse navbar-collapse flex-grow-0" id="navbarSupportedContent">
+                    <ul className="navbar-nav text-center">
 
-                                    <li className="nav-item">
-                                        <button className="btn buttonNavbar" onClick={this.userHome}>Rutina</button>
-                                    </li>
-                                    <li className="nav-item">
-                                        <button className="btn buttonNavbar" onClick={this.medicalUserInfo}>Consulta médica</button>
-                                    </li>
-                                    <li className="nav-item">
-                                        <button className="btn buttonNavbar" onClick={this.physicalUserInfo}>Composición corporal</button>
-                                    </li>
-                                    <li className="nav-item">
-                                        <button className="btn buttonNavbar" onClick={this.userConfiguration}>Perfil</button>
-                                    </li>
-                                    <li className="nav-item">
-                                        <button className="btn buttonNavbar" onClick={this.logOut}>Salir</button>
-                                    </li>
-                                </ul>
-                            </div>
-                        </nav>
-                   
-            
-
+                        <li className="nav-item">
+                            <button className="btn buttonNavbar" onClick={this.userHome}>Rutina</button>
+                        </li>
+                        <li className="nav-item">
+                            <button className="btn buttonNavbar" onClick={this.medicalUserInfo}>Consulta médica</button>
+                        </li>
+                        <li className="nav-item">
+                            <button className="btn buttonNavbar" onClick={this.physicalUserInfo}>Composición corporal</button>
+                        </li>
+                        <li className="nav-item">
+                            <button className="btn buttonNavbar" onClick={this.userConfiguration}>Perfil</button>
+                        </li>
+                        <li className="nav-item">
+                            <button className="btn buttonNavbar" onClick={this.logOut}>Salir</button>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
         )
     }
 }
