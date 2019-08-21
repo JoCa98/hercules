@@ -199,3 +199,14 @@ a{
 width: 45px;
 height: 45px;
 }
+
+.buttonNavbar{
+  font-weight: bold;
+  color:#41ADE7;
+  
+}
+
+.buttonNavbar:hover {
+  background-color: #41ADE7;
+  color: white;
+}

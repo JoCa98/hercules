@@ -8,14 +8,14 @@ router.use(cors());
 //para diferenciar metodos post en las comillas de debe de poner el nombre
 router.post('/addUser', function (req, res) {
 
-  connection.query("CALL proc_addUser('" + req.body.identificationID + "','" + req.body.firstName + "','" + req.body.secondName + 
-                                            "','" + req.body.lastName + "','" + req.body.secondLastName + "','"+ req.body.carnet + 
-                                            "','" + req.body.career + "','" + req.body.birthDate + "'," + req.body.genderID +
-                                            "," + req.body.userTypeID + ",'" + req.body.email + "','" + req.body.password +
-                                            "','" + req.body.startDate + "'," + req.body.districtID + ",'" + req.body.addressLine +
-                                            "','" + req.body.contactName + "'," + req.body.relationTypeID + ",'" + req.body.emergencyContactPhoneNumber +
-                                            "','" + req.body.phoneNumber1 + "','" + req.body.phoneNumber2 +
-                                            "')", function (err,result) {
+  connection.query("CALL proc_addUser('" + req.body.identificationID + "','" + req.body.firstName + "','" + req.body.secondName +
+    "','" + req.body.lastName + "','" + req.body.secondLastName + "','" + req.body.carnet +
+    "','" + req.body.career + "','" + req.body.birthDate + "'," + req.body.genderID +
+    "," + req.body.userTypeID + ",'" + req.body.email + "','" + req.body.password +
+    "','" + req.body.startDate + "'," + req.body.districtID + ",'" + req.body.addressLine +
+    "','" + req.body.contactName + "'," + req.body.relationTypeID + ",'" + req.body.emergencyContactPhoneNumber +
+    "','" + req.body.phoneNumber1 + "','" + req.body.phoneNumber2 +
+    "')", function (err, result) {
       if (err) {
         return res.send(err)
       }
@@ -27,10 +27,10 @@ router.post('/addUser', function (req, res) {
 });
 
 router.post('/updateUser', function (req, res) {
-  connection.query("CALL proc_updateUser(" + req.body.partyID + ",'"+req.body.identificationID + "','" + req.body.firstName + "','" + req.body.secondName + 
-                                            "','" + req.body.lastName + "','" + req.body.secondLastName + "','"+ req.body.carnet + 
-                                            "','" + req.body.career + "','" + + req.body.phoneNumber1 + "','" + req.body.phoneNumber2 +                                            
-                                            "','" +req.body.districtID + "','" + req.body.addressLine +"')", function (err,result) {
+  connection.query("CALL proc_updateUser(" + req.body.partyID + ",'" + req.body.identificationID + "','" + req.body.firstName + "','" + req.body.secondName +
+    "','" + req.body.lastName + "','" + req.body.secondLastName + "','" + req.body.carnet +
+    "','" + req.body.career + "','" + + req.body.phoneNumber1 + "','" + req.body.phoneNumber2 +
+    "','" + req.body.districtID + "','" + req.body.addressLine + "')", function (err, result) {
       if (err) {
         return res.send(err)
       }
@@ -42,21 +42,21 @@ router.post('/updateUser', function (req, res) {
 });
 
 router.post('/updatePassword', function (req, res) {
-  connection.query("CALL proc_updatePassword('" + req.body.email + "','"+req.body.password +"')", function (err,result) {
-      if (err) {
-        return res.send(err)
-      }
-      else {
-        return res.send(result)
-      }
-    })
+  connection.query("CALL proc_updatePassword('" + req.body.email + "','" + req.body.password + "',b'" + req.body.tempPassword +"')", function (err, result) {
+    if (err) {
+      return res.send(err)
+    }
+    else {
+      return res.send(result)
+    }
+  })
 });
 
 router.post('/updateContact', function (req, res) {
-  connection.query("CALL proc_updateEmergencyContact('" + req.body.contactName + "',"+req.body.relationTypeID 
-                                                 + ","+ req.body.emergencyContactID + ",'"+req.body.emergencyContactPhoneNumber  +
-  
-  "')", function (err,result) {
+  connection.query("CALL proc_updateEmergencyContact('" + req.body.contactName + "'," + req.body.relationTypeID
+    + "," + req.body.emergencyContactID + ",'" + req.body.emergencyContactPhoneNumber +
+
+    "')", function (err, result) {
       if (err) {
         return res.send(err)
       }
@@ -84,13 +84,13 @@ router.post('/sendEmail', function (req, res) {
   var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'emaildeprueba98@gmail.com',
-      pass: 'Mate1998'
+      user: 'proyectogymrg@gmail.com',
+      pass: 'hrcls_2019'
     }
   });
 
   var mailOptions = {
-    from: 'emaildeprueba98@gmail.com',
+    from: 'proyectogymrg@gmail.com',
     to: req.body.email,
     subject: 'Código de verificación',
     text: 'Código para confirmar registro: ' + req.body.activationCode
@@ -108,6 +108,36 @@ router.post('/sendEmail', function (req, res) {
 
 });
 
+router.post('/sendTempPasswordEmail', function (req, res) {
+
+  var nodemailer = require('nodemailer');
+
+  var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'proyectogymrg@gmail.com',
+      pass: 'hrcls_2019'
+    }
+  });
+
+  var mailOptions = {
+    from: 'proyectogymrg@gmail.com',
+    to: req.body.email,
+    subject: 'Recuperación de contraseña',
+    text: 'Contraseña temporal: ' + req.body.tempPassword
+  };
+
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+      res.sendStatus(200);
+
+    }
+  });
+
+});
 router.get('/getRelationType', (req, res) => {
   connection.query("select * from view_relationship", function (err, results) {
     if (results) {

@@ -27,6 +27,7 @@ import HistoricMedicalUserInfo from './components/HistoricMedicalUserInfo';
 import ConfigurationAdmin from './components/ConfigurationAdmin';
 import validations from './components/validations';
 import Hash from './components/Hash';
+import ChangeTempPassword from './components/ChangeTempPassword';
 function App() {
   return (
     <Switch>
@@ -34,6 +35,7 @@ function App() {
         <Header />
         <Route exact path="/" component={ConfigurationAdmin} />
         <Fragment>
+        <Route exact path="/ChangeTempPassword" component={ChangeTempPassword} />
           <Route exact path="/UserHome" component={UserHome} />
           <Route exact path="/UserConfiguration" component={UserConfiguration} />
           <Route exact path="/SignUp" component={SignUp} />

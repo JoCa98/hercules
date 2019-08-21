@@ -65,7 +65,12 @@ class HomeAdmin extends Component {
             this.getUserListByName();
 
         } else if (this.state.searchType == 2) {
-            this.getUserListByIdentification();
+            if (this.state.searchInput == '') {
+                this.getUserListByCarnet();
+                
+            } else {
+                this.getUserListByIdentification();
+            }
         }
     }
 
