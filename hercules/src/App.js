@@ -24,6 +24,7 @@ import HistoricMedicalInfo from './components/HistoricMedicalInfo';
 import RoutineAdmin from './components/RoutineAdmin';
 import AddPhysicalInfo from './components/AddPhysicalInfo';
 import HistoricMedicalUserInfo from './components/HistoricMedicalUserInfo';
+import ConfigurationAdmin from './components/ConfigurationAdmin';
 import validations from './components/validations';
 import Hash from './components/Hash';
 function App() {
@@ -31,7 +32,7 @@ function App() {
     <Switch>
       <Fragment >
         <Header />
-        <Route exact path="/" component={LogIn} />
+        <Route exact path="/" component={ConfigurationAdmin} />
         <Fragment>
           <Route exact path="/UserHome" component={UserHome} />
           <Route exact path="/UserConfiguration" component={UserConfiguration} />
@@ -50,11 +51,11 @@ function App() {
           <Route exact path="/AddAdmin" component={AddAdmin}/>
           <Route exact path="/HistoricMedicalUserInfo" component={HistoricMedicalUserInfo}/>
           <Route exact path="/PasswordRecovery" component={PasswordRecovery}/>
+          <Route exact path="/ConfigrationAdmin" component={ConfigurationAdmin}/>
         </Fragment>
         <Footer />
       </Fragment>
     </Switch>
-
   );
 }
 

@@ -48,7 +48,7 @@ class ConfigurationAdmin extends Component {
                 password: this.state.hash.encode(this.state.password)
             });
             console.log( this.state.hash.encode(this.state.password));
-
+            
             fetch("http://localhost:9000/AdminRoute/updateAdminPassword", {
                 method: "post",
                 body: JSON.stringify(this.state),

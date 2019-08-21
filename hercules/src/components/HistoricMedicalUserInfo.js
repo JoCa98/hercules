@@ -1,6 +1,6 @@
 /**
- * @fileoverview HomeAdmin page, Home of the administrator user that shows the list 
- *of all users (students and officials), with different search options by carnet, name and ID.
+ * @fileoverview HistoricMedicalUserInfo page is used to show the historic of registers
+ * of medical information about a user.
  *
  * @version 1.0
  *
@@ -8,7 +8,7 @@
  * History
  * v1.0 – Initial Release
  * ----
- * The first version of HomeAdmin was written by Antony Jimenez G.
+ * The first version of HistoricMedicalUserInfo was written by Antony Jimenez G.
  */
 
 import React, { Component } from 'react';
