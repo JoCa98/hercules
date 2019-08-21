@@ -1,6 +1,27 @@
 import React, { Component } from 'react';
 
+
+
 class terms extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            accept:0
+        }
+
+   
+        this.redirect = this.redirect.bind(this);
+    }
+
+  
+
+    redirect(){
+      
+            this.props.history.push(`/SignUp`);
+       
+    }
+
     render() {
         return (
             <div className="container">
@@ -8,7 +29,7 @@ class terms extends Component {
                     <div className="col-12 card p-5">
                         <h2 className="text-center colorBlue mb-4">Términos y condiciones</h2>
                         <div className="row">
-                            <div className="col-10 offset-2">
+                            <div className="col-10 offset-1 text-justify">
                                 <h2>Privacidad y uso de datos</h2>
                                 <br/>
                                 <p>Para algunas funcionalidades, el sitio web solicita información al usuario a través de formularios. Al completarlos, el usuario otorga su consentimiento para que los datos que suministró sean utilizados con la finalidad establecida en el mismo formulario.
@@ -19,7 +40,7 @@ class terms extends Component {
                             </div>
                         </div>
                         <div className="row">
-                            <div className="col-10 offset-2">
+                            <div className="col-10 offset-1 text-justify">
                                 <h2>Normas para el uso del gimnasio</h2>
                                 <br/>
                                 <p>1. Ser estudiante activo o funcionario/a del Recinto de Grecia, Sede de Occidente.</p>
@@ -32,6 +53,13 @@ class terms extends Component {
                                 <p>8. No sacar ningún implemento de la sala ni subir los pies en las bancas.</p>
                                 <p>9. Reportar daños o situaciones que pueden poner en riesgo a los usuarios.</p>
                                 <p>10. Este espacio es para su bienestar, es responsabilidad de la comunidad universitaria, cuidarlo y respetar todas las normas indicadas.</p>
+                            </div>
+                        </div>
+
+
+                        <div className="row">
+                            <div className="col-3 offset-9">
+                                <button className="buttonSizeGeneral" onClick={this.redirect}>Acepto</button>
                             </div>
                         </div>
                     </div>

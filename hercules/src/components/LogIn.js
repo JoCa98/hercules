@@ -62,7 +62,7 @@ class LogIn extends Component {
     }
 
     goSignUp() {
-        this.props.history.push(`/SignUp`);
+        this.props.history.push(`/Terms`);
     }
 
     goPasswordRecovery() {
