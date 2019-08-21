@@ -98,8 +98,7 @@ router.post('/addAdmin', (req, res) => {
 * @param {Request}
 * @param {Response}
 */
-router.post('/updateAdminPassword', function (req, res) {
-  console.log(req.body.partyID,req.body.password);  
+router.post('/updateAdminPassword', function (req, res) {  
   connection.query("CALL proc_updateAdminPassword(" + req.body.partyID + ",'" + req.body.password + "')", function (err, results) {
       if (results) {
         res.send(results);
