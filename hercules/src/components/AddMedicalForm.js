@@ -12,6 +12,7 @@
  */
 import React, { Component } from 'react';
 import axios from 'axios';
+import validations from './validations';
 
 
 /*global IMC*/
@@ -98,30 +99,30 @@ class AddMedicalForm extends Component {
             smoking: 0,
             neurologicalInfo: "",
             pulmonaryCardioInfo: "",
-            bloodPressure: 0,
-            heartRate: 0,
-            heartRatePerMinute: 0,
-            SpO2: 0,
-            weight: 0,
-            size: 0,
-            IMC: 0,
-            abdomen: 0,
-            waist: 0,
-            hip: 0,
-            cardiovascularRisk: 0,
+            bloodPressure: "0",
+            heartRate: "0",
+            heartRatePerMinute:"0",
+            SpO2: "0",
+            weight: "0",
+            size: "0",
+            IMC: "0",
+            waist: "0",
+            hip: "0",
+            cardiovascularRisk: "0",
             recommendations: "",
             medicalInfo: [{}],
-            medicalID: 0
+            medicalID: "0", 
+            validations: new validations(),
+            medicalCod: "0"
         };
         this.handleInputChange = this.handleInputChange.bind(this);
-        this.inputNumberValidator = this.inputNumberValidator.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.empty = this.empty.bind(this);
+        this.validation = this.validation.bind(this);
         this.loadData = this.loadData.bind(this);
     }
 
     /**
-    * Method that can get full name of the user and the data if is it an update
+    * Method that can get full name of the user and the data if is it an update, and the medical cod
     * when the page is load
     */
     componentDidMount(){
@@ -147,10 +148,25 @@ class AddMedicalForm extends Component {
                         }
                     })
                 }
+
+                if(sessionStorage.getItem("userTypeID") == 3){
+                    axios.get("http://localhost:9000/MedicalInfo/getMedicalCod", {
+                        params: {
+                            partyID: sessionStorage.getItem("partyID")
+                        }
+                    }).then(response => {
+                        if (response) {
+                            this.setState({medicalCod: response.data[0]});
+                            this.loadData();
+                        }
+                    })
+                }
             } catch (err) {
                 console.error(err);
             }
     }
+
+   
 
     /**
     * Method that load the data is it an update 
@@ -197,32 +213,12 @@ class AddMedicalForm extends Component {
         
     }
 
-
-
-    /**
-    * Method that verify that the input text in a input type decimal is a number
-    */
-    inputNumberValidator(event) {
-       const re = /^[0-9\b]+$/;
-        const { name, value } = event.target;
-    
-        if (value === "" || re.test(value)) {
-          this.setState({
-            [name]: value
-          });
-        }
-        
-        if (this.state.weight !== 0 && this.state.size !== 0) {
-                this.calcIMC();
-        }
-      }
-
     /**
     * Method that submit all the information in the form
     */
     handleSubmit = event => {
         if(sessionStorage.getItem("update") === "true"){
-            if(!this.empty()){
+            this.validation();
                 fetch(`http://localhost:9000/MedicalInfo/updateMedicalRegister`, {
                     method: "post",
                     body: JSON.stringify(this.state),
@@ -237,12 +233,10 @@ class AddMedicalForm extends Component {
                     })
                     .catch(err => console.error(err));
                 event.preventDefault();
-                } else{
-                    alert("Los campos con * son obligatorios");
-                }
+              
             sessionStorage.setItem("update",false);
         }else {
-        if(!this.empty()){
+            this.validation()
         fetch("http://localhost:9000/MedicalInfo/addMedicalInfo", {
             method: "post",
             body: JSON.stringify(this.state),
@@ -259,9 +253,6 @@ class AddMedicalForm extends Component {
             .catch(err => console.error(err));
         event.preventDefault();
         this.props.history.push(`/HistoricMedicalInfo`);
-        } else{
-            alert("Los campos con * son obligatorios");
-        }
     }
     }
 
@@ -273,6 +264,11 @@ class AddMedicalForm extends Component {
         this.setState({
             [name]: value
         });
+
+        
+        if (this.state.weight !== 0 && this.state.size !== 0) {
+            this.calcIMC();
+    }
     }
 
     /**
@@ -289,15 +285,59 @@ class AddMedicalForm extends Component {
     /**
     * Method that verify that the require inputs are not empty
     */
-    empty(){
-        if(this.state.smoking == "" || this.state.traumas == "" || this.state.size == "" || this.state.weight == ""
-        || this.state.heartRate == "" || this.state.heartRatePerMinute == "" || this.state.SpO2 == "" || this.state.abdomen == ""
-        || this.state.waist == "" || this.state.hip == "" || this.state.bloodPressure == "" || this.state.cardiovascularRisk == ""){
-            return true;
-        } else{
-            return false;
-        }
-    }
+    validation() {
+        if ((this.state.smoking != 0 &&  this.state.smoking != 1)
+            || (this.state.traumas != 0 &&  this.state.traumas!= 1)
+            || this.state.size.toString().trim().length == 0
+            || this.state.weight.toString().trim().length == 0
+            || this.state.heartRate.toString().trim().length == 0
+            || this.state.heartRatePerMinute.toString().trim().length == 0
+            || this.state.SpO2.toString().trim().length == 0
+            || this.state.abdomen.toString().trim().length == 0
+            || this.state.waist.toString().trim().length == 0
+            || this.state.hip.toString().trim().length == 0
+            || this.state.bloodPressure.toString().trim().length == 0
+            || this.state.cardiovascularRisk.toString().trim().length == 0) 
+        {
+            alert("Todos los campos obligatorios  deben estar llenos");
+        } else if(this.state.pathologies.trim().length != 0){
+                    if( !this.state.validations.validateTextField(this.state.pathologies.trim())){
+                        alert("El campo de patologías no puede contener números");
+                    }
+                }else if(this.state.allergies.trim().length != 0){
+                    if (!this.state.validations.validateTextField(this.state.allergies.trim())){
+                        alert("El campo de alergias no puede contener números");
+                    }
+                }else if(this.state.surgeries.trim().length != 0){
+                    if( !this.state.validations.validateTextField(this.state.surgeries.trim())){
+                        alert("El campo de quirúrgicos no puede contener números");
+                    }
+                } else if(this.state.neurologicalInfo.trim().length != 0){
+                    if(!this.state.validations.validateTextField(this.state.neurologicalInfo.trim())){
+                        alert("El campo de información neurólogica no puede contener números");
+                    }
+                } else if(this.state.pulmonaryCardioInfo.trim().length != 0){
+                    if(!this.state.validations.validateTextField(this.state.pulmonaryCardioInfo.trim())){
+                        alert("El campo de información cardiopulmonar no puede contener números");
+                    }
+                } else if(this.state.recommendations.trim().length != 0){
+                    if(!this.state.validations.validateTextField(this.state.recommendations.trim())){
+                        alert("El campo de recomendaciones no puede contener números");
+                    }
+                } else if(!this.state.validations.validateNumericField(this.state.bloodPressure.trim())
+                    || !this.state.validations.validateNumericField(this.state.heartRate.trim())
+                    || !this.state.validations.validateNumericField(this.state.heartRatePerMinute.trim())//se debe cambiar por umbral aerobico
+                    || !this.state.validations.validateNumericField(this.state.SpO2.trim())
+                    || !this.state.validations.validateNumericField(this.state.weight.trim())
+                    || !this.state.validations.validateNumericField(this.state.size.trim())
+                    || !this.state.validations.validateNumericField(this.state.IMC.trim())
+                    || !this.state.validations.validateNumericField(this.state.waist.trim())
+                    || !this.state.validations.validateNumericField(this.state.hip.trim())
+                    || !this.state.validations.validateNumericField(this.state.cardiovascularRisk.trim())){
+                     alert("Los campos de presión arterial, pulso, umbral aeróbico, oxígeno, peso, talla, cadera, cintura deben ser números");
+                 }
+         }
+
 
     render() {
         const name = this.state.userName.map((userName, i) => {
@@ -311,7 +351,7 @@ class AddMedicalForm extends Component {
                     <div className="col-12">
                         <h1 className="text-left colorBlue">Formulario médico</h1>
                         <div className="row">
-                            <div className="col-4 offset-1 text-ceter">
+                            <div className="col-4 offset-1 text-center">
                                {name}
                             </div>
                         </div>
@@ -339,7 +379,7 @@ class AddMedicalForm extends Component {
                                                         <div className="control-group">
                                                             <label className="control-label" htmlFor="pathologies">Patológicos</label>
                                                             <div className="controls">
-                                                                <input type="text" name="pathologies" id="pathologies" size="70" value={this.state.pathologies} onChange={this.handleInputChange} />
+                                                                <input type="text" name="pathologies" id="pathologies" className="form-control inputText" value={this.state.pathologies} onChange={this.handleInputChange} />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -349,7 +389,7 @@ class AddMedicalForm extends Component {
                                                         <div className="control-group">
                                                             <label className="control-label" htmlFor="allergies">Alergias</label>
                                                             <div className="controls">
-                                                                <input type="text" name="allergies" id="allergies" size="70" value={this.state.allergies} onChange={this.handleInputChange} />
+                                                                <input type="text" name="allergies" id="allergies" className="form-control inputText" value={this.state.allergies} onChange={this.handleInputChange} />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -359,7 +399,7 @@ class AddMedicalForm extends Component {
                                                         <div className="control-group">
                                                             <label className="control-label" htmlFor="surgerie">Quirúrgicos</label>
                                                             <div className="controls">
-                                                                <input type="text" id="surgerie" size="70" name="surgeries" value={this.state.surgeries} onChange={this.handleInputChange} />
+                                                                <input type="text" id="surgerie" className="form-control inputText" name="surgeries" value={this.state.surgeries} onChange={this.handleInputChange} />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -367,7 +407,7 @@ class AddMedicalForm extends Component {
                                                 <div className="row">
                                                     <div className="col-12 col-md-6">
                                                         <div className="control-group">
-                                                            <label className="control-label" htmlFor="smoking">Tabaquismo*</label>
+                                                            <label className="control-label" htmlFor="smoking">Tabaquismo<font color="red">*</font></label>
                                                         </div>
                                                         <form name="smoking" onChange={this.handleInputChange} value={this.state.smoking} required>
                                                             <div className="row">
@@ -390,7 +430,7 @@ class AddMedicalForm extends Component {
                                                     </div>
                                                     <div className="col-12 col-md-6">
                                                         <div className="control-group">
-                                                            <label className="control-label" htmlFor="traumas">Traumáticos*</label>
+                                                            <label className="control-label" htmlFor="traumas">Traumáticos<font color="red">*</font></label>
                                                         </div>
                                                         <form name="smoking" onChange={this.handleInputChange} value={this.state.traumas} required>
                                                             <div className="row">
@@ -426,9 +466,9 @@ class AddMedicalForm extends Component {
                                                         <div className="row">
                                                             <div className="col-2">
                                                                 <div className="control-group">
-                                                                    <label className="control-label" htmlFor="inputHeight">Talla*</label>
-                                                                    <div className="controls">
-                                                                        <input type="decimal" id="inputHeight" name="size" required value={this.state.size} onChange={this.inputNumberValidator} size="10" placeholder="ej: 1.70" />
+                                                                    <label className="control-label" htmlFor="inputHeight">Talla (cm)<font color="red">*</font></label>
+                                                                    <div className="controls"> 
+                                                                        <input type="decimal" id="inputHeight" name="size" required value={this.state.size} onChange={this.inputNumberValidator} size="10" placeholder="ej: 170" />
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -436,9 +476,9 @@ class AddMedicalForm extends Component {
                                                         <div className="row">
                                                             <div className="col-2">
                                                                 <div className="control-group">
-                                                                    <label className="control-label" htmlFor="weight">Peso*</label>
+                                                                    <label className="control-label" htmlFor="weight">Peso (kg)<font color="red">*</font></label>
                                                                     <div className="controls">
-                                                                        <input type="decimal" id="weight" name="weight" required value={this.state.weight} onChange={this.inputNumberValidator} size="10" />
+                                                                        <input type="decimal" id="weight" name="weight" required value={this.state.weight} onChange={this.inputNumberValidator} size="10" placeholder="ej. 80"/>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -455,10 +495,10 @@ class AddMedicalForm extends Component {
                                                         </div>
                                                         <div className="row">
                                                             <div className="col-2">
-                                                                <div className="control-group">
-                                                                    <label className="control-label" htmlFor="heartRatePerMinute">FCM*</label>
+                                                                <div className="control-group"> 
+                                                                    <label className="control-label" htmlFor="heartRatePerMinute">FCM<font color="red">*</font></label>
                                                                     <div className="controls">
-                                                                        <input type="decimal" id="heartRatePerMinute" name="heartRatePerMinute" required value={this.state.heartRatePerMinute} onChange={this.handleInputChange} size="10" />
+                                                                        <input type="decimal" id="heartRatePerMinute" name="heartRatePerMinute" required value={this.state.heartRatePerMinute} onChange={this.handleInputChange} size="10" placeholder="?"/>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -466,9 +506,9 @@ class AddMedicalForm extends Component {
                                                         <div className="row">
                                                             <div className="col-2">
                                                                 <div className="control-group">
-                                                                    <label className="control-label" htmlFor="heartRate">FC*</label>
+                                                                    <label className="control-label" htmlFor="heartRate">FC<font color="red">*</font></label>
                                                                     <div className="controls">
-                                                                        <input type="decimal" id="heartRate" name="heartRate" required value={this.state.heartRate} onChange={this.handleInputChange} size="10" />
+                                                                        <input type="decimal" id="heartRate" name="heartRate" required value={this.state.heartRate} onChange={this.handleInputChange} size="10" placeholder="?"/>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -478,9 +518,9 @@ class AddMedicalForm extends Component {
                                                         <div className="row">
                                                             <div className="col-2">
                                                                 <div className="control-group">
-                                                                    <label className="control-label" htmlFor="SpO2">Sp02*</label>
+                                                                    <label className="control-label" htmlFor="SpO2">Sp02<font color="red">*</font></label>
                                                                     <div className="controls">
-                                                                        <input type="decimal" id="SpO2" name="SpO2" required value={this.state.SpO2} onChange={this.handleInputChange} size="10" />
+                                                                        <input type="decimal" id="SpO2" name="SpO2" required value={this.state.SpO2} onChange={this.handleInputChange} size="10" placeholder="?"/>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -488,9 +528,9 @@ class AddMedicalForm extends Component {
                                                         <div className="row">
                                                             <div className="col-2">
                                                                 <div className="control-group">
-                                                                    <label className="control-label" htmlFor="abdomen">Abdomen*</label>
+                                                                    <label className="control-label" htmlFor="waist">Cintura (cm)<font color="red">*</font></label>
                                                                     <div className="controls">
-                                                                        <input type="decimal" id="abdomen" name="abdomen" required value={this.state.abdomen} onChange={this.handleInputChange} size="10" />
+                                                                        <input type="decimal" id="waist" name="waist" required value={this.state.waist} onChange={this.handleInputChange} size="10" placeholder="ej. 70"/>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -498,9 +538,9 @@ class AddMedicalForm extends Component {
                                                         <div className="row">
                                                             <div className="col-2">
                                                                 <div className="control-group">
-                                                                    <label className="control-label" htmlFor="waist">Cintura*</label>
+                                                                    <label className="control-label" htmlFor="hip">Cadera (cm)<font color="red">*</font></label>
                                                                     <div className="controls">
-                                                                        <input type="decimal" id="waist" name="waist" required value={this.state.waist} onChange={this.handleInputChange} size="10" />
+                                                                        <input type="decimal" id="hip" name="hip" required value={this.state.hip} onChange={this.handleInputChange} size="10" placeholder="ej. 90"/>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -508,19 +548,9 @@ class AddMedicalForm extends Component {
                                                         <div className="row">
                                                             <div className="col-2">
                                                                 <div className="control-group">
-                                                                    <label className="control-label" htmlFor="hip">Cadera*</label>
+                                                                    <label className="control-label" htmlFor="bloodPressure">Presión Arterial<font color="red">*</font></label>
                                                                     <div className="controls">
-                                                                        <input type="decimal" id="hip" name="hip" required value={this.state.hip} onChange={this.handleInputChange} size="10" />
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div className="row">
-                                                            <div className="col-2">
-                                                                <div className="control-group">
-                                                                    <label className="control-label" htmlFor="bloodPressure">Presión Arterial*</label>
-                                                                    <div className="controls">
-                                                                        <input type="text" id="bloodPressure" name="bloodPressure" required value={this.state.bloodPressure} onChange={this.handleInputChange} size="10" />
+                                                                        <input type="text" id="bloodPressure" name="bloodPressure" required value={this.state.bloodPressure} onChange={this.handleInputChange} size="10" placeholder="?"/>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -553,7 +583,7 @@ class AddMedicalForm extends Component {
                                                 <div className="row">
                                                     <div className="col-12">
                                                         <div className="control-group">
-                                                            <label className="control-label" htmlFor="cardiovascularRisk">Riesgo Cardiovascular*</label>
+                                                            <label className="control-label" htmlFor="cardiovascularRisk">Riesgo Cardiovascular<font color="red">*</font></label>
                                                         </div>
                                                         <div className="controls">
                                                             <select name="cardiovascularRisk" id="cardiovascularRisk" className="form-control" align="left" value={this.state.cardiovascularRisk} onChange={this.handleInputChange} >
@@ -581,7 +611,7 @@ class AddMedicalForm extends Component {
                                 </div>
                             </div>
                             <div className="col-4 offset-9 mt-4">
-                                <button align="left" name="save" type="submit" className="buttonSizeGeneral"  >Guardar</button>
+                                <button align="left" name="save" type="submit" className="buttonSizeGeneral">Guardar</button>
                             </div>
                         </form>
                     </div>

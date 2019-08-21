@@ -79,8 +79,9 @@ router.get('/getUsersByIdentification', (req, res) => {
 * @param {Response}
 */  
 router.post('/addAdmin', (req, res) => {
+  console.log(req.body.medicalCod);
   connection.query("CALL proc_addAdmin(" + req.body.userTypeID + "," + req.body.identificationID + ",'" + req.body.firstName + "','" + req.body.secondName + "','" + req.body.firstLastName + "','"
-    + req.body.secondLastName + "','" + req.body.email + "','" + req.body.password + "')", function (err, results) {
+    + req.body.secondLastName + "','" + req.body.email + "','" + req.body.password + "','" + req.body.medicalCod + "');", function (err, results) {
       if (results) {
         res.send(results);
       }

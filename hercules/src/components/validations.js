@@ -16,6 +16,7 @@ class validations extends Component {
     validateNumericField(value) {
         return new RegExp("^[0-9]*$").test(value);
     }
+    
 
     validateCarnetField(value) {
         return new RegExp("^[a-zA-Z][0-9]{5}$").test(value);
