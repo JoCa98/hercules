@@ -84,13 +84,13 @@ router.post('/sendEmail', function (req, res) {
   var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'emaildeprueba98@gmail.com',
-      pass: 'Mate1998'
+      user: 'proyectogymrg@gmail.com',
+      pass: 'hrcls_2019'
     }
   });
 
   var mailOptions = {
-    from: 'emaildeprueba98@gmail.com',
+    from: 'proyectogymrg@gmail.com',
     to: req.body.email,
     subject: 'Código de verificación',
     text: 'Código para confirmar registro: ' + req.body.activationCode
@@ -115,13 +115,13 @@ router.post('/sendTempPasswordEmail', function (req, res) {
   var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'emaildeprueba98@gmail.com',
-      pass: 'Mate1998'
+      user: 'proyectogymrg@gmail.com',
+      pass: 'hrcls_2019'
     }
   });
 
   var mailOptions = {
-    from: 'emaildeprueba98@gmail.com',
+    from: 'proyectogymrg@gmail.com',
     to: req.body.email,
     subject: 'Recuperación de contraseña',
     text: 'Contraseña temporal: ' + req.body.tempPassword
