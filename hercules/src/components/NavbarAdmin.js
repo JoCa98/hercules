@@ -5,7 +5,22 @@ import { withRouter } from 'react-router';
 class NavbarAdmin extends Component {
     constructor(props){
         super(props);
+        this.homeAdmin = this.homeAdmin.bind(this);
+        this.addAdmin = this.addAdmin.bind(this);
+        this.adminConfig = this.adminConfig.bind(this);
         this.logOut = this.logOut.bind(this);
+    }
+
+    homeAdmin() {
+        this.props.history.push(`/HomeAdmin`);
+    }
+
+    addAdmin() {
+        this.props.history.push(`/AddAdmin`);
+    }
+
+    adminConfig(){
+        this.props.history.push(`/ConfigurationAdmin`);
     }
 
     logOut(){
@@ -16,25 +31,28 @@ class NavbarAdmin extends Component {
 
     render() {
         return (
-            <div className="container-fluid navbarColor">
-                <div className="row ">
-                    <div className="col-12 text-center">
-                        <nav className="navbar navbar-expand-md navbarColor justify-content-end">
-                            <ul className="nav justify-content-end">
-                                <li className="nav-item active ml-4 mt-1">
-                                    <Link to="/HomeAdmin" className="align-middle">Inicio</Link>
-                                </li>
-                                <li className="nav-item active ml-4 mt-1">
-                                    <Link to="/AddAdmin" className="align-middle">Agregar administrador</Link>
-                                </li>
-                                <li className="nav-item active ml-4 mt-1">
-                                    <Link to="/" className="align-middle" onClick={this.logOut}>Salir</Link>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
+            <nav className="navbar navbar-expand-md navbarColor justify-content-end">
+                <button class="navbar-toggler icon-bar navbar-light" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+                    <span class="navbar-toggler-icon "></span>
+                </button>
+                <div class="collapse navbar-collapse flex-grow-0" id="navbarSupportedContent">
+                    <ul className="navbar-nav text-center">
+
+                        <li className="nav-item">
+                            <button className="btn buttonNavbar" onClick={this.homeAdmin}>Inicio</button>
+                        </li>
+                        <li className="nav-item">
+                            <button className="btn buttonNavbar" onClick={this.addAdmin}>Agregar administrador</button>
+                        </li>
+                        <li className="nav-item">
+                            <button className="btn buttonNavbar" onClick={this.adminConfig} >Perfil</button>
+                        </li>
+                        <li className="nav-item">
+                            <button className="btn buttonNavbar" onClick={this.logOut}>Salir</button>
+                        </li>
+                    </ul>
                 </div>
-            </div>
+            </nav>
         )
     }
 }
