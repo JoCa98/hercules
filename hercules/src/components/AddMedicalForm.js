@@ -87,7 +87,6 @@ class AddMedicalForm extends Component {
         */
         this.state = {
             userName: [{}],
-            partyID: 66,
             partyID: sessionStorage.getItem("userPartyID"),
             pathologies: "",
             allergies: "",
