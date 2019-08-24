@@ -467,7 +467,6 @@ class SignUp extends Component {
                                             <p title="Campo obligatorio">Fecha de nacimiento<font color="red">*</font></p>
                                             <input type="date" name="birthDate" required onChange={this.handleInputChange} value={this.state.birthDate} className="form-control InputText"></input>
                                         </div>
-
                                     </div>
                                 </div>
                                 <div className="row" >
