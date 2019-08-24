@@ -110,7 +110,7 @@ class AddMedicalForm extends Component {
             medicalID: "0",
             validations: new validations(),
             medicalCod: "0",
-            upToDate: (new Date().getFullYear() +1) + "-" + ("0" + (new Date().getMonth() + 1)).slice(-2) + "-" + ("0" + new Date().getDate()).slice(-2),
+            upToDate: (new Date().getFullYear() + 1) + "-" + ("0" + (new Date().getMonth() + 1)).slice(-2) + "-" + ("0" + new Date().getDate()).slice(-2),
 
         };
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -348,15 +348,6 @@ class AddMedicalForm extends Component {
                         <div className="row">
                             <div className="col-4 offset-1 text-left">
                                 {name}
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col-4 offset-1 text-left">
-                                <div className="form-group" align="left">
-                                    <br></br>
-                                    <p title="Campo obligatorio">Válido hasta<font color="red">*</font></p>
-                                    <input type="date" name="upToDate" required onChange={this.handleInputChange} value={this.state.upToDate} className="form-control InputText"></input>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -606,6 +597,15 @@ class AddMedicalForm extends Component {
                                                             <div className="form-group">
                                                                 <textarea id="recommendations" rows="5" name="recommendations" className="form-control" value={this.state.recommendations} onChange={this.handleInputChange} />
                                                             </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="row">
+                                                    <div className="col-6">
+                                                        <div className="form-group" align="left">
+                                                            <br></br>
+                                                            <p title="Campo obligatorio">Válido hasta<font color="red">*</font></p>
+                                                            <input type="date" name="upToDate" required onChange={this.handleInputChange} value={this.state.upToDate} className="form-control InputText"></input>
                                                         </div>
                                                     </div>
                                                 </div>
