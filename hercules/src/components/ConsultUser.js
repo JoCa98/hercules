@@ -109,7 +109,7 @@ class ConsultUser extends Component {
                         <div className="row">
                             <div className="col-8">
                                 <div className="row">
-                                    <h1 className="text-left">Datos del usuario</h1>
+                                    <h1 className="text-left colorBlue">Datos del usuario</h1>
                                 </div>
                                 <div className="row">
                                     <div className="col-12">

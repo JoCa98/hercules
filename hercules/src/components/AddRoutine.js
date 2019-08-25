@@ -107,7 +107,6 @@ class AddRoutine extends Component {
         this.getExerciseData();
     }
 
-
     /**
     * Method that change the state when an option are selected in the dropdown
     */
@@ -116,7 +115,6 @@ class AddRoutine extends Component {
         this.setState({ typeID: event.target.value });
         this.getExerciseData();
     }
-
 
     /**
     * Method that get the exercises per type from the database
@@ -138,25 +136,20 @@ class AddRoutine extends Component {
     }
 
     rowEvent(event) {
-
         const id = document.getElementById("routines").rows[event.target.parentNode.rowIndex].cells[0].innerHTML;
         var a = document.getElementsByTagName("tr");
         for (var i = 0; i < a.length; i++) {
             a[i].classList.remove('table-info');
         }
         document.getElementById("routines").rows[event.target.parentNode.rowIndex].classList.add("table-info");
-
         this.setState({ exerciseID: id });
-
         document.getElementById("weightInput").disabled = false;
         document.getElementById("seriesInput").disabled = false;
         document.getElementById("repetitionsInput").disabled = false;
         document.getElementById("minutesInput").disabled = false;
-
         if (this.state.list.length !== 0) {
             this.state.list.map((ex, i) => {
                 if (ex.exerciseID == id) {
-
                     this.setState({ exist: true, index: i });
                     document.getElementById("weightInput").value = ex.charge;
                     document.getElementById("seriesInput").value = ex.series;
@@ -165,9 +158,7 @@ class AddRoutine extends Component {
                     document.getElementById("add").style.display = "none";
                     document.getElementById("edit").style.display = "initial";
                     document.getElementById("delete").style.display = "initial";
-
                 } else {
-
                     this.setState({ exist: false });
                     document.getElementById("weightInput").value = "";
                     document.getElementById("seriesInput").value = "";
@@ -191,8 +182,6 @@ class AddRoutine extends Component {
         } else {
             alert("El elemento no se encuentra");
         }
-
-
         document.getElementById("weightInput").value = "";
         document.getElementById("seriesInput").value = "";
         document.getElementById("repetitionsInput").value = "";
@@ -211,8 +200,6 @@ class AddRoutine extends Component {
         } else {
             alert("El elemento no se encuentra");
         }
-
-
         document.getElementById("weightInput").value = "";
         document.getElementById("seriesInput").value = "";
         document.getElementById("repetitionsInput").value = "";
@@ -225,21 +212,14 @@ class AddRoutine extends Component {
 
 
     addExercise() {
-
         if (document.getElementById("weightInput").value.length == 0 && document.getElementById("seriesInput").value.length === 0
             && document.getElementById("repetitionsInput").value.length == 0 && document.getElementById("minutesInput").value.length === 0) {
-
             alert("Debe llenar al menos un dato");
-
-
         } else {
-
-
             var weight = document.getElementById("weightInput").value;
             var minutes = document.getElementById("minutesInput").value;
             var repetitions = document.getElementById("repetitionsInput").value;
             var series = document.getElementById("seriesInput").value;
-
             if (weight == "") {
                 weight = null;
             }
@@ -252,7 +232,6 @@ class AddRoutine extends Component {
             if (series == "") {
                 series = null;
             }
-
             var obj = {
                 exerciseID: this.state.exerciseID,
                 minutes: minutes,
@@ -260,14 +239,12 @@ class AddRoutine extends Component {
                 repetitions: repetitions,
                 series: series
             }
-
             if (this.state.exist) {
                 console.log(this.state.list);
                 alert("El ejercicio ya fue agregado");
             } else {
                 this.state.list.push(obj);
                 alert("El ejercicio ha sido agregado con éxito");
-
             }
         }
 
@@ -281,7 +258,6 @@ class AddRoutine extends Component {
         document.getElementById("minutesInput").disabled = true;
     }
 
-
     inputNumberValidator(event) {
         const re = /^[0-9\b]+$/;
         const { name, value } = event.target;
@@ -292,7 +268,6 @@ class AddRoutine extends Component {
             });
         }
     }
-
 
     routineTypeSelect(event) {
         this.state.routineTypeID = event.target.value;

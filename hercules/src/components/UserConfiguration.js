@@ -607,7 +607,7 @@ class UserConfiguration extends Component {
             <div className="container">
                 <div className="row mt-4 card p-5" >
                     <div className="col-12">
-                        <h1 className="text-left">Configuración del perfil</h1>
+                        <h1 className="text-left colorBlue">Configuración del perfil</h1>
                         <br></br>
                         <div className="row">
                             <div className="col-12 col-lg-6">

@@ -19,7 +19,6 @@ class AddPhysicalInfo extends Component {
             muscleMass: "",
             physicalAssesment: ""
         };
-
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.backButton = this.backButton.bind(this);
@@ -64,7 +63,6 @@ class AddPhysicalInfo extends Component {
 
     }
 
-
     /**
 * Method that redirect to the previous page
 */
@@ -87,7 +85,6 @@ class AddPhysicalInfo extends Component {
                     <div className="col-4 offset-1 ">
                         {name}
                     </div>
-
                     <div className="col-10 offset-1 mt-4">
                         <form className="form-horizontal" onSubmit={this.handleSubmit} >
                             <div className="row">
