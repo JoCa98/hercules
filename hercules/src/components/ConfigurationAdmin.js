@@ -29,6 +29,7 @@ class ConfigurationAdmin extends Component {
         this.handleInputChange = this.handleInputChange.bind(this);
         this.changePassword = this.changePassword.bind(this);
         this.showPasswordFields = this.showPasswordFields.bind(this);
+        this.backButton = this.backButton.bind(this);
     }
 
     /**
@@ -83,26 +84,31 @@ class ConfigurationAdmin extends Component {
         }
     }
 
+    /**
+* Method that redirect to the previous page
+*/
+    backButton() {
+        this.props.history.push(`/HomeAdmin`);
+    }
+
     render() {
         return (
             <div className="container">
-                <div className="row mt-4">
+                <div className="row">
                     <div className="col-12 mt-4 card">
                         <br />
                         <div className="row">
                             <div className="col-12">
-                                <h2 className="text-center colorBlue mb-4">Configuraciones</h2>
+                                <h1 className="text-left colorBlue mb-4">Configuraciones</h1>
                             </div>
                         </div>
                         <div className="row">
                             <div className="col-10 offset-1 mb-5 card p-5">
-
                                 <div className="row">
                                     <div className="col-12 offset-2">
                                         <h2 className="text-left">Cambio de contraseña</h2>
                                     </div>
                                 </div>
-
                                 <div className="row">
                                     <div className="col-8 offset-2 mt-4">
 
@@ -123,10 +129,13 @@ class ConfigurationAdmin extends Component {
                                         </form>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
-
+                        <div className="row mb-4">
+                            <div className="col-12 offset-1">
+                                <button className="buttonSizeGeneral" onClick={this.backButton}>Volver</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

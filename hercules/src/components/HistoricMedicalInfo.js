@@ -32,6 +32,7 @@ class HistoricMedicalInfo extends Component {
             partyID: sessionStorage.getItem("userPartyID")
         }
         this.redirect = this.redirect.bind(this);
+        this.backButton = this.backButton.bind(this);
     }
 
     /**
@@ -57,18 +58,24 @@ class HistoricMedicalInfo extends Component {
                     this.setState({ userName });
                 });
 
-                if(sessionStorage.getItem("userTypeID") != 3){
-                    document.getElementById("addImage").style.display = "none";
-                    document.getElementById("addText").style.display = "none";
-                }else{
-                    document.getElementById("addImage").style.display = "show";
-                    document.getElementById("addText").style.display = "show";
-                }
+            if (sessionStorage.getItem("userTypeID") != 3) {
+                document.getElementById("addImage").style.display = "none";
+                document.getElementById("addText").style.display = "none";
+            } else {
+                document.getElementById("addImage").style.display = "show";
+                document.getElementById("addText").style.display = "show";
+            }
         } catch (err) {
             console.error(err);
         }
     }
 
+    /**
+    * Method that redirect to the previous page
+    */
+    backButton() {
+        this.props.history.push(`/ConsultUser`);
+    }
 
     render() {
         const name = this.state.userName.map((userName, i) => {
@@ -86,17 +93,21 @@ class HistoricMedicalInfo extends Component {
                                 {name}
                             </div>
                             <div className="col-4 offset-1 text-center">
-                                <img src={plusImage} id="addImage" onClick={this.redirect} className="buttonSizeGeneral pointer" />
-                                <h4 className="colorBlue pointer" id="addText" onClick={this.redirect}>Agregar nuevo</h4>
+                                <img src={plusImage} onClick={this.redirect} className="buttonSizeGeneral pointer" />
+                                <h4 className="colorBlue pointer" onClick={this.redirect}>Agregar nuevo</h4>
                             </div>
                             <div className="col-12 mt-4 text-center">
                                 <TableMedicalInfo />
                             </div>
                         </div>
+                        <div className="row">
+                            <div className=" mt-3 col-md-8">
+                                <button align="left" className="buttonSizeGeneral" onClick={this.backButton}>Volver</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-
         )
     }
 }
