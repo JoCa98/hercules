@@ -357,6 +357,9 @@ class AddRoutine extends Component {
         alert("Debe agregar los datos de la preescripción física");
     
     }
+    
+    }
+    
 
     empty() {
         if (this.state.Frecuency == "" || this.state.Density == "" || this.state.Intensity == "" || this.state.RestTime == ""
@@ -433,14 +436,7 @@ class AddRoutine extends Component {
                                                 <div className="col-6">
                                                     <p>Tipo de rutina*:</p>
                                                 </div>
-                                                <div className="col-6">
-<<<<<<< HEAD
-                                                    <select name="rutineTypeDropdown" align="left" className="form-control" onChange={this.routineTypeSelect} onKeyPress={this.onKeyEvent} value={this.state.routineTypeID}>
-                                                       {routineTypeList}
-=======
-                                                    <select name="rutineTypeDropdown" align="left" className="form-control" onChange={this.routineTypeSelect} value={this.state.routineTypeID}>
-                                                        {routineTypeList}
->>>>>>> 15a1fb0610bf09441ef46cfb2ebbd37deaef638b
+                                                <div className="col-6">                                      <select name="rutineTypeDropdown" align="left" className="form-control" onChange={this.routineTypeSelect} value={this.state.routineTypeID}>f                                            {routineTypeList}
                                                     </select>
                                                 </div>
                                             </div>
