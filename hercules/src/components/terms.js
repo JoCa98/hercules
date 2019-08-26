@@ -57,10 +57,10 @@ class Terms extends Component {
                             </div>
                         </div>
                         <div className="row mt-4">
-                            <div className="col-10 col-md-5">
+                            <div className="col-3 offset-1">
                                 <button align="left" className="buttonSizeGeneral" onClick={this.backButton}>Volver</button>
                             </div>
-                            <div className="col-2 col-md-5">
+                            <div className="col-3 offset-5">
                                 <button  align="right" className="buttonSizeGeneral" onClick={this.redirect}>Aceptar</button>
                             </div>                              
                         </div>

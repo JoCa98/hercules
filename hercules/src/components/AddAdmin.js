@@ -190,7 +190,7 @@ class AddAdmin extends Component {
         return (
             <div className="container">
                 <div className="row mt-4">
-                    <div className="col-6 offset-3 card p-5">
+                    <div className="col-10 offset-1 card p-5">
                         <form className="form-horizontal" onSubmit={this.handleSubmit}>
                             <h1 className="text-left colorBlue">Agregar Administrador</h1>
                             <br />
@@ -255,10 +255,10 @@ class AddAdmin extends Component {
                                 </div>
                             </div>
                             <div className="row">
-                                <div className=" mt-3 col-md-8">
+                                <div className=" mt-3 col-md-3">
                                     <button align="left" className="buttonSizeGeneral" onClick={this.backButton}>Volver</button>
                                 </div>
-                                <div className=" mt-3 col-md-4">
+                                <div className=" mt-3 col-md-3 offset-6">
                                     <button align="rigth" className="buttonSizeGeneral">Guardar</button>
                                 </div>
                             </div>

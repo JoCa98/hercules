@@ -35,7 +35,7 @@ function App() {
     <Switch>
       <Fragment >
         <Header />
-        <Route exact path="/" component={LogIn} />
+        <Route exact path="/" component={AddAdmin} />
         <Fragment>
           {/** Outside */}
           <Route exact path="/SignUp" component={SignUp} />

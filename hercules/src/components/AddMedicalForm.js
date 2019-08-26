@@ -620,7 +620,7 @@ class AddMedicalForm extends Component {
                                 <div className="mt-4 col-2">
                                     <button align="left" className="buttonSizeGeneral" onClick={this.backButton}>Volver</button>
                                 </div>
-                                <div className="mt-4 col-10">
+                                <div className="mt-4 col-2 offset-7">
                                     <button align="right" name="save" type="submit" className="buttonSizeGeneral">Guardar</button>
                                 </div>
                             </div>
