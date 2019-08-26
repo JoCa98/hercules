@@ -2,24 +2,27 @@ import React, { Component } from 'react';
 
 
 
-class terms extends Component {
+class Terms extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            accept:0
+            accept: 0
         }
 
-   
         this.redirect = this.redirect.bind(this);
+        this.backButton = this.backButton.bind(this);
     }
 
-  
+    redirect() {
+        this.props.history.push(`/SignUp`);
+    }
 
-    redirect(){
-      
-            this.props.history.push(`/SignUp`);
-       
+    /**
+* Method that redirect to the previous page
+*/
+    backButton() {
+        this.props.history.push(`/LogIn`);
     }
 
     render() {
@@ -27,22 +30,20 @@ class terms extends Component {
             <div className="container">
                 <div className="row mt-4">
                     <div className="col-12 card p-5">
-                        <h2 className="text-center colorBlue mb-4">Términos y condiciones</h2>
-                        <div className="row">
+                        <h1 className="text-left colorBlue mb-4">Términos y condiciones</h1>
+                        <div className="row mt-4">
                             <div className="col-10 offset-1 text-justify">
-                                <h2>Privacidad y uso de datos</h2>
-                                <br/>
+                                <h2>Privacidad y uso de datos</h2>                                
                                 <p>Para algunas funcionalidades, el sitio web solicita información al usuario a través de formularios. Al completarlos, el usuario otorga su consentimiento para que los datos que suministró sean utilizados con la finalidad establecida en el mismo formulario.
                                 </p>
-                                <p>En ocasiones, el presente sitio web podría recolectar datos de transmisión de la conexión del usuario que ingresa al sitio. Por ejemplo, datos como el tipo de dispositivo que se usó para ingresar al portal, esta información se utiliza para adaptar el contenido al dispositivo. 
+                                <p>En ocasiones, el presente sitio web podría recolectar datos de transmisión de la conexión del usuario que ingresa al sitio. Por ejemplo, datos como el tipo de dispositivo que se usó para ingresar al portal, esta información se utiliza para adaptar el contenido al dispositivo.
                                     En todo caso, la información que se recolecta es con el fin de darle una mejor experiencia al usuario.</p>
-                                
+
                             </div>
                         </div>
-                        <div className="row">
+                        <div className="row mt-4">
                             <div className="col-10 offset-1 text-justify">
-                                <h2>Normas para el uso del gimnasio</h2>
-                                <br/>
+                                <h2>Normas para el uso del gimnasio</h2>                          
                                 <p>1. Ser estudiante activo o funcionario/a del Recinto de Grecia, Sede de Occidente.</p>
                                 <p>2. Estar debidamente inscrito en el Servicio de Deportes y Recreación, según los requerimientos solicitados.</p>
                                 <p>3. Firmar la bitácora de usuarios/as y anotar la hora de ingreso y salida.</p>
@@ -55,12 +56,13 @@ class terms extends Component {
                                 <p>10. Este espacio es para su bienestar, es responsabilidad de la comunidad universitaria, cuidarlo y respetar todas las normas indicadas.</p>
                             </div>
                         </div>
-
-
-                        <div className="row">
-                            <div className="col-3 offset-9">
-                                <button className="buttonSizeGeneral" onClick={this.redirect}>Aceptar</button>
+                        <div className="row mt-4">
+                            <div className="col-10 col-md-5">
+                                <button align="left" className="buttonSizeGeneral" onClick={this.backButton}>Volver</button>
                             </div>
+                            <div className="col-2 col-md-5">
+                                <button  align="right" className="buttonSizeGeneral" onClick={this.redirect}>Aceptar</button>
+                            </div>                              
                         </div>
                     </div>
                 </div>
@@ -68,4 +70,4 @@ class terms extends Component {
         )
     }
 }
-export default terms;
+export default Terms;

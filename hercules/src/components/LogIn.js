@@ -82,7 +82,6 @@ class LogIn extends Component {
 
         return (
 
-
             <div className="container">
                 <div className="row mt-4 " >
                     <div className="col-12 col-lg-6 offset-lg-3 card p-5">

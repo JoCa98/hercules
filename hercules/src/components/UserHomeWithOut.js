@@ -6,7 +6,7 @@ class UserHomeWithOut extends Component {
             <div className="container">
                 <div className="row mt-4">
                     <div className="col-12 card p-5">
-                    <h2 className="text-center colorBlue mb-4">Rutina actual</h2>
+                    <h1 className="text-left colorBlue mb-4">Rutina actual</h1>
                     <div className="row">
                             <div className="col-12 ">
                                 <div className="row">

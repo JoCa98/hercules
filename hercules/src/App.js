@@ -28,14 +28,14 @@ import ConfigurationAdmin from './components/ConfigurationAdmin';
 import validations from './components/validations';
 import Hash from './components/Hash';
 import UserHomeWithOut from './components/UserHomeWithOut';
-import Terms from './components/terms';
+import Terms from './components/Terms';
 
 function App() {
   return (
     <Switch>
       <Fragment >
         <Header />
-        <Route exact path="/" component={LogIn} />
+        <Route exact path="/" component={Terms} />
         <Fragment>
           {/** Outside */}
           <Route exact path="/SignUp" component={SignUp} />
