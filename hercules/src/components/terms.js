@@ -59,7 +59,7 @@ class terms extends Component {
 
                         <div className="row">
                             <div className="col-3 offset-9">
-                                <button className="buttonSizeGeneral" onClick={this.redirect}>Acepto</button>
+                                <button className="buttonSizeGeneral" onClick={this.redirect}>Aceptar</button>
                             </div>
                         </div>
                     </div>

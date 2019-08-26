@@ -37,7 +37,7 @@ class AddRoutine extends Component {
         this.empty = this.empty.bind(this);
         this.arrayEmpty = this.arrayEmpty.bind(this);
         this.submitExercise = this.submitExercise.bind(this);
-        this.getRoutineID = this.getRoutineID.bind(this);
+     
 
         this.exerciseTypeSelect = this.exerciseTypeSelect.bind(this);
         this.rigthArrow = this.rigthArrow.bind(this);
@@ -48,7 +48,7 @@ class AddRoutine extends Component {
         this.initButtons = this.initButtons.bind(this);
         this.deleteExercise = this.deleteExercise.bind(this);
         this.editExercise = this.editExercise.bind(this);
-        this.onKeyEvent = this.onKeyEvent.bind(this);
+      
     }
 
     componentDidMount(){
@@ -181,7 +181,7 @@ initButtons(){
         }
     }
 
-    editExercise(){
+    editExercise(e){
         if(this.state.exist){
             this.state.list[this.state.index].repetitions = document.getElementById("repetitionsInput").value ;
             this.state.list[this.state.index].series = document.getElementById("seriesInput").value ;
@@ -202,9 +202,10 @@ initButtons(){
         document.getElementById("repetitionsInput").disabled = true;
         document.getElementById("minutesInput").disabled = true;
 
+        e.preventDefault();
     }
 
-    deleteExercise(){
+    deleteExercise(e){
         if(this.state.exist){
             this.state.list.splice(this.state.index,1);
            alert("Se ha eliminado con éxito");
@@ -221,10 +222,12 @@ initButtons(){
         document.getElementById("seriesInput").disabled = true;
         document.getElementById("repetitionsInput").disabled = true;
         document.getElementById("minutesInput").disabled = true;
+
+        e.preventDefault();
     }
 
 
-    addExercise(){
+    addExercise(e){
         
         if(document.getElementById("weightInput").value.length == 0  && document.getElementById("seriesInput").value.length === 0
         &&  document.getElementById("repetitionsInput").value.length == 0 && document.getElementById("minutesInput").value.length === 0){
@@ -277,6 +280,8 @@ initButtons(){
        document.getElementById("seriesInput").disabled = true;
        document.getElementById("repetitionsInput").disabled = true;
        document.getElementById("minutesInput").disabled = true;
+
+      e.preventDefault();
     }
 
 
@@ -305,54 +310,43 @@ initButtons(){
     handleSubmit(e) {
         var id;
         if(!this.empty()){
-                console.log("hola");
-            fetch("http://localhost:9000/RoutineRoute/addRoutine", {
-                method: "post",
-                body: JSON.stringify(this.state),
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json"
-                }
+               
+            axios.post("http://localhost:9000/RoutineRoute/addRoutine", {
+                Frecuency: this.state.Frecuency,
+                Intensity: this.state.Intensity,
+                RestTime: this.state.RestTime,
+                Density: this.state.Density,
+                date: this.state.date,
+                partyID: this.state.partyID,
+                routineTypeID: this.state.routineTypeID,
+                objectiveID: this.state.objectiveID
             })
-                .then(response => response.text)
-                .then(function(data){
-                    console.log(data.results);
-                    let res = data.results[0];
-                         id = res.routineID;
+                .then(response => {
+                    console.log(response.data[0]);
+                    id = response.data[0];
+                    this.submitExercise(id[0].id); 
                 })
+                
                 .catch(err => console.error(err));
-                
-                this.submitExercise(id);
-                
+
                 e.preventDefault();
 
+              
+                
+                
+                
             }else{
                 alert("Debe agregar ejercicios");
             }
            
         }
 
-        onKeyEvent(e) {
-            if (e.key == "Enter") {
-                console.log('value', e.key);
-                this.handleSubmit();
-            }
-        }
-
-    getRoutineID(){
-        axios.get(`http://localhost:9000/RoutineRoute/getRoutineID`,
-        {
-         params: { partyID: this.state.partyID }
-         }).then(response => {
-             this.submitExercise(response.data[0]);
-             console.log(response.data[0]);
-             console.log(response);
-         });
-    }    
+      
+  
     
      submitExercise(id){
         console.log(id);
-        if(this.state.idRoutine != 0){
+       
         if(!this.arrayEmpty()){
             this.state.list.map((ex) => {
             fetch("http://localhost:9000/RoutineRoute/addExercise", {
@@ -374,10 +368,12 @@ initButtons(){
                 })
                 .catch(err => console.error(err));
         })
+        
+
         this.props.history.push(`/HistoricRoutineInfo`);
     }else{
         alert("Debe agregar los datos de la preescripción física");
-    }
+    
     }
 }
 
