@@ -49,7 +49,7 @@ class UserHome extends Component {
             if (response) {
                 console.log(response.data[0]);
                  res = response.data[0];
-                 if(res.value != null){
+                 if(res[0].routineID != null){
                     sessionStorage.setItem("routineID", res[0].routineID);
                  }else{
                      this.props.history.push(`/UserHomeWithOut`);

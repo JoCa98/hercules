@@ -464,7 +464,7 @@ class AddRoutine extends Component {
                                                     <p>Frecuencia*:</p>
                                                 </div>
                                                 <div className="col-6">
-                                                    <input type="number" onKeyPress={this.onKeyEvent} name="Frecuency" className="form-control" onChange={this.inputNumberValidator} />
+                                                    <input type="number" onKeyPress={this.onKeyEvent} name="Frecuency" className="form-control" onChange={this.inputNumberValidator} placeholder="Días"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -474,7 +474,7 @@ class AddRoutine extends Component {
                                                     <p>Intensidad*:</p>
                                                 </div>
                                                 <div className="col-6">
-                                                    <input type="number" name="Intensity" onKeyPress={this.onKeyEvent} className="form-control" onChange={this.inputNumberValidator} />
+                                                    <input type="number" name="Intensity" onKeyPress={this.onKeyEvent} className="form-control" onChange={this.inputNumberValidator} placeholder="%"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -489,7 +489,7 @@ class AddRoutine extends Component {
                                                     <p>Densidad*:</p>
                                                 </div>
                                                 <div className="col-6">
-                                                    <input type="number" name="Density" onKeyPress={this.onKeyEvent} className="form-control" onChange={this.inputNumberValidator} />
+                                                    <input type="number" name="Density" onKeyPress={this.onKeyEvent} className="form-control" onChange={this.inputNumberValidator} placeholder=""/>
                                                 </div>
                                             </div>
                                         </div>
@@ -499,7 +499,7 @@ class AddRoutine extends Component {
                                                     <p>Tiempo de descanso*:</p>
                                                 </div>
                                                 <div className="col-6">
-                                                    <input type="number" name="RestTime" onKeyPress={this.onKeyEvent} className="form-control" onChange={this.inputNumberValidator} />
+                                                    <input type="number" name="RestTime" onKeyPress={this.onKeyEvent} className="form-control" onChange={this.inputNumberValidator} placeholder="Segundos"/>
                                                 </div>
                                             </div>
                                         </div>
