@@ -34,6 +34,7 @@ class RoutineAdmin extends Component {
             userName: [{}],
             partyID: sessionStorage.getItem("userPartyID")
         };
+        this.backButton = this.backButton.bind(this);
     }
 
     /**
@@ -55,35 +56,39 @@ class RoutineAdmin extends Component {
         })
 
         axios.get(`http://localhost:9000/User/getUserName`,
-        {
-            params: { partyID: this.state.partyID }
-        }).then(response => {
-            const userName = response.data[0];
-            this.setState({ userName });
-        });
+            {
+                params: { partyID: this.state.partyID }
+            }).then(response => {
+                const userName = response.data[0];
+                this.setState({ userName });
+            });
+    }
+
+    /**
+* Method that redirect to the previous page
+*/
+    backButton() {
+        this.props.history.push(`/HistoricRoutineInfo`);
     }
 
     render() {
         const name = this.state.userName.map((userName, i) => {
-            return(
+            return (
                 <label className="form-label">Usuario: {userName.fullName}</label>
             )
         })
-
         return (
             <div className="container">
                 <div className="row mt-4">
                     <div className="col-12 card p-5">
                         <form className="RoutineAdminForm">
-                            <h2 className="text-left colorBlue mb-4">Rutina actual del usuario</h2>
+                            <h1 className="text-left colorBlue mb-4">Rutina actual del usuario</h1>
                             <div className="row">
                                 <div className="col-12 col-md-4">
-                                   {name}
-                                   <br/>
-                                   <br/>
+                                    {name}
                                 </div>
                             </div>
-                            <div className="row">
+                            <div className="row mt-4">
                                 <div className="col-12 col-md-4">
                                     <div className="row">
                                         <div className="col-12">
@@ -92,7 +97,7 @@ class RoutineAdmin extends Component {
                                                     <p className="cssPText">Tipo de rutina: </p>
                                                 </div>
                                                 <div className="col-6">
-                                                    <input type="text" name="textRutineType" className="form-control" disabled="disabled"  value={this.state.routine[0].rtDescription}  />
+                                                    <input type="text" name="textRutineType" className="form-control" disabled="disabled" value={this.state.routine[0].rtDescription} />
                                                 </div>
                                             </div>
                                         </div>
@@ -102,7 +107,7 @@ class RoutineAdmin extends Component {
                                                     <p className="cssPText">Objetivo:</p>
                                                 </div>
                                                 <div className="col-6">
-                                                    <input type="text" name="textObjective" className="form-control" disabled="disabled" value={this.state.routine[0].otDescription}/>
+                                                    <input type="text" name="textObjective" className="form-control" disabled="disabled" value={this.state.routine[0].otDescription} />
                                                 </div>
                                             </div>
                                         </div>
@@ -116,7 +121,7 @@ class RoutineAdmin extends Component {
                                                     <p className="cssPText">Frecuencia:</p>
                                                 </div>
                                                 <div className="col-6">
-                                                    <input type="text" name="textFrecuency" className="form-control" disabled="disabled" value={this.state.routine[0].frecuency}/>
+                                                    <input type="text" name="textFrecuency" className="form-control" disabled="disabled" value={this.state.routine[0].frecuency} />
                                                 </div>
                                             </div>
                                         </div>
@@ -140,7 +145,7 @@ class RoutineAdmin extends Component {
                                                     <p className="cssPText">Densidad:</p>
                                                 </div>
                                                 <div className="col-6">
-                                                    <input type="text" name="textDensity" className="form-control" disabled="disabled" value={this.state.routine[0].density}/>
+                                                    <input type="text" name="textDensity" className="form-control" disabled="disabled" value={this.state.routine[0].density} />
                                                 </div>
                                             </div>
                                         </div>
@@ -150,7 +155,7 @@ class RoutineAdmin extends Component {
                                                     <p className="cssPText">Tiempo de descanso:</p>
                                                 </div>
                                                 <div className="col-6">
-                                                    <input type="text" name="textRestTime" className="form-control" disabled="disabled" value={this.state.routine[0].timeLapse}/>
+                                                    <input type="text" name="textRestTime" className="form-control" disabled="disabled" value={this.state.routine[0].timeLapse} />
                                                 </div>
                                             </div>
                                         </div>
@@ -160,6 +165,11 @@ class RoutineAdmin extends Component {
                             <div className="row">
                                 <div className="col-12">
                                     <Carousel />
+                                </div>
+                            </div>
+                            <div className="row mt-4">
+                                <div className="col-12">
+                                    <button align="left" className="buttonSizeGeneral" onClick={this.backButton}>Volver</button>
                                 </div>
                             </div>
                         </form>

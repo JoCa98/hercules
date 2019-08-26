@@ -81,7 +81,7 @@ class UserHome extends Component {
                 <div className="row mt-4">
                     <div className="col-12 card p-5">
                         <form className="userHomeForm">
-                            <h2 className="text-center colorBlue mb-4">Rutina actual</h2>
+                            <h1 className="text-left colorBlue mb-4">Rutina actual</h1>
                             <div className="row">
                                 <div className="col-12 col-md-4">
                                     <div className="row">

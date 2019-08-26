@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Carousel from './RoutineCarouselWrite';
+
 import axios from "axios";
 import leftArrowImage from '../appImage/leftArrow.svg';
 import rightArrowImage from '../appImage/rightArrow.svg';
@@ -9,25 +9,24 @@ class AddRoutine extends Component {
         super();
         this.state = {
             routineType: [{}],
-            objective:[{}],
-            Frecuency:0,
-            Intensity:0,
-            Density:0,
-            RestTime:0,
-            routineTypeID:1,
+            objective: [{}],
+            Frecuency: 0,
+            Intensity: 0,
+            Density: 0,
+            RestTime: 0,
+            routineTypeID: 1,
             objectiveID: 1,
-            partyID:sessionStorage.getItem("userPartyID"),
+            partyID: sessionStorage.getItem("userPartyID"),
             date: new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate(),
             exerciseType: [{}],
             exercise: [{}],
             typeID: 1,
             id: 1,
             lastTypeID: "",
-            list:[],
-            exerciseID : 0,
-            exist:false,
-            index:0,
-            idRoutine:0
+            list: [],
+            exerciseID: 0,
+            exist: false,
+            index: 0
         }
 
         this.inputNumberValidator = this.inputNumberValidator.bind(this);
@@ -49,24 +48,26 @@ class AddRoutine extends Component {
         this.deleteExercise = this.deleteExercise.bind(this);
         this.editExercise = this.editExercise.bind(this);
       
+
+        this.backButton = this.backButton.bind(this);
     }
 
-    componentDidMount(){
+    componentDidMount() {
         axios.get("http://localhost:9000/RoutineRoute/getRoutineType").then(response => {
             this.state.routineType = response.data;
             this.setState({ routineType: response.data });
         });
 
         axios.get("http://localhost:9000/RoutineRoute/getObjetiveType").then(response => {
-            this.state.objective= response.data;
-            this.setState({objective: response.data});
+            this.state.objective = response.data;
+            this.setState({ objective: response.data });
         });
 
         axios.get(`http://localhost:9000/RoutineRoute/getExerciseType`).then(response => {
             this.state.exerciseType = response.data;
             this.setState({ exerciseType: response.data });
         });
-    
+
         axios.get(`http://localhost:9000/RoutineRoute/getLastType`).then(response => {
             this.state.lastTypeID = response.data[0];
             this.setState({ lastTypeID: response.data[0] });
@@ -79,85 +80,78 @@ class AddRoutine extends Component {
     /**
 * Method that change the state of the typeID to change the exercises
 */
-rigthArrow() {
-    if (this.state.typeID == this.state.lastTypeID.exerciseTypeID) {
-        this.state.typeID = 1;
-        this.setState({ typeID: 1 });
-    } else {
-        const value = parseInt(this.state.typeID) + 1;
-        this.state.typeID = value;
-        this.setState({ typeID: value });
+    rigthArrow() {
+        if (this.state.typeID == this.state.lastTypeID.exerciseTypeID) {
+            this.state.typeID = 1;
+            this.setState({ typeID: 1 });
+        } else {
+            const value = parseInt(this.state.typeID) + 1;
+            this.state.typeID = value;
+            this.setState({ typeID: value });
 
-    }
-    this.getExerciseData();
-}
-
-/**
-* Method that change the state of the typeID to change the exercises
-*/
-leftArrow() {
-    if (this.state.typeID == 1) {
-        this.state.typeID = this.state.lastTypeID.exerciseTypeID;
-        this.setState({ typeID: this.state.lastTypeID.exerciseTypeID });
-    } else {
-        const value = parseInt(this.state.typeID) - 1;
-        this.state.typeID = value;
-        this.setState({ typeID: value });
-    }
-    this.getExerciseData();
-}
-
-
-/**
-* Method that change the state when an option are selected in the dropdown
-*/
-exerciseTypeSelect(event) {
-    this.state.typeID = event.target.value;
-    this.setState({ typeID: event.target.value });
-    this.getExerciseData();
-}
-
-
-/**
-* Method that get the exercises per type from the database
-*/
-getExerciseData() {
-    axios.get("http://localhost:9000/RoutineRoute/getAllExercises", {
-        params: {
-            id : this.state.typeID
         }
-    }).then(response => {
-        this.state.exercise = response.data[0];
-        this.setState({ exercise: response.data[0] });
-    });
-}
-
-initButtons(){
-    document.getElementById("edit").style.display = 'none';
-    document.getElementById("delete").style.display = 'none';
-}
-
-    rowEvent(event){
-        
-    const id = document.getElementById("routines").rows[event.target.parentNode.rowIndex].cells[0].innerHTML;
-    var a =  document.getElementsByTagName("tr");
-    for (var i = 0; i < a.length; i++) {
-        a[i].classList.remove('table-info');
+        this.getExerciseData();
     }
-    document.getElementById("routines").rows[event.target.parentNode.rowIndex].classList.add("table-info");
 
-    this.setState({ exerciseID: id });
-    
-       document.getElementById("weightInput").disabled = false;
-       document.getElementById("seriesInput").disabled = false;
-       document.getElementById("repetitionsInput").disabled = false;
-       document.getElementById("minutesInput").disabled = false; 
+    /**
+    * Method that change the state of the typeID to change the exercises
+    */
+    leftArrow() {
+        if (this.state.typeID == 1) {
+            this.state.typeID = this.state.lastTypeID.exerciseTypeID;
+            this.setState({ typeID: this.state.lastTypeID.exerciseTypeID });
+        } else {
+            const value = parseInt(this.state.typeID) - 1;
+            this.state.typeID = value;
+            this.setState({ typeID: value });
+        }
+        this.getExerciseData();
+    }
 
+    /**
+    * Method that change the state when an option are selected in the dropdown
+    */
+    exerciseTypeSelect(event) {
+        this.state.typeID = event.target.value;
+        this.setState({ typeID: event.target.value });
+        this.getExerciseData();
+    }
+
+    /**
+    * Method that get the exercises per type from the database
+    */
+    getExerciseData() {
+        axios.get("http://localhost:9000/RoutineRoute/getAllExercises", {
+            params: {
+                id: this.state.typeID
+            }
+        }).then(response => {
+            this.state.exercise = response.data[0];
+            this.setState({ exercise: response.data[0] });
+        });
+    }
+
+    initButtons() {
+        document.getElementById("edit").style.display = 'none';
+        document.getElementById("delete").style.display = 'none';
+    }
+
+    rowEvent(event) {
+        const id = document.getElementById("routines").rows[event.target.parentNode.rowIndex].cells[0].innerHTML;
+        var a = document.getElementsByTagName("tr");
+        for (var i = 0; i < a.length; i++) {
+            a[i].classList.remove('table-info');
+        }
+        document.getElementById("routines").rows[event.target.parentNode.rowIndex].classList.add("table-info");
+        this.setState({ exerciseID: id });
+        document.getElementById("weightInput").disabled = false;
+        document.getElementById("seriesInput").disabled = false;
+        document.getElementById("repetitionsInput").disabled = false;
+        document.getElementById("minutesInput").disabled = false;
         if (this.state.list.length !== 0) {
             this.state.list.map((ex, i) => {
                 if (ex.exerciseID == id) {
-       
-                    this.setState({exist:true, index: i});
+                    this.setState({ exist: true, index: i });
                     document.getElementById("weightInput").value = ex.charge;
                     document.getElementById("seriesInput").value = ex.series;
                     document.getElementById("repetitionsInput").value = ex.repetitions;
@@ -165,10 +159,8 @@ initButtons(){
                     document.getElementById("add").style.display = "none";
                     document.getElementById("edit").style.display = "initial";
                     document.getElementById("delete").style.display = "initial";
-                    
-                }else{
-                   
-                    this.setState({exist:false});
+                } else {
+                    this.setState({ exist: false });
                     document.getElementById("weightInput").value = "";
                     document.getElementById("seriesInput").value = "";
                     document.getElementById("repetitionsInput").value = "";
@@ -191,8 +183,6 @@ initButtons(){
         }else{
            alert("El elemento no se encuentra");
         }
-
- 
         document.getElementById("weightInput").value = "";
         document.getElementById("seriesInput").value = "";
         document.getElementById("repetitionsInput").value = "";
@@ -212,8 +202,6 @@ initButtons(){
         }else{
            alert("El elemento no se encuentra");
         }
-
- 
         document.getElementById("weightInput").value = "";
         document.getElementById("seriesInput").value = "";
         document.getElementById("repetitionsInput").value = "";
@@ -233,42 +221,36 @@ initButtons(){
         &&  document.getElementById("repetitionsInput").value.length == 0 && document.getElementById("minutesInput").value.length === 0){
         
             alert("Debe llenar al menos un dato");
-        
-        
-        }else{
-            
-        
-            var weight =  document.getElementById("weightInput").value;
+        } else {
+            var weight = document.getElementById("weightInput").value;
             var minutes = document.getElementById("minutesInput").value;
             var repetitions = document.getElementById("repetitionsInput").value;
             var series = document.getElementById("seriesInput").value;
-
-            if(weight == ""){
+            if (weight == "") {
                 weight = null;
             }
-             if(minutes == ""){
+            if (minutes == "") {
                 minutes = null;
             }
-             if(repetitions == ""){
+            if (repetitions == "") {
                 repetitions = null;
             }
-            if (series == ""){
-                series =null;
+            if (series == "") {
+                series = null;
             }
-
-            var obj = {exerciseID: this.state.exerciseID,
-            minutes: minutes,
-            charge: weight,
-            repetitions: repetitions,
-            series: series} 
-
-            if(this.state.exist){
+            var obj = {
+                exerciseID: this.state.exerciseID,
+                minutes: minutes,
+                charge: weight,
+                repetitions: repetitions,
+                series: series
+            }
+            if (this.state.exist) {
                 console.log(this.state.list);
                 alert("El ejercicio ya fue agregado");
-            }else{
+            } else {
                 this.state.list.push(obj);
                 alert("El ejercicio ha sido agregado con éxito");
-
             }
         }
  
@@ -284,18 +266,18 @@ initButtons(){
       e.preventDefault();
     }
 
+       
 
     inputNumberValidator(event) {
         const re = /^[0-9\b]+$/;
-         const { name, value } = event.target;
-     
-         if (value === "" || re.test(value)) {
-           this.setState({
-             [name]: value
-           });
-         }
-       }
- 
+        const { name, value } = event.target;
+
+        if (value === "" || re.test(value)) {
+            this.setState({
+                [name]: value
+            });
+        }
+    }
 
     routineTypeSelect(event) {
         this.state.routineTypeID = event.target.value;
@@ -375,24 +357,31 @@ initButtons(){
         alert("Debe agregar los datos de la preescripción física");
     
     }
-}
 
-    empty(){
-        if(this.state.Frecuency == "" || this.state.Density == "" || this.state.Intensity == "" || this.state.RestTime == ""
-        || this.state.objectiveID == "" || this.state.routineTypeID == "" ){
+    empty() {
+        if (this.state.Frecuency == "" || this.state.Density == "" || this.state.Intensity == "" || this.state.RestTime == ""
+            || this.state.objectiveID == "" || this.state.routineTypeID == "") {
             return true;
-        } else{
+        } else {
             return false;
         }
     }
 
-    arrayEmpty(){
-        if(this.state.list.length == 0){
+    arrayEmpty() {
+        if (this.state.list.length == 0) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
+
+    /**
+* Method that redirect to the previous page
+*/
+    backButton() {
+        this.props.history.push(`/HistoricRoutineInfo`);
+    }
+
     render() {
         const routineTypeList = this.state.routineType.map((types, i) => {
             return (
@@ -406,26 +395,26 @@ initButtons(){
             )
         })
 
-          /**
-        * The exercise.map is for create a table with the exercises information
-        */
-       const exerciseVisual = this.state.exercise.map((exercise, i) => {
-        return (
-            <tr className="pointer" key={i}>
-                <td className="diplayNone">{exercise.exerciseID}</td>
-                <td onClick={this.rowEvent} >{exercise.description}</td>
-            </tr>
-        )
-    })
+        /**
+      * The exercise.map is for create a table with the exercises information
+      */
+        const exerciseVisual = this.state.exercise.map((exercise, i) => {
+            return (
+                <tr className="pointer" key={i}>
+                    <td className="diplayNone">{exercise.exerciseID}</td>
+                    <td onClick={this.rowEvent} >{exercise.description}</td>
+                </tr>
+            )
+        })
 
         /**
         * The exerciseType.map is for create the options to the dropdown
         */
-       const exerciseList = this.state.exerciseType.map((exercises, i) => {
-        return (
-            <option value={exercises.exerciseTypeID} key={i}>{exercises.description} </option>
-        )
-    })
+        const exerciseList = this.state.exerciseType.map((exercises, i) => {
+            return (
+                <option value={exercises.exerciseTypeID} key={i}>{exercises.description} </option>
+            )
+        })
 
         return (
 
@@ -433,7 +422,9 @@ initButtons(){
                 <div className="row mt-4">
                     <div className="col-12 card p-5">
                         <form className="AddRutineForm" >
-                            <h2 className="text-center colorBlue mb-4">Agregar rutina</h2>
+                            <div className="row">
+                                <h1 className="text-left colorBlue mb-4">Agregar rutina</h1>
+                            </div>
                             <div className="row">
                                 <div className="col-12 col-md-4">
                                     <div className="row">
@@ -443,8 +434,13 @@ initButtons(){
                                                     <p>Tipo de rutina*:</p>
                                                 </div>
                                                 <div className="col-6">
+<<<<<<< HEAD
                                                     <select name="rutineTypeDropdown" align="left" className="form-control" onChange={this.routineTypeSelect} onKeyPress={this.onKeyEvent} value={this.state.routineTypeID}>
                                                        {routineTypeList}
+=======
+                                                    <select name="rutineTypeDropdown" align="left" className="form-control" onChange={this.routineTypeSelect} value={this.state.routineTypeID}>
+                                                        {routineTypeList}
+>>>>>>> 15a1fb0610bf09441ef46cfb2ebbd37deaef638b
                                                     </select>
                                                 </div>
                                             </div>
@@ -516,69 +512,70 @@ initButtons(){
                             </div>
                             <div className="row">
                                 <div className="col-12">
-                                <div className="container card">
-                <div className="row mt-4">
-                    <div className="col-3" align="center">
-                        <img src={leftArrowImage}   className="arrows pointer" onClick={this.leftArrow} />
-                    </div>
-                    <div className="col-6 "  align="center">
-                        <select name="exerciseTypeDropDown" className="form-control" float="center" onChange={this.exerciseTypeSelect} value={this.state.typeID}>
-                        {exerciseList}
-                        </select>
-                    </div>
-                    <div className="col-3 "  align="center">
-                        <img src={rightArrowImage}  className="arrows pointer" onClick={this.rigthArrow} />
-                    </div>
-                </div>
-                <div className="row mt-4">
-                    <div className="col-6">
-                        <div className="table-responsive">
-                            <table className="table table-sm table-hover" id="routines">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Ejercicio</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {exerciseVisual}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div className="col-6">
-                        <form>
-                        <div className="form-group">
-                            <p>Carga/Peso</p>
-                            <input type="number" id="weightInput" className ="form-control" disabled></input>
-                        </div>
-                        <div className="form-group">
-                            <p>Series</p>
-                            <input type="number" id="seriesInput" className ="form-control" disabled></input>
-                        </div>
-                        <div className="form-group">
-                            <p>Repeticiones</p>
-                            <input type="number" id="repetitionsInput" className ="form-control" disabled></input>
-                        </div>
-                        <div className="form-group">
-                            <p>Minutos</p>
-                            <input type="number" id="minutesInput"  className ="form-control" disabled></input>
-                        </div>
-                        <div className="form-group" align="right">
-                        <button align="right" id="add" className="buttonSizeGeneral" onClick={this.addExercise}>Agregar</button>
-                        <button align="right" id="edit" className="buttonSizeGeneral" onClick={this.editExercise} >Editar</button>
-                        <button align="right" id="delete" className="buttonSizeGeneral" onClick={this.deleteExercise} >Eliminar</button>
-                        </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+                                    <div className="container card">
+                                        <div className="row mt-4">
+                                            <div className="col-3" align="center">
+                                                <img src={leftArrowImage} className="arrows pointer" onClick={this.leftArrow} />
+                                            </div>
+                                            <div className="col-6 " align="center">
+                                                <select name="exerciseTypeDropDown" className="form-control" float="center" onChange={this.exerciseTypeSelect} value={this.state.typeID}>
+                                                    {exerciseList}
+                                                </select>
+                                            </div>
+                                            <div className="col-3 " align="center">
+                                                <img src={rightArrowImage} className="arrows pointer" onClick={this.rigthArrow} />
+                                            </div>
+                                        </div>
+                                        <div className="row mt-4">
+                                            <div className="col-6">
+                                                <div className="table-responsive">
+                                                    <table className="table table-sm table-hover" id="routines">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">Ejercicio</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {exerciseVisual}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div className="col-6">
+                                                <form>
+                                                    <div className="form-group">
+                                                        <p>Carga/Peso</p>
+                                                        <input type="number" id="weightInput" className="form-control" disabled></input>
+                                                    </div>
+                                                    <div className="form-group">
+                                                        <p>Series</p>
+                                                        <input type="number" id="seriesInput" className="form-control" disabled></input>
+                                                    </div>
+                                                    <div className="form-group">
+                                                        <p>Repeticiones</p>
+                                                        <input type="number" id="repetitionsInput" className="form-control" disabled></input>
+                                                    </div>
+                                                    <div className="form-group">
+                                                        <p>Minutos</p>
+                                                        <input type="number" id="minutesInput" className="form-control" disabled></input>
+                                                    </div>
+                                                    <div className="form-group" align="right">
+                                                        <button align="right" id="add" className="buttonSizeGeneral" onClick={this.addExercise}>Agregar</button>
+                                                        <button align="right" id="edit" className="buttonSizeGeneral" onClick={this.editExercise} >Editar</button>
+                                                        <button align="right" id="delete" className="buttonSizeGeneral" onClick={this.deleteExercise} >Eliminar</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div className="row mt-4">
-                                <div className="col-12 offset-10">
-                                <div className="form-group" aling="right">
-                                    <button name="saveButton" className="buttonSizeGeneral" onClick={this.handleSubmit}> Guardar </button>
-                                    </div>
+                            <div className="row">
+                                <div className=" mt-4 col-10">
+                                    <button align="right" className="buttonSizeGeneral" onClick={this.backButton}>Volver</button>
+                                </div>
+                                <div className=" mt-4 col-2">
+                                    <button align="left" name="saveButton" className="buttonSizeGeneral" onClick={this.handleSubmit}> Guardar </button>
                                 </div>
                             </div>
                         </form>

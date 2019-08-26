@@ -101,10 +101,8 @@ class ActCodeForm extends Component {
       <div className="container">
         <div className="row mt-4 ">
           <div className="col-6 offset-3 card p-5">
-
             <form className="activationCodeForm" onSubmit={this.handleSubmit}>
-              <h2 className="text-left colorBlue">Activación de cuenta</h2>
-
+              <h1 className="text-left colorBlue">Activación de cuenta</h1>
               <div className="form-group">
                 <p align="left">Ingrese el código de activación enviado a su correo</p>
                 <input type="text" name="actCode" className="form-control" onChange={this.handleInputChange} />

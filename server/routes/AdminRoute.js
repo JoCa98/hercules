@@ -77,11 +77,11 @@ router.get('/getUsersByIdentification', (req, res) => {
 * 
 * @param {Request}
 * @param {Response}
-*/  
+*/
 router.post('/addAdmin', (req, res) => {
-  console.log(req.body.medicalCod);
-  connection.query("CALL proc_addAdmin(" + req.body.userTypeID + "," + req.body.identificationID + ",'" + req.body.firstName + "','" + req.body.secondName + "','" + req.body.firstLastName + "','"
-    + req.body.secondLastName + "','" + req.body.email + "','" + req.body.password + "','" + req.body.medicalCod + "');", function (err, results) {
+  connection.query("CALL proc_addAdmin(" + req.body.userTypeID + "," + req.body.identificationID + ",'" + req.body.firstName
+    + "','" + req.body.secondName + "','" + req.body.firstLastName + "','" + req.body.secondLastName + "','" + req.body.email
+    + "','" + req.body.password + "','" + req.body.medicalCod + "');", function (err, results) {
       if (results) {
         res.send(results);
       }
@@ -93,14 +93,13 @@ router.post('/addAdmin', (req, res) => {
 
 /**
 *Method to execute the procedure stored in the database
-*to update a administer
+*to update the password of a specific admin
 * 
 * @param {Request}
 * @param {Response}
-*/  
-router.post('/updateAdmin', (req, res) => {
-  connection.query("CALL proc_addAdmin(" + req.query.partyID + req.query.userTypeID + "," + req.query.identificationID + ",'" + req.query.firstName + "','" + req.query.secondName + "','" + req.query.lastName + "','"
-    + req.query.secondLastName + "','" + req.query.email + "','" + req.query.password + "')", function (err, results) {
+*/
+router.post('/updateAdminPassword', function (req, res) {  
+  connection.query("CALL proc_updateAdminPassword(" + req.body.partyID + ",'" + req.body.password + "')", function (err, results) {
       if (results) {
         res.send(results);
       }
@@ -109,6 +108,5 @@ router.post('/updateAdmin', (req, res) => {
       }
     });
 });
-
 
 module.exports = router;

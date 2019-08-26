@@ -21,6 +21,7 @@ class HistoricPhysicalInfoAdmin extends Component {
         }
 
         this.redirect = this.redirect.bind(this);
+        this.backButton = this.backButton.bind(this);
     }
 
     componentDidMount() {
@@ -41,7 +42,15 @@ class HistoricPhysicalInfoAdmin extends Component {
 
         this.props.history.push(`/AddPhysicalInfo`);
     }
-    
+
+
+    /**
+    * Method that redirect to the previous page
+    */
+    backButton() {
+        this.props.history.push(`/ConsultUser`);
+    }
+
     render() {
         const name = this.state.userName.map((userName, i) => {
             return (
@@ -55,7 +64,7 @@ class HistoricPhysicalInfoAdmin extends Component {
                         <h1 className="text-left colorBlue">Composición Corporal</h1>
                         <div className="row">
                             <div className="col-4 offset-1 text-center">
-                               {name}
+                                {name}
                             </div>
                             <div className="col-4 offset-1 text-center">
                                 <img src={plusImage} onClick={this.redirect} className="buttonSizeGeneral pointer" />
@@ -64,13 +73,17 @@ class HistoricPhysicalInfoAdmin extends Component {
                         </div>
                     </div>
                     <div className="col-12 mt-4 text-center">
-                    <TablePhysicalInfo />
+                        <TablePhysicalInfo />
+                    </div>
+                    <div className="row">
+                        <div className=" mt-4 col-md-8">
+                            <button align="left" className="buttonSizeGeneral" onClick={this.backButton}>Volver</button>
+                        </div>
                     </div>
                 </div>
             </div>
         )
     }
-
 }
 
 export default HistoricPhysicalInfoAdmin;
