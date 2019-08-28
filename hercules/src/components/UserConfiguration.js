@@ -494,7 +494,7 @@ class UserConfiguration extends Component {
                 } else if (identificationIDValid == 1 && (this.state.identificationID != sessionStorage.getItem('currentIdentificationID'))) {
                     alert("La cédula ingresado ya corresponde a otro usuario registrado");
                 } else {
-                    if (window.confirm("¿Está seguro se actualizar los datos de usuario?") == true) {
+                    if (window.confirm("¿Está seguro de actualizar los datos de usuario?") == true) {
                         document.getElementById('changeInfo').style.display = 'none';
                         document.getElementById('editInfo').style.display = 'block';
                         document.getElementById('cancelInfo').style.display = 'none';

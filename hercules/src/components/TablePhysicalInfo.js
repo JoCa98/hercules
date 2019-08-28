@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from "axios";
+import { Route, withRouter } from 'react-router-dom';
 
 class TablePhysicalInfo extends Component {
     constructor(props) {
@@ -10,7 +11,6 @@ class TablePhysicalInfo extends Component {
             partyID: 0
         };
 
-        this.redirect = this.redirect.bind(this);
         this.rowEvent = this.rowEvent.bind(this);
         this.getUserPhysicalInfo = this.getUserPhysicalInfo.bind(this);
     }
@@ -52,17 +52,10 @@ class TablePhysicalInfo extends Component {
     }
 
 
-    redirect() {
-        //window.location = "https://www.google.com/";
+    rowEvent() {
+        this.props.history.push('/EditPhysicalInfo');
     }
 
-    rowEvent(event) {
-        try {
-           // alert(document.getElementById("physicalInfoTable").rows[event.target.parentNode.rowIndex].cells[0].innerHTML);
-        } catch (err) {
-            console.error(err);
-        }
-    }
     render() {
         const physicalInfoListVisual = this.state.physicalInfo.map((physicalInfo, i) => {
             if (i == 0 && sessionStorage.getItem('userTypeID') == 4) {
@@ -70,15 +63,14 @@ class TablePhysicalInfo extends Component {
                     <tr className="pointer" onClick={this.rowEvent} key={i}>
                         <td>{physicalInfo.regDate}</td>
                         <td>{physicalInfo.weight}</td>
+                        <td>{physicalInfo.totalBody_Fat}</td>
+                        <td>{physicalInfo.bodyWater}</td>
+                        <td>{physicalInfo.totalMuscle_Mass}</td>
+                        <td>{physicalInfo.physicalAssessment}</td>
+                        <td>{physicalInfo.boneMass}</td>
                         <td>{physicalInfo.DCI}</td>
                         <td>{physicalInfo.metabolicAge}</td>
-                        <td>{physicalInfo.bodyWater}</td>
                         <td>{physicalInfo.visceralFat}</td>
-                        <td>{physicalInfo.boneMass}</td>
-                        <td>{physicalInfo.totalBody_Fat}</td>
-                        <td>{physicalInfo.totalMuscle_Mass}</td>
-                        <td>{physicalInfo.aerobicThreshold}</td>
-                        <td>{physicalInfo.physicalAssessment}</td>
                     </tr>
                 )
 
@@ -87,15 +79,14 @@ class TablePhysicalInfo extends Component {
                     <tr key={i}>
                         <td>{physicalInfo.regDate}</td>
                         <td>{physicalInfo.weight}</td>
+                        <td>{physicalInfo.totalBody_Fat}</td>
+                        <td>{physicalInfo.bodyWater}</td>
+                        <td>{physicalInfo.totalMuscle_Mass}</td>
+                        <td>{physicalInfo.physicalAssessment}</td>
+                        <td>{physicalInfo.boneMass}</td>
                         <td>{physicalInfo.DCI}</td>
                         <td>{physicalInfo.metabolicAge}</td>
-                        <td>{physicalInfo.bodyWater}</td>
                         <td>{physicalInfo.visceralFat}</td>
-                        <td>{physicalInfo.boneMass}</td>
-                        <td>{physicalInfo.totalBody_Fat}</td>
-                        <td>{physicalInfo.totalMuscle_Mass}</td>
-                        <td>{physicalInfo.aerobicThreshold}</td>
-                        <td>{physicalInfo.physicalAssessment}</td>
                     </tr>
                 )
             }
@@ -108,15 +99,14 @@ class TablePhysicalInfo extends Component {
                         <tr>
                             <th scope="col" className="align-middle">Fecha</th>
                             <th scope="col" className="align-middle">Peso(kg)</th>
+                            <th scope="col" className="align-middle">% Grasa Corporal</th>
+                            <th scope="col" className="align-middle">% Agua Corporal</th>
+                            <th scope="col" className="align-middle">Masa Muscular</th>
+                            <th scope="col" className="align-middle">Valoración Física</th>
+                            <th scope="col" className="align-middle">Masa Ósea</th>
                             <th scope="col" className="align-middle">DCI/BMR</th>
                             <th scope="col" className="align-middle">Edad Metabólica</th>
-                            <th scope="col" className="align-middle">% Agua Corporal</th>
                             <th scope="col" className="align-middle">Grasa Visceral</th>
-                            <th scope="col" className="align-middle">Masa Ósea</th>
-                            <th scope="col" className="align-middle">Grasa Total</th>
-                            <th scope="col" className="align-middle">Masa Muscular</th>
-                            <th scope="col" className="align-middle">Umbral Aeróbico</th>
-                            <th scope="col" className="align-middle">Valoración Física</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -127,4 +117,4 @@ class TablePhysicalInfo extends Component {
         )
     }
 }
-export default TablePhysicalInfo;
+export default withRouter(TablePhysicalInfo);

@@ -9,7 +9,7 @@ router.use(cors());
 router.post('/addPhysicalInfo', function (req, res) {
 
   connection.query("CALL proc_addPhysicalInfo(" + req.body.partyID + ",'" + req.body.date + "'," + req.body.weight + 
-                                            "," + req.body.aerobicThreshold + "," + req.body.bodyWater + ","+ req.body.boneMass + 
+                                            "," + req.body.bodyWater + ","+ req.body.boneMass + 
                                             "," + req.body.DCI + "," + req.body.metabolicAge + "," + req.body.totalBodyFat +
                                             "," + req.body.muscleMass + "," + req.body.physicalAssesment + "," + req.body.viceralFat +
                                              ")", function (err,result) {

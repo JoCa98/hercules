@@ -7,7 +7,7 @@ class EditPhysicalInfo extends Component {
         this.state = {
             userName: [{}],
             idPhisicalInfo: "",
-            partyID: '64',//sessionStorage.getItem("userPartyID"),
+            partyID: sessionStorage.getItem("userPartyID"),
             weight: "",
             bodyWater: "",
             visceralFat: "",
@@ -24,6 +24,7 @@ class EditPhysicalInfo extends Component {
         this.loadInformation = this.loadInformation.bind(this);
         this.loadName = this.loadName.bind(this);
         this.loadPhysicalInformation = this.loadPhysicalInformation.bind(this);
+        this.backButton = this.backButton.bind(this);
 
     }
 
@@ -69,30 +70,36 @@ class EditPhysicalInfo extends Component {
                         physicalAssesment: physicalInfo.physicalAssessment
                     });
                 })
-                
+
 
             });
     }
 
     saveChange() {
-
-        fetch("http://localhost:9000/PhysicalInfo/updatePhysicalInfo", {
-            method: "post",
-            body: JSON.stringify(this.state),
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json"
-            }
-        })
-            .then(res => res.json())
-            .then(data => {
-                this.loadPhysicalInformation();
-                console.log(data);
-                //this.props.history.push('/HistoricPhysicalInfoAdmin');
+        if (window.confirm("¿Está seguro de actualizar los datos?") == true) {
+            fetch("http://localhost:9000/PhysicalInfo/updatePhysicalInfo", {
+                method: "post",
+                body: JSON.stringify(this.state),
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                }
             })
-            .catch(err => console.error(err));
+                .then(res => res.json())
+                .then(data => {
+                })
+                .catch(err => console.error(err));
 
-        //event.preventDefault();
+            alert("Los datos se actualizaron correctamente");
+            this.props.history.push('/HistoricPhysicalInfoAdmin');
+        }
+    }
+
+/**
+* Method that redirect to the previous page
+*/
+    backButton() {
+        this.props.history.push(`/HistoricPhysicalInfoAdmin`);
     }
 
     handleInputChange(event) {
@@ -131,7 +138,7 @@ class EditPhysicalInfo extends Component {
                                 </div>
                                 <div className="col-2 mt-4">
                                     <div className="control-group">
-                                        <label className="control-label" htmlFor="inputFat">Grasa Total</label>
+                                        <label className="control-label" htmlFor="inputFat">Grasa Corporal</label>
                                         <div className="controls">
                                             <input type="decimal" id="inputFat" name="totalBodyFat" size="3" placeholder="%" value={this.state.totalBodyFat} onChange={this.handleInputChange} />
                                         </div>
@@ -197,10 +204,10 @@ class EditPhysicalInfo extends Component {
                                 </div>
                             </div>
                             <div className="row mt-4">
-                                <div className="col-2 offset-7">
-                                    <button align="right" className="buttonSizeGeneral">Cancelar</button>
+                                <div className="mt-5 col-8">
+                                    <button align="left" onClick={this.backButton} className="buttonSizeGeneral">Cancelar</button>
                                 </div>
-                                <div className="col-2">
+                                <div className="mt-5 col-4">
                                     <button align="right" onClick={this.saveChange} className="buttonSizeGeneral">Guardar cambios</button>
                                 </div>
                             </div>
@@ -208,8 +215,6 @@ class EditPhysicalInfo extends Component {
 
                     </div>
                 </div>
-
-
             </div>
         )
     }

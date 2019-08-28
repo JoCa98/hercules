@@ -9,7 +9,6 @@ class AddPhysicalInfo extends Component {
             partyID: sessionStorage.getItem("userPartyID"),
             date: new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate(),
             weight: "",
-            aerobicThreshold: "",
             bodyWater: "",
             viceralFat: "",
             boneMass: "",
@@ -47,7 +46,6 @@ class AddPhysicalInfo extends Component {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data);
                 this.props.history.push('/HistoricPhysicalInfoAdmin');
             })
             .catch(err => console.error(err));
@@ -63,7 +61,7 @@ class AddPhysicalInfo extends Component {
 
     }
 
-    /**
+/**
 * Method that redirect to the previous page
 */
     backButton() {
@@ -98,9 +96,9 @@ class AddPhysicalInfo extends Component {
                                 </div>
                                 <div className="col-2 mt-4">
                                     <div className="control-group">
-                                        <label className="control-label" htmlFor="inputDCI/BMR">DCI/BMR</label>
+                                        <label className="control-label" htmlFor="inputFat">Grasa Corporal</label>
                                         <div className="controls">
-                                            <input type="decimal" id="inputDCI/BMR" name="DCI" size="3" value={this.state.DCI} onChange={this.handleInputChange} />
+                                            <input type="decimal" id="inputFat" name="totalBodyFat" size="3" placeholder="%" value={this.state.totalBodyFat} onChange={this.handleInputChange} />
                                         </div>
                                     </div>
                                 </div>
@@ -109,50 +107,6 @@ class AddPhysicalInfo extends Component {
                                         <label className="control-label" htmlFor="inputBodyWater">Agua Corporal</label>
                                         <div className="controls">
                                             <input type="decimal" id="inputBodyWater" name="bodyWater" size="3" placeholder="%" value={this.state.bodyWater} onChange={this.handleInputChange} />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-2 mt-4">
-                                    <div className="control-group">
-                                        <label className="control-label" htmlFor="inputViceralFat">Grasa Visceral</label>
-                                        <div className="controls">
-                                            <input type="decimal" id="inputViceralFat" name="viceralFat" size="3" placeholder="%" value={this.state.viceralFat} onChange={this.handleInputChange} />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-2 mt-4">
-                                    <div className="control-group">
-                                        <label className="control-label" htmlFor="inputBoneMass">Masa Ósea</label>
-                                        <div className="controls">
-                                            <input type="decimal" id="inputBoneMass" name="boneMass" size="3" value={this.state.boneMass} onChange={this.handleInputChange} />
-                                        </div>
-                                    </div>
-                                    <div className="col-2 mt-4">
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="col-2 mt-4">
-                                    <div className="control-group">
-                                        <label className="control-label" htmlFor="inputAerobic">Umbral Aeróbico</label>
-                                        <div className="controls">
-                                            <input type="decimal" id="inputAerobic" name="aerobicThreshold" size="3" value={this.state.aerobicThreshold} onChange={this.handleInputChange} />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-2 mt-4">
-                                    <div className="control-group">
-                                        <label className="control-label" htmlFor="inputMetAge">Edad Metabólica</label>
-                                        <div className="controls">
-                                            <input type="decimal" id="inputMetAge" name="metabolicAge" size="3" value={this.state.metabolicAge} onChange={this.handleInputChange} />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-2 mt-4">
-                                    <div className="control-group">
-                                        <label className="control-label" htmlFor="inputFat">Grasa Total</label>
-                                        <div className="controls">
-                                            <input type="decimal" id="inputFat" name="totalBodyFat" size="3" placeholder="%" value={this.state.totalBodyFat} onChange={this.handleInputChange} />
                                         </div>
                                     </div>
                                 </div>
@@ -169,6 +123,40 @@ class AddPhysicalInfo extends Component {
                                         <label className="control-label" htmlFor="inputPhysic">Valoración Física</label>
                                         <div className="controls">
                                             <input type="decimal" id="inputPhysic" name="physicalAssesment" size="3" value={this.state.physicalAssesment} onChange={this.handleInputChange} />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-2 mt-4">
+                                    <div className="control-group">
+                                        <label className="control-label" htmlFor="inputBoneMass">Masa Ósea</label>
+                                        <div className="controls">
+                                            <input type="decimal" id="inputBoneMass" name="boneMass" size="3" value={this.state.boneMass} onChange={this.handleInputChange} />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="col-2 mt-4">
+                                    <div className="control-group">
+                                        <label className="control-label" htmlFor="inputDCI/BMR">DCI/BMR</label>
+                                        <div className="controls">
+                                            <input type="decimal" id="inputDCI/BMR" name="DCI" size="3" value={this.state.DCI} onChange={this.handleInputChange} />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="col-2 mt-4">
+                                    <div className="control-group">
+                                        <label className="control-label" htmlFor="inputMetAge">Edad Metabólica</label>
+                                        <div className="controls">
+                                            <input type="decimal" id="inputMetAge" name="metabolicAge" size="3" value={this.state.metabolicAge} onChange={this.handleInputChange} />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="col-2 mt-4">
+                                    <div className="control-group">
+                                        <label className="control-label" htmlFor="inputViceralFat">Grasa Visceral</label>
+                                        <div className="controls">
+                                            <input type="decimal" id="inputViceralFat" name="viceralFat" size="3" placeholder="%" value={this.state.viceralFat} onChange={this.handleInputChange} />
                                         </div>
                                     </div>
                                 </div>
