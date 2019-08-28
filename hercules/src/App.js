@@ -23,6 +23,7 @@ import AddMedicalForm from './components/AddMedicalForm';
 import HistoricMedicalInfo from './components/HistoricMedicalInfo';
 import RoutineAdmin from './components/RoutineAdmin';
 import AddPhysicalInfo from './components/AddPhysicalInfo';
+import EditPhysicalInfo from './components/EditPhysicalInfo';
 import HistoricMedicalUserInfo from './components/HistoricMedicalUserInfo';
 import validations from './components/validations';
 import Hash from './components/Hash';
@@ -49,6 +50,7 @@ function App() {
           <Route exact path="/HistoricPhysicalUserInfo" component={HistoricPhysicalUserInfo}/>
           <Route exact path="/ConsultUser" component={ConsultUser}/>
           <Route exact path="/AddPhysicalInfo" component={AddPhysicalInfo}/>
+          <Route exact path="/EditPhysicalInfo" component={EditPhysicalInfo}/>
           <Route exact path="/AddAdmin" component={AddAdmin}/>
           <Route exact path="/HistoricMedicalUserInfo" component={HistoricMedicalUserInfo}/>
           <Route exact path="/PasswordRecovery" component={PasswordRecovery}/>

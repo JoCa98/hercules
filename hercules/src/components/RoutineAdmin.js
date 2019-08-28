@@ -12,7 +12,6 @@
 
 import React, { Component } from 'react';
 import Carousel from './RoutineCarouselReadOnly';
-import './UserHome.css';
 import axios from "axios";
 
 
