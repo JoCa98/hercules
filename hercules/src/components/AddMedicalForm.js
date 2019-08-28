@@ -101,7 +101,7 @@ class AddMedicalForm extends Component {
             pulmonaryCardioInfo: "",
             bloodPressure: "0",
             heartRate: "0",
-            heartRatePerMinute:"0",
+            heartRatePerMinute: "0",
             SpO2: "0",
             weight: "0",
             size: "0",
@@ -111,7 +111,7 @@ class AddMedicalForm extends Component {
             cardiovascularRisk: "0",
             recommendations: "",
             medicalInfo: [{}],
-            medicalID: "0", 
+            medicalID: "0",
             validations: new validations(),
             medicalCod: "0"
         };
@@ -119,13 +119,14 @@ class AddMedicalForm extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.validation = this.validation.bind(this);
         this.loadData = this.loadData.bind(this);
+        this.backButton = this.backButton.bind(this);
     }
 
     /**
     * Method that can get full name of the user and the data if is it an update, and the medical cod
     * when the page is load
     */
-    componentDidMount(){
+    componentDidMount() {
         try {
             axios.get(`http://localhost:9000/User/getUserName`,
                 {
@@ -135,125 +136,125 @@ class AddMedicalForm extends Component {
                     this.setState({ userName });
                 });
 
-                if(sessionStorage.getItem("update") === "true"){
-                    this.setState({medicalID:sessionStorage.getItem("medicalFormID")});
-                    axios.get("http://localhost:9000/MedicalInfo/getMedicalInfoHist", {
-                        params: {
-                            partyID: this.state.partyID
-                        }
-                    }).then(response => {
-                        if (response) {
-                            this.setState({medicalInfo: response.data[0]});
-                            this.loadData();
-                        }
-                    })
-                }
-
-                if(sessionStorage.getItem("userTypeID") == 3){
-                    axios.get("http://localhost:9000/MedicalInfo/getMedicalCod", {
-                        params: {
-                            partyID: sessionStorage.getItem("partyID")
-                        }
-                    }).then(response => {
-                        if (response) {
-                            this.setState({medicalCod: response.data[0]});
-                            this.loadData();
-                        }
-                    })
-                }
-            } catch (err) {
-                console.error(err);
+            if (sessionStorage.getItem("update") === "true") {
+                this.setState({ medicalID: sessionStorage.getItem("medicalFormID") });
+                axios.get("http://localhost:9000/MedicalInfo/getMedicalInfoHist", {
+                    params: {
+                        partyID: this.state.partyID
+                    }
+                }).then(response => {
+                    if (response) {
+                        this.setState({ medicalInfo: response.data[0] });
+                        this.loadData();
+                    }
+                })
             }
+
+            if (sessionStorage.getItem("userTypeID") == 3) {
+                axios.get("http://localhost:9000/MedicalInfo/getMedicalCod", {
+                    params: {
+                        partyID: sessionStorage.getItem("partyID")
+                    }
+                }).then(response => {
+                    if (response) {
+                        this.setState({ medicalCod: response.data[0] });
+                        this.loadData();
+                    }
+                })
+            }
+        } catch (err) {
+            console.error(err);
+        }
     }
 
-   
+
 
     /**
     * Method that load the data is it an update 
     * when the page is load
     */
-    loadData(){
+    loadData() {
         var smoke = this.state.medicalInfo[0].smoking;
         var trauma = this.state.medicalInfo[0].traumas;
-        if(smoke == "Si"){
-        this.setState({smoking:1});
-        document.getElementById("smokingNo").checked = false;
-        document.getElementById("smokingYes").checked = true;
-        }else{
-        this.setState({smoking:0});
-        document.getElementById("smokingYes").checked = false;
-        document.getElementById("smokingNo").checked = true;
+        if (smoke == "Si") {
+            this.setState({ smoking: 1 });
+            document.getElementById("smokingNo").checked = false;
+            document.getElementById("smokingYes").checked = true;
+        } else {
+            this.setState({ smoking: 0 });
+            document.getElementById("smokingYes").checked = false;
+            document.getElementById("smokingNo").checked = true;
         }
-        if(trauma === "Si"){
-        this.setState({traumas:1});
-        document.getElementById("traumasYes").checked = true;
-        document.getElementById("traumasNo").checked = false;
-        }else{
-        this.setState({traumas:0});
-        document.getElementById("traumasYes").checked = false;
-        document.getElementById("traumasNo").checked = true;
+        if (trauma === "Si") {
+            this.setState({ traumas: 1 });
+            document.getElementById("traumasYes").checked = true;
+            document.getElementById("traumasNo").checked = false;
+        } else {
+            this.setState({ traumas: 0 });
+            document.getElementById("traumasYes").checked = false;
+            document.getElementById("traumasNo").checked = true;
         }
-        this.setState({pathologies: this.state.medicalInfo[0].pathologies});
-        this.setState({surgeries: this.state.medicalInfo[0].surgeries});
-        this.setState({allergies: this.state.medicalInfo[0].allergies});
-        this.setState({neurologicalInfo: this.state.medicalInfo[0].neurologicalInfo});
-        this.setState({pulmonaryCardioInfo: this.state.medicalInfo[0].pulmonaryCardioInfo});
-        this.setState({bloodPressure: this.state.medicalInfo[0].bloodPressure});
-        this.setState({heartRate: this.state.medicalInfo[0].heartRate});
-        this.setState({heartRatePerMinute: this.state.medicalInfo[0].heartRatePerMinute});
-        this.setState({SpO2: this.state.medicalInfo[0].SpO2});
-        this.setState({weight: this.state.medicalInfo[0].weight});
-        this.setState({size: this.state.medicalInfo[0].size});
-        this.setState({IMC: this.state.medicalInfo[0].IMC});
-        this.setState({abdomen: this.state.medicalInfo[0].abdomen});
-        this.setState({waist: this.state.medicalInfo[0].waist});
-        this.setState({hip: this.state.medicalInfo[0].hip});
-        this.setState({cardiovascularRisk: this.state.medicalInfo[0].cardiovascularRisk});
-        this.setState({recommendations: this.state.medicalInfo[0].recommendations});
-        
+        this.setState({ pathologies: this.state.medicalInfo[0].pathologies });
+        this.setState({ surgeries: this.state.medicalInfo[0].surgeries });
+        this.setState({ allergies: this.state.medicalInfo[0].allergies });
+        this.setState({ neurologicalInfo: this.state.medicalInfo[0].neurologicalInfo });
+        this.setState({ pulmonaryCardioInfo: this.state.medicalInfo[0].pulmonaryCardioInfo });
+        this.setState({ bloodPressure: this.state.medicalInfo[0].bloodPressure });
+        this.setState({ heartRate: this.state.medicalInfo[0].heartRate });
+        this.setState({ heartRatePerMinute: this.state.medicalInfo[0].heartRatePerMinute });
+        this.setState({ SpO2: this.state.medicalInfo[0].SpO2 });
+        this.setState({ weight: this.state.medicalInfo[0].weight });
+        this.setState({ size: this.state.medicalInfo[0].size });
+        this.setState({ IMC: this.state.medicalInfo[0].IMC });
+        this.setState({ abdomen: this.state.medicalInfo[0].abdomen });
+        this.setState({ waist: this.state.medicalInfo[0].waist });
+        this.setState({ hip: this.state.medicalInfo[0].hip });
+        this.setState({ cardiovascularRisk: this.state.medicalInfo[0].cardiovascularRisk });
+        this.setState({ recommendations: this.state.medicalInfo[0].recommendations });
+
     }
 
     /**
     * Method that submit all the information in the form
     */
     handleSubmit = event => {
-        if(sessionStorage.getItem("update") === "true"){
+        if (sessionStorage.getItem("update") === "true") {
             this.validation();
-                fetch(`http://localhost:9000/MedicalInfo/updateMedicalRegister`, {
-                    method: "post",
-                    body: JSON.stringify(this.state),
-                    headers: {
-                        Accept: "application/json",
-                        "Content-Type": "application/json"
-                    }
-                })
-                    .then(res => res.json())
-                    .then(data => {
-                        console.log(data);
-                    })
-                    .catch(err => console.error(err));
-                event.preventDefault();
-              
-            sessionStorage.setItem("update",false);
-        }else {
-            this.validation()
-        fetch("http://localhost:9000/MedicalInfo/addMedicalInfo", {
-            method: "post",
-            body: JSON.stringify(this.state),
-
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json"
-            }
-        })
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
+            fetch(`http://localhost:9000/MedicalInfo/updateMedicalRegister`, {
+                method: "post",
+                body: JSON.stringify(this.state),
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                }
             })
-            .catch(err => console.error(err));
-        event.preventDefault();
-        this.props.history.push(`/HistoricMedicalInfo`);
-    }
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                })
+                .catch(err => console.error(err));
+            event.preventDefault();
+
+            sessionStorage.setItem("update", false);
+        } else {
+            this.validation()
+            fetch("http://localhost:9000/MedicalInfo/addMedicalInfo", {
+                method: "post",
+                body: JSON.stringify(this.state),
+
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                })
+                .catch(err => console.error(err));
+            event.preventDefault();
+            this.props.history.push(`/HistoricMedicalInfo`);
+        }
     }
 
     /**
@@ -265,10 +266,10 @@ class AddMedicalForm extends Component {
             [name]: value
         });
 
-        
+
         if (this.state.weight !== 0 && this.state.size !== 0) {
             this.calcIMC();
-    }
+        }
     }
 
     /**
@@ -277,7 +278,7 @@ class AddMedicalForm extends Component {
     //no está bien
     calcIMC() {
         let size = (this.state.size * this.state.size);
-        let imc = (this.state.weight / size)*100 ;
+        let imc = (this.state.weight / size) * 100;
         let round = imc.toFixed(2);
         this.setState({ IMC: round });
     }
@@ -286,8 +287,8 @@ class AddMedicalForm extends Component {
     * Method that verify that the require inputs are not empty
     */
     validation() {
-        if ((this.state.smoking != 0 &&  this.state.smoking != 1)
-            || (this.state.traumas != 0 &&  this.state.traumas!= 1)
+        if ((this.state.smoking != 0 && this.state.smoking != 1)
+            || (this.state.traumas != 0 && this.state.traumas != 1)
             || this.state.size.toString().trim().length == 0
             || this.state.weight.toString().trim().length == 0
             || this.state.heartRate.toString().trim().length == 0
@@ -297,47 +298,52 @@ class AddMedicalForm extends Component {
             || this.state.waist.toString().trim().length == 0
             || this.state.hip.toString().trim().length == 0
             || this.state.bloodPressure.toString().trim().length == 0
-            || this.state.cardiovascularRisk.toString().trim().length == 0) 
-        {
+            || this.state.cardiovascularRisk.toString().trim().length == 0) {
             alert("Todos los campos obligatorios  deben estar llenos");
-        } else if(this.state.pathologies.trim().length != 0){
-                    if( !this.state.validations.validateTextField(this.state.pathologies.trim())){
-                        alert("El campo de patologías no puede contener números");
-                    }
-                }else if(this.state.allergies.trim().length != 0){
-                    if (!this.state.validations.validateTextField(this.state.allergies.trim())){
-                        alert("El campo de alergias no puede contener números");
-                    }
-                }else if(this.state.surgeries.trim().length != 0){
-                    if( !this.state.validations.validateTextField(this.state.surgeries.trim())){
-                        alert("El campo de quirúrgicos no puede contener números");
-                    }
-                } else if(this.state.neurologicalInfo.trim().length != 0){
-                    if(!this.state.validations.validateTextField(this.state.neurologicalInfo.trim())){
-                        alert("El campo de información neurólogica no puede contener números");
-                    }
-                } else if(this.state.pulmonaryCardioInfo.trim().length != 0){
-                    if(!this.state.validations.validateTextField(this.state.pulmonaryCardioInfo.trim())){
-                        alert("El campo de información cardiopulmonar no puede contener números");
-                    }
-                } else if(this.state.recommendations.trim().length != 0){
-                    if(!this.state.validations.validateTextField(this.state.recommendations.trim())){
-                        alert("El campo de recomendaciones no puede contener números");
-                    }
-                } else if(!this.state.validations.validateNumericField(this.state.bloodPressure.trim())
-                    || !this.state.validations.validateNumericField(this.state.heartRate.trim())
-                    || !this.state.validations.validateNumericField(this.state.heartRatePerMinute.trim())//se debe cambiar por umbral aerobico
-                    || !this.state.validations.validateNumericField(this.state.SpO2.trim())
-                    || !this.state.validations.validateNumericField(this.state.weight.trim())
-                    || !this.state.validations.validateNumericField(this.state.size.trim())
-                    || !this.state.validations.validateNumericField(this.state.IMC.trim())
-                    || !this.state.validations.validateNumericField(this.state.waist.trim())
-                    || !this.state.validations.validateNumericField(this.state.hip.trim())
-                    || !this.state.validations.validateNumericField(this.state.cardiovascularRisk.trim())){
-                     alert("Los campos de presión arterial, pulso, umbral aeróbico, oxígeno, peso, talla, cadera, cintura deben ser números");
-                 }
-         }
+        } else if (this.state.pathologies.trim().length != 0) {
+            if (!this.state.validations.validateTextField(this.state.pathologies.trim())) {
+                alert("El campo de patologías no puede contener números");
+            }
+        } else if (this.state.allergies.trim().length != 0) {
+            if (!this.state.validations.validateTextField(this.state.allergies.trim())) {
+                alert("El campo de alergias no puede contener números");
+            }
+        } else if (this.state.surgeries.trim().length != 0) {
+            if (!this.state.validations.validateTextField(this.state.surgeries.trim())) {
+                alert("El campo de quirúrgicos no puede contener números");
+            }
+        } else if (this.state.neurologicalInfo.trim().length != 0) {
+            if (!this.state.validations.validateTextField(this.state.neurologicalInfo.trim())) {
+                alert("El campo de información neurólogica no puede contener números");
+            }
+        } else if (this.state.pulmonaryCardioInfo.trim().length != 0) {
+            if (!this.state.validations.validateTextField(this.state.pulmonaryCardioInfo.trim())) {
+                alert("El campo de información cardiopulmonar no puede contener números");
+            }
+        } else if (this.state.recommendations.trim().length != 0) {
+            if (!this.state.validations.validateTextField(this.state.recommendations.trim())) {
+                alert("El campo de recomendaciones no puede contener números");
+            }
+        } else if (!this.state.validations.validateNumericField(this.state.bloodPressure.trim())
+            || !this.state.validations.validateNumericField(this.state.heartRate.trim())
+            || !this.state.validations.validateNumericField(this.state.heartRatePerMinute.trim())//se debe cambiar por umbral aerobico
+            || !this.state.validations.validateNumericField(this.state.SpO2.trim())
+            || !this.state.validations.validateNumericField(this.state.weight.trim())
+            || !this.state.validations.validateNumericField(this.state.size.trim())
+            || !this.state.validations.validateNumericField(this.state.IMC.trim())
+            || !this.state.validations.validateNumericField(this.state.waist.trim())
+            || !this.state.validations.validateNumericField(this.state.hip.trim())
+            || !this.state.validations.validateNumericField(this.state.cardiovascularRisk.trim())) {
+            alert("Los campos de presión arterial, pulso, umbral aeróbico, oxígeno, peso, talla, cadera, cintura deben ser números");
+        }
+    }
 
+    /**
+* Method that redirect to the previous page
+*/
+    backButton() {
+        this.props.history.push(`/HistoricMedicalInfo`);
+    }
 
     render() {
         const name = this.state.userName.map((userName, i) => {
@@ -352,7 +358,7 @@ class AddMedicalForm extends Component {
                         <h1 className="text-left colorBlue">Formulario médico</h1>
                         <div className="row">
                             <div className="col-4 offset-1 text-center">
-                               {name}
+                                {name}
                             </div>
                         </div>
                     </div>
@@ -414,7 +420,7 @@ class AddMedicalForm extends Component {
                                                                 <div className="col-2">
                                                                     <div className="controls">
                                                                         <label>SI
-                                                                 <input type="radio" name="smoking" id="smokingYes" value="1"/>
+                                                                 <input type="radio" name="smoking" id="smokingYes" value="1" />
                                                                         </label>
                                                                     </div>
                                                                 </div>
@@ -467,7 +473,7 @@ class AddMedicalForm extends Component {
                                                             <div className="col-2">
                                                                 <div className="control-group">
                                                                     <label className="control-label" htmlFor="inputHeight">Talla (cm)<font color="red">*</font></label>
-                                                                    <div className="controls"> 
+                                                                    <div className="controls">
                                                                         <input type="decimal" id="inputHeight" name="size" required value={this.state.size} onChange={this.inputNumberValidator} size="10" placeholder="ej: 170" />
                                                                     </div>
                                                                 </div>
@@ -478,7 +484,7 @@ class AddMedicalForm extends Component {
                                                                 <div className="control-group">
                                                                     <label className="control-label" htmlFor="weight">Peso (kg)<font color="red">*</font></label>
                                                                     <div className="controls">
-                                                                        <input type="decimal" id="weight" name="weight" required value={this.state.weight} onChange={this.inputNumberValidator} size="10" placeholder="ej. 80"/>
+                                                                        <input type="decimal" id="weight" name="weight" required value={this.state.weight} onChange={this.inputNumberValidator} size="10" placeholder="ej. 80" />
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -495,10 +501,10 @@ class AddMedicalForm extends Component {
                                                         </div>
                                                         <div className="row">
                                                             <div className="col-2">
-                                                                <div className="control-group"> 
+                                                                <div className="control-group">
                                                                     <label className="control-label" htmlFor="heartRatePerMinute">FCM<font color="red">*</font></label>
                                                                     <div className="controls">
-                                                                        <input type="decimal" id="heartRatePerMinute" name="heartRatePerMinute" required value={this.state.heartRatePerMinute} onChange={this.handleInputChange} size="10" placeholder="?"/>
+                                                                        <input type="decimal" id="heartRatePerMinute" name="heartRatePerMinute" required value={this.state.heartRatePerMinute} onChange={this.handleInputChange} size="10" placeholder="?" />
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -508,7 +514,7 @@ class AddMedicalForm extends Component {
                                                                 <div className="control-group">
                                                                     <label className="control-label" htmlFor="heartRate">FC<font color="red">*</font></label>
                                                                     <div className="controls">
-                                                                        <input type="decimal" id="heartRate" name="heartRate" required value={this.state.heartRate} onChange={this.handleInputChange} size="10" placeholder="?"/>
+                                                                        <input type="decimal" id="heartRate" name="heartRate" required value={this.state.heartRate} onChange={this.handleInputChange} size="10" placeholder="?" />
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -520,7 +526,7 @@ class AddMedicalForm extends Component {
                                                                 <div className="control-group">
                                                                     <label className="control-label" htmlFor="SpO2">Sp02<font color="red">*</font></label>
                                                                     <div className="controls">
-                                                                        <input type="decimal" id="SpO2" name="SpO2" required value={this.state.SpO2} onChange={this.handleInputChange} size="10" placeholder="?"/>
+                                                                        <input type="decimal" id="SpO2" name="SpO2" required value={this.state.SpO2} onChange={this.handleInputChange} size="10" placeholder="?" />
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -530,7 +536,7 @@ class AddMedicalForm extends Component {
                                                                 <div className="control-group">
                                                                     <label className="control-label" htmlFor="waist">Cintura (cm)<font color="red">*</font></label>
                                                                     <div className="controls">
-                                                                        <input type="decimal" id="waist" name="waist" required value={this.state.waist} onChange={this.handleInputChange} size="10" placeholder="ej. 70"/>
+                                                                        <input type="decimal" id="waist" name="waist" required value={this.state.waist} onChange={this.handleInputChange} size="10" placeholder="ej. 70" />
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -540,7 +546,7 @@ class AddMedicalForm extends Component {
                                                                 <div className="control-group">
                                                                     <label className="control-label" htmlFor="hip">Cadera (cm)<font color="red">*</font></label>
                                                                     <div className="controls">
-                                                                        <input type="decimal" id="hip" name="hip" required value={this.state.hip} onChange={this.handleInputChange} size="10" placeholder="ej. 90"/>
+                                                                        <input type="decimal" id="hip" name="hip" required value={this.state.hip} onChange={this.handleInputChange} size="10" placeholder="ej. 90" />
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -550,7 +556,7 @@ class AddMedicalForm extends Component {
                                                                 <div className="control-group">
                                                                     <label className="control-label" htmlFor="bloodPressure">Presión Arterial<font color="red">*</font></label>
                                                                     <div className="controls">
-                                                                        <input type="text" id="bloodPressure" name="bloodPressure" required value={this.state.bloodPressure} onChange={this.handleInputChange} size="10" placeholder="?"/>
+                                                                        <input type="text" id="bloodPressure" name="bloodPressure" required value={this.state.bloodPressure} onChange={this.handleInputChange} size="10" placeholder="?" />
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -610,8 +616,13 @@ class AddMedicalForm extends Component {
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-4 offset-9 mt-4">
-                                <button align="left" name="save" type="submit" className="buttonSizeGeneral">Guardar</button>
+                            <div className="row">
+                                <div className="mt-4 col-2">
+                                    <button align="left" className="buttonSizeGeneral" onClick={this.backButton}>Volver</button>
+                                </div>
+                                <div className="mt-4 col-2 offset-7">
+                                    <button align="right" name="save" type="submit" className="buttonSizeGeneral">Guardar</button>
+                                </div>
                             </div>
                         </form>
                     </div>

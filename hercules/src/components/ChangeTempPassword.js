@@ -30,6 +30,7 @@ class ChangeTempPassword extends Component {
             document.getElementById('confirmPassword').type = "password";
         }
     }
+    
     updatePassword() {
         var newPassword = this.state.hash.encode(this.state.newPassword);
         fetch("http://localhost:9000/User/updatePassword", {
@@ -59,6 +60,7 @@ class ChangeTempPassword extends Component {
             window.location.reload();
         }
     }
+
     changeTempPassword() {
         if (document.getElementById('tempPassword').value.length == 0 || document.getElementById('newPassword').value.length == 0
             || document.getElementById('confirmPassword').value.length == 0) {
@@ -80,13 +82,13 @@ class ChangeTempPassword extends Component {
             [name]: value
         });
     }
-    render() {
 
+    render() {
         return (
             <div className="container">
                 <div className="row mt-4 " >
                     <div className="col-12 col-lg-6 offset-lg-3 card p-5">
-                        <h1 className="text-center">Cambio de contraseña temporal</h1>
+                        <h1 className="text-left colorBlue">Cambio de contraseña temporal</h1>
                         <br></br>
                         <div className="row mt-4 " ></div>
                         <div className="form-group" align="left">

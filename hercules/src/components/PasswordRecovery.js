@@ -54,8 +54,6 @@ class PasswordRecovery extends Component {
             .catch(err => console.error(err));
     }
 
-    
-
     handleInputChange(event) {
         const { name, value } = event.target;
         this.setState({
@@ -66,11 +64,10 @@ class PasswordRecovery extends Component {
     render() {
         return (
             <div className="container">
-
                 <div className="row mt-4">
                     <div className="col-6 offset-3 p-5 card">
                         <form>
-                            <h2 className="text-left colorBlue">Recuperación de Contraseña</h2>
+                            <h1 className="text-left colorBlue">Recuperación de Contraseña</h1>
                             <br />
                             <div class="form-group">
                                 <p align="justify">Ingrese el correo del usuario para recibir

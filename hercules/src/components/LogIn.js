@@ -30,8 +30,6 @@ class LogIn extends Component {
     }
 
     tryLogin() {
-        //console.log(this.props.location.pathname);
-        //window.location.reload();
         axios.get(`http://localhost:9000/User/isEmailValid`, { params: { email: this.state.email } }).then(response => {
             this.setState({ isUserValid: JSON.parse(JSON.stringify(response.data))[0]['isEmailValid'].data[0] });
             if (this.state.isUserValid == 1) {
@@ -68,7 +66,7 @@ class LogIn extends Component {
     }
 
     goSignUp() {
-        this.props.history.push(`/SignUp`);
+        this.props.history.push(`/Terms`);
     }
 
     goPasswordRecovery() {
@@ -83,7 +81,6 @@ class LogIn extends Component {
     render() {
 
         return (
-
 
             <div className="container">
                 <div className="row mt-4 " >

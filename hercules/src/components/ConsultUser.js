@@ -33,6 +33,7 @@ class ConsultUser extends Component {
         this.redirectMedical = this.redirectMedical.bind(this);
         this.redirectPhysical = this.redirectPhysical.bind(this);
         this.redirectRoutines = this.redirectRoutines.bind(this);
+        this.backButton = this.backButton.bind(this);
     }
 
     componentDidMount() {
@@ -93,6 +94,13 @@ class ConsultUser extends Component {
         this.props.history.push(`/HistoricRoutineInfo`);
     }
 
+    /**
+    * Method that redirect to the previous page
+    */
+    backButton() {
+        this.props.history.push(`/HomeAdmin`);
+    }
+
     render() {
         return (
             <div className="container">
@@ -101,7 +109,7 @@ class ConsultUser extends Component {
                         <div className="row">
                             <div className="col-8">
                                 <div className="row">
-                                    <h1 className="text-left">Datos del usuario</h1>
+                                    <h1 className="text-left colorBlue">Datos del usuario</h1>
                                 </div>
                                 <div className="row">
                                     <div className="col-12">
@@ -186,12 +194,14 @@ class ConsultUser extends Component {
                                 </div>
                             </div>
                         </div>
-
+                        <div className="row">
+                            <div className=" mt-3 col-md-8">
+                                <button align="left" className="buttonSizeGeneral" onClick={this.backButton}>Volver</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-
-
         )
     }
 }

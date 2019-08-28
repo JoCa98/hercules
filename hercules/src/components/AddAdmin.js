@@ -42,6 +42,7 @@ class AddAdmin extends Component {
         this.inputNumberValidator = this.inputNumberValidator.bind(this);
         this.emailValidator = this.emailValidator.bind(this);
         this.showPasswordFields = this.showPasswordFields.bind(this);
+        this.backButton = this.backButton.bind(this);
     }
 
     /**
@@ -154,12 +155,12 @@ class AddAdmin extends Component {
             if (this.state.identificationID == "" || this.state.firstName == "" || this.state.firstLastName == "" || this.state.email == ""
                 || this.state.password == "" || this.state.confirmPassword == "" || this.state.medicalCod == "") {
                 return true;
-            } 
+            }
         } else {
             if (this.state.identificationID == "" || this.state.firstName == "" || this.state.firstLastName == "" || this.state.email == ""
                 || this.state.password == "" || this.state.confirmPassword == "") {
                 return true;
-            } 
+            }
         }
         return false;
     }
@@ -178,13 +179,20 @@ class AddAdmin extends Component {
         }
     }
 
+    /**
+* Method that redirect to the previous page
+*/
+    backButton() {
+        this.props.history.push(`/HomeAdmin`);
+    }
+
     render() {
         return (
             <div className="container">
                 <div className="row mt-4">
-                    <div className="col-6 offset-3 card p-5">
+                    <div className="col-10 offset-1 card p-5">
                         <form className="form-horizontal" onSubmit={this.handleSubmit}>
-                            <h2 ><font color="#41ade7">Agregar Administrador</font></h2>
+                            <h1 className="text-left colorBlue">Agregar Administrador</h1>
                             <br />
                             <div className="row">
                                 <div className="col-6">
@@ -247,8 +255,11 @@ class AddAdmin extends Component {
                                 </div>
                             </div>
                             <div className="row">
-                                <div className=" mt-3 col-md-5 offset-md-7">
-                                    <button align="left" className="buttonSizeGeneral">Guardar</button>
+                                <div className=" mt-3 col-md-3">
+                                    <button align="left" className="buttonSizeGeneral" onClick={this.backButton}>Volver</button>
+                                </div>
+                                <div className=" mt-3 col-md-3 offset-6">
+                                    <button align="rigth" className="buttonSizeGeneral">Guardar</button>
                                 </div>
                             </div>
                         </form>

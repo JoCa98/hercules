@@ -1,6 +1,6 @@
 /**
- * @fileoverview HomeAdmin page, Home of the administrator user that shows the list 
- *of all users (students and officials), with different search options by carnet, name and ID.
+ * @fileoverview HistoricMedicalUserInfo page is used to show the historic of registers
+ * of medical information about a user.
  *
  * @version 1.0
  *
@@ -8,7 +8,7 @@
  * History
  * v1.0 – Initial Release
  * ----
- * The first version of HomeAdmin was written by Antony Jimenez G.
+ * The first version of HistoricMedicalUserInfo was written by Antony Jimenez G.
  */
 
 import React, { Component } from 'react';
@@ -17,6 +17,14 @@ import TableMedicalInfo from './TableMedicalInfo';
 class HistoricMedicalUserInfo extends Component {
     constructor() {
         super();
+        this.backButton = this.backButton.bind(this);
+    }
+
+    /**
+* Method that redirect to the previous page
+*/
+    backButton() {
+        this.props.history.push(`/UserHome`);
     }
 
     render() {
@@ -26,10 +34,12 @@ class HistoricMedicalUserInfo extends Component {
                     <div className="col-12">
                         <h1 className="text-left colorBlue">Consulta médica</h1>
                     </div>
-                    <div className="col-12">
+                    <div className="col-12 mt-4">
                         <TableMedicalInfo />
                     </div>
-
+                    <div className="col-12 mt-4">
+                        <button align="left" className="buttonSizeGeneral" onClick={this.backButton}>Volver</button>
+                    </div>
                 </div>
             </div>
         )
