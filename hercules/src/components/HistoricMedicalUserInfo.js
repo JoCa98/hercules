@@ -17,6 +17,14 @@ import TableMedicalInfo from './TableMedicalInfo';
 class HistoricMedicalUserInfo extends Component {
     constructor() {
         super();
+        this.backButton = this.backButton.bind(this);
+    }
+
+    /**
+* Method that redirect to the previous page
+*/
+    backButton() {
+        this.props.history.push(`/UserHome`);
     }
 
     render() {
@@ -26,10 +34,12 @@ class HistoricMedicalUserInfo extends Component {
                     <div className="col-12">
                         <h1 className="text-left colorBlue">Consulta médica</h1>
                     </div>
-                    <div className="col-12">
+                    <div className="col-12 mt-4">
                         <TableMedicalInfo />
                     </div>
-
+                    <div className="col-12 mt-4">
+                        <button align="left" className="buttonSizeGeneral" onClick={this.backButton}>Volver</button>
+                    </div>
                 </div>
             </div>
         )

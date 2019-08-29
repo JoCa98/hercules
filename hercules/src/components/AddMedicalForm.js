@@ -117,6 +117,7 @@ class AddMedicalForm extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.validation = this.validation.bind(this);
         this.loadData = this.loadData.bind(this);
+        this.backButton = this.backButton.bind(this);
     }
 
     /**
@@ -333,6 +334,12 @@ class AddMedicalForm extends Component {
         }
     }
 
+    /**
+* Method that redirect to the previous page
+*/
+    backButton() {
+        this.props.history.push(`/HistoricMedicalInfo`);
+    }
 
     render() {
         const name = this.state.userName.map((userName, i) => {
@@ -614,8 +621,13 @@ class AddMedicalForm extends Component {
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-4 offset-9 mt-4">
-                                <button align="left" name="save" type="submit" className="buttonSizeGeneral">Guardar</button>
+                            <div className="row">
+                                <div className="mt-4 col-2">
+                                    <button align="left" className="buttonSizeGeneral" onClick={this.backButton}>Volver</button>
+                                </div>
+                                <div className="mt-4 col-2 offset-7">
+                                    <button align="right" name="save" type="submit" className="buttonSizeGeneral">Guardar</button>
+                                </div>
                             </div>
                         </form>
                     </div>

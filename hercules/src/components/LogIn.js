@@ -66,7 +66,7 @@ class LogIn extends Component {
     }
 
     goSignUp() {
-        this.props.history.push(`/SignUp`);
+        this.props.history.push(`/Terms`);
     }
 
     goPasswordRecovery() {
@@ -81,7 +81,6 @@ class LogIn extends Component {
     render() {
 
         return (
-
 
             <div className="container">
                 <div className="row mt-4 " >

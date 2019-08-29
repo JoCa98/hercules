@@ -7,6 +7,7 @@ class NavbarUserHome extends Component {
     constructor(props) {
         super(props);
         this.logOut = this.logOut.bind(this);
+        this.userHome = this.userHome.bind(this);
         this.userConfiguration = this.userConfiguration.bind(this);
         this.medicalUserInfo = this.medicalUserInfo.bind(this);
         this.physicalUserInfo = this.physicalUserInfo.bind(this);
@@ -31,7 +32,7 @@ class NavbarUserHome extends Component {
     }
 
     physicalUserInfo() {
-        this.props.history.push(`/HistoricMedicalUserInfo`);
+        this.props.history.push(`/HistoricPhysicalUserInfo`);
     }
     render() {
         return (

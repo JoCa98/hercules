@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-class AddPhysicalInfo extends Component {
+class EditPhysicalInfo extends Component {
     constructor(props) {
         super(props);
         this.state = {
             userName: [{}],
+            idPhisicalInfo: "",
             partyID: sessionStorage.getItem("userPartyID"),
-            date: new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate(),
             weight: "",
             bodyWater: "",
-            viceralFat: "",
+            visceralFat: "",
             boneMass: "",
             DCI: "",
             metabolicAge: "",
@@ -18,12 +18,27 @@ class AddPhysicalInfo extends Component {
             muscleMass: "",
             physicalAssesment: ""
         };
+
         this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.saveChange = this.saveChange.bind(this);
+        this.loadInformation = this.loadInformation.bind(this);
+        this.loadName = this.loadName.bind(this);
+        this.loadPhysicalInformation = this.loadPhysicalInformation.bind(this);
         this.backButton = this.backButton.bind(this);
+
     }
 
     componentDidMount() {
+        this.loadInformation();
+    }
+
+    loadInformation() {
+        this.loadName();
+        this.loadPhysicalInformation();
+    }
+
+    loadName() {
+        //Name
         axios.get(`http://localhost:9000/User/getUserName`,
             {
                 params: { partyID: this.state.partyID }
@@ -33,32 +48,51 @@ class AddPhysicalInfo extends Component {
             });
     }
 
-    handleSubmit = event => {
+    loadPhysicalInformation() {
+        //PhysicalInfo
+        axios.get(`http://localhost:9000/PhysicalInfo/getOnePhysicalInfoByID`,
+            {
+                params: { partyID: this.state.partyID }
+            }).then(response => {
+                const physicalInfo = response.data[0];
 
-        fetch("http://localhost:9000/PhysicalInfo/addPhysicalInfo", {
-            method: "post",
-            body: JSON.stringify(this.state),
+                physicalInfo.map((physicalInfo, i) => {
+                    this.setState({
+                        idPhisicalInfo: physicalInfo.idPhisical_info,
+                        weight: physicalInfo.weight,
+                        bodyWater: physicalInfo.bodyWater,
+                        visceralFat: physicalInfo.visceralFat,
+                        boneMass: physicalInfo.boneMass,
+                        DCI: physicalInfo.DCI,
+                        metabolicAge: physicalInfo.metabolicAge,
+                        totalBodyFat: physicalInfo.totalBody_Fat,
+                        muscleMass: physicalInfo.totalMuscle_Mass,
+                        physicalAssesment: physicalInfo.physicalAssessment
+                    });
+                })
 
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json"
-            }
-        })
-            .then(res => res.json())
-            .then(data => {
-                this.props.history.push('/HistoricPhysicalInfoAdmin');
-            })
-            .catch(err => console.error(err));
 
-        event.preventDefault();
+            });
     }
 
-    handleInputChange(event) {
-        const { name, value } = event.target;
-        this.setState({
-            [name]: value,
-        });
+    saveChange() {
+        if (window.confirm("¿Está seguro de actualizar los datos?") == true) {
+            fetch("http://localhost:9000/PhysicalInfo/updatePhysicalInfo", {
+                method: "post",
+                body: JSON.stringify(this.state),
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                }
+            })
+                .then(res => res.json())
+                .then(data => {
+                })
+                .catch(err => console.error(err));
 
+            alert("Los datos se actualizaron correctamente");
+            this.props.history.push('/HistoricPhysicalInfoAdmin');
+        }
     }
 
 /**
@@ -68,6 +102,13 @@ class AddPhysicalInfo extends Component {
         this.props.history.push(`/HistoricPhysicalInfoAdmin`);
     }
 
+    handleInputChange(event) {
+        const { name, value } = event.target;
+        this.setState({
+            [name]: value,
+        });
+
+    }
     render() {
         const name = this.state.userName.map((userName, i) => {
             return (
@@ -83,8 +124,9 @@ class AddPhysicalInfo extends Component {
                     <div className="col-4 offset-1 ">
                         {name}
                     </div>
+
                     <div className="col-10 offset-1 mt-4">
-                        <form className="form-horizontal" onSubmit={this.handleSubmit} >
+                        <form className="form-horizontal" >
                             <div className="row">
                                 <div className="col-2 mt-4">
                                     <div className="control-group">
@@ -156,24 +198,25 @@ class AddPhysicalInfo extends Component {
                                     <div className="control-group">
                                         <label className="control-label" htmlFor="inputViceralFat">Grasa Visceral</label>
                                         <div className="controls">
-                                            <input type="decimal" id="inputViceralFat" name="viceralFat" size="3" placeholder="%" value={this.state.viceralFat} onChange={this.handleInputChange} />
+                                            <input type="decimal" id="inputVisceralFat" name="visceralFat" size="3" placeholder="%" value={this.state.visceralFat} onChange={this.handleInputChange} />
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div className="row">
-                                <div className=" mt-5 col-md-8">
-                                    <button align="left" className="buttonSizeGeneral" onClick={this.backButton}>Volver</button>
+                            <div className="row mt-4">
+                                <div className="mt-5 col-8">
+                                    <button align="left" onClick={this.backButton} className="buttonSizeGeneral">Cancelar</button>
                                 </div>
-                                <div className=" mt-5 col-md-4">
-                                    <button align="right" name="save" type="submit" className="buttonSizeGeneral">Guardar</button>
+                                <div className="mt-5 col-4">
+                                    <button align="right" onClick={this.saveChange} className="buttonSizeGeneral">Guardar cambios</button>
                                 </div>
                             </div>
                         </form>
+
                     </div>
                 </div>
             </div>
         )
     }
 }
-export default AddPhysicalInfo;
+export default EditPhysicalInfo;

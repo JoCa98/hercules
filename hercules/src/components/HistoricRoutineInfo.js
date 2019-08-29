@@ -34,8 +34,8 @@ class HistoricRoutineInfo extends Component {
         }
 
         this.redirect = this.redirect.bind(this);
-        this.rowEvent =this.rowEvent.bind(this);
-
+        this.rowEvent = this.rowEvent.bind(this);
+        this.backButton = this.backButton.bind(this);
     }
 
     redirect() {
@@ -68,15 +68,22 @@ class HistoricRoutineInfo extends Component {
         }
     }
 
-    rowEvent(event){
-        try{
+    rowEvent(event) {
+        try {
             var id = document.getElementById("routineTable").rows[event.target.parentNode.rowIndex].cells[0].innerHTML;
             sessionStorage.setItem("routineID", id);
             this.props.history.push(`/RoutineAdmin`);
-        }catch(err){
+        } catch (err) {
             console.error(err);
         }
 
+    }
+
+    /**
+ * Method that redirect to the previous page
+ */
+    backButton() {
+        this.props.history.push(`/ConsultUser`);
     }
 
     render() {
@@ -132,6 +139,11 @@ class HistoricRoutineInfo extends Component {
                                 {indexRoutineHist}
                             </tbody>
                         </table>
+                    </div>
+                    <div className="row">
+                        <div className=" mt-3 col-md-8">
+                            <button align="left" className="buttonSizeGeneral" onClick={this.backButton}>Volver</button>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -12,7 +12,6 @@
 
 import React, { Component } from 'react';
 import Carousel from './RoutineCarouselReadOnly';
-import './UserHome.css';
 import axios from "axios";
 
 
@@ -40,9 +39,29 @@ class UserHome extends Component {
     * when loading the page for the first time
     */
     componentDidMount() {
-        axios.get("http://localhost:9000/RoutineRoute/getRoutineHistoric", {
+        var res = 0;
+        axios.get("http://localhost:9000/RoutineRoute/getRoutineID", {
             params: {
                 partyID: this.state.partyID,
+            }
+        }).then(response => {
+            if (response) {
+                console.log(response.data[0]);
+                 res = response.data[0];
+                 if(res[0].routineID != null){
+                    sessionStorage.setItem("routineID", res[0].routineID);
+                 }else{
+                     this.props.history.push(`/UserHomeWithOut`);
+                     console.log("sin rutina");
+                 }
+            }
+        })
+
+
+        console.log(sessionStorage.getItem("routineID"));
+        axios.get("http://localhost:9000/RoutineRoute/getRoutineInfo", {
+            params: {
+                routineID: sessionStorage.getItem("routineID"),
             }
         }).then(response => {
             if (response) {
@@ -53,6 +72,7 @@ class UserHome extends Component {
             }
         })
     }
+
     
     render() {
         return (
@@ -60,7 +80,7 @@ class UserHome extends Component {
                 <div className="row mt-4">
                     <div className="col-12 card p-5">
                         <form className="userHomeForm">
-                            <h2 className="text-center colorBlue mb-4">Rutina actual</h2>
+                            <h1 className="text-left colorBlue mb-4">Rutina actual</h1>
                             <div className="row">
                                 <div className="col-12 col-md-4">
                                     <div className="row">

@@ -23,10 +23,14 @@ import AddMedicalForm from './components/AddMedicalForm';
 import HistoricMedicalInfo from './components/HistoricMedicalInfo';
 import RoutineAdmin from './components/RoutineAdmin';
 import AddPhysicalInfo from './components/AddPhysicalInfo';
+import EditPhysicalInfo from './components/EditPhysicalInfo';
 import HistoricMedicalUserInfo from './components/HistoricMedicalUserInfo';
 import ConfigurationAdmin from './components/ConfigurationAdmin';
 import validations from './components/validations';
 import Hash from './components/Hash';
+import UserHomeWithOut from './components/UserHomeWithOut';
+import Terms from './components/Terms';
+
 function App() {
   return (
     <Switch>
@@ -34,24 +38,34 @@ function App() {
         <Header />
         <Route exact path="/" component={LogIn} />
         <Fragment>
-          <Route exact path="/UserHome" component={UserHome} />
-          <Route exact path="/UserConfiguration" component={UserConfiguration} />
+          {/** Outside */}
           <Route exact path="/SignUp" component={SignUp} />
           <Route exact path="/ActCodeForm" component={ActCodeForm} />
-          <Route exact path="/RoutineAdmin" component={RoutineAdmin} />
-          <Route exact path="/AddRoutine" component={AddRoutine} />
+          <Route exact path="/PasswordRecovery" component={PasswordRecovery} />
+
+          {/** Admin Side */}
+          <Route exact path="/HomeAdmin" component={HomeAdmin} />
+          <Route exact path="/AddAdmin" component={AddAdmin} />
           <Route exact path="/AddMedicalForm" component={AddMedicalForm} />
+          <Route exact path="/AddPhysicalInfo" component={AddPhysicalInfo} />
+          <Route exact path="/EditPhysicalInfo" component={EditPhysicalInfo}/>
+          <Route exact path="/AddRoutine" component={AddRoutine} />
+          <Route exact path="/RoutineAdmin" component={RoutineAdmin} />
+          <Route exact path="/ConsultUser" component={ConsultUser} />
           <Route exact path="/HistoricMedicalInfo" component={HistoricMedicalInfo} />
           <Route exact path="/HistoricPhysicalInfoAdmin" component={HistoricPhysicalInfoAdmin} />
           <Route exact path="/HistoricRoutineInfo" component={HistoricRoutineInfo} />
-          <Route exact path="/HomeAdmin" component={HomeAdmin}/>
-          <Route exact path="/HistoricPhysicalUserInfo" component={HistoricPhysicalUserInfo}/>
-          <Route exact path="/ConsultUser" component={ConsultUser}/>
-          <Route exact path="/AddPhysicalInfo" component={AddPhysicalInfo}/>
-          <Route exact path="/AddAdmin" component={AddAdmin}/>
-          <Route exact path="/HistoricMedicalUserInfo" component={HistoricMedicalUserInfo}/>
           <Route exact path="/PasswordRecovery" component={PasswordRecovery}/>
-          <Route exact path="/ConfigurationAdmin" component={ConfigurationAdmin}/>
+          <Route exact path="/UserHomeWithOut" component={UserHomeWithOut}/>
+          <Route exact path="/Terms" component={Terms}/>
+          <Route exact path="/ConfigurationAdmin" component={ConfigurationAdmin} />
+
+          {/** User Side */}
+          <Route exact path="/UserHome" component={UserHome} />
+          <Route exact path="/UserConfiguration" component={UserConfiguration} />
+          <Route exact path="/HistoricPhysicalUserInfo" component={HistoricPhysicalUserInfo} />
+          <Route exact path="/HistoricMedicalUserInfo" component={HistoricMedicalUserInfo} />
+
         </Fragment>
         <Footer />
       </Fragment>

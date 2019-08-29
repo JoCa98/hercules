@@ -77,10 +77,10 @@ class UserConfiguration extends Component {
         this.initAllFields = this.initAllFields.bind(this);
         this.showPasswordFields = this.showPasswordFields.bind(this);
 
+        this.backButton = this.backButton.bind(this);
+
     }
     componentDidMount() {
-
-
         var initProvinceID = 2;
         var initCantonID = 30;
         axios.get(`http://localhost:9000/User/getRelationType`).then(response => {
@@ -149,6 +149,7 @@ class UserConfiguration extends Component {
             });
         });
     };
+
     getDistrictsByCanton(event) {
         this.setState({ cantonID: event.target.value });
         document.getElementById('cantonID').value = event.target.value
@@ -172,6 +173,7 @@ class UserConfiguration extends Component {
         this.setState({ districtID: event.target.value });
         document.getElementById('districtID').value = event.target.value;
     };
+
     loadRelations() {
         this.state.relationList = this.state.relations.map((relations, i) => {
             return (
@@ -195,6 +197,7 @@ class UserConfiguration extends Component {
             )
         });
     }
+
     loadDistricts() {
         this.state.districtList = this.state.districts.map((districts, i) => {
 
@@ -209,6 +212,7 @@ class UserConfiguration extends Component {
             return JSON.parse(JSON.stringify(response.data[0]))[0]['cantonID']
         });
     }
+
     handleSelectProvince(event) {
         this.handleInputChange(event);
         var value = event.target.value;
@@ -249,15 +253,13 @@ class UserConfiguration extends Component {
                 document.getElementById('provinceID').value = JSON.parse(JSON.stringify(response.data[0]))[0]['localGeoSupID']
             });
         });
-
     }
+
     loadUserInfo() {
         axios.get(`http://localhost:9000/User/getUserInfo`, { params: { partyID: sessionStorage.getItem('partyID') } }).then(response => {
             response.data[0].map((response) => {
                 this.getLocalGeoSupID(response.districtID);
                 document.getElementById('districtID').value = response.districtID;
-
-
                 this.setState({
                     identificationID: response.identificationID,
                     firstName: response.firstName,
@@ -278,9 +280,7 @@ class UserConfiguration extends Component {
                 })
                 sessionStorage.setItem('currentIdentificationID', response.identificationID);
                 sessionStorage.setItem('currentCarnet', response.carnet);
-
             })
-
         });
         this.state.userTypeID = sessionStorage.getItem('userTypeID');
         this.state.email = sessionStorage.getItem('email');
@@ -289,7 +289,6 @@ class UserConfiguration extends Component {
     updateUser() {
         var secondName = this.state.secondName;
         var secondLastName = this.state.secondLastName;
-
         if (secondName == null) {
             secondName = '';
         }
@@ -375,6 +374,7 @@ class UserConfiguration extends Component {
         this.state.newPassword = "";
         this.state.confirmNewPassword = "";
     }
+
     handleInputChange(event) {
         const { name, value } = event.target;
         this.setState({
@@ -395,6 +395,7 @@ class UserConfiguration extends Component {
         document.getElementById('editContact').style.display = 'block';
         document.getElementById('changeContact').style.display = 'none';
     }
+
     initAllFields() {
         this.enableInfoFields(false);
         this.enablePasswordFields(false);
@@ -424,6 +425,7 @@ class UserConfiguration extends Component {
         document.getElementById('addressLine').disabled = disabled;
         document.getElementById('identificationID').disabled = disabled;
     }
+
     enablePasswordFields(value) {
         var disabled = '';
         if (value == true) {
@@ -455,6 +457,7 @@ class UserConfiguration extends Component {
         document.getElementById('changeInfo').style.display = 'block';
         this.enableInfoFields(true)
     }
+
     cancelInfo() {
         document.getElementById('cancelInfo').style.display = 'none';
         document.getElementById('editInfo').style.display = 'block';
@@ -462,10 +465,10 @@ class UserConfiguration extends Component {
         this.loadUserInfo();
         this.enableInfoFields(false)
     }
+
     changeInfo() {
         axios.get(`http://localhost:9000/User/isIdentificationValid`, { params: { identificationID: this.state.identificationID } }).then(response => {
             var identificationIDValid = JSON.parse(JSON.stringify(response.data))[0]['isIdentificationValid'].data[0];
-
             axios.get(`http://localhost:9000/User/isCarnetValid`, { params: { carnet: this.state.carnet } }).then(response => {
                 var carnetValid = JSON.parse(JSON.stringify(response.data))[0]['isCarnetValid'].data[0];
                 if (this.state.firstName.trim().length == 0 || this.state.lastName.trim().length == 0
@@ -482,7 +485,6 @@ class UserConfiguration extends Component {
                 } else if (!this.state.validations.validatePhoneNumberField(this.state.phoneNumber1)
                     || ((this.state.phoneNumber2.trim().length != 0) && (!this.state.validations.validatePhoneNumberField(this.state.phoneNumber2)))) {
                     alert("Los números telefónicos deben estar compuestos por 8 dígitos");
-
                 } else if (this.state.carnet != "N/A" && !this.state.validations.validateCarnetField(this.state.carnet)) {
                     alert("El carné debe estar compuesto por 1 letra inicial y 5 dígitos");
                 } else if (this.state.carnet != "N/A" && carnetValid == 1 && (this.state.carnet != sessionStorage.getItem('currentCarnet'))) {
@@ -491,9 +493,8 @@ class UserConfiguration extends Component {
                     alert("El formato de la cédula ingresada es incorrecto");
                 } else if (identificationIDValid == 1 && (this.state.identificationID != sessionStorage.getItem('currentIdentificationID'))) {
                     alert("La cédula ingresado ya corresponde a otro usuario registrado");
-
                 } else {
-                    if (window.confirm("¿Está seguro se actualizar los datos de usuario?") == true) {
+                    if (window.confirm("¿Está seguro de actualizar los datos de usuario?") == true) {
                         document.getElementById('changeInfo').style.display = 'none';
                         document.getElementById('editInfo').style.display = 'block';
                         document.getElementById('cancelInfo').style.display = 'none';
@@ -503,8 +504,6 @@ class UserConfiguration extends Component {
                 }
             });
         });
-
-
     }
 
     editPassword() {
@@ -513,6 +512,7 @@ class UserConfiguration extends Component {
         document.getElementById('changePassword').style.display = 'block';
         this.enablePasswordFields(true);
     }
+
     cancelPassword() {
         document.getElementById('cancelPassword').style.display = 'none';
         document.getElementById('editPassword').style.display = 'block';
@@ -520,6 +520,7 @@ class UserConfiguration extends Component {
         this.setState({ password: "", newPassword: "", confirmNewPassword: "" });
         this.enablePasswordFields(false);
     }
+
     changePassword() {
         if (document.getElementById('password').value.length == 0 || document.getElementById('newPassword').value.length == 0
             || document.getElementById('confirmNewPassword').value.length == 0) {
@@ -541,12 +542,14 @@ class UserConfiguration extends Component {
             }
         }
     }
+
     editContact() {
         document.getElementById('editContact').style.display = 'none';
         document.getElementById('cancelContact').style.display = 'block';
         document.getElementById('changeContact').style.display = 'block';
         this.enableContactFields(true);
     }
+
     cancelContact() {
         document.getElementById('cancelContact').style.display = 'none';
         document.getElementById('editContact').style.display = 'block';
@@ -554,6 +557,7 @@ class UserConfiguration extends Component {
         this.loadUserInfo();
         this.enableContactFields(false);
     }
+
     changeContact() {
         if (this.state.emergencyContactPhoneNumber.trim().length == 0 || this.state.contactName.trim().length == 0) {
             alert("Todos los datos del contacto de emergencia deben estar llenos");
@@ -585,6 +589,14 @@ class UserConfiguration extends Component {
             document.getElementById('confirmNewPassword').type = "password";
         }
     }
+
+    /**
+   * Method that redirect to the previous page
+   */
+    backButton() {
+        this.props.history.push(`/UserHome`);
+    }
+
     render() {
         console.log("cargo en render: " + this.state.provinceID)
         this.loadRelations();
@@ -592,11 +604,10 @@ class UserConfiguration extends Component {
         this.loadCantons();
         this.loadDistricts();
         return (
-
             <div className="container">
                 <div className="row mt-4 card p-5" >
                     <div className="col-12">
-                        <h1 className="text-center">Configuración del perfil</h1>
+                        <h1 className="text-left colorBlue">Configuración del perfil</h1>
                         <br></br>
                         <div className="row">
                             <div className="col-12 col-lg-6">
@@ -840,10 +851,14 @@ class UserConfiguration extends Component {
                                 </div>
                             </div>
                         </div>
+                        <div className="row">
+                            <div className="mt-4 col-2">
+                                <button align="left" className="buttonSizeGeneral" onClick={this.backButton}>Volver</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-
         )
     }
 }
