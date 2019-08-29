@@ -55,7 +55,6 @@ function App() {
           <Route exact path="/HistoricMedicalInfo" component={HistoricMedicalInfo} />
           <Route exact path="/HistoricPhysicalInfoAdmin" component={HistoricPhysicalInfoAdmin} />
           <Route exact path="/HistoricRoutineInfo" component={HistoricRoutineInfo} />
-          <Route exact path="/PasswordRecovery" component={PasswordRecovery}/>
           <Route exact path="/UserHomeWithOut" component={UserHomeWithOut}/>
           <Route exact path="/Terms" component={Terms}/>
           <Route exact path="/ConfigurationAdmin" component={ConfigurationAdmin} />

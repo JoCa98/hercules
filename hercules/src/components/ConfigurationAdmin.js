@@ -119,7 +119,7 @@ class ConfigurationAdmin extends Component {
                                                 <input type="password" id="password" placeholder="Contraseña" name="password" className="form-control" onChange={this.handleInputChange} required></input>
                                                 <br></br>
                                                 <p align="justify">Confirmar contraseña<font color="red">*</font></p>
-                                                <input type="password" id="confirmPassword" name="confirmPassword" className="form-control" onChange={this.handleInputChange} required></input>
+                                                <input type="password" id="confirmPassword" placeholder="Confirmar contraseña" name="confirmPassword" className="form-control" onChange={this.handleInputChange} required></input>
                                                 <input type="checkbox" id="showPasswordFields" placeholder="Contraseña" name="showPasswordFields" onChange={this.showPasswordFields} ></input>Mostrar campos
                                                 <br />
                                                 <br />
