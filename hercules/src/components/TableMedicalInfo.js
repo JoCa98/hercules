@@ -134,26 +134,24 @@ class TableMedicalInfo extends Component {
                     <tr className="pointer" onClick={this.rowEvent} key={i}>
                         <td className="diplayNone">{medicalInfo.medicalInfoID}</td>
                         <td>{medicalInfo.date}</td>
-                        <td>{medicalInfo.size}</td>
-                        <td>{medicalInfo.weight}</td>
-                        <td>{medicalInfo.IMC}</td>
                         <td>{medicalInfo.bloodPressure}</td>
                         <td>{medicalInfo.SpO2}</td>
+                        <td>{medicalInfo.neurologicalInfo}</td>
+                        <td>{medicalInfo.pulmonaryCardioInfo}</td>
+                        <td>{medicalInfo.aerobicThreshold}</td> 
                         <td>{medicalInfo.heartRate}</td>
-                        <td>{medicalInfo.heartRatePerMinute}</td>
                     </tr>
                 )
             } else {
                 return (
                     <tr key={i}>
                         <td>{medicalInfo.date}</td>
-                        <td>{medicalInfo.size}</td>
-                        <td>{medicalInfo.weight}</td>
-                        <td>{medicalInfo.IMC}</td>
                         <td>{medicalInfo.bloodPressure}</td>
                         <td>{medicalInfo.SpO2}</td>
+                        <td>{medicalInfo.neurologicalInfo}</td>
+                        <td>{medicalInfo.pulmonaryCardioInfo}</td>
+                        <td>{medicalInfo.aerobicThreshold}</td>
                         <td>{medicalInfo.heartRate}</td>
-                        <td>{medicalInfo.heartRatePerMinute}</td>
                     </tr>
                 )
             }
@@ -164,25 +162,23 @@ class TableMedicalInfo extends Component {
                 return (
                     <tr className="pointer" onClick={this.rowEvent} key={i}>
                         <td className="diplayNone">{medicalInfo.medicalInfoID}</td>
-                        <td>{medicalInfo.date}</td>
-                        <td>{medicalInfo.neurologicalInfo}</td>
-                        <td>{medicalInfo.pulmonaryCardioInfo}</td>
-                        <td>{medicalInfo.abdomen}</td>
+                        <td>{medicalInfo.weight}</td>
+                        <td>{medicalInfo.size}</td>
+                        <td>{medicalInfo.date}</td>  
+                        <td>{medicalInfo.IMC}</td>                      
                         <td>{medicalInfo.waist}</td>
-                        <td>{medicalInfo.hip}</td>
-                        <td>{medicalInfo.cardiovascularRisk}</td>
+                        <td>{medicalInfo.hip}</td>                        
                     </tr>
                 )
             } else {
                 return (
                     <tr key={i}>
-                        <td>{medicalInfo.date}</td>
-                        <td>{medicalInfo.neurologicalInfo}</td>
-                        <td>{medicalInfo.pulmonaryCardioInfo}</td>
-                        <td>{medicalInfo.abdomen}</td>
+                        <td>{medicalInfo.date}</td>  
+                        <td>{medicalInfo.weight}</td>
+                        <td>{medicalInfo.size}</td>  
+                        <td>{medicalInfo.IMC}</td>                    
                         <td>{medicalInfo.waist}</td>
                         <td>{medicalInfo.hip}</td>
-                        <td>{medicalInfo.cardiovascularRisk}</td>
                     </tr>
                 )
             }
@@ -195,6 +191,8 @@ class TableMedicalInfo extends Component {
                         <td className="diplayNone">{medicalInfo.medicalInfoID}</td>
                         <td>{medicalInfo.date}</td>
                         <td>{medicalInfo.recommendations}</td>
+                        <td>{medicalInfo.cardiovascularRisk}</td>
+                        <td>{medicalInfo.upToDate}</td>
                     </tr>
                 )
             } else {
@@ -202,6 +200,8 @@ class TableMedicalInfo extends Component {
                     <tr key={i}>
                         <td>{medicalInfo.date}</td>
                         <td>{medicalInfo.recommendations}</td>
+                        <td>{medicalInfo.cardiovascularRisk}</td>
+                        <td>{medicalInfo.upToDate}</td>
                     </tr>
                 )}
             })
@@ -249,13 +249,13 @@ class TableMedicalInfo extends Component {
                                 <thead>
                                     <tr>
                                         <th scope="col" className="align-middle">Fecha</th>
-                                        <th scope="col" className="align-middle">Talla (cm)</th>
-                                        <th scope="col" className="align-middle">Peso (kg)</th>
-                                        <th scope="col" className="align-middle">IMC (kg/m²)</th>
+                                        
                                         <th scope="col" className="align-middle">Presión Arterial<br />(mmHg)</th>
                                         <th scope="col" className="align-middle">SpO2 (%)</th>
+                                        <th scope="col" className="align-middle">Neurológico</th>
+                                        <th scope="col" className="align-middle">Cardiopulmonar</th>
+                                        <th scope="col" className="align-middle">Umbral Aeróbico</th>
                                         <th scope="col" className="align-middle">Frecuencia Cardíaca</th>
-                                        <th scope="col" className="align-middle">Frec. Cardíaca<br />por minuto<br />(ppm)</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -270,12 +270,11 @@ class TableMedicalInfo extends Component {
                                 <thead>
                                     <tr>
                                         <th scope="col" className="align-middle">Fecha</th>
-                                        <th scope="col" className="align-middle">Neurológico</th>
-                                        <th scope="col" className="align-middle">Cardiopulmonar</th>
-                                        <th scope="col" className="align-middle">Abdomen (cm)</th>
+                                        <th scope="col" className="align-middle">Peso (kg)</th>
+                                        <th scope="col" className="align-middle">Talla (cm)</th>                                        
+                                        <th scope="col" className="align-middle">IMC (kg/m²)</th>                                        
                                         <th scope="col" className="align-middle">Cintura (cm)</th>
                                         <th scope="col" className="align-middle">Cadera</th>
-                                        <th scope="col" className="align-middle">Riesgo Cardiovascular</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -291,6 +290,9 @@ class TableMedicalInfo extends Component {
                                     <tr>
                                         <th scope="col" className="align-middle">Fecha</th>
                                         <th scope="col" className="align-middle">Recomendaciones</th>
+                                        <th scope="col" className="align-middle">Riesgo Cardiovascular</th>
+                                        <th scope="col" className="align-middle">Válido hasta</th>
+
                                     </tr>
                                 </thead>
                                 <tbody>

@@ -52,7 +52,7 @@ class AddMedicalForm extends Component {
         * heartRate:
         * @type {integer}
         * 
-        * heartRatePerMinute:
+        * aerobicThreshold:
         * @type {integer}
         * 
         * Sp02:
@@ -65,9 +65,6 @@ class AddMedicalForm extends Component {
         * @type {integer}
         * 
         * IMC:
-        * @type {integer}
-        * 
-        * abdomen:
         * @type {integer}
         * 
         * waist:
@@ -91,7 +88,6 @@ class AddMedicalForm extends Component {
         this.state = {
             userName: [{}],
             partyID: sessionStorage.getItem("userPartyID"),
-            date: new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate(),
             pathologies: "",
             allergies: "",
             surgeries: "",
@@ -101,7 +97,7 @@ class AddMedicalForm extends Component {
             pulmonaryCardioInfo: "",
             bloodPressure: "0",
             heartRate: "0",
-            heartRatePerMinute: "0",
+            aerobicThreshold: "0",
             SpO2: "0",
             weight: "0",
             size: "0",
@@ -113,7 +109,9 @@ class AddMedicalForm extends Component {
             medicalInfo: [{}],
             medicalID: "0",
             validations: new validations(),
-            medicalCod: "0"
+            medicalCod: "0",
+            upToDate: (new Date().getFullYear() + 1) + "-" + ("0" + (new Date().getMonth() + 1)).slice(-2) + "-" + ("0" + new Date().getDate()).slice(-2),
+
         };
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -201,12 +199,11 @@ class AddMedicalForm extends Component {
         this.setState({ pulmonaryCardioInfo: this.state.medicalInfo[0].pulmonaryCardioInfo });
         this.setState({ bloodPressure: this.state.medicalInfo[0].bloodPressure });
         this.setState({ heartRate: this.state.medicalInfo[0].heartRate });
-        this.setState({ heartRatePerMinute: this.state.medicalInfo[0].heartRatePerMinute });
+        this.setState({ aerobicThreshold: this.state.medicalInfo[0].aerobicThreshold });
         this.setState({ SpO2: this.state.medicalInfo[0].SpO2 });
         this.setState({ weight: this.state.medicalInfo[0].weight });
         this.setState({ size: this.state.medicalInfo[0].size });
         this.setState({ IMC: this.state.medicalInfo[0].IMC });
-        this.setState({ abdomen: this.state.medicalInfo[0].abdomen });
         this.setState({ waist: this.state.medicalInfo[0].waist });
         this.setState({ hip: this.state.medicalInfo[0].hip });
         this.setState({ cardiovascularRisk: this.state.medicalInfo[0].cardiovascularRisk });
@@ -292,9 +289,8 @@ class AddMedicalForm extends Component {
             || this.state.size.toString().trim().length == 0
             || this.state.weight.toString().trim().length == 0
             || this.state.heartRate.toString().trim().length == 0
-            || this.state.heartRatePerMinute.toString().trim().length == 0
+            || this.state.aerobicThreshold.toString().trim().length == 0
             || this.state.SpO2.toString().trim().length == 0
-            || this.state.abdomen.toString().trim().length == 0
             || this.state.waist.toString().trim().length == 0
             || this.state.hip.toString().trim().length == 0
             || this.state.bloodPressure.toString().trim().length == 0
@@ -326,7 +322,7 @@ class AddMedicalForm extends Component {
             }
         } else if (!this.state.validations.validateNumericField(this.state.bloodPressure.trim())
             || !this.state.validations.validateNumericField(this.state.heartRate.trim())
-            || !this.state.validations.validateNumericField(this.state.heartRatePerMinute.trim())//se debe cambiar por umbral aerobico
+            || !this.state.validations.validateNumericField(this.state.aerobicThreshold.trim())//se debe cambiar por umbral aerobico
             || !this.state.validations.validateNumericField(this.state.SpO2.trim())
             || !this.state.validations.validateNumericField(this.state.weight.trim())
             || !this.state.validations.validateNumericField(this.state.size.trim())
@@ -357,7 +353,7 @@ class AddMedicalForm extends Component {
                     <div className="col-12">
                         <h1 className="text-left colorBlue">Formulario médico</h1>
                         <div className="row">
-                            <div className="col-4 offset-1 text-center">
+                            <div className="col-4 offset-1 text-left">
                                 {name}
                             </div>
                         </div>
@@ -502,9 +498,9 @@ class AddMedicalForm extends Component {
                                                         <div className="row">
                                                             <div className="col-2">
                                                                 <div className="control-group">
-                                                                    <label className="control-label" htmlFor="heartRatePerMinute">FCM<font color="red">*</font></label>
+                                                                    <label className="control-label" htmlFor="aerobicThreshold">Umbral aeróbico<font color="red">*</font></label>
                                                                     <div className="controls">
-                                                                        <input type="decimal" id="heartRatePerMinute" name="heartRatePerMinute" required value={this.state.heartRatePerMinute} onChange={this.handleInputChange} size="10" placeholder="?" />
+                                                                        <input type="decimal" id="aerobicThreshold" name="aerobicThreshold" required value={this.state.aerobicThreshold} onChange={this.handleInputChange} size="10" placeholder="?" />
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -608,6 +604,15 @@ class AddMedicalForm extends Component {
                                                             <div className="form-group">
                                                                 <textarea id="recommendations" rows="5" name="recommendations" className="form-control" value={this.state.recommendations} onChange={this.handleInputChange} />
                                                             </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="row">
+                                                    <div className="col-6">
+                                                        <div className="form-group" align="left">
+                                                            <br></br>
+                                                            <p title="Campo obligatorio">Válido hasta<font color="red">*</font></p>
+                                                            <input type="date" name="upToDate" required onChange={this.handleInputChange} value={this.state.upToDate} className="form-control InputText"></input>
                                                         </div>
                                                     </div>
                                                 </div>
