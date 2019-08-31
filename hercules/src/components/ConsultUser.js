@@ -106,11 +106,12 @@ class ConsultUser extends Component {
             <div className="container">
                 <div className="row mt-4 card p-5" >
                     <div className="col-12">
+                            <h1 className="text-left">Consulta de usuario</h1>
+                        
                         <div className="row">
                             <div className="col-8">
-                                <div className="row">
-                                    <h1 className="text-left colorBlue">Datos del usuario</h1>
-                                </div>
+                                    <h2 className="text-left">Datos del usuario</h2>
+                                
                                 <div className="row">
                                     <div className="col-12">
                                         <div className="form-group" align="left">
@@ -159,7 +160,7 @@ class ConsultUser extends Component {
                                 <div className="row">
                                     <div className="col-12">
                                         <div className="form-group" align="left">
-                                            <h1 className="text-left">Contacto de emergencia</h1>
+                                            <h2 className="text-left">Contacto de emergencia</h2>
                                         </div>
                                     </div>
                                 </div>
@@ -181,7 +182,7 @@ class ConsultUser extends Component {
                                 </div>
                             </div>
                             <div className="col-4">
-                                <h1 className="text-center">Otros datos</h1>
+                                <h2 className="text-left">Otros datos</h2>
                                 <div className="form-group" align="left">
                                     <br></br>
                                     <button className="circularButton w-100" name="medicalInfo" onClick={this.redirectMedical}>Valoración médica</button>

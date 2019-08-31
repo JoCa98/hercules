@@ -34,7 +34,7 @@ class HistoricMedicalUserInfo extends Component {
                     <div className="col-12">
                         <h1 className="text-left colorBlue">Consulta médica</h1>
                     </div>
-                    <div className="col-12 mt-4">
+                    <div className="col-12 mt-4 text-center">
                         <TableMedicalInfo />
                     </div>
                     <div className="col-12 mt-4">

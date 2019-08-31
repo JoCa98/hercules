@@ -93,19 +93,36 @@ class HistoricRoutineInfo extends Component {
                 <label className="form-label">Usuario: {userName.fullName}</label>
             )
         })
-
+        var routineQuantity = 0;
+        const routineCounter = this.state.routineHist.map((routineHist, i) => {
+            routineQuantity = routineQuantity + 1;
+        })
         const indexRoutineHist = this.state.routineHist.map((routineHist, i) => {
-            return (
-                <tr className="pointer" onClick={this.rowEvent} key={i}>
-                    <td className="diplayNone" >{routineHist.routineID}</td>
-                    <td>{routineHist.date}</td>
-                    <td>{routineHist.frecuency}</td>
-                    <td>{routineHist.intensity}</td>
-                    <td>{routineHist.timeLapse}</td>
-                    <td>{routineHist.rtDescription}</td>
-                    <td>{routineHist.otDescription}</td>
-                </tr>
-            )
+            if (routineQuantity - 1 === i) {
+                return (
+                    <tr className="pointer" onClick={this.rowEvent} key={i}>
+                        <td className="diplayNone" >{routineHist.routineID}</td>
+                        <td>{routineHist.date}</td>
+                        <td>{routineHist.frecuency}</td>
+                        <td>{routineHist.intensity}</td>
+                        <td>{routineHist.timeLapse}</td>
+                        <td>{routineHist.rtDescription}</td>
+                        <td>{routineHist.otDescription}</td>
+                    </tr>
+                )
+            } else {
+                return (
+                    <tr key={i}>
+                        <td className="diplayNone" >{routineHist.routineID}</td>
+                        <td>{routineHist.date}</td>
+                        <td>{routineHist.frecuency}</td>
+                        <td>{routineHist.intensity}</td>
+                        <td>{routineHist.timeLapse}</td>
+                        <td>{routineHist.rtDescription}</td>
+                        <td>{routineHist.otDescription}</td>
+                    </tr>
+                )
+            }
         })
 
         return (
@@ -114,7 +131,7 @@ class HistoricRoutineInfo extends Component {
                     <div className="col-12">
                         <h1 className="text-left colorBlue">Lista de rutinas</h1>
                         <div className="row">
-                            <div className="col-4 offset-1 text-ceter">
+                            <div className="col-4 offset-1 text-center">
                                 {name}
                             </div>
                             <div className="col-4 offset-1 text-center">

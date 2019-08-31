@@ -5,17 +5,18 @@ class PasswordRecovery extends Component {
     constructor() {
         super();
         this.state = {
-          randomPassword: new RandomPassword(),
-          hash: new Hash(),
-          email: ""
+            randomPassword: new RandomPassword(),
+            hash: new Hash(),
+            email: ""
         }
         this.handleInputChange = this.handleInputChange.bind(this);
         this.sendTempPasswordEmail = this.sendTempPasswordEmail.bind(this);
         this.updatePassword = this.updatePassword.bind(this);
-      }
-    
+        this.backButton = this.backButton.bind(this);
+    }
+
     updatePassword() {
-       var tempPassword = this.state.randomPassword.generatePassword();
+        var tempPassword = this.state.randomPassword.generatePassword();
         fetch("http://localhost:9000/User/updatePassword", {
             method: "post",
             body: JSON.stringify({
@@ -27,13 +28,13 @@ class PasswordRecovery extends Component {
                 Accept: "application/json",
                 "Content-Type": "application/json"
             }
-        })        
+        })
             .then(res => res.json())
             .then(data => {
                 console.log(data);
             })
             .catch(err => console.error(err));
-            this.sendTempPasswordEmail(tempPassword);
+        this.sendTempPasswordEmail(tempPassword);
         alert("Se ha enviado una contraseña temporal al correo ingresado. Ahora será redirigido a la pantalla de ingreso");
         this.props.history.push(`/`);
     }
@@ -57,9 +58,13 @@ class PasswordRecovery extends Component {
     handleInputChange(event) {
         const { name, value } = event.target;
         this.setState({
-          [name]: value
+            [name]: value
         });
-      }
+    }
+
+    backButton() {
+        this.props.history.push(`/`);
+    }
 
     render() {
         return (
@@ -75,7 +80,10 @@ class PasswordRecovery extends Component {
                                 <input type="text" name="email" className="form-control" onChange={this.handleInputChange}></input>
                             </div>
                             <div className="row mt-4">
-                                <div className="col-12 text-right">
+                                <div className="col-6 text-left">
+                                    <button type="button" name="cancel" className="buttonSizeGeneral" onClick={this.backButton}>Cancelar</button>
+                                </div>
+                                <div className="col-6 text-right">
                                     <button type="button" name="sendTempPassword" className="buttonSizeGeneral" onClick={this.updatePassword}>Enviar</button>
                                 </div>
                             </div>
