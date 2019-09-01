@@ -82,7 +82,6 @@ class HomeAdmin extends Component {
     */
     onKeyEvent(e) {
         if (e.key == "Enter") {
-            console.log('value', e.key);
             this.searchEvent();
         }
     }

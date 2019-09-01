@@ -18,6 +18,7 @@ class LogIn extends Component {
         this.tryLogin = this.tryLogin.bind(this);
         this.goPasswordRecovery = this.goPasswordRecovery.bind(this);
         this.showPasswordFields = this.showPasswordFields.bind(this);
+        this.onKeyEvent = this.onKeyEvent.bind(this);
     }
 
     showPasswordFields() {
@@ -42,24 +43,24 @@ class LogIn extends Component {
                             sessionStorage.setItem('partyID', JSON.parse(JSON.stringify(response.data[0]))[0]['partyID']);
                             sessionStorage.setItem('userTypeID', JSON.parse(JSON.stringify(response.data[0]))[0]['userTypeID']);
                             var tempPassword = JSON.parse(JSON.stringify(response.data[0]))[0]['tempPassword'].data[0];
-                            if(tempPassword == 1) {
+                            if (tempPassword == 1) {
                                 this.props.history.push(`/ChangeTempPassword`);
                             } else {
                                 if (sessionStorage.getItem('userTypeID') == 1 || sessionStorage.getItem('userTypeID') == 2) {
                                     this.props.history.push(`/UserHome`);
                                     window.location.reload();
-                                } else if (sessionStorage.getItem('userTypeID') == 3 || sessionStorage.getItem('userTypeID') == 4){
+                                } else if (sessionStorage.getItem('userTypeID') == 3 || sessionStorage.getItem('userTypeID') == 4) {
                                     this.props.history.push(`/HomeAdmin`);
                                     window.location.reload();
                                 }
                             }
-                            
+
                         });
                     } else {
                         alert("Contraseña y/o correo ingresados no son correctos.")
                     }
                 });
-            }else {
+            } else {
                 alert("Contraseña y/o correo ingresados no son correctos.")
             }
         });
@@ -72,12 +73,26 @@ class LogIn extends Component {
     goPasswordRecovery() {
         this.props.history.push(`/PasswordRecovery`);
     }
+
     handleInputChange(event) {
         const { name, value } = event.target;
         this.setState({
             [name]: value
         });
     }
+
+    /**
+       * Method that executes the search method by pressing enter in the input.
+       * 
+       * Receive an object that contains the element that called the method
+       *  @param {Object} 
+       */
+    onKeyEvent(e) {
+        if (e.key == "Enter") {
+            this.tryLogin();
+        }
+    }
+
     render() {
 
         return (
@@ -90,11 +105,10 @@ class LogIn extends Component {
                         <div className="row mt-4 " ></div>
                         <div className="form-group" align="left">
                             <p>Correo institucional</p>
-                            <input type="text" name="email" value={this.state.email} className="form-control inputText w-100" onChange={this.handleInputChange}></input>
+                            <input type="text" name="email" onKeyPress={this.onKeyEvent} value={this.state.email} className="form-control inputText w-100" onChange={this.handleInputChange}></input>
                             <br></br>
                             <p>Contraseña</p>
-                            <input type="password" name="password" id="password" value={this.state.password} className="form-control inputText w-100" onChange={this.handleInputChange}></input>
-                            
+                            <input type="password" name="password" id="password" onKeyPress={this.onKeyEvent} value={this.state.password} className="form-control inputText w-100" onChange={this.handleInputChange}></input>
                             <input type="checkbox" id="showPasswordFields" required name="showPasswordFields" onChange={this.showPasswordFields} ></input>Mostrar contraseña
                             <br></br>
                             <br></br>

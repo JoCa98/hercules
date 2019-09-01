@@ -123,7 +123,7 @@ class ConfigurationAdmin extends Component {
                                                 <input type="checkbox" id="showPasswordFields" placeholder="Contraseña" name="showPasswordFields" onChange={this.showPasswordFields} ></input>Mostrar campos
                                                 <br />
                                                 <br />
-                                                <button align="left" className="buttonSizeGeneral">Guardar</button>
+                                                <button align="right" className="buttonSizeGeneral offset-9">Guardar</button>
                                             </div>
 
                                         </form>
