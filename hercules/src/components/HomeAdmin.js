@@ -188,7 +188,7 @@ class HomeAdmin extends Component {
                         <h1 className="text-left colorBlue">Lista de usuarios</h1>
                         <div className="row">
                             <div className="col-2 offset-1">
-                                <select className="form-control"
+                                <select font-size="18px" className="form-control"
                                     name="searchType"
                                     onChange={this.handleInput}>
                                     <option value="0">Carnet</option>
@@ -197,7 +197,7 @@ class HomeAdmin extends Component {
                                 </select>
                             </div>
                             <div className="col-5">
-                                <input
+                                <input font-size="18px"
                                     type="text"
                                     name="searchInput"
                                     onChange={this.handleInput}

@@ -198,7 +198,7 @@ class AddAdmin extends Component {
                                 <div className="col-6">
                                     <div className="form-group" align="left">
                                         <p align="justify">Tipo de administrador<font color="red">*</font></p>
-                                        <select align="justify" name="userTypeID" className="form-control" onChange={this.showMedicalCod}>
+                                        <select align="justify" name="userTypeID" className="form-control" font-size="18px" onChange={this.showMedicalCod}>
                                             <option defaultValue="3" value="3">Médico</option>
                                             <option value="4">Gimnasio</option>
                                         </select>
@@ -207,7 +207,7 @@ class AddAdmin extends Component {
                                 <div className="col-6">
                                     <div className="form-group" align="left">
                                         <p align="justify">Cédula<font color="red">*</font></p>
-                                        <input type="text" name="identificationID" placeholder="#########" className="form-control" onChange={this.inputNumberValidator} required></input>
+                                        <input type="text" name="identificationID" placeholder="#########" font-size="18px" className="form-control" onChange={this.inputNumberValidator} required></input>
                                     </div>
                                 </div>
                             </div>
@@ -215,19 +215,19 @@ class AddAdmin extends Component {
                                 <div className="col-6">
                                     <div className="form-group" align="left">
                                         <p align="justify">Primer nombre<font color="red">*</font></p>
-                                        <input type="text" name="firstName" placeholder="Ej: Kevin" className="form-control" onChange={this.handleInputChange} required></input>
+                                        <input type="text" name="firstName" placeholder="Ej: Kevin" className="form-control" font-size="18px" onChange={this.handleInputChange} required></input>
                                         <br></br>
                                         <p align="justify">Primer Apellido<font color="red">*</font></p>
-                                        <input type="text" name="firstLastName" placeholder="Ej: Jiménez" className="form-control" onChange={this.handleInputChange} required></input>
+                                        <input type="text" name="firstLastName" placeholder="Ej: Jiménez" className="form-control" font-size="18px" onChange={this.handleInputChange} required></input>
                                     </div>
                                 </div>
                                 <div className="col-6">
                                     <div className="form-group" align="left">
                                         <p align="justify">Segundo nombre</p>
-                                        <input type="text" name="secondName" placeholder="Ej: José" className="form-control" onChange={this.handleInputChange}></input>
+                                        <input type="text" name="secondName" placeholder="Ej: José" className="form-control" font-size="18px" onChange={this.handleInputChange}></input>
                                         <br></br>
                                         <p align="justify">Segundo Apellido</p>
-                                        <input type="text" name="secondLastName" placeholder="Ej: Molina" className="form-control" onChange={this.handleInputChange}></input>
+                                        <input type="text" name="secondLastName" placeholder="Ej: Molina" className="form-control" font-size="18px" onChange={this.handleInputChange}></input>
                                     </div>
                                 </div>
                             </div>
@@ -235,14 +235,14 @@ class AddAdmin extends Component {
                                 <div className="col-12">
                                     <div className="form-group" align="left">
                                         <p align="justify">Email<font color="red">*</font></p>
-                                        <input type="email" id="email" name="email" placeholder="Ej: correo@mail.com" className="form-control" onChange={this.handleInputChange} required></input>
+                                        <input type="email" id="email" name="email" placeholder="Ej: correo@mail.com" className="form-control" font-size="18px" onChange={this.handleInputChange} required></input>
                                         <br></br>
                                         <p align="justify">Contraseña<font color="red">*</font></p>
-                                        <input type="password" id="password" placeholder="Contraseña" name="password" className="form-control" onChange={this.handleInputChange} required></input>
+                                        <input type="password" id="password" placeholder="Contraseña" name="password" className="form-control" font-size="18px" onChange={this.handleInputChange} required></input>
                                         <br></br>
                                         <p align="justify">Confirmar contraseña<font color="red">*</font></p>
-                                        <input type="password" id="confirmPassword" name="confirmPassword" className="form-control" onChange={this.handleInputChange} required></input>
-                                        <input type="checkbox" id="showPasswordFields" placeholder="Contraseña" name="showPasswordFields" onChange={this.showPasswordFields} ></input>Mostrar campos
+                                        <input type="password" id="confirmPassword" name="confirmPassword" className="form-control" font-size="18px" onChange={this.handleInputChange} required></input>
+                                        <input type="checkbox" id="showPasswordFields" placeholder="Contraseña" name="showPasswordFields" font-size="18px" onChange={this.showPasswordFields} ></input>Mostrar campos
                                     </div>
                                 </div>
                             </div>
@@ -250,7 +250,7 @@ class AddAdmin extends Component {
                                 <div className="col-12">
                                     <div className="form-group" align="left" id="medicalCodDiv">
                                         <p align="justify">Código de Médico<font color="red">*</font></p>
-                                        <input type="text" id="medicalCodInput" name="medicalCod" placeholder="#########" className="form-control" onChange={this.handleInputChange}></input>
+                                        <input type="text" id="medicalCodInput" name="medicalCod" placeholder="#########" font-size="18px" className="form-control" onChange={this.handleInputChange}></input>
                                     </div>
                                 </div>
                             </div>

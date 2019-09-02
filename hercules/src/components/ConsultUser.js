@@ -115,44 +115,44 @@ class ConsultUser extends Component {
                                 <div className="row">
                                     <div className="col-12">
                                         <div className="form-group" align="left">
-                                            <label>Nombre completo:&nbsp;&nbsp;</label>
-                                            <label id="fullName">{this.state.userInfo[0].fullName}</label>
+                                            <label font-size="18px">Nombre completo:&nbsp;&nbsp;</label>
+                                            <label font-size="18px" id="fullName">{this.state.userInfo[0].fullName}</label>
                                         </div>
                                         <div className="form-group" align="left">
-                                            <label>Número de cédula:&nbsp;&nbsp;</label>
-                                            <label id="identificationNumer">{this.state.userInfo[0].identificationID}</label>
+                                            <label font-size="18px">Número de cédula:&nbsp;&nbsp;</label>
+                                            <label font-size="18px" id="identificationNumer">{this.state.userInfo[0].identificationID}</label>
                                         </div>
                                         <div className="form-group" align="left">
-                                            <label>Número de carné:&nbsp;&nbsp;</label>
-                                            <label id="carnet">{this.state.userInfo[0].carnet}</label>
+                                            <label font-size="18px">Número de carné:&nbsp;&nbsp;</label>
+                                            <label font-size="18px" id="carnet">{this.state.userInfo[0].carnet}</label>
                                         </div>
                                         <div className="form-group" align="left">
-                                            <label>Dirección:&nbsp;&nbsp;</label>
-                                            <label id="address">{this.state.userInfo[0].local_geo}</label>
+                                            <label font-size="18px">Dirección:&nbsp;&nbsp;</label>
+                                            <label font-size="18px" id="address">{this.state.userInfo[0].local_geo}</label>
                                         </div>
                                         <div className="form-group" align="left">
-                                            <label>Otras señas:&nbsp;&nbsp;</label>
-                                            <label id="otherSigns">{this.state.userInfo[0].addressLine}</label>
+                                            <label font-size="18px">Otras señas:&nbsp;&nbsp;</label>
+                                            <label font-size="18px" id="otherSigns">{this.state.userInfo[0].addressLine}</label>
                                         </div>
                                         <div className="form-group" align="left">
-                                            <label>Correo institucional:&nbsp;&nbsp;</label>
-                                            <label id="email">{this.state.userInfo[0].email}</label>
+                                            <label font-size="18px">Correo institucional:&nbsp;&nbsp;</label>
+                                            <label font-size="18px" id="email">{this.state.userInfo[0].email}</label>
                                         </div>
                                         <div className="form-group" align="left">
-                                            <label>Teléfono 1:&nbsp;&nbsp;</label>
-                                            <label id="phoneNumber1">{this.state.userInfo[0].phone1}</label>
+                                            <label font-size="18px">Teléfono 1:&nbsp;&nbsp;</label>
+                                            <label font-size="18px" id="phoneNumber1">{this.state.userInfo[0].phone1}</label>
                                         </div>
                                         <div className="form-group" align="left">
-                                            <label>Teléfono 2:&nbsp;&nbsp;</label>
-                                            <label id="phoneNumber2">{this.state.userInfo[0].phone2}</label>
+                                            <label font-size="18px">Teléfono 2:&nbsp;&nbsp;</label>
+                                            <label font-size="18px" id="phoneNumber2">{this.state.userInfo[0].phone2}</label>
                                         </div>
                                         <div className="form-group" align="left">
-                                            <label>Estado:&nbsp;&nbsp;</label>
-                                            <label id="state">{this.state.userInfo[0].status}</label>
+                                            <label font-size="18px">Estado:&nbsp;&nbsp;</label>
+                                            <label font-size="18px" id="state">{this.state.userInfo[0].status}</label>
                                         </div>
                                         <div className="form-group" align="left">
-                                            <label>Fecha de registro:&nbsp;&nbsp;</label>
-                                            <label id="signUpDate">{this.state.userInfo[0].startDate}</label>
+                                            <label font-size="18px">Fecha de registro:&nbsp;&nbsp;</label>
+                                            <label font-size="18px" id="signUpDate">{this.state.userInfo[0].startDate}</label>
                                         </div>
                                     </div>
 
@@ -167,16 +167,16 @@ class ConsultUser extends Component {
                                 <div className="row">
                                     <div className="col-12">
                                         <div className="form-group" align="left">
-                                            <label>Nombre:&nbsp;&nbsp;</label>
-                                            <label id="contactName">{this.state.userInfo[0].contactName}</label>
+                                            <label font-size="18px">Nombre:&nbsp;&nbsp;</label>
+                                            <label font-size="18px" id="contactName">{this.state.userInfo[0].contactName}</label>
                                         </div>
                                         <div className="form-group" align="left">
-                                            <label>Teléfono:&nbsp;&nbsp;</label>
-                                            <label id="contactPoneNumber">{this.state.userInfo[0].emergencyPhone}</label>
+                                            <label font-size="18px">Teléfono:&nbsp;&nbsp;</label>
+                                            <label font-size="18px" id="contactPoneNumber">{this.state.userInfo[0].emergencyPhone}</label>
                                         </div>
                                         <div className="form-group" align="left">
-                                            <label>Parentesco:&nbsp;&nbsp;</label>
-                                            <label id="relation">{this.state.userInfo[0].relationship}</label>
+                                            <label font-size="18px">Parentesco:&nbsp;&nbsp;</label>
+                                            <label font-size="18px" id="relation">{this.state.userInfo[0].relationship}</label>
                                         </div>
                                     </div>
                                 </div>

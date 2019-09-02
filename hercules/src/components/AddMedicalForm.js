@@ -379,9 +379,9 @@ class AddMedicalForm extends Component {
                                                 <div className="row">
                                                     <div className="col-12">
                                                         <div className="control-group">
-                                                            <label className="control-label" htmlFor="pathologies">Patológicos</label>
+                                                            <label className="control-label" htmlFor="pathologies" font-size="18px">Patológicos</label>
                                                             <div className="controls">
-                                                                <input type="text" name="pathologies" id="pathologies" className="form-control inputText" value={this.state.pathologies} onChange={this.handleInputChange} />
+                                                                <input type="text" name="pathologies" id="pathologies" font-size="18px" className="form-control inputText" value={this.state.pathologies} onChange={this.handleInputChange} />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -389,9 +389,9 @@ class AddMedicalForm extends Component {
                                                 <div className="row">
                                                     <div className="col-12">
                                                         <div className="control-group">
-                                                            <label className="control-label" htmlFor="allergies">Alergias</label>
+                                                            <label className="control-label" htmlFor="allergies" font-size="18px">Alergias</label>
                                                             <div className="controls">
-                                                                <input type="text" name="allergies" id="allergies" className="form-control inputText" value={this.state.allergies} onChange={this.handleInputChange} />
+                                                                <input type="text" name="allergies" id="allergies" font-size="18px" className="form-control inputText" value={this.state.allergies} onChange={this.handleInputChange} />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -399,9 +399,9 @@ class AddMedicalForm extends Component {
                                                 <div className="row">
                                                     <div className="col-12">
                                                         <div className="control-group">
-                                                            <label className="control-label" htmlFor="surgerie">Quirúrgicos</label>
+                                                            <label className="control-label" htmlFor="surgerie" font-size="18px">Quirúrgicos</label>
                                                             <div className="controls">
-                                                                <input type="text" id="surgerie" className="form-control inputText" name="surgeries" value={this.state.surgeries} onChange={this.handleInputChange} />
+                                                                <input type="text" id="surgerie" className="form-control inputText" font-size="18px" name="surgeries" value={this.state.surgeries} onChange={this.handleInputChange} />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -409,20 +409,20 @@ class AddMedicalForm extends Component {
                                                 <div className="row">
                                                     <div className="col-12 col-md-6">
                                                         <div className="control-group">
-                                                            <label className="control-label" htmlFor="smoking">Tabaquismo<font color="red">*</font></label>
+                                                            <label className="control-label" htmlFor="smoking" font-size="18px">Tabaquismo<font color="red">*</font></label>
                                                         </div>
-                                                        <form name="smoking" onChange={this.handleInputChange} value={this.state.smoking} required>
+                                                        <form name="smoking" onChange={this.handleInputChange} font-size="18px" value={this.state.smoking} required>
                                                             <div className="row">
                                                                 <div className="col-2">
                                                                     <div className="controls">
-                                                                        <label>SI
+                                                                        <label font-size="18px">SI
                                                                  <input type="radio" name="smoking" id="smokingYes" value="1" />
                                                                         </label>
                                                                     </div>
                                                                 </div>
                                                                 <div className="col-2">
                                                                     <div className="controls">
-                                                                        <label>NO
+                                                                        <label font-size="18px">NO
                                                                  <input type="radio" name="smoking" id="smokingNo" value="0" />
                                                                         </label>
                                                                     </div>
@@ -432,20 +432,20 @@ class AddMedicalForm extends Component {
                                                     </div>
                                                     <div className="col-12 col-md-6">
                                                         <div className="control-group">
-                                                            <label className="control-label" htmlFor="traumas">Traumáticos<font color="red">*</font></label>
+                                                            <label className="control-label" htmlFor="traumas" font-size="18px">Traumáticos<font color="red">*</font></label>
                                                         </div>
-                                                        <form name="smoking" onChange={this.handleInputChange} value={this.state.traumas} required>
+                                                        <form name="smoking" onChange={this.handleInputChange} font-size="18px" value={this.state.traumas} required>
                                                             <div className="row">
                                                                 <div className="col-2">
                                                                     <div className="controls">
-                                                                        <label> SI
+                                                                        <label font-size="18px"> SI
                                                         <input type="radio" name="traumas" id="traumasYes" value="1" />
                                                                         </label>
                                                                     </div>
                                                                 </div>
                                                                 <div className="col-2">
                                                                     <div className="controls">
-                                                                        <label> NO
+                                                                        <label font-size="18px"> NO
                                                         <input type="radio" name="traumas" id="traumasNo" value="0" />
                                                                         </label>
                                                                     </div>
@@ -468,9 +468,9 @@ class AddMedicalForm extends Component {
                                                         <div className="row">
                                                             <div className="col-2">
                                                                 <div className="control-group">
-                                                                    <label className="control-label" htmlFor="inputHeight">Talla (cm)<font color="red">*</font></label>
+                                                                    <label className="control-label" font-size="18px" htmlFor="inputHeight">Talla (cm)<font color="red">*</font></label>
                                                                     <div className="controls">
-                                                                        <input type="decimal" id="inputHeight" name="size" required value={this.state.size} onChange={this.inputNumberValidator} size="10" placeholder="ej: 170" />
+                                                                        <input type="decimal" id="inputHeight" font-size="18px"  name="size" required value={this.state.size} onChange={this.inputNumberValidator} size="10" placeholder="ej: 170" />
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -478,9 +478,9 @@ class AddMedicalForm extends Component {
                                                         <div className="row">
                                                             <div className="col-2">
                                                                 <div className="control-group">
-                                                                    <label className="control-label" htmlFor="weight">Peso (kg)<font color="red">*</font></label>
+                                                                    <label className="control-label" font-size="18px" htmlFor="weight">Peso (kg)<font color="red">*</font></label>
                                                                     <div className="controls">
-                                                                        <input type="decimal" id="weight" name="weight" required value={this.state.weight} onChange={this.inputNumberValidator} size="10" placeholder="ej. 80" />
+                                                                        <input type="decimal" id="weight" font-size="18px" name="weight" required value={this.state.weight} onChange={this.inputNumberValidator} size="10" placeholder="ej. 80" />
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -488,9 +488,9 @@ class AddMedicalForm extends Component {
                                                         <div className="row">
                                                             <div className="col-2">
                                                                 <div className="control-group">
-                                                                    <label className="control-label" htmlFor="IMC">IMC</label>
+                                                                    <label className="control-label" htmlFor="IMC" font-size="18px">IMC</label>
                                                                     <div className="controls">
-                                                                        <input type="text" id="IMC" name="IMC" value={this.state.IMC} readOnly size="10" />
+                                                                        <input type="text" id="IMC" name="IMC" font-size="18px" value={this.state.IMC} readOnly size="10" />
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -498,9 +498,9 @@ class AddMedicalForm extends Component {
                                                         <div className="row">
                                                             <div className="col-2">
                                                                 <div className="control-group">
-                                                                    <label className="control-label" htmlFor="aerobicThreshold">Umbral aeróbico<font color="red">*</font></label>
+                                                                    <label className="control-label" htmlFor="aerobicThreshold" font-size="18px">Umbral aeróbico<font color="red">*</font></label>
                                                                     <div className="controls">
-                                                                        <input type="decimal" id="aerobicThreshold" name="aerobicThreshold" required value={this.state.aerobicThreshold} onChange={this.handleInputChange} size="10" placeholder="?" />
+                                                                        <input type="decimal" id="aerobicThreshold" font-size="18px" name="aerobicThreshold" required value={this.state.aerobicThreshold} onChange={this.handleInputChange} size="10" placeholder="?" />
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -508,9 +508,9 @@ class AddMedicalForm extends Component {
                                                         <div className="row">
                                                             <div className="col-2">
                                                                 <div className="control-group">
-                                                                    <label className="control-label" htmlFor="heartRate">FC<font color="red">*</font></label>
+                                                                    <label className="control-label" htmlFor="heartRate" font-size="18px">FC<font color="red">*</font></label>
                                                                     <div className="controls">
-                                                                        <input type="decimal" id="heartRate" name="heartRate" required value={this.state.heartRate} onChange={this.handleInputChange} size="10" placeholder="?" />
+                                                                        <input type="decimal" id="heartRate" name="heartRate" font-size="18px" required value={this.state.heartRate} onChange={this.handleInputChange} size="10" placeholder="?" />
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -520,9 +520,9 @@ class AddMedicalForm extends Component {
                                                         <div className="row">
                                                             <div className="col-2">
                                                                 <div className="control-group">
-                                                                    <label className="control-label" htmlFor="SpO2">Sp02<font color="red">*</font></label>
+                                                                    <label className="control-label" htmlFor="SpO2" font-size="18px">Sp02<font color="red">*</font></label>
                                                                     <div className="controls">
-                                                                        <input type="decimal" id="SpO2" name="SpO2" required value={this.state.SpO2} onChange={this.handleInputChange} size="10" placeholder="?" />
+                                                                        <input type="decimal" id="SpO2" name="SpO2" font-size="18px" required value={this.state.SpO2} onChange={this.handleInputChange} size="10" placeholder="?" />
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -530,9 +530,9 @@ class AddMedicalForm extends Component {
                                                         <div className="row">
                                                             <div className="col-2">
                                                                 <div className="control-group">
-                                                                    <label className="control-label" htmlFor="waist">Cintura (cm)<font color="red">*</font></label>
+                                                                    <label className="control-label" htmlFor="waist" font-size="18px">Cintura (cm)<font color="red">*</font></label>
                                                                     <div className="controls">
-                                                                        <input type="decimal" id="waist" name="waist" required value={this.state.waist} onChange={this.handleInputChange} size="10" placeholder="ej. 70" />
+                                                                        <input type="decimal" id="waist" name="waist" font-size="18px" required value={this.state.waist} onChange={this.handleInputChange} size="10" placeholder="ej. 70" />
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -540,9 +540,9 @@ class AddMedicalForm extends Component {
                                                         <div className="row">
                                                             <div className="col-2">
                                                                 <div className="control-group">
-                                                                    <label className="control-label" htmlFor="hip">Cadera (cm)<font color="red">*</font></label>
+                                                                    <label className="control-label" htmlFor="hip" font-size="18px">Cadera (cm)<font color="red">*</font></label>
                                                                     <div className="controls">
-                                                                        <input type="decimal" id="hip" name="hip" required value={this.state.hip} onChange={this.handleInputChange} size="10" placeholder="ej. 90" />
+                                                                        <input type="decimal" id="hip" name="hip" font-size="18px" required value={this.state.hip} onChange={this.handleInputChange} size="10" placeholder="ej. 90" />
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -550,9 +550,9 @@ class AddMedicalForm extends Component {
                                                         <div className="row">
                                                             <div className="col-2">
                                                                 <div className="control-group">
-                                                                    <label className="control-label" htmlFor="bloodPressure">Presión Arterial<font color="red">*</font></label>
+                                                                    <label className="control-label" htmlFor="bloodPressure" font-size="18px">Presión Arterial<font color="red">*</font></label>
                                                                     <div className="controls">
-                                                                        <input type="text" id="bloodPressure" name="bloodPressure" required value={this.state.bloodPressure} onChange={this.handleInputChange} size="10" placeholder="?" />
+                                                                        <input type="text" id="bloodPressure" font-size="18px" name="bloodPressure" required value={this.state.bloodPressure} onChange={this.handleInputChange} size="10" placeholder="?" />
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -561,15 +561,15 @@ class AddMedicalForm extends Component {
                                                     </div>
                                                     <div className="col-6 mt-4">
                                                         <div className="control-group">
-                                                            <label className="control-label" htmlFor="neurologicalInfo">Neurológico</label>
+                                                            <label className="control-label" htmlFor="neurologicalInfo" font-size="18px">Neurológico</label>
                                                             <div className="form-group">
-                                                                <textarea id="neurologicalInfo" className="form-control" rows="4" name="neurologicalInfo" value={this.state.neurologicalInfo} onChange={this.handleInputChange}></textarea>
+                                                                <textarea id="neurologicalInfo" className="form-control" font-size="18px" rows="4" name="neurologicalInfo" value={this.state.neurologicalInfo} onChange={this.handleInputChange}></textarea>
                                                             </div>
                                                         </div>
                                                         <div className="control-group">
-                                                            <label className="control-label" htmlFor="pulmonaryCardioInfo">Cardiopulmonar</label>
+                                                            <label className="control-label" htmlFor="pulmonaryCardioInfo" font-size="18px">Cardiopulmonar</label>
                                                             <div className="form-group">
-                                                                <textarea id="pulmonaryCardioInfo" rows="5" className="form-control" name="pulmonaryCardioInfo" value={this.state.pulmonaryCardioInfo} onChange={this.handleInputChange}></textarea>
+                                                                <textarea id="pulmonaryCardioInfo" rows="5" font-size="18px" className="form-control" name="pulmonaryCardioInfo" value={this.state.pulmonaryCardioInfo} onChange={this.handleInputChange}></textarea>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -585,10 +585,10 @@ class AddMedicalForm extends Component {
                                                 <div className="row">
                                                     <div className="col-12">
                                                         <div className="control-group">
-                                                            <label className="control-label" htmlFor="cardiovascularRisk">Riesgo Cardiovascular<font color="red">*</font></label>
+                                                            <label className="control-label" htmlFor="cardiovascularRisk" font-size="18px">Riesgo Cardiovascular<font color="red">*</font></label>
                                                         </div>
                                                         <div className="controls">
-                                                            <select name="cardiovascularRisk" id="cardiovascularRisk" className="form-control" align="left" value={this.state.cardiovascularRisk} onChange={this.handleInputChange} >
+                                                            <select name="cardiovascularRisk" id="cardiovascularRisk" font-size="18px" className="form-control" align="left" value={this.state.cardiovascularRisk} onChange={this.handleInputChange} >
                                                                 <option value="1" selected >1</option>
                                                                 <option value="2">2</option>
                                                                 <option value="3">3</option>
@@ -600,9 +600,9 @@ class AddMedicalForm extends Component {
                                                 <div className="row">
                                                     <div className="col-12">
                                                         <div className="control-group">
-                                                            <label className="control-label" htmlFor="recommendations">Recomendaciones</label>
+                                                            <label className="control-label" htmlFor="recommendations" font-size="18px">Recomendaciones</label>
                                                             <div className="form-group">
-                                                                <textarea id="recommendations" rows="5" name="recommendations" className="form-control" value={this.state.recommendations} onChange={this.handleInputChange} />
+                                                                <textarea id="recommendations" rows="5" name="recommendations" font-size="18px" className="form-control" value={this.state.recommendations} onChange={this.handleInputChange} />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -612,7 +612,7 @@ class AddMedicalForm extends Component {
                                                         <div className="form-group" align="left">
                                                             <br></br>
                                                             <p title="Campo obligatorio">Válido hasta<font color="red">*</font></p>
-                                                            <input type="date" name="upToDate" required onChange={this.handleInputChange} value={this.state.upToDate} className="form-control InputText"></input>
+                                                            <input type="date" name="upToDate" font-size="18px" required onChange={this.handleInputChange} value={this.state.upToDate} className="form-control InputText"></input>
                                                         </div>
                                                     </div>
                                                 </div>

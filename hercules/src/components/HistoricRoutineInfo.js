@@ -90,7 +90,7 @@ class HistoricRoutineInfo extends Component {
 
         const name = this.state.userName.map((userName, i) => {
             return (
-                <label className="form-label">Usuario: {userName.fullName}</label>
+                <label font-size="18px" className="form-label">Usuario: {userName.fullName}</label>
             )
         })
         var routineQuantity = 0;

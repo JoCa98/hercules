@@ -22,7 +22,7 @@ class Terms extends Component {
 * Method that redirect to the previous page
 */
     backButton() {
-        this.props.history.push(`/LogIn`);
+        this.props.history.push(`/`);
     }
 
     render() {

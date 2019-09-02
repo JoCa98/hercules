@@ -447,7 +447,7 @@ class AddRoutine extends Component {
                                                     <p>Objetivo*:</p>
                                                 </div>
                                                 <div className="col-6">
-                                                    <select name="objectiveDropdown" align="left" className="form-control" onChange={this.objectiveSelect} onKeyPress={this.onKeyEvent} value={this.state.objectiveID}>
+                                                    <select name="objectiveDropdown" font-size="18px" align="left" className="form-control" onChange={this.objectiveSelect} onKeyPress={this.onKeyEvent} value={this.state.objectiveID}>
                                                         {objetiveType}
                                                     </select>
                                                 </div>
@@ -464,7 +464,7 @@ class AddRoutine extends Component {
                                                     <p>Frecuencia*:</p>
                                                 </div>
                                                 <div className="col-6">
-                                                    <input type="number" onKeyPress={this.onKeyEvent} name="Frecuency" className="form-control" onChange={this.inputNumberValidator} placeholder="Días"/>
+                                                    <input type="number" font-size="18px" onKeyPress={this.onKeyEvent} name="Frecuency" className="form-control" onChange={this.inputNumberValidator} placeholder="Días"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -474,7 +474,7 @@ class AddRoutine extends Component {
                                                     <p>Intensidad*:</p>
                                                 </div>
                                                 <div className="col-6">
-                                                    <input type="number" name="Intensity" onKeyPress={this.onKeyEvent} className="form-control" onChange={this.inputNumberValidator} placeholder="%"/>
+                                                    <input type="number" font-size="18px" name="Intensity" onKeyPress={this.onKeyEvent} className="form-control" onChange={this.inputNumberValidator} placeholder="%"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -489,7 +489,7 @@ class AddRoutine extends Component {
                                                     <p>Densidad*:</p>
                                                 </div>
                                                 <div className="col-6">
-                                                    <input type="number" name="Density" onKeyPress={this.onKeyEvent} className="form-control" onChange={this.inputNumberValidator} placeholder=""/>
+                                                    <input type="number" font-size="18px" name="Density" onKeyPress={this.onKeyEvent} className="form-control" onChange={this.inputNumberValidator} placeholder=""/>
                                                 </div>
                                             </div>
                                         </div>
@@ -499,7 +499,7 @@ class AddRoutine extends Component {
                                                     <p>Tiempo de descanso*:</p>
                                                 </div>
                                                 <div className="col-6">
-                                                    <input type="number" name="RestTime" onKeyPress={this.onKeyEvent} className="form-control" onChange={this.inputNumberValidator} placeholder="Segundos"/>
+                                                    <input type="number" font-size="18px" name="RestTime" onKeyPress={this.onKeyEvent} className="form-control" onChange={this.inputNumberValidator} placeholder="Segundos"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -514,7 +514,7 @@ class AddRoutine extends Component {
                                                 <img src={leftArrowImage} className="arrows pointer" onClick={this.leftArrow} />
                                             </div>
                                             <div className="col-6 " align="center">
-                                                <select name="exerciseTypeDropDown" className="form-control" float="center" onChange={this.exerciseTypeSelect} value={this.state.typeID}>
+                                                <select name="exerciseTypeDropDown" font-size="18px" className="form-control" float="center" onChange={this.exerciseTypeSelect} value={this.state.typeID}>
                                                     {exerciseList}
                                                 </select>
                                             </div>
@@ -541,19 +541,19 @@ class AddRoutine extends Component {
                                                 <form>
                                                     <div className="form-group">
                                                         <p>Carga/Peso</p>
-                                                        <input type="number" id="weightInput" className="form-control" disabled></input>
+                                                        <input type="number" font-size="18px" id="weightInput" className="form-control" disabled></input>
                                                     </div>
                                                     <div className="form-group">
                                                         <p>Series</p>
-                                                        <input type="number" id="seriesInput" className="form-control" disabled></input>
+                                                        <input type="number" font-size="18px" id="seriesInput" className="form-control" disabled></input>
                                                     </div>
                                                     <div className="form-group">
                                                         <p>Repeticiones</p>
-                                                        <input type="number" id="repetitionsInput" className="form-control" disabled></input>
+                                                        <input type="number" font-size="18px" id="repetitionsInput" className="form-control" disabled></input>
                                                     </div>
                                                     <div className="form-group">
                                                         <p>Minutos</p>
-                                                        <input type="number" id="minutesInput" className="form-control" disabled></input>
+                                                        <input type="number" font-size="18px" id="minutesInput" className="form-control" disabled></input>
                                                     </div>
                                                     <div className="form-group" align="right">
                                                         <button align="right" id="add" className="buttonSizeGeneral" onClick={this.addExercise}>Agregar</button>
