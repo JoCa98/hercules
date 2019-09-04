@@ -7,7 +7,12 @@ class validations extends Component {
         this.validateCarnetField = this.validateCarnetField.bind(this);
         this.validatePhoneNumberField = this.validatePhoneNumberField.bind(this);
         this.validateEmailField = this.validateEmailField.bind(this);
-
+        this.validatePhysicalAssesment = this.validatePhysicalAssesment.bind(this);
+        this.validateKg = this.validateKg.bind(this);
+        this.validatePercent = this.validatePercent.bind(this);
+        this.validateViceralFat = this.validateViceralFat.bind(this);
+        this.validateDCI = this.validateDCI.bind(this);
+        this.validateMetabolicAge = this.validateMetabolicAge.bind(this);    
     }
 
     validateTextField(value) {
@@ -37,7 +42,25 @@ class validations extends Component {
         //return new RegExp("^[_a-z0-9-]+(.[_a-z0-9-]+)*@[a-z0-9-]+(.[a-z0-9-]+)*[.][a-z]{2,4}$").test(value);
     }
     validateIdentification(value){
-        return (new RegExp("^([1-7])(\\d{8})$").test(value) || new RegExp("^1(\\d{3})((..))(\\d{4,9})$").test(value));
+        return (new RegExp("^([1-9])(\\d{8})$").test(value) || new RegExp("^1(\\d{3})((..))(\\d{4,9})$").test(value));
+    }
+    validatePhysicalAssesment(value){
+        return new RegExp("^[1-9]$").test(value);
+    }
+    validateKg(value){
+        return new RegExp("^(\\d{1,3}(\\.\\d{1,2})|\\d{1,3})$").test(value);
+    }
+    validatePercent(value){
+        return new RegExp("^(\\d{1,2}(\\.\\d{1,2})|\\d{1,2}|100)$").test(value);
+    }
+    validateViceralFat(value){
+        return new RegExp("^([1-5][0-9]|[1-9]|60)$").test(value);
+    }
+    validateDCI(value){
+        return new RegExp("^(\\d{1,5}(\\.\\d{1,2})|\\d{1,5})$").test(value);
+    }
+    validateMetabolicAge(value){
+        return new RegExp("^(\\d{1,3})$").test(value);
     }
 }
 export default validations;

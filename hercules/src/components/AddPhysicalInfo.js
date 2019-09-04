@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import validations from './validations';
 
 class AddPhysicalInfo extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            validations: new validations(),
             userName: [{}],
             partyID: sessionStorage.getItem("userPartyID"),
             date: new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate(),
@@ -33,24 +35,59 @@ class AddPhysicalInfo extends Component {
             });
     }
 
-    handleSubmit = event => {
+    handleSubmit() {
+        if (this.state.weight.trim().length === 0 || this.state.bodyWater.trim().length === 0 ||
+        this.state.viceralFat.trim().length === 0 || this.state.boneMass.trim().length === 0 ||
+        this.state.DCI.trim().length === 0 || this.state.metabolicAge.trim().length === 0 ||
+        this.state.totalBodyFat.trim().length === 0 || this.state.muscleMass.trim().length === 0 ||
+        this.state.physicalAssesment.trim().length === 0) {
+            alert("Todos los campos deben de estar llenos");
 
-        fetch("http://localhost:9000/PhysicalInfo/addPhysicalInfo", {
-            method: "post",
-            body: JSON.stringify(this.state),
+        } else if (!this.state.validations.validateKg(this.state.weight.trim())) {
+            alert("El peso debe estar formado por un máximo de 3 números, puede contener punto decimal y dos decimales máximo");
 
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json"
-            }
-        })
-            .then(res => res.json())
-            .then(data => {
-                this.props.history.push('/HistoricPhysicalInfoAdmin');
+        } else if (!this.state.validations.validatePercent(this.state.totalBodyFat.trim())) {
+            alert("El porcentaje de grasa corporal solo debe contener números de entre 0 a 100, con punto decimal y dos decimales máximo");
+            
+        } else if (!this.state.validations.validatePercent(this.state.bodyWater.trim())) {
+            alert("El porcentaje de agua corporal solo debe contener números de entre 0 a 100, con punto decimal y dos decimales máximo");
+            
+        } else if (!this.state.validations.validateKg(this.state.muscleMass.trim())) {
+            alert("La masa muscular debe estar formada por un máximo de 3 números, puede contener punto decimal y dos decimales máximo");
+            
+        } else if (!this.state.validations.validatePhysicalAssesment(this.state.physicalAssesment.trim())) {
+            alert("La valoración física debe ser un número entre 1 y 9");
+            
+        } else if (!this.state.validations.validateKg(this.state.boneMass.trim())) {
+            alert("La masa ósea debe estar formada por un máximo de 3 números, puede contener punto decimal y dos decimales máximo");            
+
+        } else if (!this.state.validations.validateDCI(this.state.DCI.trim())) { 
+            alert("El DCI/BMR debe estar formado por un máximo de 5 números, puede contener punto decimal y dos decimales máximo");            
+            
+        } else if (!this.state.validations.validateMetabolicAge(this.state.metabolicAge.trim())) {
+            alert("La edad metabólica debe de estar compuesta únicamente de 3 números como máximo");
+
+        } else if (!this.state.validations.validateViceralFat(this.state.viceralFat.trim())) {
+            alert("La grasa viceral debe ser un número entre 1 y 60");
+        } else {
+            //Agregar correctamente
+            fetch("http://localhost:9000/PhysicalInfo/addPhysicalInfo", {
+                method: "post",
+                body: JSON.stringify(this.state),
+
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                }
             })
-            .catch(err => console.error(err));
+                .then(res => res.json())
+                .then(data => {
+                    this.props.history.push('/HistoricPhysicalInfoAdmin');
+                })
+                .catch(err => console.error(err));
 
-        event.preventDefault();
+        }
+
     }
 
     handleInputChange(event) {
@@ -61,9 +98,9 @@ class AddPhysicalInfo extends Component {
 
     }
 
-/**
-* Method that redirect to the previous page
-*/
+    /**
+    * Method that redirect to the previous page
+    */
     backButton() {
         this.props.history.push(`/HistoricPhysicalInfoAdmin`);
     }
@@ -84,7 +121,7 @@ class AddPhysicalInfo extends Component {
                         {name}
                     </div>
                     <div className="col-10 offset-1 mt-4">
-                        <form className="form-horizontal" onSubmit={this.handleSubmit} >
+                        <form className="form-horizontal">
                             <div className="row">
                                 <div className="col-2 mt-4">
                                     <div className="control-group">
@@ -166,7 +203,11 @@ class AddPhysicalInfo extends Component {
                                     <button align="left" font-size="18px" className="buttonSizeGeneral" onClick={this.backButton}>Volver</button>
                                 </div>
                                 <div className=" mt-5 col-md-4">
+<<<<<<< HEAD
                                     <button align="right" font-size="18px" name="save" type="submit" className="buttonSizeGeneral">Guardar</button>
+=======
+                                    <button align="right" name="save" type="submit" className="buttonSizeGeneral" onClick={this.handleSubmit}>Guardar</button>
+>>>>>>> e077c429ba19dca859d3e5628c7955d0f041097f
                                 </div>
                             </div>
                         </form>

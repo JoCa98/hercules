@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import validations from './validations';
 
 class EditPhysicalInfo extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            validations: new validations(),
             userName: [{}],
             idPhisicalInfo: "",
             partyID: sessionStorage.getItem("userPartyID"),
@@ -76,23 +78,61 @@ class EditPhysicalInfo extends Component {
     }
 
     saveChange() {
-        if (window.confirm("¿Está seguro de actualizar los datos?") == true) {
-            fetch("http://localhost:9000/PhysicalInfo/updatePhysicalInfo", {
-                method: "post",
-                body: JSON.stringify(this.state),
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json"
-                }
-            })
-                .then(res => res.json())
-                .then(data => {
-                })
-                .catch(err => console.error(err));
 
-            alert("Los datos se actualizaron correctamente");
-            this.props.history.push('/HistoricPhysicalInfoAdmin');
+        if (this.state.weight.toString().trim().length === 0 || this.state.bodyWater.toString().trim().length === 0 ||
+        this.state.visceralFat.toString().trim().length === 0 || this.state.boneMass.toString().trim().length === 0 ||
+        this.state.DCI.toString().trim().length === 0 || this.state.metabolicAge.toString().trim().length === 0 ||
+        this.state.totalBodyFat.toString().trim().length === 0 || this.state.muscleMass.toString().trim().length === 0 ||
+        this.state.physicalAssesment.toString().trim().length === 0) {
+            alert("Todos los campos deben de estar llenos");
+
+        } else if (!this.state.validations.validateKg(this.state.weight.toString().trim())) {
+            alert("El peso debe estar formado por un máximo de 3 números, puede contener punto decimal y dos decimales máximo");
+
+        } else if (!this.state.validations.validatePercent(this.state.totalBodyFat.toString().trim())) {
+            alert("El porcentaje de grasa corporal solo debe contener números de entre 0 a 100, con punto decimal y dos decimales máximo");
+            
+        } else if (!this.state.validations.validatePercent(this.state.bodyWater.toString().trim())) {
+            alert("El porcentaje de agua corporal solo debe contener números de entre 0 a 100, con punto decimal y dos decimales máximo");
+            
+        } else if (!this.state.validations.validateKg(this.state.muscleMass.toString().trim())) {
+            alert("La masa muscular debe estar formada por un máximo de 3 números, puede contener punto decimal y dos decimales máximo");
+            
+        } else if (!this.state.validations.validatePhysicalAssesment(this.state.physicalAssesment.toString().trim())) {
+            alert("La valoración física debe ser un número entre 1 y 9");
+            
+        } else if (!this.state.validations.validateKg(this.state.boneMass.toString().trim())) {
+            alert("La masa ósea debe estar formada por un máximo de 3 números, puede contener punto decimal y dos decimales máximo");            
+
+        } else if (!this.state.validations.validateDCI(this.state.DCI.toString().trim())) { 
+            alert("El DCI/BMR debe estar formado por un máximo de 5 números, puede contener punto decimal y dos decimales máximo");            
+            
+        } else if (!this.state.validations.validateMetabolicAge(this.state.metabolicAge.toString().trim())) {
+            alert("La edad metabólica debe de estar compuesta únicamente de 3 números como máximo");
+
+        } else if (!this.state.validations.validateViceralFat(this.state.visceralFat.toString().trim())) {
+            alert("La grasa viceral debe ser un número entre 1 y 60");
+        } else {
+            if (window.confirm("¿Está seguro de actualizar los datos?") == true) {
+                fetch("http://localhost:9000/PhysicalInfo/updatePhysicalInfo", {
+                    method: "post",
+                    body: JSON.stringify(this.state),
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json"
+                    }
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                    })
+                    .catch(err => console.error(err));
+    
+                alert("Los datos se actualizaron correctamente");
+                this.props.history.push('/HistoricPhysicalInfoAdmin');
+                window.location.reload();
+            }
         }
+
     }
 
 /**
@@ -124,7 +164,6 @@ class EditPhysicalInfo extends Component {
                     <div className="col-4 offset-1 ">
                         {name}
                     </div>
-
                     <div className="col-10 offset-1 mt-4">
                         <form className="form-horizontal" >
                             <div className="row">
