@@ -40,8 +40,17 @@ class HistoricMedicalInfo extends Component {
     * when the user click the addButton
     */
     redirect() {
-        sessionStorage.setItem("update", false);
-        this.props.history.push(`/AddMedicalForm`);
+        if (sessionStorage.getItem('dateLastRegistry') !== 'undefined' &&
+        sessionStorage.getItem('dateLastRegistry') !== null &&
+            Date(sessionStorage.getItem('dateLastRegistry')) === Date(new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate())) {
+            alert("Solo se puede agregar un registro por día.");
+            console.log(sessionStorage.getItem('dateLastRegistry'));
+
+        } else {
+            sessionStorage.setItem("update", false);
+            this.props.history.push(`/AddMedicalForm`);
+
+        }
     }
 
     /**

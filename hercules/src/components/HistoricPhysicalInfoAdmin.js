@@ -39,8 +39,15 @@ class HistoricPhysicalInfoAdmin extends Component {
     }
 
     redirect() {
+        if (sessionStorage.getItem('dateLastRegistry') !== 'undefined' &&
+        sessionStorage.getItem('dateLastRegistry') !== null && 
+            Date(sessionStorage.getItem('dateLastRegistry')) === Date(new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate())) {
+            alert("Solo se puede agregar un registro por día.");
+            
+        } else {
+            this.props.history.push(`/AddPhysicalInfo`);
 
-        this.props.history.push(`/AddPhysicalInfo`);
+        }
     }
 
 
