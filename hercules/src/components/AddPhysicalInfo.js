@@ -203,11 +203,7 @@ class AddPhysicalInfo extends Component {
                                     <button align="left" font-size="18px" className="buttonSizeGeneral" onClick={this.backButton}>Volver</button>
                                 </div>
                                 <div className=" mt-5 col-md-4">
-<<<<<<< HEAD
-                                    <button align="right" font-size="18px" name="save" type="submit" className="buttonSizeGeneral">Guardar</button>
-=======
                                     <button align="right" name="save" type="submit" className="buttonSizeGeneral" onClick={this.handleSubmit}>Guardar</button>
->>>>>>> e077c429ba19dca859d3e5628c7955d0f041097f
                                 </div>
                             </div>
                         </form>
