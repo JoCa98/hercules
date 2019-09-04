@@ -41,8 +41,11 @@ class HistoricPhysicalInfoAdmin extends Component {
     redirect() {
         if (sessionStorage.getItem('dateLastRegistry') !== 'undefined' &&
         sessionStorage.getItem('dateLastRegistry') !== null && 
-            Date(sessionStorage.getItem('dateLastRegistry')) === Date(new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate())) {
+            new Date(sessionStorage.getItem('dateLastRegistry')) === Date(new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate())) {
             alert("Solo se puede agregar un registro por día.");
+            console.log(new Date(sessionStorage.getItem('dateLastRegistry')));
+            console.log(Date(new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate()));
+
             
         } else {
             this.props.history.push(`/AddPhysicalInfo`);
@@ -61,7 +64,7 @@ class HistoricPhysicalInfoAdmin extends Component {
     render() {
         const name = this.state.userName.map((userName, i) => {
             return (
-                <label className="form-label">Usuario: {userName.fullName}</label>
+                <label className="form-label" key={i} >Usuario: {userName.fullName}</label>
             )
         })
         return (

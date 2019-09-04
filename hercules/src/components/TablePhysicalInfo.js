@@ -35,7 +35,7 @@ class TablePhysicalInfo extends Component {
     }
 
     /**
-     * Method that brings the list of pshusical information by id
+     * Method that brings the list of physical information by id
      * and loads them to physicalInfo
      */
     getUserPhysicalInfo(value) {

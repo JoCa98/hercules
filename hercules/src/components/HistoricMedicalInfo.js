@@ -41,10 +41,9 @@ class HistoricMedicalInfo extends Component {
     */
     redirect() {
         if (sessionStorage.getItem('dateLastRegistry') !== 'undefined' &&
-        sessionStorage.getItem('dateLastRegistry') !== null &&
-            Date(sessionStorage.getItem('dateLastRegistry')) === Date(new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate())) {
+            sessionStorage.getItem('dateLastRegistry') !== null &&
+            new Date(sessionStorage.getItem('dateLastRegistry')) === Date(new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate())) {
             alert("Solo se puede agregar un registro por día.");
-            console.log(sessionStorage.getItem('dateLastRegistry'));
 
         } else {
             sessionStorage.setItem("update", false);
