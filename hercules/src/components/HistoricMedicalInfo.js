@@ -67,12 +67,13 @@ class HistoricMedicalInfo extends Component {
                     this.setState({ userName });
                 });
 
-            if (sessionStorage.getItem("userTypeID") !== 3) {
+            if (sessionStorage.getItem("userTypeID") == 3) {
+                document.getElementById("addImage").style.display = "initial";
+                document.getElementById("addText").style.display = "initial";
+            } else {
                 document.getElementById("addImage").style.display = "none";
                 document.getElementById("addText").style.display = "none";
-            } else {
-                document.getElementById("addImage").style.display = "show";
-                document.getElementById("addText").style.display = "show";
+            
             }
         } catch (err) {
             console.error(err);
@@ -109,8 +110,8 @@ class HistoricMedicalInfo extends Component {
                                 {name}
                             </div>
                             <div className="col-4 offset-1 text-center">
-                                <img src={plusImage} onClick={this.redirect} className="buttonSizeGeneral pointer" display="none"/>
-                                <h4 className="colorBlue pointer" onClick={this.redirect} display="none">Agregar nuevo</h4>
+                                <img src={plusImage} id="addImage" onClick={this.redirect} className="buttonSizeGeneral pointer"/>
+                                <h4 className="colorBlue pointer" id="addText" onClick={this.redirect} >Agregar nuevo</h4>
                             </div>
                             <div className="col-12 mt-4 text-center">
                                 <TableMedicalInfo />

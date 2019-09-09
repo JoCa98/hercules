@@ -143,6 +143,8 @@ class RoutineCarouselReadOnly extends Component {
                     <td>{exercise.series}</td>
                     <td>{exercise.repetitions}</td>
                     <td>{exercise.minutes}</td>
+                    <td>{exercise.intensityPercentage}</td>
+                    <td>{exercise.heartRate}</td>
                 </tr>
             )
         })
@@ -186,6 +188,8 @@ class RoutineCarouselReadOnly extends Component {
                                         <th scope="col">Series</th>
                                         <th scope="col">Repeticiones</th>
                                         <th scope="col">Minutos</th>
+                                        <th scope="col">Intensidad</th>
+                                        <th scope="col">Frecuencia Cardiaca</th>
                                     </tr>
                                 </thead>
                                 <tbody>

@@ -136,6 +136,44 @@ class AddRoutine extends Component {
         document.getElementById("delete").style.display = 'none';
     }
 
+    cardioExercise(){
+        if(this.state.typeID == 14){
+            document.getElementById("weightInput").style.display = "none";
+            document.getElementById("seriesInput").style.display = "none";
+            document.getElementById("repetitionsInput").style.display = "none";
+            document.getElementById("pWeight").style.display = "none";
+            document.getElementById("pSeries").style.display = "none";
+            document.getElementById("pRepetitions").style.display = "none";
+    
+            document.getElementById("intensityInput").style.display = "initial";
+            document.getElementById("pIntensity").style.display = "initial";
+            document.getElementById("intensityInput").disabled = false;
+            document.getElementById("pHeartRate").style.display = "initial";
+            document.getElementById("heartRateInput").style.display = "initial";
+            document.getElementById("heartRateInput").disabled = false;
+            document.getElementById("minutesInput").disabled = false;
+            }else{
+            document.getElementById("weightInput").style.display = "initial";
+            document.getElementById("seriesInput").style.display = "initial";
+            document.getElementById("repetitionsInput").style.display = "initial";
+            document.getElementById("pWeight").style.display = "initial";
+            document.getElementById("pSeries").style.display = "initial";
+            document.getElementById("pRepetitions").style.display = "initial";
+    
+            document.getElementById("weightInput").disabled = false;
+            document.getElementById("seriesInput").disabled = false;
+            document.getElementById("repetitionsInput").disabled = false;
+            document.getElementById("minutesInput").disabled = false;
+    
+            document.getElementById("intensityInput").style.display = "none";
+            document.getElementById("pIntensity").style.display = "none";
+            document.getElementById("intensityInput").disabled = true;
+            document.getElementById("pHeartRate").style.display = "none";
+            document.getElementById("heartRateInput").style.display = "none";
+            document.getElementById("heartRateInput").disabled = true;
+            }
+    }
+
     rowEvent(event) {
         const id = document.getElementById("routines").rows[event.target.parentNode.rowIndex].cells[0].innerHTML;
         var a = document.getElementsByTagName("tr");
@@ -144,21 +182,30 @@ class AddRoutine extends Component {
         }
         document.getElementById("routines").rows[event.target.parentNode.rowIndex].classList.add("table-info");
         this.setState({ exerciseID: id });
-        document.getElementById("weightInput").disabled = false;
-        document.getElementById("seriesInput").disabled = false;
-        document.getElementById("repetitionsInput").disabled = false;
-        document.getElementById("minutesInput").disabled = false;
+
+        this.cardioExercise();
+
         if (this.state.list.length !== 0) {
             this.state.list.map((ex, i) => {
                 if (ex.exerciseID == id) {
                     this.setState({ exist: true, index: i });
+                    if(this.state.typeID == 14){
+                    this.cardioExercise();
+                    document.getElementById("weightInput").value = ex.series;
+                    document.getElementById("heartRateInput").value = ex.repetitions;
+                    document.getElementById("minutesInput").value = ex.minutes; 
+
+                    }else{
+                     
                     document.getElementById("weightInput").value = ex.charge;
                     document.getElementById("seriesInput").value = ex.series;
                     document.getElementById("repetitionsInput").value = ex.repetitions;
                     document.getElementById("minutesInput").value = ex.minutes;
+
                     document.getElementById("add").style.display = "none";
                     document.getElementById("edit").style.display = "initial";
                     document.getElementById("delete").style.display = "initial";
+                    }
                 } else {
                     this.setState({ exist: false });
                     document.getElementById("weightInput").value = "";
@@ -175,10 +222,17 @@ class AddRoutine extends Component {
 
     editExercise(e) {
         if (this.state.exist) {
+            if(this.state.typeID == 14){
+                this.cardioExercise();
+                this.state.list[this.state.index].intensityPercentage = document.getElementById("intensityInput").value;
+                this.state.list[this.state.index].heartRate = document.getElementById("heartRateInput").value;
+                this.state.list[this.state.index].minutes = document.getElementById("minutesInput").value;
+            }else{
             this.state.list[this.state.index].repetitions = document.getElementById("repetitionsInput").value;
             this.state.list[this.state.index].series = document.getElementById("seriesInput").value;
             this.state.list[this.state.index].minutes = document.getElementById("minutesInput").value;
             this.state.list[this.state.index].charge = document.getElementById("weightInput").value;
+            }
             alert("Se ha editado con éxito");
         } else {
             alert("El elemento no se encuentra");
@@ -218,7 +272,8 @@ class AddRoutine extends Component {
     addExercise(e) {
 
         if (document.getElementById("weightInput").value.length == 0 && document.getElementById("seriesInput").value.length === 0
-            && document.getElementById("repetitionsInput").value.length == 0 && document.getElementById("minutesInput").value.length === 0) {
+            && document.getElementById("repetitionsInput").value.length == 0 && document.getElementById("minutesInput").value.length === 0 
+            && document.getElementById("intensityInput").value.length === 0 && document.getElementById("heartRateInput").value.length === 0 ) {
 
             alert("Debe llenar al menos un dato");
         } else {
@@ -226,6 +281,8 @@ class AddRoutine extends Component {
             var minutes = document.getElementById("minutesInput").value;
             var repetitions = document.getElementById("repetitionsInput").value;
             var series = document.getElementById("seriesInput").value;
+            var intensityPercentage = document.getElementById("intensityInput").value;
+            var heartRate = document.getElementById("heartRateInput").value;
             if (weight == "") {
                 weight = null;
             }
@@ -238,12 +295,20 @@ class AddRoutine extends Component {
             if (series == "") {
                 series = null;
             }
+            if (intensityPercentage == "") {
+                intensityPercentage = null;
+            }
+            if (heartRate == "") {
+                heartRate = null;
+            }
             var obj = {
                 exerciseID: this.state.exerciseID,
                 minutes: minutes,
                 charge: weight,
                 repetitions: repetitions,
-                series: series
+                series: series,
+                intensityPercentage: intensityPercentage,
+                heartRate: heartRate
             }
             if (this.state.exist) {
                 console.log(this.state.list);
@@ -258,10 +323,14 @@ class AddRoutine extends Component {
         document.getElementById("seriesInput").value = "";
         document.getElementById("repetitionsInput").value = "";
         document.getElementById("minutesInput").value = "";
+        document.getElementById("intensityInput").value = "";
+        document.getElementById("heartRateInput").value = "";
         document.getElementById("weightInput").disabled = true;
         document.getElementById("seriesInput").disabled = true;
         document.getElementById("repetitionsInput").disabled = true;
         document.getElementById("minutesInput").disabled = true;
+        document.getElementById("intensityInput").disabled = true;
+        document.getElementById("heartRateInput").disabled = true;
 
         e.preventDefault();
     }
@@ -312,11 +381,6 @@ class AddRoutine extends Component {
                 .catch(err => console.error(err));
 
             e.preventDefault();
-
-
-
-
-
         } else {
             alert("Debe agregar ejercicios");
         }
@@ -339,7 +403,9 @@ class AddRoutine extends Component {
                         series: ex.series,
                         repetitions: ex.repetitions,
                         charge: ex.charge,
-                        minutes: ex.minutes
+                        minutes: ex.minutes,
+                        intensityPercentage: ex.intensityPercentage,
+                        heartRate: ex.heartRate
                     }),
                     headers: {
                         Accept: "application/json",
@@ -445,7 +511,8 @@ class AddRoutine extends Component {
                                                 <div className="col-6">
                                                     <p>Tipo de rutina*:</p>
                                                 </div>
-                                                <div className="col-6">                                      <select name="rutineTypeDropdown" align="left" className="form-control" onChange={this.routineTypeSelect} value={this.state.routineTypeID}>f                                            {routineTypeList}
+                                                <div className="col-6">                                      
+                                                <select name="rutineTypeDropdown" align="left" className="form-control" onChange={this.routineTypeSelect} value={this.state.routineTypeID}>f                                            {routineTypeList}
                                                 </select>
                                                 </div>
                                             </div>
@@ -548,22 +615,28 @@ class AddRoutine extends Component {
                                             </div>
                                             <div className="col-6">
                                                 <form>
-                                                    <div className="form-group">
-                                                        <p>Carga/Peso</p>
-                                                        <input type="number" font-size="18px" id="weightInput" className="form-control" disabled></input>
-                                                    </div>
-                                                    <div className="form-group">
-                                                        <p>Series</p>
-                                                        <input type="number" font-size="18px" id="seriesInput" className="form-control" disabled></input>
-                                                    </div>
-                                                    <div className="form-group">
-                                                        <p>Repeticiones</p>
-                                                        <input type="number" font-size="18px" id="repetitionsInput" className="form-control" disabled></input>
-                                                    </div>
-                                                    <div className="form-group">
+                                                <div className="form-group">
                                                         <p>Minutos</p>
                                                         <input type="number" font-size="18px" id="minutesInput" className="form-control" disabled></input>
                                                     </div>
+                                                    <div className="form-group">
+                                                        <p id="pWeight">Carga/Peso</p>
+                                                        <input type="number" font-size="18px" id="weightInput" className="form-control" disabled></input>
+                                                        <p id="pIntensity" display="none">Intensidad</p>
+                                                        <input type="number" font-size="18px" id="intensityInput" className="form-control" disabled display="none"></input>
+                                                    </div>
+                                                    <div className="form-group">
+                                                        <p id="pSeries">Series</p>
+                                                        <input type="number" font-size="18px" id="seriesInput" className="form-control" disabled></input>
+                                                        <p id="pHeartRate" display="none">Frecuencia Cardiaca</p>
+                                                        <input type="number" font-size="18px" id="heartRateInput" className="form-control" disabled display="none"></input>
+                                                    </div>
+                                                    <div className="form-group">
+                                                        <p id="pRepetitions">Repeticiones</p>
+                                                        <input type="number" font-size="18px" id="repetitionsInput" className="form-control" disabled></input>
+                                                        
+                                                    </div>
+                                                    
                                                     <div className="form-group" align="right">
                                                         <button align="right" id="add" className="buttonSizeGeneral" onClick={this.addExercise}>Agregar</button>
                                                         <button align="right" id="edit" className="buttonSizeGeneral" onClick={this.editExercise} >Editar</button>
