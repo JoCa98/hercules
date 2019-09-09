@@ -13,7 +13,7 @@
 import React, { Component } from 'react';
 import Carousel from './RoutineCarouselReadOnly';
 import axios from "axios";
-
+import Breadcrumb from 'react-bootstrap/Breadcrumb';
 
 class RoutineAdmin extends Component {
     constructor(props) {
@@ -78,7 +78,15 @@ class RoutineAdmin extends Component {
         })
         return (
             <div className="container">
-                <div className="row mt-4">
+                 <div className="row mt-4">
+                    <Breadcrumb>
+                        <Breadcrumb.Item href="#/HomeAdmin">Inicio</Breadcrumb.Item>
+                        <Breadcrumb.Item href="#/ConsultUser">Consulta de usuario</Breadcrumb.Item>
+                        <Breadcrumb.Item href="#/HistoricRoutineInfo">Lista de rutinas</Breadcrumb.Item>
+                        <Breadcrumb.Item>Rutina actual</Breadcrumb.Item>
+                    </Breadcrumb>
+                </div>
+                <div className="row mt-2">
                     <div className="col-12 card p-5">
                         <form className="RoutineAdminForm">
                             <h1 className="text-left colorBlue mb-4">Rutina actual del usuario</h1>

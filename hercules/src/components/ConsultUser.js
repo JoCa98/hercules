@@ -12,6 +12,7 @@
 
 import React, { Component } from 'react';
 import axios from 'axios';
+import Breadcrumb from 'react-bootstrap/Breadcrumb';
 
 class ConsultUser extends Component {
     constructor(props) {
@@ -104,14 +105,20 @@ class ConsultUser extends Component {
     render() {
         return (
             <div className="container">
-                <div className="row mt-4 card p-5" >
+                <div className="row mt-4">
+                    <Breadcrumb>
+                        <Breadcrumb.Item href="#/HomeAdmin">Inicio</Breadcrumb.Item>
+                        <Breadcrumb.Item>Consulta de usuario</Breadcrumb.Item>
+                    </Breadcrumb>
+                </div>
+                <div className="row mt-2 card p-5" >
                     <div className="col-12">
-                            <h1 className="text-left">Consulta de usuario</h1>
-                        
+                        <h1 className="text-left">Consulta de usuario</h1>
+
                         <div className="row">
                             <div className="col-8">
-                                    <h2 className="text-left">Datos del usuario</h2>
-                                
+                                <h2 className="text-left">Datos del usuario</h2>
+
                                 <div className="row">
                                     <div className="col-12">
                                         <div className="form-group" align="left">

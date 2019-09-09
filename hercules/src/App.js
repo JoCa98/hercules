@@ -42,6 +42,7 @@ function App() {
           <Route exact path="/SignUp" component={SignUp} />
           <Route exact path="/ActCodeForm" component={ActCodeForm} />
           <Route exact path="/PasswordRecovery" component={PasswordRecovery} />
+          <Route exact path="/Terms" component={Terms}/>
 
           {/** Admin Side */}
           <Route exact path="/HomeAdmin" component={HomeAdmin} />
@@ -54,13 +55,12 @@ function App() {
           <Route exact path="/ConsultUser" component={ConsultUser} />
           <Route exact path="/HistoricMedicalInfo" component={HistoricMedicalInfo} />
           <Route exact path="/HistoricPhysicalInfoAdmin" component={HistoricPhysicalInfoAdmin} />
-          <Route exact path="/HistoricRoutineInfo" component={HistoricRoutineInfo} />
-          <Route exact path="/UserHomeWithOut" component={UserHomeWithOut}/>
-          <Route exact path="/Terms" component={Terms}/>
+          <Route exact path="/HistoricRoutineInfo" component={HistoricRoutineInfo} />                  
           <Route exact path="/ConfigurationAdmin" component={ConfigurationAdmin} />
 
           {/** User Side */}
           <Route exact path="/UserHome" component={UserHome} />
+          <Route exact path="/UserHomeWithOut" component={UserHomeWithOut}/> 
           <Route exact path="/UserConfiguration" component={UserConfiguration} />
           <Route exact path="/HistoricPhysicalUserInfo" component={HistoricPhysicalUserInfo} />
           <Route exact path="/HistoricMedicalUserInfo" component={HistoricMedicalUserInfo} />

@@ -15,6 +15,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import validations from './validations';
 import Hash from './Hash';
+import Breadcrumb from 'react-bootstrap/Breadcrumb';
 
 class AddAdmin extends Component {
     constructor(props) {
@@ -190,6 +191,12 @@ class AddAdmin extends Component {
         return (
             <div className="container">
                 <div className="row mt-4">
+                    <Breadcrumb>
+                        <Breadcrumb.Item href="#/HomeAdmin">Inicio</Breadcrumb.Item>
+                        <Breadcrumb.Item>Agregar administrador</Breadcrumb.Item>
+                    </Breadcrumb>
+                </div>
+                <div className="row mt-2">
                     <div className="col-10 offset-1 card p-5">
                         <form className="form-horizontal" onSubmit={this.handleSubmit}>
                             <h1 className="text-left colorBlue">Agregar Administrador</h1>

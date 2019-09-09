@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import validations from './validations';
+import Breadcrumb from 'react-bootstrap/Breadcrumb';
 
 class EditPhysicalInfo extends Component {
     constructor(props) {
@@ -157,7 +158,15 @@ class EditPhysicalInfo extends Component {
         })
         return (
             <div className="container">
-                <div className="row card mt-4 p-5">
+                  <div className="row mt-4">
+                    <Breadcrumb>
+                        <Breadcrumb.Item href="#/HomeAdmin">Inicio</Breadcrumb.Item>
+                        <Breadcrumb.Item href="#/ConsultUser">Consulta de usuario</Breadcrumb.Item>
+                        <Breadcrumb.Item href="#/HistoricPhysicalInfoAdmin">Composición Corporal</Breadcrumb.Item>
+                        <Breadcrumb.Item>Formulario Composición Corporal</Breadcrumb.Item>
+                    </Breadcrumb>
+                </div>
+                <div className="row card mt-2 p-5">
                     <div className="col-12">
                         <h1 className="text-left colorBlue">Formulario Composición Corporal</h1>
                     </div>

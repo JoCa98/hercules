@@ -13,6 +13,7 @@
 
 import React, { Component } from 'react';
 import axios from "axios";
+import Breadcrumb from 'react-bootstrap/Breadcrumb'
 
 class HomeAdmin extends Component {
     constructor(props) {
@@ -67,7 +68,7 @@ class HomeAdmin extends Component {
         } else if (this.state.searchType == 2) {
             if (this.state.searchInput == '') {
                 this.getUserListByCarnet();
-                
+
             } else {
                 this.getUserListByIdentification();
             }
@@ -183,7 +184,12 @@ class HomeAdmin extends Component {
         })
         return (
             <div className="container">
-                <div className="row card mt-4 p-5">
+                <div className="row mt-4">
+                    <Breadcrumb>
+                        <Breadcrumb.Item >Inicio</Breadcrumb.Item>
+                    </Breadcrumb>
+                </div>
+                <div className="row card mt-2 p-5">
                     <div className="col-12">
                         <h1 className="text-left colorBlue">Lista de usuarios</h1>
                         <div className="row">

@@ -11,10 +11,10 @@
  * The first version of HistoricRoutineInfo was written by Antony Jimenez G.
  */
 
-
 import React, { Component } from 'react';
 import plusImage from '../appImage/plusImage.svg';
 import axios from 'axios';
+import Breadcrumb from 'react-bootstrap/Breadcrumb';
 
 class HistoricRoutineInfo extends Component {
     constructor() {
@@ -127,7 +127,14 @@ class HistoricRoutineInfo extends Component {
 
         return (
             <div className="container">
-                <div className="row card mt-4 p-5">
+                <div className="row mt-4">
+                    <Breadcrumb>
+                        <Breadcrumb.Item href="#/HomeAdmin">Inicio</Breadcrumb.Item>
+                        <Breadcrumb.Item href="#/ConsultUser">Consulta de usuario</Breadcrumb.Item>
+                        <Breadcrumb.Item>Lista de rutinas</Breadcrumb.Item>
+                    </Breadcrumb>
+                </div>
+                <div className="row card mt-2 p-5">
                     <div className="col-12">
                         <h1 className="text-left colorBlue">Lista de rutinas</h1>
                         <div className="row">

@@ -10,13 +10,13 @@
  * ----
  * The first version of AddMedicalForm was written by Ester Molina.
  */
+
 import React, { Component } from 'react';
 import axios from 'axios';
 import validations from './validations';
-
+import Breadcrumb from 'react-bootstrap/Breadcrumb';
 
 /*global IMC*/
-
 
 class AddMedicalForm extends Component {
     constructor(props) {
@@ -349,7 +349,15 @@ class AddMedicalForm extends Component {
         })
         return (
             <div className="container">
-                <div className="row card mt-4 p-5">
+                <div className="row mt-4">
+                    <Breadcrumb>
+                        <Breadcrumb.Item href="#/HomeAdmin">Inicio</Breadcrumb.Item>
+                        <Breadcrumb.Item href="#/ConsultUser">Consulta de usuario</Breadcrumb.Item>
+                        <Breadcrumb.Item href="#/HistoricMedicalInfo">Consulta médica</Breadcrumb.Item>
+                        <Breadcrumb.Item>Formulario médico</Breadcrumb.Item>
+                    </Breadcrumb>
+                </div>
+                <div className="row card mt-2 p-5">
                     <div className="col-12">
                         <h1 className="text-left colorBlue">Formulario médico</h1>
                         <div className="row">

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import TablePhysicalInfo from './TablePhysicalInfo';
+import Breadcrumb from 'react-bootstrap/Breadcrumb';
 
 class HistoricPhysicalUserInfo extends Component {
   constructor(props) {
@@ -13,11 +14,17 @@ class HistoricPhysicalUserInfo extends Component {
   backButton() {
     this.props.history.push(`/UserHome`);
   }
-  
+
   render() {
     return (
       <div className="container">
-        <div className="row card mt-4 p-5">
+        <div className="row mt-4">
+          <Breadcrumb>
+            <Breadcrumb.Item href="#/UserHome">Inicio</Breadcrumb.Item>
+            <Breadcrumb.Item>Composición Corporal</Breadcrumb.Item>
+          </Breadcrumb>
+        </div>
+        <div className="row card mt-2 p-5">
           <div className="col-12">
             <h1 className="text-left colorBlue">Composición Corporal</h1>
           </div>

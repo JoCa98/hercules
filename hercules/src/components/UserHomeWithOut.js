@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
+import Breadcrumb from 'react-bootstrap/Breadcrumb';
 
 class UserHomeWithOut extends Component {
     render() {
         return (
             <div className="container">
                 <div className="row mt-4">
+                    <Breadcrumb>
+                        <Breadcrumb.Item>Inicio</Breadcrumb.Item>
+                    </Breadcrumb>
+                </div>
+                <div className="row mt-2">
                     <div className="col-12 card p-5">
-                    <h1 className="text-left colorBlue mb-4">Rutina actual</h1>
-                    <div className="row">
+                        <h1 className="text-left colorBlue mb-4">Rutina actual</h1>
+                        <div className="row">
                             <div className="col-12 ">
                                 <div className="row">
                                     <div className="col-12">

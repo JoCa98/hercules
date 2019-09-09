@@ -13,7 +13,7 @@
 import React, { Component } from 'react';
 import Carousel from './RoutineCarouselReadOnly';
 import axios from "axios";
-
+import Breadcrumb from 'react-bootstrap/Breadcrumb';
 
 class UserHome extends Component {
     constructor(props) {
@@ -77,7 +77,12 @@ class UserHome extends Component {
     render() {
         return (
             <div className="container">
-                <div className="row mt-4">
+                 <div className="row mt-4">
+                    <Breadcrumb>
+                        <Breadcrumb.Item>Inicio</Breadcrumb.Item>
+                    </Breadcrumb>
+                </div>
+                <div className="row mt-2">
                     <div className="col-12 card p-5">
                         <form className="userHomeForm">
                             <h1 className="text-left colorBlue mb-4">Rutina actual</h1>

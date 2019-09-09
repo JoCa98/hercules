@@ -13,6 +13,7 @@
 import React, { Component } from 'react';
 import validations from './validations';
 import Hash from './Hash';
+import Breadcrumb from 'react-bootstrap/Breadcrumb';
 
 class ConfigurationAdmin extends Component {
     constructor(props) {
@@ -94,8 +95,14 @@ class ConfigurationAdmin extends Component {
     render() {
         return (
             <div className="container">
-                <div className="row">
-                    <div className="col-12 mt-4 card">
+                <div className="row mt-4">
+                    <Breadcrumb>
+                        <Breadcrumb.Item href="#/HomeAdmin">Inicio</Breadcrumb.Item>
+                        <Breadcrumb.Item>Configuraciones</Breadcrumb.Item>
+                    </Breadcrumb>
+                </div>
+                <div className="row mt-2">
+                    <div className="col-12 card">
                         <br />
                         <div className="row">
                             <div className="col-12">
@@ -103,7 +110,7 @@ class ConfigurationAdmin extends Component {
                             </div>
                         </div>
                         <div className="row">
-                            <div className="col-10 offset-1 mb-5 card p-5">
+                            <div className="col-10 offset-1 mb-4 card p-5">
                                 <div className="row">
                                     <div className="col-12 offset-2">
                                         <h2 className="text-left">Cambio de contraseña</h2>

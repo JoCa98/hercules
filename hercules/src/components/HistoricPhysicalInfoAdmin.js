@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import plusImage from '../appImage/plusImage.svg';
 import TablePhysicalInfo from './TablePhysicalInfo';
 import axios from "axios";
+import Breadcrumb from 'react-bootstrap/Breadcrumb';
 
 class HistoricPhysicalInfoAdmin extends Component {
 
@@ -69,7 +70,14 @@ class HistoricPhysicalInfoAdmin extends Component {
         })
         return (
             <div className="container">
-                <div className="row card mt-4 p-5">
+                  <div className="row mt-4">
+                    <Breadcrumb>
+                        <Breadcrumb.Item href="#/HomeAdmin">Inicio</Breadcrumb.Item>
+                        <Breadcrumb.Item href="#/ConsultUser">Consulta de usuario</Breadcrumb.Item>
+                        <Breadcrumb.Item>Composición Corporal</Breadcrumb.Item>
+                    </Breadcrumb>
+                </div>
+                <div className="row card mt-2 p-5">
                     <div className="col-12">
                         <h1 className="text-left colorBlue">Composición Corporal</h1>
                         <div className="row">

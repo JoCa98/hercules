@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import axios from "axios";
 import validations from './validations';
 import Hash from './Hash';
+import Breadcrumb from 'react-bootstrap/Breadcrumb';
+
 class UserConfiguration extends Component {
     constructor(props) {
         super(props);
@@ -605,7 +607,13 @@ class UserConfiguration extends Component {
         this.loadDistricts();
         return (
             <div className="container">
-                <div className="row mt-4 card p-5" >
+                <div className="row mt-4">
+                    <Breadcrumb>
+                        <Breadcrumb.Item href="#/UserHome">Inicio</Breadcrumb.Item>
+                        <Breadcrumb.Item>Configuración del perfil</Breadcrumb.Item>
+                    </Breadcrumb>
+                </div>
+                <div className="row mt-2 card p-5" >
                     <div className="col-12">
                         <h1 className="text-left colorBlue">Configuración del perfil</h1>
                         <br></br>
@@ -739,7 +747,7 @@ class UserConfiguration extends Component {
                                     </div>
                                     <div className="col-6">
                                         <div className="form-group" align="right">
-                                            <button align="left" id="editInfo" className="buttonSizeGeneral" onClick={this.editInfo}>Cambiar</button>
+                                            <button align="left" id="editInfo" className="buttonSizeGeneral" onClick={this.editInfo}>Editar</button>
                                             <button align="left" id="changeInfo" className="buttonSizeGeneral" onClick={this.changeInfo}>Guardar</button>
                                             <br></br>
                                         </div>
@@ -843,7 +851,7 @@ class UserConfiguration extends Component {
                                     </div>
                                     <div className="col-6">
                                         <div className="form-group" align="right">
-                                            <button align="left" id="editContact" className="buttonSizeGeneral" onClick={this.editContact}>Cambiar</button>
+                                            <button align="left" id="editContact" className="buttonSizeGeneral" onClick={this.editContact}>Editar</button>
                                             <button align="left" id="changeContact" className="buttonSizeGeneral" onClick={this.changeContact}>Guardar</button>
                                             <br></br>
                                         </div>
