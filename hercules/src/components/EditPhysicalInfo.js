@@ -174,9 +174,8 @@ class EditPhysicalInfo extends Component {
                         {name}
                     </div>
                     <div className="col-10 offset-1 mt-4">
-                        <form className="form-horizontal" >
                             <div className="row">
-                                <div className="col-2 mt-4">
+                                <div className="col-2 mt-4 p-1">
                                     <div className="control-group">
                                         <label font-size="18px" className="control-label" htmlFor="inputWeight">Peso</label>
                                         <div className="controls">
@@ -184,7 +183,7 @@ class EditPhysicalInfo extends Component {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="col-2 mt-4">
+                                <div className="col-2 mt-4 p-1">
                                     <div className="control-group">
                                         <label font-size="18px" className="control-label" htmlFor="inputFat">Grasa Corporal</label>
                                         <div className="controls">
@@ -192,7 +191,7 @@ class EditPhysicalInfo extends Component {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="col-2 mt-4">
+                                <div className="col-2 mt-4 p-1">
                                     <div className="control-group">
                                         <label font-size="18px" className="control-label" htmlFor="inputBodyWater">Agua Corporal</label>
                                         <div className="controls">
@@ -200,7 +199,7 @@ class EditPhysicalInfo extends Component {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="col-2 mt-4">
+                                <div className="col-2 mt-4 p-1">
                                     <div className="control-group">
                                         <label font-size="18px" className="control-label" htmlFor="inputMass">Masa Muscular</label>
                                         <div className="controls">
@@ -208,7 +207,7 @@ class EditPhysicalInfo extends Component {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="col-2 mt-4">
+                                <div className="col-2 mt-4 p-1">
                                     <div className="control-group">
                                         <label font-size="18px" className="control-label" htmlFor="inputPhysic">Valoración Física</label>
                                         <div className="controls">
@@ -218,7 +217,7 @@ class EditPhysicalInfo extends Component {
                                 </div>
                             </div>
                             <div className="row">
-                                <div className="col-2 mt-4">
+                                <div className="col-2 mt-4 p-1">
                                     <div className="control-group">
                                         <label font-size="18px" className="control-label" htmlFor="inputBoneMass">Masa Ósea</label>
                                         <div className="controls">
@@ -226,7 +225,7 @@ class EditPhysicalInfo extends Component {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="col-2 mt-4">
+                                <div className="col-2 mt-4 p-1">
                                     <div className="control-group">
                                         <label font-size="18px" className="control-label" htmlFor="inputDCI/BMR">DCI/BMR</label>
                                         <div className="controls">
@@ -234,7 +233,7 @@ class EditPhysicalInfo extends Component {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="col-2 mt-4">
+                                <div className="col-2 mt-4 p-1">
                                     <div className="control-group">
                                         <label font-size="18px" className="control-label" htmlFor="inputMetAge">Edad Metabólica</label>
                                         <div className="controls">
@@ -242,7 +241,7 @@ class EditPhysicalInfo extends Component {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="col-2 mt-4">
+                                <div className="col-2 mt-4 p-1">
                                     <div className="control-group">
                                         <label font-size="18px" className="control-label" htmlFor="inputViceralFat">Grasa Visceral</label>
                                         <div className="controls">
@@ -259,8 +258,6 @@ class EditPhysicalInfo extends Component {
                                     <button align="right" onClick={this.saveChange} className="buttonSizeGeneral">Guardar cambios</button>
                                 </div>
                             </div>
-                        </form>
-
                     </div>
                 </div>
             </div>
