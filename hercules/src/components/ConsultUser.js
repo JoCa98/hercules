@@ -35,10 +35,12 @@ class ConsultUser extends Component {
         this.redirectPhysical = this.redirectPhysical.bind(this);
         this.redirectRoutines = this.redirectRoutines.bind(this);
         this.backButton = this.backButton.bind(this);
+        this.changeUserStatus = this.changeUserStatus.bind(this);
     }
 
     componentDidMount() {
         this.getUserBasicInfo();
+
         console.log(this.state.userInfo[0]);
         if (sessionStorage.getItem('userTypeID') != 4) {
             this.hideAdminBtns();
@@ -53,6 +55,42 @@ class ConsultUser extends Component {
         document.getElementById("Routine").style.display = 'none';
     }
 
+    changeUserStatus() {
+        if (window.confirm("¿Está seguro que desea cambiar el estado del usuario?") === true) {
+            var accountState;
+            if (document.getElementById("status").textContent === "Inactivo") {
+                accountState = 1;
+            } else {
+                accountState = 0;
+            }
+            fetch("http://localhost:9000/User/changeUserStatus", {
+                method: "post",
+                body: JSON.stringify({
+                    email: this.state.userInfo[0].email,
+                    status: accountState
+                }),
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                })
+                .catch(err => console.error(err));
+            alert("El estado del usuario fue cambiado con éxito")
+            if (accountState === 0) {
+                document.getElementById('status').textContent = "Inactivo";
+                document.getElementById('changeUserStatus').textContent = "Activar";
+            } else {
+                document.getElementById('status').textContent = "Activo";
+                document.getElementById('changeUserStatus').textContent = "Desactivar";
+            }
+        }
+
+    }
+
     /**
     * Method that can get the basic information a specific user 
     * when the page is load
@@ -65,7 +103,13 @@ class ConsultUser extends Component {
                 }).then(response => {
                     const userInfo = response.data[0];
                     this.setState({ userInfo });
+                    if (userInfo[0].status === "Inactivo") {
+                        document.getElementById('changeUserStatus').textContent = "Activar";
+                    } else {
+                        document.getElementById('changeUserStatus').textContent = "Desactivar";
+                    }
                 });
+
         } catch (err) {
             console.error(err);
         }
@@ -114,52 +158,50 @@ class ConsultUser extends Component {
                 <div className="row mt-2 card p-5" >
                     <div className="col-12">
                         <h1 className="text-left">Consulta de usuario</h1>
-
                         <div className="row">
                             <div className="col-8">
                                 <h2 className="text-left">Datos del usuario</h2>
-
                                 <div className="row">
                                     <div className="col-12">
                                         <div className="form-group" align="left">
-                                            <label font-size="18px">Nombre completo:&nbsp;&nbsp;</label>
-                                            <label font-size="18px" id="fullName">{this.state.userInfo[0].fullName}</label>
+                                            <label fontSize="18px">Nombre completo:&nbsp;&nbsp;</label>
+                                            <label fontSize="18px" id="fullName">{this.state.userInfo[0].fullName}</label>
                                         </div>
                                         <div className="form-group" align="left">
-                                            <label font-size="18px">Número de cédula:&nbsp;&nbsp;</label>
-                                            <label font-size="18px" id="identificationNumer">{this.state.userInfo[0].identificationID}</label>
+                                            <label fontSize="18px">Número de cédula:&nbsp;&nbsp;</label>
+                                            <label fontSize="18px" id="identificationNumer">{this.state.userInfo[0].identificationID}</label>
                                         </div>
                                         <div className="form-group" align="left">
-                                            <label font-size="18px">Número de carné:&nbsp;&nbsp;</label>
-                                            <label font-size="18px" id="carnet">{this.state.userInfo[0].carnet}</label>
+                                            <label fontSize="18px">Número de carné:&nbsp;&nbsp;</label>
+                                            <label fontSize="18px" id="carnet">{this.state.userInfo[0].carnet}</label>
                                         </div>
                                         <div className="form-group" align="left">
-                                            <label font-size="18px">Dirección:&nbsp;&nbsp;</label>
-                                            <label font-size="18px" id="address">{this.state.userInfo[0].local_geo}</label>
+                                            <label fontSize="18px">Dirección:&nbsp;&nbsp;</label>
+                                            <label fontSize="18px" id="address">{this.state.userInfo[0].local_geo}</label>
                                         </div>
                                         <div className="form-group" align="left">
-                                            <label font-size="18px">Otras señas:&nbsp;&nbsp;</label>
-                                            <label font-size="18px" id="otherSigns">{this.state.userInfo[0].addressLine}</label>
+                                            <label fontSize="18px">Otras señas:&nbsp;&nbsp;</label>
+                                            <label fontSize="18px" id="otherSigns">{this.state.userInfo[0].addressLine}</label>
                                         </div>
                                         <div className="form-group" align="left">
-                                            <label font-size="18px">Correo institucional:&nbsp;&nbsp;</label>
-                                            <label font-size="18px" id="email">{this.state.userInfo[0].email}</label>
+                                            <label fontSize="18px">Correo institucional:&nbsp;&nbsp;</label>
+                                            <label fontSize="18px" id="email">{this.state.userInfo[0].email}</label>
                                         </div>
                                         <div className="form-group" align="left">
-                                            <label font-size="18px">Teléfono 1:&nbsp;&nbsp;</label>
-                                            <label font-size="18px" id="phoneNumber1">{this.state.userInfo[0].phone1}</label>
+                                            <label fontSize="18px">Teléfono 1:&nbsp;&nbsp;</label>
+                                            <label fontSize="18px" id="phoneNumber1">{this.state.userInfo[0].phone1}</label>
                                         </div>
                                         <div className="form-group" align="left">
-                                            <label font-size="18px">Teléfono 2:&nbsp;&nbsp;</label>
-                                            <label font-size="18px" id="phoneNumber2">{this.state.userInfo[0].phone2}</label>
+                                            <label fontSize="18px">Teléfono 2:&nbsp;&nbsp;</label>
+                                            <label fontSize="18px" id="phoneNumber2">{this.state.userInfo[0].phone2}</label>
                                         </div>
                                         <div className="form-group" align="left">
-                                            <label font-size="18px">Estado:&nbsp;&nbsp;</label>
-                                            <label font-size="18px" id="state">{this.state.userInfo[0].status}</label>
+                                            <label fontSize="18px">Estado:&nbsp;&nbsp;</label>
+                                            <label fontSize="18px" id="status">{this.state.userInfo[0].status}</label>
                                         </div>
                                         <div className="form-group" align="left">
-                                            <label font-size="18px">Fecha de registro:&nbsp;&nbsp;</label>
-                                            <label font-size="18px" id="signUpDate">{this.state.userInfo[0].startDate}</label>
+                                            <label fontSize="18px">Fecha de registro:&nbsp;&nbsp;</label>
+                                            <label fontSize="18px" id="signUpDate">{this.state.userInfo[0].startDate}</label>
                                         </div>
                                     </div>
 
@@ -174,16 +216,16 @@ class ConsultUser extends Component {
                                 <div className="row">
                                     <div className="col-12">
                                         <div className="form-group" align="left">
-                                            <label font-size="18px">Nombre:&nbsp;&nbsp;</label>
-                                            <label font-size="18px" id="contactName">{this.state.userInfo[0].contactName}</label>
+                                            <label fontSize="18px">Nombre:&nbsp;&nbsp;</label>
+                                            <label fontSize="18px" id="contactName">{this.state.userInfo[0].contactName}</label>
                                         </div>
                                         <div className="form-group" align="left">
-                                            <label font-size="18px">Teléfono:&nbsp;&nbsp;</label>
-                                            <label font-size="18px" id="contactPoneNumber">{this.state.userInfo[0].emergencyPhone}</label>
+                                            <label fontSize="18px">Teléfono:&nbsp;&nbsp;</label>
+                                            <label fontSize="18px" id="contactPoneNumber">{this.state.userInfo[0].emergencyPhone}</label>
                                         </div>
                                         <div className="form-group" align="left">
-                                            <label font-size="18px">Parentesco:&nbsp;&nbsp;</label>
-                                            <label font-size="18px" id="relation">{this.state.userInfo[0].relationship}</label>
+                                            <label fontSize="18px">Parentesco:&nbsp;&nbsp;</label>
+                                            <label fontSize="18px" id="relation">{this.state.userInfo[0].relationship}</label>
                                         </div>
                                     </div>
                                 </div>
@@ -199,12 +241,18 @@ class ConsultUser extends Component {
                                     <br></br>
                                     <br></br>
                                     <button className="circularButton w-100" id="Routine" name="Routine" onClick={this.redirectRoutines}>Rutina</button>
+                                    <br></br>
+                                    <br></br>
+                                    <button className="circularButton w-100" id="changeUserStatus" onClick={this.changeUserStatus}>Desactivar</button>
+
                                 </div>
                             </div>
                         </div>
                         <div className="row">
-                            <div className=" mt-3 col-md-8">
-                                <button align="left" className="buttonSizeGeneral" onClick={this.backButton}>Volver</button>
+                            <div className="col-12">
+                                <div className="form-group" align="left">
+                                    <button align="left" className="buttonSizeGeneral" onClick={this.backButton}>Volver</button>
+                                </div>
                             </div>
                         </div>
                     </div>
