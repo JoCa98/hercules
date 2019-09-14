@@ -52,6 +52,17 @@ router.post('/updatePassword', function (req, res) {
   })
 });
 
+router.post('/changeUserStatus', function (req, res) {
+  connection.query("CALL proc_changeUserStatus('" + req.body.email+ "'," + "b'" + req.body.status +"')", function (err, result) {
+    if (err) {
+      return res.send(err)
+    }
+    else {
+      return res.send(result)
+    }
+  })
+});
+
 router.post('/updateContact', function (req, res) {
   connection.query("CALL proc_updateEmergencyContact('" + req.body.contactName + "'," + req.body.relationTypeID
     + "," + req.body.emergencyContactID + ",'" + req.body.emergencyContactPhoneNumber +
