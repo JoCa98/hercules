@@ -47,8 +47,26 @@ class LogIn extends Component {
                                 this.props.history.push(`/ChangeTempPassword`);
                             } else {
                                 if (sessionStorage.getItem('userTypeID') == 1 || sessionStorage.getItem('userTypeID') == 2) {
-                                    this.props.history.push(`/UserHome`);
-                                    window.location.reload();
+                                    var res = 0;
+                                    axios.get("http://localhost:9000/RoutineRoute/getRoutineID", {
+                                        params: {
+                                            partyID: sessionStorage.getItem('partyID')
+                                        }
+                                    }).then(response => {
+                                        if (response) {
+                                            console.log(response.data[0]);
+                                             res = response.data[0];
+                                            if(res[0] != null){
+                                                sessionStorage.setItem("routineID", res[0].routineID);
+                                                this.props.history.push(`/UserHome`);
+                                                window.location.reload();
+                                            }else{
+                                                 this.props.history.push(`/UserHomeWithOut`);
+                                                 window.location.reload();
+                                             }
+                                        }
+                                    })
+                                    
                                 } else if (sessionStorage.getItem('userTypeID') == 3 || sessionStorage.getItem('userTypeID') == 4) {
                                     this.props.history.push(`/HomeAdmin`);
                                     window.location.reload();
