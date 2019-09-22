@@ -42,6 +42,28 @@ router.get('/getPhysicalInfoByID',  (req, res) => {
   });
 });
 
+
+/**
+  *Method to execute the procedure stored in the database
+  *to obtain the all data of physical info of the users 
+  *but in spanish
+  * 
+  * @param {Request}
+  * @param {Response}
+*/
+router.get('/getPhysicalInfoByIDSpanish',  (req, res) => {
+  connection.query("CALL proc_getPhysicalInfoByPartyIDSpanishVersion('"+ req.query.partyID +"');",
+   function(err,results){
+      if (results) {
+          res.send(results);
+        }
+        else {
+          console.log(err);
+        }
+  });
+});
+
+
 /**
   *Method to execute the procedure stored in the database
   *to obtain the last data of physical info of the users 

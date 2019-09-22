@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import TablePhysicalInfo from './TablePhysicalInfo';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 
+
 class HistoricPhysicalUserInfo extends Component {
   constructor(props) {
     super(props);
