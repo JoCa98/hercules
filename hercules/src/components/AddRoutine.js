@@ -137,7 +137,7 @@ class AddRoutine extends Component {
     }
 
     cardioExercise(){
-        if(this.state.typeID == 14){
+        if(this.state.typeID == 1){
             document.getElementById("weightInput").style.display = "none";
             document.getElementById("seriesInput").style.display = "none";
             document.getElementById("repetitionsInput").style.display = "none";
@@ -189,7 +189,7 @@ class AddRoutine extends Component {
             this.state.list.map((ex, i) => {
                 if (ex.exerciseID == id) {
                     this.setState({ exist: true, index: i });
-                    if(this.state.typeID == 14){
+                    if(this.state.typeID == 1){
                     this.cardioExercise();
                     document.getElementById("weightInput").value = ex.series;
                     document.getElementById("heartRateInput").value = ex.repetitions;
@@ -222,7 +222,7 @@ class AddRoutine extends Component {
 
     editExercise(e) {
         if (this.state.exist) {
-            if(this.state.typeID == 14){
+            if(this.state.typeID == 1){
                 this.cardioExercise();
                 this.state.list[this.state.index].intensityPercentage = document.getElementById("intensityInput").value;
                 this.state.list[this.state.index].heartRate = document.getElementById("heartRateInput").value;

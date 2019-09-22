@@ -35,10 +35,12 @@ class ConsultUser extends Component {
         this.redirectPhysical = this.redirectPhysical.bind(this);
         this.redirectRoutines = this.redirectRoutines.bind(this);
         this.backButton = this.backButton.bind(this);
+        this.changeUserStatus = this.changeUserStatus.bind(this);
     }
 
     componentDidMount() {
         this.getUserBasicInfo();
+
         console.log(this.state.userInfo[0]);
         if (sessionStorage.getItem('userTypeID') != 4) {
             this.hideAdminBtns();
@@ -53,6 +55,42 @@ class ConsultUser extends Component {
         document.getElementById("Routine").style.display = 'none';
     }
 
+    changeUserStatus() {
+        if (window.confirm("¿Está seguro que desea cambiar el estado del usuario?") === true) {
+            var accountState;
+            if (document.getElementById("status").textContent === "Inactivo") {
+                accountState = 1;
+            } else {
+                accountState = 0;
+            }
+            fetch("http://localhost:9000/User/changeUserStatus", {
+                method: "post",
+                body: JSON.stringify({
+                    email: this.state.userInfo[0].email,
+                    status: accountState
+                }),
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                })
+                .catch(err => console.error(err));
+            alert("El estado del usuario fue cambiado con éxito")
+            if (accountState === 0) {
+                document.getElementById('status').textContent = "Inactivo";
+                document.getElementById('changeUserStatus').textContent = "Activar";
+            } else {
+                document.getElementById('status').textContent = "Activo";
+                document.getElementById('changeUserStatus').textContent = "Desactivar";
+            }
+        }
+
+    }
+
     /**
     * Method that can get the basic information a specific user 
     * when the page is load
@@ -65,7 +103,13 @@ class ConsultUser extends Component {
                 }).then(response => {
                     const userInfo = response.data[0];
                     this.setState({ userInfo });
+                    if (userInfo[0].status === "Inactivo") {
+                        document.getElementById('changeUserStatus').textContent = "Activar";
+                    } else {
+                        document.getElementById('changeUserStatus').textContent = "Desactivar";
+                    }
                 });
+
         } catch (err) {
             console.error(err);
         }
@@ -114,11 +158,9 @@ class ConsultUser extends Component {
                 <div className="row mt-2 card p-5" >
                     <div className="col-12">
                         <h1 className="text-left">Consulta de usuario</h1>
-
                         <div className="row">
                             <div className="col-8">
                                 <h2 className="text-left">Datos del usuario</h2>
-
                                 <div className="row">
                                     <div className="col-12">
                                         <div className="form-group" align="left">
@@ -155,7 +197,7 @@ class ConsultUser extends Component {
                                         </div>
                                         <div className="form-group" align="left">
                                             <label fontSize="18px">Estado:&nbsp;&nbsp;</label>
-                                            <label fontSize="18px" id="state">{this.state.userInfo[0].status}</label>
+                                            <label fontSize="18px" id="status">{this.state.userInfo[0].status}</label>
                                         </div>
                                         <div className="form-group" align="left">
                                             <label fontSize="18px">Fecha de registro:&nbsp;&nbsp;</label>
@@ -183,7 +225,7 @@ class ConsultUser extends Component {
                                         </div>
                                         <div className="form-group" align="left">
                                             <label fontSize="18px">Parentesco:&nbsp;&nbsp;</label>
-                                            <label fontSize ="18px" id="relation">{this.state.userInfo[0].relationship}</label>
+                                            <label fontSize="18px" id="relation">{this.state.userInfo[0].relationship}</label>
                                         </div>
                                     </div>
                                 </div>
@@ -199,12 +241,18 @@ class ConsultUser extends Component {
                                     <br></br>
                                     <br></br>
                                     <button className="circularButton w-100" id="Routine" name="Routine" onClick={this.redirectRoutines}>Rutina</button>
+                                    <br></br>
+                                    <br></br>
+                                    <button className="circularButton w-100" id="changeUserStatus" onClick={this.changeUserStatus}>Desactivar</button>
+
                                 </div>
                             </div>
                         </div>
                         <div className="row">
-                            <div className=" mt-3 col-md-8">
-                                <button align="left" className="buttonSizeGeneral" onClick={this.backButton}>Volver</button>
+                            <div className="col-12">
+                                <div className="form-group" align="left">
+                                    <button align="left" className="buttonSizeGeneral" onClick={this.backButton}>Volver</button>
+                                </div>
                             </div>
                         </div>
                     </div>

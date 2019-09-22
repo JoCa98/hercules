@@ -39,25 +39,6 @@ class UserHome extends Component {
     * when loading the page for the first time
     */
     componentDidMount() {
-        var res = 0;
-        axios.get("http://localhost:9000/RoutineRoute/getRoutineID", {
-            params: {
-                partyID: this.state.partyID,
-            }
-        }).then(response => {
-            if (response) {
-                console.log(response.data[0]);
-                 res = response.data[0];
-                 if(res[0].routineID != null){
-                    sessionStorage.setItem("routineID", res[0].routineID);
-                 }else{
-                     this.props.history.push(`/UserHomeWithOut`);
-                     console.log("sin rutina");
-                 }
-            }
-        })
-
-
         console.log(sessionStorage.getItem("routineID"));
         axios.get("http://localhost:9000/RoutineRoute/getRoutineInfo", {
             params: {
