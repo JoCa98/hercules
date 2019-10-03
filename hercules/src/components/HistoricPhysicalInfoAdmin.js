@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import plusImage from '../appImage/plusImage.svg';
+import downloadImage from '../appImage/downloadImage.png';
 import TablePhysicalInfo from './TablePhysicalInfo';
 import axios from "axios";
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
+import json2csv from 'json2csv';
 
 class HistoricPhysicalInfoAdmin extends Component {
 
@@ -19,10 +21,12 @@ class HistoricPhysicalInfoAdmin extends Component {
         this.state = {
             userName: [{}],
             partyID: sessionStorage.getItem("userPartyID"),
+            physicalInfo: [{}]
         }
 
         this.redirect = this.redirect.bind(this);
         this.backButton = this.backButton.bind(this);
+        this.downloadCSV = this.downloadCSV.bind(this);
     }
 
     componentDidMount() {
@@ -41,16 +45,40 @@ class HistoricPhysicalInfoAdmin extends Component {
 
     redirect() {
         if (sessionStorage.getItem('dateLastRegistry') !== 'undefined' &&
-        sessionStorage.getItem('dateLastRegistry') !== null && 
+            sessionStorage.getItem('dateLastRegistry') !== null &&
             new Date(sessionStorage.getItem('dateLastRegistry')) === Date(new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate())) {
             alert("Solo se puede agregar un registro por día.");
             console.log(new Date(sessionStorage.getItem('dateLastRegistry')));
             console.log(Date(new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate()));
 
-            
+
         } else {
             this.props.history.push(`/AddPhysicalInfo`);
 
+        }
+    }
+
+    /**
+    * Get the information from the database 
+    * and format it to csv to download  
+    */
+    downloadCSV() {
+        try {
+            axios.get(`http://localhost:9000/PhysicalInfo/getPhysicalInfoByIDSpanish`,
+                { params: { partyID: this.state.partyID } }).then(response => {
+
+                    const { parse } = require('json2csv');
+
+                    const fields = ['Fecha', 'Peso', 'PorcentajeDeGrasaCorporal', 'PorcentajeDeAguaCorporal',
+                     'MasaMuscular', 'ValoracionFisica', 'MasaOsea', 'DCI', 'EdadMetabolica', 'GrasaVisceral'];
+                    const opts = { fields };
+            
+                    const csv = parse(response.data[0], opts);
+                    var fileDownload = require('js-file-download');
+                    fileDownload(csv, this.state.userName[0].fullName + ' - Composición física.csv');
+                });
+        } catch (err) {
+            console.error(err);
         }
     }
 
@@ -70,7 +98,7 @@ class HistoricPhysicalInfoAdmin extends Component {
         })
         return (
             <div className="container">
-                  <div className="row mt-4">
+                <div className="row mt-4">
                     <Breadcrumb>
                         <Breadcrumb.Item href="#/HomeAdmin">Inicio</Breadcrumb.Item>
                         <Breadcrumb.Item href="#/ConsultUser">Consulta de usuario</Breadcrumb.Item>
@@ -80,13 +108,17 @@ class HistoricPhysicalInfoAdmin extends Component {
                 <div className="row card mt-2 p-5">
                     <div className="col-12">
                         <h1 className="text-left colorBlue">Composición Corporal</h1>
-                        <div className="row">
+                        <div className="row p-3">
                             <div className="col-4 offset-1 text-center">
                                 {name}
                             </div>
-                            <div className="col-4 offset-1 text-center">
-                                <img src={plusImage} onClick={this.redirect} className="buttonSizeGeneral pointer" />
+                            <div className="col-2 offset-1 text-center">
+                                <img src={plusImage} onClick={this.redirect} className="imageHistoricPage pointer" />
                                 <h4 className="colorBlue pointer" onClick={this.redirect}>Agregar nuevo</h4>
+                            </div>
+                            <div className="col-2 text-center">
+                                <img src={downloadImage} onClick={this.downloadCSV} className="imageHistoricPage pointer" />
+                                <h4 className="colorBlue pointer" onClick={this.downloadCSV}>Descargar</h4>
                             </div>
                         </div>
                     </div>

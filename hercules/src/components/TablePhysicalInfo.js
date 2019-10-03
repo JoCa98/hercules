@@ -18,13 +18,13 @@ class TablePhysicalInfo extends Component {
     componentDidMount() {
         sessionStorage.removeItem('dateLastRegistry');
         var value = "";
-        if(sessionStorage.getItem('userTypeID') == 1 || sessionStorage.getItem('userTypeID') == 2){
-            
+        if (sessionStorage.getItem('userTypeID') == 1 || sessionStorage.getItem('userTypeID') == 2) {
+
             this.setState({
                 partyID: sessionStorage.getItem('partyID')
             })
             value = sessionStorage.getItem('partyID');
-        }else if(sessionStorage.getItem('userTypeID') == 3 || sessionStorage.getItem('userTypeID') == 4){
+        } else if (sessionStorage.getItem('userTypeID') == 3 || sessionStorage.getItem('userTypeID') == 4) {
             this.setState({
                 partyID: sessionStorage.getItem('userPartyID')
             })
@@ -39,10 +39,10 @@ class TablePhysicalInfo extends Component {
      * and loads them to physicalInfo
      */
     getUserPhysicalInfo(value) {
-        
+
         try {
             axios.get(`http://localhost:9000/PhysicalInfo/getPhysicalInfoByID`,
-                { params: { partyID:  value} }).then(response => {
+                { params: { partyID: value } }).then(response => {
                     const physicalInfo = response.data[0];
                     this.setState({ physicalInfo });
                 });

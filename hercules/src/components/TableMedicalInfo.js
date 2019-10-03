@@ -231,7 +231,7 @@ class TableMedicalInfo extends Component {
                                 <thead>
                                     <tr>
                                         <th scope="col" className="align-middle">Fecha</th>
-                                        <th scope="col" className="align-middle">Cod Médico</th>
+                                        <th scope="col" className="align-middle">Código Médico</th>
                                         <th scope="col" className="align-middle">Patológicos</th>
                                         <th scope="col" className="align-middle">Alergias</th>
                                         <th scope="col" className="align-middle">Quirúrgicos</th>
