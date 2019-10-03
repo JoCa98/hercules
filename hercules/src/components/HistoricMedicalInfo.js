@@ -142,11 +142,10 @@ class HistoricMedicalInfo extends Component {
                                 {name}
                             </div>
                             <div className="col-2 offset-1 text-center">
-                                <img src={plusImage} id="addImage" onClick={this.redirect} className="buttonSizeGeneral pointer" />
                                 <h4 className="colorBlue pointer" id="addText" onClick={this.redirect} >Agregar nuevo</h4>
                             </div>
                             <div className="col-2 text-center">
-                                <img src={downloadImage} onClick={this.downloadCSV} className="imageHistoricPage pointer" />
+                                <img src={downloadImage} alt="Descargar" onClick={this.downloadCSV} className="imageHistoricPage pointer" />
                                 <h4 className="colorBlue pointer" onClick={this.downloadCSV}>Descargar</h4>
                             </div>
                             <div className="col-12 mt-4 text-center">
