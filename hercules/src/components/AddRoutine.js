@@ -37,7 +37,6 @@ class AddRoutine extends Component {
         this.arrayEmpty = this.arrayEmpty.bind(this);
         this.submitExercise = this.submitExercise.bind(this);
 
-
         this.exerciseTypeSelect = this.exerciseTypeSelect.bind(this);
         this.rigthArrow = this.rigthArrow.bind(this);
         this.getExerciseData = this.getExerciseData.bind(this);
@@ -47,7 +46,6 @@ class AddRoutine extends Component {
         this.initButtons = this.initButtons.bind(this);
         this.deleteExercise = this.deleteExercise.bind(this);
         this.editExercise = this.editExercise.bind(this);
-
 
         this.backButton = this.backButton.bind(this);
     }
@@ -75,6 +73,7 @@ class AddRoutine extends Component {
 
         this.initButtons();
         this.getExerciseData();
+        this.cardioExercise();
     }
 
     /**
@@ -88,9 +87,10 @@ class AddRoutine extends Component {
             const value = parseInt(this.state.typeID) + 1;
             this.state.typeID = value;
             this.setState({ typeID: value });
-
         }
+        this.cardioExercise();
         this.getExerciseData();
+        
     }
 
     /**
@@ -105,6 +105,7 @@ class AddRoutine extends Component {
             this.state.typeID = value;
             this.setState({ typeID: value });
         }
+        this.cardioExercise();
         this.getExerciseData();
     }
 
@@ -114,6 +115,7 @@ class AddRoutine extends Component {
     exerciseTypeSelect(event) {
         this.state.typeID = event.target.value;
         this.setState({ typeID: event.target.value });
+        this.cardioExercise();
         this.getExerciseData();
     }
 
@@ -136,7 +138,14 @@ class AddRoutine extends Component {
         document.getElementById("delete").style.display = 'none';
     }
 
+
+    /**
+    * Method that when the type of exercise is 1, show the arguments to cardiovascular 
+    * exercises, and hide the other, or make the oposite whe the type of exercise is different than 1
+    */
     cardioExercise(){
+        this.disabledInputs();
+
         if(this.state.typeID == 1){
             document.getElementById("weightInput").style.display = "none";
             document.getElementById("seriesInput").style.display = "none";
@@ -147,11 +156,9 @@ class AddRoutine extends Component {
     
             document.getElementById("intensityInput").style.display = "initial";
             document.getElementById("pIntensity").style.display = "initial";
-            document.getElementById("intensityInput").disabled = false;
             document.getElementById("pHeartRate").style.display = "initial";
             document.getElementById("heartRateInput").style.display = "initial";
-            document.getElementById("heartRateInput").disabled = false;
-            document.getElementById("minutesInput").disabled = false;
+
             }else{
             document.getElementById("weightInput").style.display = "initial";
             document.getElementById("seriesInput").style.display = "initial";
@@ -160,19 +167,57 @@ class AddRoutine extends Component {
             document.getElementById("pSeries").style.display = "initial";
             document.getElementById("pRepetitions").style.display = "initial";
     
+            document.getElementById("intensityInput").style.display = "none";
+            document.getElementById("pIntensity").style.display = "none";
+            document.getElementById("pHeartRate").style.display = "none";
+            document.getElementById("heartRateInput").style.display = "none";
+            }
+    }
+
+
+    /**
+    * Method that enabled inputs by the exercise type selected
+    */    
+    enabledInputs(){
+        if(this.state.typeID == 1){
+            document.getElementById("heartRateInput").disabled = false;
+            document.getElementById("minutesInput").disabled = false;
+            document.getElementById("intensityInput").disabled = false;
+        }else{
             document.getElementById("weightInput").disabled = false;
             document.getElementById("seriesInput").disabled = false;
             document.getElementById("repetitionsInput").disabled = false;
             document.getElementById("minutesInput").disabled = false;
-    
-            document.getElementById("intensityInput").style.display = "none";
-            document.getElementById("pIntensity").style.display = "none";
-            document.getElementById("intensityInput").disabled = true;
-            document.getElementById("pHeartRate").style.display = "none";
-            document.getElementById("heartRateInput").style.display = "none";
-            document.getElementById("heartRateInput").disabled = true;
-            }
+        }
     }
+
+    /**
+    * Method that make empty inputs by the exercise type selected
+    */ 
+    emptyInputs(){
+        if(this.state.typeID == 1){
+            document.getElementById("weightInput").value = "";
+            document.getElementById("seriesInput").value = "";
+            document.getElementById("repetitionsInput").value = "";
+            document.getElementById("minutesInput").value = "";
+        }else{
+            document.getElementById("weightInput").value = "";
+            document.getElementById("heartRateInput").value = "";
+        }
+    }
+
+     /**
+    * Method that disabled inputs by the exercise type selected
+    */ 
+    disabledInputs(){
+        document.getElementById("weightInput").disabled = true;
+        document.getElementById("seriesInput").disabled = true;
+        document.getElementById("repetitionsInput").disabled = true;
+        document.getElementById("heartRateInput").disabled = true;
+        document.getElementById("minutesInput").disabled = true;
+        document.getElementById("intensityInput").disabled = true;
+    }
+
 
     rowEvent(event) {
         const id = document.getElementById("routines").rows[event.target.parentNode.rowIndex].cells[0].innerHTML;
@@ -183,7 +228,7 @@ class AddRoutine extends Component {
         document.getElementById("routines").rows[event.target.parentNode.rowIndex].classList.add("table-info");
         this.setState({ exerciseID: id });
 
-        this.cardioExercise();
+        this.enabledInputs();
 
         if (this.state.list.length !== 0) {
             this.state.list.map((ex, i) => {
@@ -208,10 +253,8 @@ class AddRoutine extends Component {
                     }
                 } else {
                     this.setState({ exist: false });
-                    document.getElementById("weightInput").value = "";
-                    document.getElementById("seriesInput").value = "";
-                    document.getElementById("repetitionsInput").value = "";
-                    document.getElementById("minutesInput").value = "";
+                    this.emptyInputs();
+                    
                     document.getElementById("add").style.display = "initial";
                     document.getElementById("edit").style.display = "none";
                     document.getElementById("delete").style.display = "none";
@@ -223,7 +266,7 @@ class AddRoutine extends Component {
     editExercise(e) {
         if (this.state.exist) {
             if(this.state.typeID == 1){
-                this.cardioExercise();
+                this.enabledInputs();
                 this.state.list[this.state.index].intensityPercentage = document.getElementById("intensityInput").value;
                 this.state.list[this.state.index].heartRate = document.getElementById("heartRateInput").value;
                 this.state.list[this.state.index].minutes = document.getElementById("minutesInput").value;
@@ -237,14 +280,9 @@ class AddRoutine extends Component {
         } else {
             alert("El elemento no se encuentra");
         }
-        document.getElementById("weightInput").value = "";
-        document.getElementById("seriesInput").value = "";
-        document.getElementById("repetitionsInput").value = "";
-        document.getElementById("minutesInput").value = "";
-        document.getElementById("weightInput").disabled = true;
-        document.getElementById("seriesInput").disabled = true;
-        document.getElementById("repetitionsInput").disabled = true;
-        document.getElementById("minutesInput").disabled = true;
+        
+        this.emptyInputs();
+        this.disabledInputs();
 
         e.preventDefault();
     }
@@ -256,14 +294,9 @@ class AddRoutine extends Component {
         } else {
             alert("El elemento no se encuentra");
         }
-        document.getElementById("weightInput").value = "";
-        document.getElementById("seriesInput").value = "";
-        document.getElementById("repetitionsInput").value = "";
-        document.getElementById("minutesInput").value = "";
-        document.getElementById("weightInput").disabled = true;
-        document.getElementById("seriesInput").disabled = true;
-        document.getElementById("repetitionsInput").disabled = true;
-        document.getElementById("minutesInput").disabled = true;
+
+        this.emptyInputs();
+        this.disabledInputs();
 
         e.preventDefault();
     }
@@ -319,18 +352,8 @@ class AddRoutine extends Component {
             }
         }
 
-        document.getElementById("weightInput").value = "";
-        document.getElementById("seriesInput").value = "";
-        document.getElementById("repetitionsInput").value = "";
-        document.getElementById("minutesInput").value = "";
-        document.getElementById("intensityInput").value = "";
-        document.getElementById("heartRateInput").value = "";
-        document.getElementById("weightInput").disabled = true;
-        document.getElementById("seriesInput").disabled = true;
-        document.getElementById("repetitionsInput").disabled = true;
-        document.getElementById("minutesInput").disabled = true;
-        document.getElementById("intensityInput").disabled = true;
-        document.getElementById("heartRateInput").disabled = true;
+        this.emptyInputs();
+        this.disabledInputs();
 
         e.preventDefault();
     }
@@ -386,9 +409,6 @@ class AddRoutine extends Component {
         }
 
     }
-
-
-
 
     submitExercise(id) {
         console.log(id);
