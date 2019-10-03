@@ -108,6 +108,7 @@ class HistoricRoutineInfo extends Component {
                         <td>{routineHist.timeLapse}</td>
                         <td>{routineHist.rtDescription}</td>
                         <td>{routineHist.otDescription}</td>
+                        <td>{routineHist.heartRatePerMinute}</td>
                     </tr>
                 )
             } else {
@@ -120,6 +121,7 @@ class HistoricRoutineInfo extends Component {
                         <td>{routineHist.timeLapse}</td>
                         <td>{routineHist.rtDescription}</td>
                         <td>{routineHist.otDescription}</td>
+                        <td>{routineHist.heartRatePerMinute}</td>
                     </tr>
                 )
             }
@@ -157,6 +159,7 @@ class HistoricRoutineInfo extends Component {
                                     <th scope="col" className="align-middle">Lapso de descanso</th>
                                     <th scope="col" className="align-middle">Tipo de rutina</th>
                                     <th scope="col" className="align-middle">Objetivo</th>
+                                    <th scope="col" className="align-middle">Frecuencia Cardíaca</th>
                                 </tr>
                             </thead>
                             <tbody>

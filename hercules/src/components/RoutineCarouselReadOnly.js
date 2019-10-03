@@ -137,7 +137,7 @@ class RoutineCarouselReadOnly extends Component {
         */
         const exerciseVisual = this.state.exercise.map((exercise, i) => {
             return (
-                <tr className="pointer" key={i}>
+                <tr  key={i}>
                     <td>{exercise.description}</td>
                     <td>{exercise.charge}</td>
                     <td>{exercise.series}</td>
