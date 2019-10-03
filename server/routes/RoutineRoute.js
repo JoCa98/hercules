@@ -116,7 +116,7 @@ router.get("/getRoutineID", (req, res) => {
 
 router.post("/addRoutine", (req, res) => {
   connection.query("CALL proc_addRoutine(" + req.body.Frecuency + "," + req.body.Intensity + "," + req.body.RestTime +
-  "," + req.body.Density + ",'" + req.body.date + "'," + req.body.partyID + "," + req.body.routineTypeID + "," + req.body.objectiveID + ")", function (err, results) {
+  "," + req.body.Density + ",'" + req.body.date + "'," + req.body.partyID + "," + req.body.routineTypeID + "," + req.body.objectiveID + "," + req.body.heartRatePerMinute + ")", function (err, results) {
     if (results) {
       res.send(results);
     }

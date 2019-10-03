@@ -14,6 +14,7 @@ class AddRoutine extends Component {
             Intensity: 0,
             Density: 0,
             RestTime: 0,
+            heartRatePerMinute: 0,
             routineTypeID: 1,
             objectiveID: 1,
             partyID: sessionStorage.getItem("userPartyID"),
@@ -195,15 +196,15 @@ class AddRoutine extends Component {
     * Method that make empty inputs by the exercise type selected
     */ 
     emptyInputs(){
-        if(this.state.typeID == 1){
+   
             document.getElementById("weightInput").value = "";
             document.getElementById("seriesInput").value = "";
             document.getElementById("repetitionsInput").value = "";
             document.getElementById("minutesInput").value = "";
-        }else{
+            document.getElementById("intensityInput").value = "";
             document.getElementById("weightInput").value = "";
             document.getElementById("heartRateInput").value = "";
-        }
+ 
     }
 
      /**
@@ -309,6 +310,7 @@ class AddRoutine extends Component {
             && document.getElementById("intensityInput").value.length === 0 && document.getElementById("heartRateInput").value.length === 0 ) {
 
             alert("Debe llenar al menos un dato");
+
         } else {
             var weight = document.getElementById("weightInput").value;
             var minutes = document.getElementById("minutesInput").value;
@@ -316,6 +318,7 @@ class AddRoutine extends Component {
             var series = document.getElementById("seriesInput").value;
             var intensityPercentage = document.getElementById("intensityInput").value;
             var heartRate = document.getElementById("heartRateInput").value;
+
             if (weight == "") {
                 weight = null;
             }
@@ -343,6 +346,7 @@ class AddRoutine extends Component {
                 intensityPercentage: intensityPercentage,
                 heartRate: heartRate
             }
+            
             if (this.state.exist) {
                 console.log(this.state.list);
                 alert("El ejercicio ya fue agregado");
@@ -393,7 +397,8 @@ class AddRoutine extends Component {
                 date: this.state.date,
                 partyID: this.state.partyID,
                 routineTypeID: this.state.routineTypeID,
-                objectiveID: this.state.objectiveID
+                objectiveID: this.state.objectiveID,
+                heartRatePerMinute: this.state.heartRatePerMinute
             })
                 .then(response => {
                     console.log(response.data[0]);
@@ -451,7 +456,7 @@ class AddRoutine extends Component {
 
     empty() {
         if (this.state.Frecuency == "" || this.state.Density == "" || this.state.Intensity == "" || this.state.RestTime == ""
-            || this.state.objectiveID == "" || this.state.routineTypeID == "") {
+            || this.state.objectiveID == "" || this.state.routineTypeID == "" || this.state.heartRatePerMinute == "") {
             return true;
         } else {
             return false;
@@ -528,24 +533,35 @@ class AddRoutine extends Component {
                                     <div className="row">
                                         <div className="col-12">
                                             <div className="row">
-                                                <div className="col-6">
-                                                    <p>Tipo de rutina*:</p>
+                                                <div className="col-7">
+                                                    <p>Tipo de rutina<font color="red">*</font></p>
                                                 </div>
-                                                <div className="col-6">                                      
-                                                <select name="rutineTypeDropdown" align="left" className="form-control" onChange={this.routineTypeSelect} value={this.state.routineTypeID}>f                                            {routineTypeList}
+                                                <div className="col-5">                                      
+                                                <select name="rutineTypeDropdown" align="left" className="form-control" onChange={this.routineTypeSelect} value={this.state.routineTypeID}>
+                                                  {routineTypeList}
                                                 </select>
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="col-12">
                                             <div className="row">
-                                                <div className="col-6">
-                                                    <p>Objetivo*:</p>
+                                                <div className="col-7">
+                                                    <p>Objetivo<font color="red">*</font></p>
                                                 </div>
-                                                <div className="col-6">
+                                                <div className="col-5">
                                                     <select name="objectiveDropdown" font-size="18px" align="left" className="form-control" onChange={this.objectiveSelect} onKeyPress={this.onKeyEvent} value={this.state.objectiveID}>
                                                         {objetiveType}
                                                     </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-12">
+                                            <div className="row">
+                                                <div className="col-7">
+                                                    <p>Frecuencia cardíaca<font color="red">*</font></p>
+                                                </div>
+                                                <div className="col-5">
+                                                    <input type="number" font-size="18px" name="heartRatePerMinute" onKeyPress={this.onKeyEvent} className="form-control" onChange={this.inputNumberValidator} placeholder="" />
                                                 </div>
                                             </div>
                                         </div>
@@ -556,20 +572,20 @@ class AddRoutine extends Component {
                                     <div className="row">
                                         <div className="col-12">
                                             <div className="row">
-                                                <div className="col-6">
-                                                    <p>Frecuencia*:</p>
+                                                <div className="col-7">
+                                                    <p>Frecuencia<font color="red">*</font></p>
                                                 </div>
-                                                <div className="col-6">
+                                                <div className="col-5">
                                                     <input type="number" font-size="18px" onKeyPress={this.onKeyEvent} name="Frecuency" className="form-control" onChange={this.inputNumberValidator} placeholder="Días" />
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="col-12">
                                             <div className="row">
-                                                <div className="col-6">
-                                                    <p>Intensidad*:</p>
+                                                <div className="col-7">
+                                                    <p>Intensidad<font color="red">*</font></p>
                                                 </div>
-                                                <div className="col-6">
+                                                <div className="col-5">
                                                     <input type="number" font-size="18px" name="Intensity" onKeyPress={this.onKeyEvent} className="form-control" onChange={this.inputNumberValidator} placeholder="%" />
                                                 </div>
                                             </div>
@@ -581,30 +597,31 @@ class AddRoutine extends Component {
                                     <div className="row">
                                         <div className="col-12">
                                             <div className="row">
-                                                <div className="col-6">
-                                                    <p>Densidad*:</p>
+                                                <div className="col-7">
+                                                    <p>Densidad<font color="red">*</font></p>
                                                 </div>
-                                                <div className="col-6">
+                                                <div className="col-5">
                                                     <input type="number" font-size="18px" name="Density" onKeyPress={this.onKeyEvent} className="form-control" onChange={this.inputNumberValidator} placeholder="" />
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="col-12">
                                             <div className="row">
-                                                <div className="col-6">
-                                                    <p>Tiempo de descanso*:</p>
+                                                <div className="col-7">
+                                                    <p>Tiempo de descanso<font color="red">*</font></p>
                                                 </div>
-                                                <div className="col-6">
+                                                <div className="col-5">
                                                     <input type="number" font-size="18px" name="RestTime" onKeyPress={this.onKeyEvent} className="form-control" onChange={this.inputNumberValidator} placeholder="Segundos" />
                                                 </div>
                                             </div>
                                         </div>
+                                   
                                     </div>
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="col-12">
-                                    <div className="container card">
+                                    <div className="container card mt-4">
                                         <div className="row mt-4">
                                             <div className="col-3" align="center">
                                                 <img src={leftArrowImage} className="arrows pointer" onClick={this.leftArrow} />
@@ -618,7 +635,7 @@ class AddRoutine extends Component {
                                                 <img src={rightArrowImage} className="arrows pointer" onClick={this.rigthArrow} />
                                             </div>
                                         </div>
-                                        <div className="row mt-4">
+                                        <div className="row mt-4 ">
                                             <div className="col-6">
                                                 <div className="table-responsive">
                                                     <table className="table table-sm table-hover" id="routines">

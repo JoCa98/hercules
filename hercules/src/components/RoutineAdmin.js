@@ -118,6 +118,16 @@ class RoutineAdmin extends Component {
                                                 </div>
                                             </div>
                                         </div>
+                                        <div className="col-12">
+                                            <div className="row">
+                                                <div className="col-6">
+                                                    <p className="cssPText">Frecuencia Cardíaca:</p>
+                                                </div>
+                                                <div className="col-6">
+                                                    <input type="text" font-size="18px" name="textHeartRatePerMinute" className="form-control" disabled="disabled" value={this.state.routine[0].heartRatePerMinute} />
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div className="col-12 col-md-4">
