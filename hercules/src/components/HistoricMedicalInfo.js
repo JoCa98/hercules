@@ -142,6 +142,7 @@ class HistoricMedicalInfo extends Component {
                                 {name}
                             </div>
                             <div className="col-2 offset-1 text-center">
+                                <img src={plusImage} id="addImage" alt="Agregar nuevo" onClick={this.redirect} className="buttonSizeGeneral pointer" />
                                 <h4 className="colorBlue pointer" id="addText" onClick={this.redirect} >Agregar nuevo</h4>
                             </div>
                             <div className="col-2 text-center">
