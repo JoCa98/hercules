@@ -38,13 +38,13 @@ class NavbarAdmin extends Component {
                 <div className="collapse navbar-collapse flex-grow-0" id="navbarSupportedContent">
                     <ul className="navbar-nav text-center">
 
-                        <li className="nav-item">
+                        <li id= "home" className="nav-item">
                             <button className="btn buttonNavbar" onClick={this.homeAdmin}>Inicio</button>
                         </li>
-                        <li className="nav-item">
+                        <li id= "addAdmin" className="nav-item">
                             <button className="btn buttonNavbar" onClick={this.addAdmin}>Agregar administrador</button>
                         </li>
-                        <li className="nav-item">
+                        <li id= "admConfig" className="nav-item">
                             <button className="btn buttonNavbar" onClick={this.adminConfig} >Perfil</button>
                         </li>
                         <li className="nav-item">

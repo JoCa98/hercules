@@ -8,14 +8,8 @@ class Header extends Component {
 
 
   render() {
-    var navbar;
-    if (sessionStorage.getItem('userTypeID') != null) {
-      if (sessionStorage.getItem('userTypeID') == 1 || sessionStorage.getItem('userTypeID') == 2) {
-        navbar = <NavbarUserHome />
-      } else if (sessionStorage.getItem('userTypeID') == 3 || sessionStorage.getItem('userTypeID') == 4){
-        navbar = <NavbarAdmin />
-      }
-    }
+    var navbar;    
+        navbar = <NavbarUserHome />      
     return (
       <div>
         <div className="container-fluid backgroundBlue">
