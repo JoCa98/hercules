@@ -33,7 +33,8 @@ class HomeAdmin extends Component {
         * Property that contains the search values
         */
         this.state = {
-            userList: [{}],
+            userList: [],
+            userListID: [],
             searchType: 0,
             searchInput: ''
         };
@@ -158,8 +159,7 @@ class HomeAdmin extends Component {
     */
     rowEvent(event) {
         try {
-            var userPartyID = document.getElementById("myTable").rows[event.target.parentNode.rowIndex].cells[0].innerHTML;
-            sessionStorage.setItem("userPartyID", userPartyID);
+            sessionStorage.setItem("userPartyID", this.state.userListID[event.target.parentNode.rowIndex - 1]);
             this.props.history.push("/ConsultUser");
         } catch (err) {
             console.error(err);
@@ -172,10 +172,9 @@ class HomeAdmin extends Component {
         *this is stored in a constant that is used in the code of the page
         */
         const userListVisual = this.state.userList.map((userList, i) => {
-
+            this.state.userListID.push(userList.partyID);
             return (
                 <tr className="pointer" onClick={this.rowEvent} key={i}>
-                    <td className="diplayNone">{userList.partyID}</td>
                     <td>{userList.identificationID}</td>
                     <td>{userList.fullName}</td>
                     <td>{userList.carnet}</td>
@@ -194,7 +193,7 @@ class HomeAdmin extends Component {
                         <h1 className="text-left colorBlue">Lista de usuarios</h1>
                         <div className="row">
                             <div className="col-2 offset-1">
-                                <select font-size="18px" className="form-control"
+                                <select fontSize="18px" className="form-control"
                                     name="searchType"
                                     onChange={this.handleInput}>
                                     <option value="0">Carnet</option>
@@ -203,7 +202,7 @@ class HomeAdmin extends Component {
                                 </select>
                             </div>
                             <div className="col-5">
-                                <input font-size="18px"
+                                <input fontSize="18px"
                                     type="text"
                                     name="searchInput"
                                     onChange={this.handleInput}

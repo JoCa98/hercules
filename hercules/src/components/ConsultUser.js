@@ -41,7 +41,7 @@ class ConsultUser extends Component {
     componentDidMount() {
         this.getUserBasicInfo();
 
-        console.log(this.state.userInfo[0]);
+ 
         if (sessionStorage.getItem('userTypeID') != 4) {
             this.hideAdminBtns();
         }

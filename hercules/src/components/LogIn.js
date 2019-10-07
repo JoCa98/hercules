@@ -31,10 +31,10 @@ class LogIn extends Component {
     }
 
     tryLogin() {
-        axios.get(`http://localhost:9000/User/isEmailValid`, { params: { email: this.state.email } }).then(response => {
+        axios.get(`http://localhost:9000/User/isEmailValid`, { params: { email: this.state.email.trim() } }).then(response => {
             this.setState({ isUserValid: JSON.parse(JSON.stringify(response.data))[0]['isEmailValid'].data[0] });
             if (this.state.isUserValid == 1) {
-                axios.get(`http://localhost:9000/User/getHashPassword`, { params: { email: this.state.email } }).then(response => {
+                axios.get(`http://localhost:9000/User/getHashPassword`, { params: { email: this.state.email.trim() } }).then(response => {
                     var hashPasswordDB = JSON.parse(JSON.stringify(response.data[0]))[0]['hashPassword']
                     if (this.state.hash.comparePassword(this.state.password, hashPasswordDB) == true) {
                         sessionStorage.setItem('email', this.state.email);
@@ -123,7 +123,7 @@ class LogIn extends Component {
                         <div className="row mt-4 " ></div>
                         <div className="form-group" align="left">
                             <p>Correo institucional</p>
-                            <input font-size="18px" type="text" name="email" onKeyPress={this.onKeyEvent} value={this.state.email} className="form-control inputText w-100" onChange={this.handleInputChange}></input>
+                            <input font-size="18px" type="email" name="email" onKeyPress={this.onKeyEvent} value={this.state.email} className="form-control inputText w-100" onChange={this.handleInputChange}></input>
                             <br></br>
                             <p>Contraseña</p>
                             <input font-size="18px" type="password" name="password" id="password" onKeyPress={this.onKeyEvent} value={this.state.password} className="form-control inputText w-100" onChange={this.handleInputChange}></input>
