@@ -93,40 +93,22 @@ class HistoricRoutineInfo extends Component {
                 <label font-size="18px" className="form-label">Usuario: {userName.fullName}</label>
             )
         })
-        var routineQuantity = 0;
-        const routineCounter = this.state.routineHist.map((routineHist, i) => {
-            routineQuantity = routineQuantity + 1;
-        })
+      
         const indexRoutineHist = this.state.routineHist.map((routineHist, i) => {
-            if (routineQuantity - 1 === i) {
                 return (
                     <tr className="pointer" onClick={this.rowEvent} key={i}>
                         <td className="diplayNone" >{routineHist.routineID}</td>
-                        <td>{routineHist.date}</td>
-                        <td>{routineHist.frecuency}</td>
-                        <td>{routineHist.intensity}</td>
-                        <td>{routineHist.timeLapse}</td>
+                        <td align="center">{routineHist.date}</td>
+                        <td align="center">{routineHist.frecuency}</td>
+                        <td align="center">{routineHist.intensity}</td>
+                        <td align="center">{routineHist.timeLapse}</td>
                         <td>{routineHist.rtDescription}</td>
                         <td>{routineHist.otDescription}</td>
-                        <td>{routineHist.heartRatePerMinute}</td>
+                        <td align="center">{routineHist.heartRatePerMinute}</td>
                     </tr>
                 )
-            } else {
-                return (
-                    <tr key={i}>
-                        <td className="diplayNone" >{routineHist.routineID}</td>
-                        <td>{routineHist.date}</td>
-                        <td>{routineHist.frecuency}</td>
-                        <td>{routineHist.intensity}</td>
-                        <td>{routineHist.timeLapse}</td>
-                        <td>{routineHist.rtDescription}</td>
-                        <td>{routineHist.otDescription}</td>
-                        <td>{routineHist.heartRatePerMinute}</td>
-                    </tr>
-                )
-            }
-        })
-
+                })
+    
         return (
             <div className="container">
                 <div className="row mt-4">

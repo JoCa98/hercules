@@ -139,12 +139,12 @@ class RoutineCarouselReadOnly extends Component {
             return (
                 <tr  key={i}>
                     <td>{exercise.description}</td>
-                    <td>{exercise.charge}</td>
-                    <td>{exercise.series}</td>
-                    <td>{exercise.repetitions}</td>
-                    <td>{exercise.minutes}</td>
-                    <td>{exercise.intensityPercentage}</td>
-                    <td>{exercise.heartRate}</td>
+                    <td align="center">{exercise.charge}</td>
+                    <td align="center">{exercise.series}</td>
+                    <td align="center">{exercise.repetitions}</td>
+                    <td align="center">{exercise.minutes}</td>
+                    <td align="center">{exercise.intensityPercentage}</td>
+                    <td align="center">{exercise.heartRate}</td>
                 </tr>
             )
         })
