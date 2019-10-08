@@ -178,6 +178,7 @@ class HomeAdmin extends Component {
                     <td>{userList.identificationID}</td>
                     <td>{userList.fullName}</td>
                     <td>{userList.carnet}</td>
+                    <td>{userList.status}</td>
                 </tr>
             )
         })
@@ -198,7 +199,7 @@ class HomeAdmin extends Component {
                                     onChange={this.handleInput}>
                                     <option value="0">Carnet</option>
                                     <option value="1">Nombre</option>
-                                    <option value="2">Cedula</option>
+                                    <option value="2">Cédula</option>
                                 </select>
                             </div>
                             <div className="col-5">
@@ -224,6 +225,7 @@ class HomeAdmin extends Component {
                                     <th scope="col">Cédula</th>
                                     <th scope="col">Nombre</th>
                                     <th scope="col">Carnet</th>
+                                    <th scope="col">Estado</th>
                                 </tr>
                             </thead>
                             <tbody>
