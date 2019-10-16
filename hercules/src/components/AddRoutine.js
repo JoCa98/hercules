@@ -341,11 +341,22 @@ class AddRoutine extends Component {
         const re = /^[0-9\b]+$/;
         const { name, value } = event.target;
 
-        if (value === "" || re.test(value)) {
+        if(name === "heartRatePerMinute1" || name === "heartRatePerMinute2" ){
+            if(document.getElementsByName("heartRatePerMinute1") != "" && 
+        document.getElementsByName("heartRatePerMinute2") != ""){
+                 if (value === "" || re.test(value)) {
+                this.setState({
+                    ["heartRatePerMinute"]: value
+                });
+                }
+            }
+        }else{
+             if (value === "" || re.test(value)) {
             this.setState({
                 [name]: value
             });
-        }
+            }
+    }
     }
 
     routineTypeSelect(event) {
@@ -523,10 +534,6 @@ class AddRoutine extends Component {
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div className="col-12 col-md-4">
-                                    <div className="row">
                                         <div className="col-12">
                                             <div className="row">
                                                 <div className="col-7">
@@ -537,6 +544,10 @@ class AddRoutine extends Component {
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                                <div className="col-12 col-md-4">
+                                    <div className="row">
                                         <div className="col-12">
                                             <div className="row">
                                                 <div className="col-7">
@@ -547,10 +558,6 @@ class AddRoutine extends Component {
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div className="col-12 col-md-4">
-                                    <div className="row">
                                         <div className="col-12">
                                             <div className="row">
                                                 <div className="col-7">
@@ -573,19 +580,21 @@ class AddRoutine extends Component {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="col-12 col-md-5">
+                                <div className="col-12 col-md-4">
                                     <div className="row">
-                                        <div className="col-4">
+                                        <div className="col-11 offset-1">
                                             <p>Frecuencia cardíaca<font color="red">*</font></p>
                                         </div>
-                                        <div className="col-3">
-                                            <input type="number" min="0" max="300" font-size="18px" name="heartRatePerMinute" className="form-control" onChange={this.inputNumberValidator} />                                            
+                                        </div>
+                                        <div className="row">
+                                        <div className="col-4 offset-1">
+                                            <input type="number" min="0" max="300" font-size="18px" name="heartRatePerMinute1" className="form-control" onChange={this.inputNumberValidator} />                                            
                                         </div>                                        
                                         <div className="col-1">                                            
                                             <label>-</label>
                                         </div>
-                                        <div className="col-3">
-                                            <input type="number" min="0" max="300" font-size="18px" name="heartRatePerMinute" className="form-control" onChange={this.inputNumberValidator} />
+                                        <div className="col-4">
+                                            <input type="number" min="0" max="300" font-size="18px" name="heartRatePerMinute2" className="form-control" onChange={this.inputNumberValidator} />
                                         </div>
                                     </div>
                                 </div>
