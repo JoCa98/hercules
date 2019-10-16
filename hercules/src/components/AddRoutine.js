@@ -343,12 +343,13 @@ class AddRoutine extends Component {
 
         if(name === "heartRatePerMinute1" || name === "heartRatePerMinute2" ){
             if(document.getElementsByName("heartRatePerMinute1") != "" && 
-        document.getElementsByName("heartRatePerMinute2") != ""){
-                 if (value === "" || re.test(value)) {
+            document.getElementsByName("heartRatePerMinute2") != ""){
+                var concat = document.getElementsByName("heartRatePerMinute1").value + "-" + document.getElementsByName("heartRatePerMinute2").value;
+                console.log(concat);
                 this.setState({
-                    ["heartRatePerMinute"]: value
+                    ["heartRatePerMinute"]: concat
                 });
-                }
+                
             }
         }else{
              if (value === "" || re.test(value)) {
@@ -435,7 +436,7 @@ class AddRoutine extends Component {
 
     empty() {
         if (this.state.Frecuency == "" || this.state.Density == "" || this.state.Intensity == "" || this.state.RestTime == ""
-            || this.state.objectiveID == "" || this.state.routineTypeID == "" || this.state.heartRatePerMinute1 == "" || this.state.heartRatePerMinute2 == "") {
+            || this.state.objectiveID == "" || this.state.routineTypeID == "" || this.state.heartRatePerMinute == "") {
             return true;
         } else {
             return false;
@@ -588,13 +589,13 @@ class AddRoutine extends Component {
                                         </div>
                                         <div className="row">
                                         <div className="col-4 offset-1">
-                                            <input type="number" min="0" max="300" font-size="18px" name="heartRatePerMinute1" className="form-control" onChange={this.inputNumberValidator} />                                            
+                                            <input type="number" defaultValue="0" min="0" max="300" font-size="18px" name="heartRatePerMinute1" className="form-control" onChange={this.inputNumberValidator} />                                            
                                         </div>                                        
                                         <div className="col-1">                                            
                                             <label>-</label>
                                         </div>
                                         <div className="col-4">
-                                            <input type="number" min="0" max="300" font-size="18px" name="heartRatePerMinute2" className="form-control" onChange={this.inputNumberValidator} />
+                                            <input type="number" defaultValue="0" min="0" max="300" font-size="18px" name="heartRatePerMinute2" className="form-control" onChange={this.inputNumberValidator} />
                                         </div>
                                     </div>
                                 </div>
