@@ -166,7 +166,7 @@ router.post('/sendNotificationEmail', function (req, res) {
     from: 'proyectogymrg@gmail.com',
     to: req.body.email,
     subject: 'Registro completo',
-    text: "El registro fue completado con éxito. Permanecerá inactivo y no podrá ingresar al sistema hasta que el encargado (a) del gimnasio lo active."
+    text: "El registro fue completado con éxito. Permanecerá inactivo y no podrá ingresar al sistema hasta que el encargado (a) del gimnasio lo active. Para ello, deberá cumplir con 2 requisitos. Primero, ir donde el médico del recinto para que este le haga la valoración médica. Luego, ir donde el encargado (a) para que le haga la valoración física."
   };
 
   transporter.sendMail(mailOptions, function (error, info) {
