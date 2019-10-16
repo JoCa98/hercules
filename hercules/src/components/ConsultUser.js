@@ -51,8 +51,9 @@ class ConsultUser extends Component {
     * method that hides the buttons that only the main administrator has access to
     */
     hideAdminBtns() {
-        document.getElementById("physicalInfo").style.display = 'none';
+        document.getElementById("PhysicalInfo").style.display = 'none';
         document.getElementById("Routine").style.display = 'none';
+        document.getElementById("ChangeUserStatus").style.display = 'none';
     }
 
     changeUserStatus() {
@@ -63,7 +64,7 @@ class ConsultUser extends Component {
             } else {
                 accountState = 0;
             }
-            fetch("http://localhost:9000/User/changeUserStatus", {
+            fetch("http://localhost:9000/User/ChangeUserStatus", {
                 method: "post",
                 body: JSON.stringify({
                     email: this.state.userInfo[0].email,
@@ -82,10 +83,10 @@ class ConsultUser extends Component {
             alert("El estado del usuario fue cambiado con éxito")
             if (accountState === 0) {
                 document.getElementById('status').textContent = "Inactivo";
-                document.getElementById('changeUserStatus').textContent = "Activar";
+                document.getElementById('ChangeUserStatus').textContent = "Activar";
             } else {
                 document.getElementById('status').textContent = "Activo";
-                document.getElementById('changeUserStatus').textContent = "Desactivar";
+                document.getElementById('ChangeUserStatus').textContent = "Desactivar";
             }
         }
 
@@ -104,9 +105,9 @@ class ConsultUser extends Component {
                     const userInfo = response.data[0];
                     this.setState({ userInfo });
                     if (userInfo[0].status === "Inactivo") {
-                        document.getElementById('changeUserStatus').textContent = "Activar";
+                        document.getElementById('ChangeUserStatus').textContent = "Activar";
                     } else {
-                        document.getElementById('changeUserStatus').textContent = "Desactivar";
+                        document.getElementById('ChangeUserStatus').textContent = "Desactivar";
                     }
                 });
 
@@ -237,13 +238,13 @@ class ConsultUser extends Component {
                                     <button className="circularButton w-100" name="medicalInfo" onClick={this.redirectMedical}>Valoración médica</button>
                                     <br></br>
                                     <br></br>
-                                    <button className="circularButton w-100" id="physicalInfo" name="physicalInfo" onClick={this.redirectPhysical}>Composición Corporal</button>
+                                    <button className="circularButton w-100" id="PhysicalInfo" name="PhysicalInfo" onClick={this.redirectPhysical}>Composición Corporal</button>
                                     <br></br>
                                     <br></br>
                                     <button className="circularButton w-100" id="Routine" name="Routine" onClick={this.redirectRoutines}>Rutina</button>
                                     <br></br>
                                     <br></br>
-                                    <button className="circularButton w-100" id="changeUserStatus" onClick={this.changeUserStatus}>Desactivar</button>
+                                    <button className="circularButton w-100" id="ChangeUserStatus" onClick={this.changeUserStatus}>Desactivar</button>
 
                                 </div>
                             </div>
