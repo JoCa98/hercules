@@ -34,7 +34,7 @@ class LogIn extends Component {
         axios.get(`http://localhost:9000/User/isEmailValid`, { params: { email: this.state.email.trim() } }).then(response => {
             this.setState({ isUserValid: JSON.parse(JSON.stringify(response.data))[0]['isEmailValid'].data[0] });
             if (this.state.isUserValid == 1) {
-                axios.get(`http://localhost:9000/User/getHashPassword`, { params: { email: this.state.email.trim() } }).then(response => {
+                axios.get(`http://localhost:9000/User/getHashPassword`, { params: { email: this.state.email.toLowerCase().trim() } }).then(response => {
                     var hashPasswordDB = JSON.parse(JSON.stringify(response.data[0]))[0]['hashPassword']
                     if (this.state.hash.comparePassword(this.state.password, hashPasswordDB) == true) {
                         sessionStorage.setItem('email', this.state.email);
@@ -43,35 +43,41 @@ class LogIn extends Component {
                             sessionStorage.setItem('partyID', JSON.parse(JSON.stringify(response.data[0]))[0]['partyID']);
                             sessionStorage.setItem('userTypeID', JSON.parse(JSON.stringify(response.data[0]))[0]['userTypeID']);
                             var tempPassword = JSON.parse(JSON.stringify(response.data[0]))[0]['tempPassword'].data[0];
-                            if (tempPassword == 1) {
-                                this.props.history.push(`/ChangeTempPassword`);
-                            } else {
-                                if (sessionStorage.getItem('userTypeID') == 1 || sessionStorage.getItem('userTypeID') == 2) {
-                                    var res = 0;
-                                    axios.get("http://localhost:9000/RoutineRoute/getRoutineID", {
-                                        params: {
-                                            partyID: sessionStorage.getItem('partyID')
-                                        }
-                                    }).then(response => {
-                                        if (response) {
-                                            console.log(response.data[0]);
-                                             res = response.data[0];
-                                            if(res[0] != null){
-                                                sessionStorage.setItem("routineID", res[0].routineID);
-                                                this.props.history.push(`/UserHome`);
-                                                window.location.reload();
-                                            }else{
-                                                 this.props.history.push(`/UserHomeWithOut`);
-                                                 window.location.reload();
-                                             }
-                                        }
-                                    })
-                                    
-                                } else if (sessionStorage.getItem('userTypeID') == 3 || sessionStorage.getItem('userTypeID') == 4) {
-                                    this.props.history.push(`/HomeAdmin`);
-                                    window.location.reload();
+                            var status= JSON.parse(JSON.stringify(response.data[0]))[0]['status'].data[0];
+                            if (status == 1){
+                                if (tempPassword == 1) {
+                                    this.props.history.push(`/ChangeTempPassword`);
+                                } else {
+                                    if (sessionStorage.getItem('userTypeID') == 1 || sessionStorage.getItem('userTypeID') == 2) {
+                                        var res = 0;
+                                        axios.get("http://localhost:9000/RoutineRoute/getRoutineID", {
+                                            params: {
+                                                partyID: sessionStorage.getItem('partyID')
+                                            }
+                                        }).then(response => {
+                                            if (response) {
+                                                console.log(response.data[0]);
+                                                 res = response.data[0];
+                                                if(res[0] != null){
+                                                    sessionStorage.setItem("routineID", res[0].routineID);
+                                                    this.props.history.push(`/UserHome`);
+                                                    window.location.reload();
+                                                }else{
+                                                     this.props.history.push(`/UserHomeWithOut`);
+                                                     window.location.reload();
+                                                 }
+                                            }
+                                        })
+                                        
+                                    } else if (sessionStorage.getItem('userTypeID') == 3 || sessionStorage.getItem('userTypeID') == 4) {
+                                        this.props.history.push(`/HomeAdmin`);
+                                        window.location.reload();
+                                    }
                                 }
+                            } else {
+                                alert("Contraseña y/o correo ingresados no son correctos.")
                             }
+                            
 
                         });
                     } else {
