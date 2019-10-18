@@ -3,6 +3,7 @@ import axios from "axios";
 import leftArrowImage from '../appImage/leftArrow.svg';
 import rightArrowImage from '../appImage/rightArrow.svg';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
+import Modal from 'react-bootstrap/Modal';
 
 class AddRoutine extends Component {
     constructor() {
@@ -27,7 +28,9 @@ class AddRoutine extends Component {
             list: [],
             exerciseID: 0,
             exist: false,
-            index: 0
+            index: 0,
+            show:false,
+            name:""
         }
         this.inputNumberValidator = this.inputNumberValidator.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -70,7 +73,17 @@ class AddRoutine extends Component {
         this.cardioExercise();
     }
 
-    /**
+    showModal = (e) => {
+      this.setState({ show: true });
+      e.preventDefault();
+    };
+  
+    hideModal = (e) => {
+      this.setState({ show: false });
+      e.preventDefault();
+    };
+
+/**
 * Method that change the state of the typeID to change the exercises
 */
     rigthArrow() {
@@ -217,8 +230,10 @@ class AddRoutine extends Component {
         for (var i = 0; i < a.length; i++) {
             a[i].classList.remove('table-info');
         }
+        const name = document.getElementById("routines").rows[event.target.parentNode.rowIndex].cells[1].innerHTML;
         document.getElementById("routines").rows[event.target.parentNode.rowIndex].classList.add("table-info");
         this.setState({ exerciseID: id });
+        this.setState({name: name});
         this.enabledInputs();
         if (this.state.list.length !== 0) {
             this.state.list.map((ex, i) => {
@@ -293,11 +308,53 @@ class AddRoutine extends Component {
             && document.getElementById("intensityInput").value.length === 0 && (document.getElementById("heartRateInput1").value.length === 0
                 && document.getElementById("heartRateInput2").value.length === 0)) {
             alert("Debe llenar al menos un dato");
+<<<<<<< HEAD
         } else {          
             if ((document.getElementById("heartRateInput1").value.length !== 0 && document.getElementById("heartRateInput2").value.length === 0)
                 || (document.getElementById("heartRateInput1").value.length === 0 && document.getElementById("heartRateInput2").value.length !== 0)) {
                 alert("Debe agregar ambas datos para la frecuencia cardíaca");
                 e.preventDefault();
+=======
+        } else {
+            var weight = document.getElementById("weightInput").value;
+            var minutes = document.getElementById("minutesInput").value;
+            var repetitions = document.getElementById("repetitionsInput").value;
+            var series = document.getElementById("seriesInput").value;
+            var intensityPercentage = document.getElementById("intensityInput").value;
+            var heartRate = document.getElementById("heartRateInput").value;
+
+            if (weight == "") {
+                weight = null;
+            }
+            if (minutes == "") {
+                minutes = null;
+            }
+            if (repetitions == "") {
+                repetitions = null;
+            }
+            if (series == "") {
+                series = null;
+            }
+            if (intensityPercentage == "") {
+                intensityPercentage = null;
+            }
+            if (heartRate == "") {
+                heartRate = null;
+            }
+            var obj = {
+                exerciseID: this.state.exerciseID,
+                minutes: minutes,
+                charge: weight,
+                repetitions: repetitions,
+                series: series,
+                intensityPercentage: intensityPercentage,
+                heartRate: heartRate,
+                name: this.state.name
+            }
+            if (this.state.exist) {
+                console.log(this.state.list);
+                alert("El ejercicio ya fue agregado");
+>>>>>>> 073e9b8c90379556db899c7e92e3061142bd0093
             } else {
                 var weight = document.getElementById("weightInput").value;
                 var minutes = document.getElementById("minutesInput").value;
@@ -495,6 +552,12 @@ class AddRoutine extends Component {
             )
         })
 
+        const allExercise = this.state.list.map((exercise,i)=>{
+            return(
+                    <p>{exercise.name}</p>
+            )
+        })
+
         return (
             <div className="container">
                 <div className="row mt-4">
@@ -682,12 +745,27 @@ class AddRoutine extends Component {
                                     </div>
                                 </div>
                             </div>
+                            <Modal show={this.state.show} handleClose={this.hideModal}>
+                                <Modal.Header closeButton onClick={this.hideModal}>
+                                    <Modal.Title>Ejercicios seleccionados</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>
+                                    <div>
+                                    {allExercise}
+                                    <label className="inputText">Total de ejercicios: {this.state.list.length}</label>
+                                    </div>
+                                </Modal.Body>
+                                <Modal.Footer>
+                                    <button className="buttonSizeGeneral" onClick={this.hideModal}>Volver</button>
+                                    <button className="buttonSizeGeneral" onClick={this.handleSubmit}>Aceptar</button>
+                                </Modal.Footer>
+                            </Modal>
                             <div className="row">
                                 <div className=" mt-4 col-10">
                                     <button align="right" className="buttonSizeGeneral" onClick={this.backButton}>Volver</button>
                                 </div>
                                 <div className=" mt-4 col-2">
-                                    <button align="left" name="saveButton" className="buttonSizeGeneral" onClick={this.handleSubmit}> Guardar </button>
+                                    <button align="left" name="saveButton" className="buttonSizeGeneral" onClick={this.showModal}> Guardar </button>
                                 </div>
                             </div>
                         </form>
