@@ -14,7 +14,7 @@ class AddRoutine extends Component {
             Intensity: 0,
             Density: 0,
             RestTime: 0,
-            HeartRatePerMinute: 0,
+            HeartRatePerMinute: "",
             routineTypeID: 1,
             objectiveID: 1,
             partyID: sessionStorage.getItem("userPartyID"),
@@ -84,7 +84,6 @@ class AddRoutine extends Component {
         }
         this.cardioExercise();
         this.getExerciseData();
-
     }
 
     /**
@@ -226,11 +225,10 @@ class AddRoutine extends Component {
                 if (ex.exerciseID == id) {
                     this.setState({ exist: true, index: i });
                     if (this.state.typeID == 1) {
-                        this.cardioExercise();
-
-                        var textHeartRate = ex.heartRate.split('~');
-                        document.getElementById("heartRateInput1").value = textHeartRate[0];
-                        document.getElementById("heartRateInput2").value = textHeartRate[1];
+                        this.cardioExercise(); 
+                        var textHR = ex.heartRate.split('-');                       
+                        document.getElementById("heartRateInput1").value = textHR[0];
+                        document.getElementById("heartRateInput2").value = textHR[1];
                         document.getElementById("intensityInput").value = ex.intensityPercentage;
                         document.getElementById("minutesInput").value = ex.minutes;
                     } else {
@@ -258,8 +256,7 @@ class AddRoutine extends Component {
             if (this.state.typeID == 1) {
                 this.enabledInputs();
                 this.state.list[this.state.index].intensityPercentage = document.getElementById("intensityInput").value;
-                this.state.list[this.state.index].heartRate = document.getElementById("heartRateInput1").value + "~" + document.getElementById("heartRateInput2").value;
-
+                this.state.list[this.state.index].heartRate = document.getElementById("heartRateInput1").value + '-' + document.getElementById("heartRateInput2").value;            
                 this.state.list[this.state.index].minutes = document.getElementById("minutesInput").value;
             } else {
                 this.state.list[this.state.index].repetitions = document.getElementById("repetitionsInput").value;
@@ -296,8 +293,7 @@ class AddRoutine extends Component {
             && document.getElementById("intensityInput").value.length === 0 && (document.getElementById("heartRateInput1").value.length === 0
                 && document.getElementById("heartRateInput2").value.length === 0)) {
             alert("Debe llenar al menos un dato");
-        } else {
-            var heartRate = "";
+        } else {          
             if ((document.getElementById("heartRateInput1").value.length !== 0 && document.getElementById("heartRateInput2").value.length === 0)
                 || (document.getElementById("heartRateInput1").value.length === 0 && document.getElementById("heartRateInput2").value.length !== 0)) {
                 alert("Debe agregar ambas datos para la frecuencia cardíaca");
@@ -308,7 +304,7 @@ class AddRoutine extends Component {
                 var repetitions = document.getElementById("repetitionsInput").value;
                 var series = document.getElementById("seriesInput").value;
                 var intensityPercentage = document.getElementById("intensityInput").value;
-                heartRate = new String(document.getElementById("heartRateInput1").value + "~" + document.getElementById("heartRateInput2").value);
+                var heartRate = document.getElementById("heartRateInput1").value + '-' + document.getElementById("heartRateInput2").value;              
 
                 if (weight == "") {
                     weight = null;
@@ -356,9 +352,8 @@ class AddRoutine extends Component {
         if (name === "HeartRatePerMinute1" || name === "HeartRatePerMinute2") {
             if (document.getElementById("HeartRatePerMinute1").value.length != 0 &&
                 document.getElementById("HeartRatePerMinute2").value.length != 0) {
-                var tmp = new String(document.getElementById("HeartRatePerMinute1").value + "~" + document.getElementById("HeartRatePerMinute2").value);
                 this.setState({
-                    ["HeartRatePerMinute"]: tmp
+                    ["HeartRatePerMinute"]: document.getElementById("HeartRatePerMinute1").value + '-' + document.getElementById("HeartRatePerMinute2").value                  
                 });
             }
         } else {
@@ -600,7 +595,7 @@ class AddRoutine extends Component {
                                             <input type="number" fontSize="18px" min="0" max="300" id="HeartRatePerMinute1" name="HeartRatePerMinute1" className="form-control" onChange={this.inputNumberValidator} />
                                         </div>
                                         <div className="col-1">
-                                            <label>~</label>
+                                            <label>-</label>
                                         </div>
                                         <div className="col-4">
                                             <input type="number" min="0" max="300" fontSize="18px" id="HeartRatePerMinute2" name="HeartRatePerMinute2" className="form-control" onChange={this.inputNumberValidator} />
@@ -661,7 +656,7 @@ class AddRoutine extends Component {
                                                                     <input type="number" fontSize="18px" id="heartRateInput1" className="form-control" disabled display="none"></input>
                                                                 </div>
                                                                 <div className="col-2 text-center">
-                                                                    <label align="center">~</label>
+                                                                    <label align="center">-</label>
                                                                 </div>
                                                                 <div className="col-5">
                                                                     <input type="number" fontSize="18px" id="heartRateInput2" className="form-control" disabled display="none"></input>
