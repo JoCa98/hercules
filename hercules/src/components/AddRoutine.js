@@ -29,8 +29,8 @@ class AddRoutine extends Component {
             exerciseID: 0,
             exist: false,
             index: 0,
-            show:false,
-            name:""
+            show: false,
+            name: ""
         }
         this.inputNumberValidator = this.inputNumberValidator.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -74,18 +74,18 @@ class AddRoutine extends Component {
     }
 
     showModal = (e) => {
-      this.setState({ show: true });
-      e.preventDefault();
-    };
-  
-    hideModal = (e) => {
-      this.setState({ show: false });
-      e.preventDefault();
+        this.setState({ show: true });
+        e.preventDefault();
     };
 
-/**
-* Method that change the state of the typeID to change the exercises
-*/
+    hideModal = (e) => {
+        this.setState({ show: false });
+        e.preventDefault();
+    };
+
+    /**
+    * Method that change the state of the typeID to change the exercises
+    */
     rigthArrow() {
         if (this.state.typeID == this.state.lastTypeID.exerciseTypeID) {
             this.state.typeID = 1;
@@ -233,15 +233,15 @@ class AddRoutine extends Component {
         const name = document.getElementById("routines").rows[event.target.parentNode.rowIndex].cells[1].innerHTML;
         document.getElementById("routines").rows[event.target.parentNode.rowIndex].classList.add("table-info");
         this.setState({ exerciseID: id });
-        this.setState({name: name});
+        this.setState({ name: name });
         this.enabledInputs();
         if (this.state.list.length !== 0) {
             this.state.list.map((ex, i) => {
                 if (ex.exerciseID == id) {
                     this.setState({ exist: true, index: i });
                     if (this.state.typeID == 1) {
-                        this.cardioExercise(); 
-                        var textHR = ex.heartRate.split('-');                       
+                        this.cardioExercise();
+                        var textHR = ex.heartRate.split('-');
                         document.getElementById("heartRateInput1").value = textHR[0];
                         document.getElementById("heartRateInput2").value = textHR[1];
                         document.getElementById("intensityInput").value = ex.intensityPercentage;
@@ -271,7 +271,7 @@ class AddRoutine extends Component {
             if (this.state.typeID == 1) {
                 this.enabledInputs();
                 this.state.list[this.state.index].intensityPercentage = document.getElementById("intensityInput").value;
-                this.state.list[this.state.index].heartRate = document.getElementById("heartRateInput1").value + '-' + document.getElementById("heartRateInput2").value;            
+                this.state.list[this.state.index].heartRate = document.getElementById("heartRateInput1").value + '-' + document.getElementById("heartRateInput2").value;
                 this.state.list[this.state.index].minutes = document.getElementById("minutesInput").value;
             } else {
                 this.state.list[this.state.index].repetitions = document.getElementById("repetitionsInput").value;
@@ -308,60 +308,18 @@ class AddRoutine extends Component {
             && document.getElementById("intensityInput").value.length === 0 && (document.getElementById("heartRateInput1").value.length === 0
                 && document.getElementById("heartRateInput2").value.length === 0)) {
             alert("Debe llenar al menos un dato");
-<<<<<<< HEAD
-        } else {          
+        } else {
             if ((document.getElementById("heartRateInput1").value.length !== 0 && document.getElementById("heartRateInput2").value.length === 0)
                 || (document.getElementById("heartRateInput1").value.length === 0 && document.getElementById("heartRateInput2").value.length !== 0)) {
                 alert("Debe agregar ambas datos para la frecuencia cardíaca");
                 e.preventDefault();
-=======
-        } else {
-            var weight = document.getElementById("weightInput").value;
-            var minutes = document.getElementById("minutesInput").value;
-            var repetitions = document.getElementById("repetitionsInput").value;
-            var series = document.getElementById("seriesInput").value;
-            var intensityPercentage = document.getElementById("intensityInput").value;
-            var heartRate = document.getElementById("heartRateInput").value;
-
-            if (weight == "") {
-                weight = null;
-            }
-            if (minutes == "") {
-                minutes = null;
-            }
-            if (repetitions == "") {
-                repetitions = null;
-            }
-            if (series == "") {
-                series = null;
-            }
-            if (intensityPercentage == "") {
-                intensityPercentage = null;
-            }
-            if (heartRate == "") {
-                heartRate = null;
-            }
-            var obj = {
-                exerciseID: this.state.exerciseID,
-                minutes: minutes,
-                charge: weight,
-                repetitions: repetitions,
-                series: series,
-                intensityPercentage: intensityPercentage,
-                heartRate: heartRate,
-                name: this.state.name
-            }
-            if (this.state.exist) {
-                console.log(this.state.list);
-                alert("El ejercicio ya fue agregado");
->>>>>>> 073e9b8c90379556db899c7e92e3061142bd0093
             } else {
                 var weight = document.getElementById("weightInput").value;
                 var minutes = document.getElementById("minutesInput").value;
                 var repetitions = document.getElementById("repetitionsInput").value;
                 var series = document.getElementById("seriesInput").value;
                 var intensityPercentage = document.getElementById("intensityInput").value;
-                var heartRate = document.getElementById("heartRateInput1").value + '-' + document.getElementById("heartRateInput2").value;              
+                var heartRate = document.getElementById("heartRateInput1").value + "-" + document.getElementById("heartRateInput2").value;
 
                 if (weight == "") {
                     weight = null;
@@ -388,8 +346,10 @@ class AddRoutine extends Component {
                     repetitions: repetitions,
                     series: series,
                     intensityPercentage: intensityPercentage,
-                    heartRate: heartRate
+                    heartRate: heartRate,
+                    name: this.state.name
                 }
+
                 if (this.state.exist) {
                     alert("El ejercicio ya fue agregado");
                 } else {
@@ -410,7 +370,7 @@ class AddRoutine extends Component {
             if (document.getElementById("HeartRatePerMinute1").value.length != 0 &&
                 document.getElementById("HeartRatePerMinute2").value.length != 0) {
                 this.setState({
-                    ["HeartRatePerMinute"]: document.getElementById("HeartRatePerMinute1").value + '-' + document.getElementById("HeartRatePerMinute2").value                  
+                    ["HeartRatePerMinute"]: document.getElementById("HeartRatePerMinute1").value + '-' + document.getElementById("HeartRatePerMinute2").value
                 });
             }
         } else {
@@ -552,9 +512,9 @@ class AddRoutine extends Component {
             )
         })
 
-        const allExercise = this.state.list.map((exercise,i)=>{
-            return(
-                    <p>{exercise.name}</p>
+        const allExercise = this.state.list.map((exercise, i) => {
+            return (
+                <p>{exercise.name}</p>
             )
         })
 
@@ -751,8 +711,8 @@ class AddRoutine extends Component {
                                 </Modal.Header>
                                 <Modal.Body>
                                     <div>
-                                    {allExercise}
-                                    <label className="inputText">Total de ejercicios: {this.state.list.length}</label>
+                                        {allExercise}
+                                        <label className="inputText">Total de ejercicios: {this.state.list.length}</label>
                                     </div>
                                 </Modal.Body>
                                 <Modal.Footer>
