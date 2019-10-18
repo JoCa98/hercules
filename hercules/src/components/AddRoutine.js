@@ -3,6 +3,7 @@ import axios from "axios";
 import leftArrowImage from '../appImage/leftArrow.svg';
 import rightArrowImage from '../appImage/rightArrow.svg';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
+import Modal from 'react-bootstrap/Modal';
 
 class AddRoutine extends Component {
     constructor() {
@@ -27,7 +28,9 @@ class AddRoutine extends Component {
             list: [],
             exerciseID: 0,
             exist: false,
-            index: 0
+            index: 0,
+            show:false,
+            name:""
         }
         this.inputNumberValidator = this.inputNumberValidator.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -70,7 +73,17 @@ class AddRoutine extends Component {
         this.cardioExercise();
     }
 
-    /**
+    showModal = (e) => {
+      this.setState({ show: true });
+      e.preventDefault();
+    };
+  
+    hideModal = (e) => {
+      this.setState({ show: false });
+      e.preventDefault();
+    };
+
+/**
 * Method that change the state of the typeID to change the exercises
 */
     rigthArrow() {
@@ -214,8 +227,10 @@ class AddRoutine extends Component {
         for (var i = 0; i < a.length; i++) {
             a[i].classList.remove('table-info');
         }
+        const name = document.getElementById("routines").rows[event.target.parentNode.rowIndex].cells[1].innerHTML;
         document.getElementById("routines").rows[event.target.parentNode.rowIndex].classList.add("table-info");
         this.setState({ exerciseID: id });
+        this.setState({name: name});
         this.enabledInputs();
         if (this.state.list.length !== 0) {
             this.state.list.map((ex, i) => {
@@ -320,7 +335,8 @@ class AddRoutine extends Component {
                 repetitions: repetitions,
                 series: series,
                 intensityPercentage: intensityPercentage,
-                heartRate: heartRate
+                heartRate: heartRate,
+                name: this.state.name
             }
             if (this.state.exist) {
                 console.log(this.state.list);
@@ -489,6 +505,12 @@ class AddRoutine extends Component {
         const exerciseList = this.state.exerciseType.map((exercises, i) => {
             return (
                 <option value={exercises.exerciseTypeID} key={i}>{exercises.description} </option>
+            )
+        })
+
+        const allExercise = this.state.list.map((exercise,i)=>{
+            return(
+                    <p>{exercise.name}</p>
             )
         })
 
@@ -666,12 +688,27 @@ class AddRoutine extends Component {
                                     </div>
                                 </div>
                             </div>
+                            <Modal show={this.state.show} handleClose={this.hideModal}>
+                                <Modal.Header closeButton onClick={this.hideModal}>
+                                    <Modal.Title>Ejercicios seleccionados</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>
+                                    <div>
+                                    {allExercise}
+                                    <label className="inputText">Total de ejercicios: {this.state.list.length}</label>
+                                    </div>
+                                </Modal.Body>
+                                <Modal.Footer>
+                                    <button className="buttonSizeGeneral" onClick={this.hideModal}>Volver</button>
+                                    <button className="buttonSizeGeneral" onClick={this.handleSubmit}>Aceptar</button>
+                                </Modal.Footer>
+                            </Modal>
                             <div className="row">
                                 <div className=" mt-4 col-10">
                                     <button align="right" className="buttonSizeGeneral" onClick={this.backButton}>Volver</button>
                                 </div>
                                 <div className=" mt-4 col-2">
-                                    <button align="left" name="saveButton" className="buttonSizeGeneral" onClick={this.handleSubmit}> Guardar </button>
+                                    <button align="left" name="saveButton" className="buttonSizeGeneral" onClick={this.showModal}> Guardar </button>
                                 </div>
                             </div>
                         </form>
