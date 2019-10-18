@@ -69,7 +69,8 @@ class LogIn extends Component {
                                             }
                                         })
                                         
-                                    } else if (sessionStorage.getItem('userTypeID') == 3 || sessionStorage.getItem('userTypeID') == 4) {
+                                    } else if (sessionStorage.getItem('userTypeID') == 3 || sessionStorage.getItem('userTypeID') == 4 
+                                    || sessionStorage.getItem('userTypeID') == 5) {
                                         this.props.history.push(`/HomeAdmin`);
                                         window.location.reload();
                                     }
@@ -88,6 +89,7 @@ class LogIn extends Component {
                 alert("Contraseña y/o correo ingresados no son correctos.")
             }
         });
+
     }
 
     goSignUp() {

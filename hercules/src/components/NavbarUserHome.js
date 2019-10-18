@@ -17,12 +17,12 @@ class NavbarUserHome extends Component {
         this.adminConfig = this.adminConfig.bind(this);
     }
     componentDidMount() {
-        if (sessionStorage.getItem('partyID') === undefined || sessionStorage.getItem('partyID') === null){
+        if (sessionStorage.getItem('partyID') === undefined 
+        || sessionStorage.getItem('partyID') === null){
             document.getElementById('rutine').style.display = 'none';
             document.getElementById('medicalInfo').style.display = 'none';
             document.getElementById('physicalInfo').style.display = 'none';
             document.getElementById('userProfile').style.display = 'none';
-
             document.getElementById('homeAdmin').style.display = 'none';
             document.getElementById('addAdmin').style.display = 'none';
             document.getElementById('adminConfig').style.display = 'none';
@@ -30,7 +30,8 @@ class NavbarUserHome extends Component {
             document.getElementById('logOut').style.display = 'none';       
         
         } else {
-            if (sessionStorage.getItem('userTypeID') === "1" || sessionStorage.getItem('userTypeID') === "2"){
+            if (sessionStorage.getItem('userTypeID') === "1" 
+            || sessionStorage.getItem('userTypeID') === "2"){
                 
                 document.getElementById('rutine').style.display = 'block';
                 document.getElementById('medicalInfo').style.display = 'block';
@@ -41,16 +42,25 @@ class NavbarUserHome extends Component {
                 document.getElementById('addAdmin').style.display = 'none';
                 document.getElementById('adminConfig').style.display = 'none';
 
-            } else if (sessionStorage.getItem('userTypeID') === "3" || sessionStorage.getItem('userTypeID') === "4") {
+            } else if (sessionStorage.getItem('userTypeID') === "3" 
+            || sessionStorage.getItem('userTypeID') === "4") {
                 
                 document.getElementById('rutine').style.display = 'none';
                 document.getElementById('medicalInfo').style.display = 'none';
                 document.getElementById('physicalInfo').style.display = 'none';
                 document.getElementById('userProfile').style.display = 'none';
-    
+
                 document.getElementById('homeAdmin').style.display = 'block';
                 document.getElementById('addAdmin').style.display = 'block';
                 document.getElementById('adminConfig').style.display = 'block';
+            } else if (sessionStorage.getItem('userTypeID') === "5") {
+                document.getElementById('rutine').style.display = 'none';
+            document.getElementById('medicalInfo').style.display = 'none';
+            document.getElementById('physicalInfo').style.display = 'none';
+            document.getElementById('userProfile').style.display = 'none';
+            document.getElementById('homeAdmin').style.display = 'none';
+            document.getElementById('addAdmin').style.display = 'none';
+            document.getElementById('adminConfig').style.display = 'none';
             }
             document.getElementById('logOut').style.display = 'block';  
         }        

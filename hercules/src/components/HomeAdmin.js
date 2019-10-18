@@ -173,22 +173,35 @@ class HomeAdmin extends Component {
         */
         const userListVisual = this.state.userList.map((userList, i) => {
             this.state.userListID.push(userList.partyID);
-            return (
-                <tr className="pointer" onClick={this.rowEvent} key={i}>
-                    <td>{userList.identificationID}</td>
-                    <td>{userList.fullName}</td>
-                    <td>{userList.carnet}</td>
-                    <td>{userList.status}</td>
-                </tr>
-            )
+            if (sessionStorage.getItem('userTypeID') === '5') {
+                return (
+                    <tr key={i}>
+                        <td>{userList.identificationID}</td>
+                        <td>{userList.fullName}</td>
+                        <td>{userList.carnet}</td>
+                        <td>{userList.status}</td>
+                    </tr>
+                )
+            } else {
+                return (
+                    <tr className="pointer" onClick={this.rowEvent} key={i}>
+                        <td>{userList.identificationID}</td>
+                        <td>{userList.fullName}</td>
+                        <td>{userList.carnet}</td>
+                        <td>{userList.status}</td>
+                    </tr>
+                )
+            }
         })
+
+        var breadcrumb = '';
+        if (sessionStorage.getItem('userTypeID') !== '5') {
+            breadcrumb =<div className="row mt-4"><Breadcrumb><Breadcrumb.Item >Inicio</Breadcrumb.Item></Breadcrumb></div>;
+        }
+       
         return (
             <div className="container">
-                <div className="row mt-4">
-                    <Breadcrumb>
-                        <Breadcrumb.Item >Inicio</Breadcrumb.Item>
-                    </Breadcrumb>
-                </div>
+                {breadcrumb}
                 <div className="row card mt-2 p-5">
                     <div className="col-12">
                         <h1 className="text-left colorBlue">Lista de usuarios</h1>

@@ -33,7 +33,8 @@ class AddAdmin extends Component {
             email: null,
             password: null,
             confirmPassword: null,
-            medicalCod: null
+            medicalCod: null,
+            userTypeList: []
         };
 
         this.showMedicalCod = this.showMedicalCod.bind(this);
@@ -44,6 +45,11 @@ class AddAdmin extends Component {
         this.emailValidator = this.emailValidator.bind(this);
         this.showPasswordFields = this.showPasswordFields.bind(this);
         this.backButton = this.backButton.bind(this);
+        this.getAdminUserType = this.getAdminUserType.bind(this);
+    }
+
+    componentDidMount(){
+        this.getAdminUserType();
     }
 
     /**
@@ -96,6 +102,9 @@ class AddAdmin extends Component {
         event.preventDefault();
     }
 
+    /**
+    * This method set the prop attributes
+    */
     handleInputChange(event) {
         const { name, value } = event.target;
         this.setState({
@@ -104,9 +113,22 @@ class AddAdmin extends Component {
 
     }
 
+    getAdminUserType() {
+        try {
+            axios.get(`http://localhost:9000/AdminRoute/getAdminUserType`).then(response => {
+                const userTypeList = response.data[0];
+                this.setState({ userTypeList });
+            });
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+
+
     /**
-       * Method set the userTypeID value and shows or hide the medicalCod input field
-       */
+    * Method set the userTypeID value and shows or hide the medicalCod input field
+    */
     showMedicalCod(event) {
         const { name, value } = event.target;
         this.setState({
@@ -188,6 +210,22 @@ class AddAdmin extends Component {
     }
 
     render() {
+        const selectUserType = this.state.userTypeList.map((userTypeList, i) => {
+            if (i == 0) {
+                return (
+
+                    <option defaultValue={userTypeList.userTypeID} 
+                    value={userTypeList.userTypeID}>{userTypeList.description}</option>
+
+                )
+            } else {
+                return (
+                    <option value={userTypeList.userTypeID}>{userTypeList.description}</option>
+
+                )
+            }
+
+        })
         return (
             <div className="container">
                 <div className="row mt-4">
@@ -206,8 +244,7 @@ class AddAdmin extends Component {
                                     <div className="form-group" align="left">
                                         <p align="justify">Tipo de administrador<font color="red">*</font></p>
                                         <select align="justify" name="userTypeID" className="form-control" font-size="18px" onChange={this.showMedicalCod}>
-                                            <option defaultValue="3" value="3">Médico</option>
-                                            <option value="4">Gimnasio</option>
+                                        {selectUserType}
                                         </select>
                                     </div>
                                 </div>
@@ -248,7 +285,7 @@ class AddAdmin extends Component {
                                         <input type="password" id="password" placeholder="Contraseña" name="password" className="form-control" font-size="18px" onChange={this.handleInputChange} required></input>
                                         <br></br>
                                         <p align="justify">Confirmar contraseña<font color="red">*</font></p>
-                                        <input type="password" id="confirmPassword" name="confirmPassword" className="form-control" font-size="18px" onChange={this.handleInputChange} required></input>
+                                        <input type="password" id="confirmPassword" placeholder="Confirmar contraseña" name="confirmPassword" className="form-control" font-size="18px" onChange={this.handleInputChange} required></input>
                                         <input type="checkbox" id="showPasswordFields" placeholder="Contraseña" name="showPasswordFields" font-size="18px" onChange={this.showPasswordFields} ></input>Mostrar campos
                                     </div>
                                 </div>

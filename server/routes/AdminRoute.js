@@ -109,4 +109,23 @@ router.post('/updateAdminPassword', function (req, res) {
     });
 });
 
+
+/**
+  *Get admin user type for the AddAdmin form
+  * 
+  * @param {Request}
+  * @param {Response}
+*/
+router.get('/getAdminUserType', (req, res) => {
+  connection.query("CALL proc_getAdminUserType();",
+    function (err, results) {
+      if (results) {
+        res.send(results);
+      }
+      else {
+        console.log(err);
+      }
+    });
+});
+
 module.exports = router;
