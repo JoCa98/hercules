@@ -34,7 +34,7 @@ class ActCodeForm extends Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.completeSignUp = this.completeSignUp.bind(this);
     this.resendCode = this.resendCode.bind(this);
-    //this.handleSubmit = this.handleSubmit.bind(this);
+    this.sendNotificationEmail = this.sendNotificationEmail.bind(this);
   }
 
   handleInputChange(event) {
@@ -69,7 +69,8 @@ class ActCodeForm extends Component {
         .then(data => {
         })
         .catch(err => console.error(err));
-        alert("El registro fue completado con éxito. Ahora será redirigido a la pantalla de ingreso")
+        this.sendNotificationEmail();
+        alert("El registro fue completado con éxito. Permanecerá inactivo y no podrá ingresar al sistema hasta que el encargado (a) del gimnasio lo active. Se le ha enviado un correo con más detalles. Ahora será redirigido a la pantalla de ingreso.")
         sessionStorage.clear();
         this.props.history.push(`/`);
     } else {
@@ -94,7 +95,21 @@ class ActCodeForm extends Component {
             alert("Se reenvió el código de activación, por favor revise su correo institucional.");
   }
 
-
+  sendNotificationEmail(){
+    fetch("http://localhost:9000/User/sendNotificationEmail", {
+        method: "post",
+        body: JSON.stringify({ email: this.state.email}),
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+        }
+    })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+        })
+        .catch(err => console.error(err));        
+}
 
   render() {
     return (

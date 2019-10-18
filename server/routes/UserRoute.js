@@ -149,6 +149,38 @@ router.post('/sendTempPasswordEmail', function (req, res) {
   });
 
 });
+
+router.post('/sendNotificationEmail', function (req, res) {
+
+  var nodemailer = require('nodemailer');
+
+  var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'proyectogymrg@gmail.com',
+      pass: 'hrcls_2019'
+    }
+  });
+
+  var mailOptions = {
+    from: 'proyectogymrg@gmail.com',
+    to: req.body.email,
+    subject: 'Registro completo',
+    text: "El registro fue completado con éxito. Permanecerá inactivo y no podrá ingresar al sistema hasta que el encargado (a) del gimnasio lo active. Para ello, deberá cumplir con 2 requisitos. Primero, ir donde el médico del recinto para que este le haga la valoración médica. Luego, ir donde el encargado (a) para que le haga la valoración física."
+  };
+
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+      res.sendStatus(200);
+
+    }
+  });
+
+});
+
 router.get('/getRelationType', (req, res) => {
   connection.query("select * from view_relationship", function (err, results) {
     if (results) {
