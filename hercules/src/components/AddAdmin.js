@@ -16,6 +16,7 @@ import axios from 'axios';
 import validations from './validations';
 import Hash from './Hash';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
+import ModalComponent from './ModalComponent';
 
 class AddAdmin extends Component {
     constructor(props) {
@@ -34,7 +35,8 @@ class AddAdmin extends Component {
             password: null,
             confirmPassword: null,
             medicalCod: null,
-            userTypeList: []
+            userTypeList: [],
+            show: false
         };
 
         this.showMedicalCod = this.showMedicalCod.bind(this);
@@ -46,9 +48,10 @@ class AddAdmin extends Component {
         this.showPasswordFields = this.showPasswordFields.bind(this);
         this.backButton = this.backButton.bind(this);
         this.getAdminUserType = this.getAdminUserType.bind(this);
+    
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.getAdminUserType();
     }
 
@@ -154,7 +157,7 @@ class AddAdmin extends Component {
                 [name]: value
             });
         } else {
-            alert("La cédula no puede contener letras");
+            this.showModal();
         }
     }
 
@@ -202,6 +205,16 @@ class AddAdmin extends Component {
         }
     }
 
+    showModal = (e) => {
+        this.setState({ show: !this.state.show });
+        e.preventDefault();
+    };
+
+
+    onClose = (e) => {
+        this.props.onClose && this.props.onClose(e);
+    }
+
     /**
 * Method that redirect to the previous page
 */
@@ -214,8 +227,8 @@ class AddAdmin extends Component {
             if (i == 0) {
                 return (
 
-                    <option defaultValue={userTypeList.userTypeID} 
-                    value={userTypeList.userTypeID}>{userTypeList.description}</option>
+                    <option defaultValue={userTypeList.userTypeID}
+                        value={userTypeList.userTypeID}>{userTypeList.description}</option>
 
                 )
             } else {
@@ -244,7 +257,7 @@ class AddAdmin extends Component {
                                     <div className="form-group" align="left">
                                         <p align="justify">Tipo de administrador<font color="red">*</font></p>
                                         <select align="justify" name="userTypeID" className="form-control" font-size="18px" onChange={this.showMedicalCod}>
-                                        {selectUserType}
+                                            {selectUserType}
                                         </select>
                                     </div>
                                 </div>
@@ -305,6 +318,11 @@ class AddAdmin extends Component {
                                 <div className=" mt-3 col-md-3 offset-6">
                                     <button align="rigth" className="buttonSizeGeneral">Guardar</button>
                                 </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-md-1">
+                                    <ModalComponent show={this.state.show} onClose={this.showModal}>Hola </ModalComponent>
+                                </div>                                
                             </div>
                         </form>
                     </div>
