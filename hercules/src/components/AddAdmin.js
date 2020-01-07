@@ -157,7 +157,7 @@ class AddAdmin extends Component {
                 [name]: value
             });
         } else {
-            this.showModal();
+            this.showModal(event);
         }
     }
 
