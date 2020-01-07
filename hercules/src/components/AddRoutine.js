@@ -30,8 +30,11 @@ class AddRoutine extends Component {
             exist: false,
             index: 0,
             show: false,
-            name: ""
-        }
+            name: "",
+            routineDay: 1,
+            daysCounter: 1
+            }
+
         this.inputNumberValidator = this.inputNumberValidator.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.objectiveSelect = this.objectiveSelect.bind(this);
@@ -49,6 +52,9 @@ class AddRoutine extends Component {
         this.deleteExercise = this.deleteExercise.bind(this);
         this.editExercise = this.editExercise.bind(this);
         this.backButton = this.backButton.bind(this);
+        this.addDayButton = this.addDayButton.bind(this);
+        this.dayButton = this.dayButton.bind(this);
+        this.changeButtonsColors = this.changeButtonsColors.bind(this);
     }
 
     componentDidMount() {
@@ -144,7 +150,6 @@ class AddRoutine extends Component {
         document.getElementById("delete").style.display = 'none';
     }
 
-
     /**
     * Method that when the type of exercise is 1, show the arguments to cardiovascular 
     * exercises, and hide the other, or make the oposite whe the type of exercise is different than 1
@@ -161,6 +166,7 @@ class AddRoutine extends Component {
             document.getElementById("intensityInput").style.display = "initial";
             document.getElementById("pIntensity").style.display = "initial";
             document.getElementById("pHeartRate").style.display = "initial";
+            document.getElementById("lHeartRate").style.display = "initial";
             document.getElementById("heartRateInput1").style.display = "initial";
             document.getElementById("heartRateInput2").style.display = "initial";
         } else {
@@ -173,6 +179,7 @@ class AddRoutine extends Component {
             document.getElementById("intensityInput").style.display = "none";
             document.getElementById("pIntensity").style.display = "none";
             document.getElementById("pHeartRate").style.display = "none";
+            document.getElementById("lHeartRate").style.display = "none";
             document.getElementById("heartRateInput1").style.display = "none";
             document.getElementById("heartRateInput2").style.display = "none";
         }
@@ -336,7 +343,7 @@ class AddRoutine extends Component {
                 if (intensityPercentage == "") {
                     intensityPercentage = null;
                 }
-                if (heartRate == "") {
+                if (heartRate == "" || heartRate == "-") {
                     heartRate = null;
                 }
                 var obj = {
@@ -347,11 +354,13 @@ class AddRoutine extends Component {
                     series: series,
                     intensityPercentage: intensityPercentage,
                     heartRate: heartRate,
-                    name: this.state.name
+                    name: this.state.name,
+                    day: this.state.routineDay
                 }
 
                 if (this.state.exist) {
                     alert("El ejercicio ya fue agregado");
+                    
                 } else {
                     this.state.list.push(obj);
                     alert("El ejercicio ha sido agregado con éxito");
@@ -394,7 +403,6 @@ class AddRoutine extends Component {
 
     handleSubmit(e) {
         var id;
-        console.log(this.state.HeartRatePerMinute);
         if (!this.empty()) {
             axios.post("http://localhost:9000/RoutineRoute/addRoutine", {
                 Frecuency: this.state.Frecuency,
@@ -435,7 +443,8 @@ class AddRoutine extends Component {
                         charge: ex.charge,
                         minutes: ex.minutes,
                         intensityPercentage: ex.intensityPercentage,
-                        heartRate: ex.heartRate
+                        heartRate: ex.heartRate,
+                        routineDay: ex.day
                     }),
                     headers: {
                         Accept: "application/json",
@@ -476,6 +485,55 @@ class AddRoutine extends Component {
 */
     backButton() {
         this.props.history.push(`/HistoricRoutineInfo`);
+    }
+    
+    addDayButton(e) {
+        if(this.state.routineDay < 6){
+           var div = document.getElementById("btn");
+           var btn = document.createElement("button");
+           var value = (this.state.daysCounter + 1);
+            btn.value = value;
+            btn.textContent = "Día " + value;
+            btn.id= value;
+            btn.className = "buttonDaysSize mr-1";
+            btn.onclick = this.dayButton;
+            btn.style.backgroundColor = "#ffffff";
+            btn.style.border = "2px solid #41ade7";
+            btn.style.color = "#0c0c0c";
+            div.appendChild(btn);
+            
+             this.setState({
+                 routineDay :  this.state.daysCounter + 1 ,
+                 daysCounter : this.state.daysCounter + 1
+            })
+
+            this.changeButtonsColors(value); 
+            e.preventDefault();
+    }
+}
+
+    dayButton(event){
+  
+        if (this.state.routineDay != event.target.value){
+            this.setState({
+                routineDay: event.target.value
+            })
+           
+            event.target.style.backgroundColor = "#ffffff";
+            event.target.style.border = "2px solid #41ade7";
+            event.target.style.color = "#0c0c0c";
+            this.changeButtonsColors(event.target.value);
+            
+        }
+    }
+
+    changeButtonsColors(day){
+        for(var i = 1; i < this.state.daysCounter+1; i++ ){
+            if(i != day){
+                document.getElementById(i).style.backgroundColor = "#41ade7";
+                document.getElementById(i).style.color = "#ffffff";
+            }
+           }
     }
 
     render() {
@@ -626,9 +684,19 @@ class AddRoutine extends Component {
                                     </div>
                                 </div>
                             </div>
-                            <div className="row">
-                                <div className="col-12">
-                                    <div className="container card mt-4">
+                            <div className="row mt-4" >
+                                <div className="col-9" id="btn" >
+                             
+                               <button className="buttonDays mr-1" value="1" id="1" onClick={this.dayButton}>Día 1</button>
+                             </div>
+                             <div className="col-2 offset-1"  >
+                
+                             <button className="buttonDaysSize" onClick={this.addDayButton}>Agregar día</button>
+                             </div>
+                             </div>
+                             <div className="row" >
+                                <div className="col-12" >
+                                    <div className="container card mt-1">
                                         <div className="row mt-4">
                                             <div className="col-3" align="center">
                                                 <img src={leftArrowImage} className="arrows pointer" onClick={this.leftArrow} />
@@ -679,7 +747,7 @@ class AddRoutine extends Component {
                                                                     <input type="number" fontSize="18px" id="heartRateInput1" className="form-control" disabled display="none"></input>
                                                                 </div>
                                                                 <div className="col-2 text-center">
-                                                                    <label align="center">-</label>
+                                                                    <label align="center" id="lHeartRate" disabled display="none">-</label>
                                                                 </div>
                                                                 <div className="col-5">
                                                                     <input type="number" fontSize="18px" id="heartRateInput2" className="form-control" disabled display="none"></input>
@@ -704,6 +772,7 @@ class AddRoutine extends Component {
                                         </div>
                                     </div>
                                 </div>
+                            
                             </div>
                             <Modal show={this.state.show} handleClose={this.hideModal}>
                                 <Modal.Header closeButton onClick={this.hideModal}>
