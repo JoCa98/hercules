@@ -773,7 +773,8 @@ class AddRoutine extends Component {
                                     </div>
                                 </div>
                             
-                            </div>
+                            </div>                                                    
+
                             <Modal show={this.state.show} handleClose={this.hideModal}>
                                 <Modal.Header closeButton onClick={this.hideModal}>
                                     <Modal.Title>Ejercicios seleccionados</Modal.Title>
@@ -789,6 +790,7 @@ class AddRoutine extends Component {
                                     <button className="buttonSizeGeneral" onClick={this.handleSubmit}>Aceptar</button>
                                 </Modal.Footer>
                             </Modal>
+
                             <div className="row">
                                 <div className=" mt-4 col-10">
                                     <button align="right" className="buttonSizeGeneral" onClick={this.backButton}>Volver</button>

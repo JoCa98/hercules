@@ -48,7 +48,8 @@ class AddAdmin extends Component {
         this.showPasswordFields = this.showPasswordFields.bind(this);
         this.backButton = this.backButton.bind(this);
         this.getAdminUserType = this.getAdminUserType.bind(this);
-    
+        this.modalTrigger = this.modalTrigger.bind(this);
+
     }
 
     componentDidMount() {
@@ -103,7 +104,13 @@ class AddAdmin extends Component {
         });
 
         event.preventDefault();
+
     }
+
+    modalTrigger(event) {
+        this.setState({ show: !this.state.show });
+        event.preventDefault();
+    };
 
     /**
     * This method set the prop attributes
@@ -205,12 +212,6 @@ class AddAdmin extends Component {
         }
     }
 
-    showModal = (e) => {
-        this.setState({ show: !this.state.show });
-        e.preventDefault();
-    };
-
-
     onClose = (e) => {
         this.props.onClose && this.props.onClose(e);
     }
@@ -249,7 +250,7 @@ class AddAdmin extends Component {
                 </div>
                 <div className="row mt-2">
                     <div className="col-10 offset-1 card p-5">
-                        <form className="form-horizontal" onSubmit={this.handleSubmit}>
+                        <form className="form-horizontal">
                             <h1 className="text-left colorBlue">Agregar Administrador</h1>
                             <br />
                             <div className="row">
@@ -316,13 +317,15 @@ class AddAdmin extends Component {
                                     <button align="left" className="buttonSizeGeneral" onClick={this.backButton}>Volver</button>
                                 </div>
                                 <div className=" mt-3 col-md-3 offset-6">
-                                    <button align="rigth" className="buttonSizeGeneral">Guardar</button>
+                                    <button align="rigth" className="buttonSizeGeneral" onClick={this.modalTrigger}>Guardar</button>
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="col-md-1">
-                                    <ModalComponent show={this.state.show} onClose={this.showModal}>Hola </ModalComponent>
-                                </div>                                
+                                    <ModalComponent tittle="Administrador agregado" show={this.state.show} onClose={this.modalTrigger} >
+                                        <br />{this.state.firstName} {this.state.firstLastName}
+                                    </ModalComponent>
+                                </div>
                             </div>
                         </form>
                     </div>
