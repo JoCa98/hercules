@@ -14,6 +14,8 @@ import React, { Component } from 'react';
 import Carousel from './RoutineCarouselReadOnly';
 import axios from "axios";
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
+import PermissionsManager from "./PermissionsManager";
+
 
 class UserHome extends Component {
     constructor(props) {
@@ -28,6 +30,7 @@ class UserHome extends Component {
         * Property that stores the routine info that comes from de database
         */
         this.state = {
+            permissionsManager: new PermissionsManager(),
             partyID: sessionStorage.getItem("partyID"),
             routine: [{}]
         };
@@ -39,6 +42,10 @@ class UserHome extends Component {
     * when loading the page for the first time
     */
     componentDidMount() {
+
+        this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
+        window.scrollTo(0, 0);
+
         console.log(sessionStorage.getItem("routineID"));
         axios.get("http://localhost:9000/RoutineRoute/getRoutineInfo", {
             params: {
@@ -54,11 +61,11 @@ class UserHome extends Component {
         })
     }
 
-    
+
     render() {
         return (
             <div className="container">
-                 <div className="row mt-4">
+                <div className="row mt-4">
                     <Breadcrumb>
                         <Breadcrumb.Item>Inicio</Breadcrumb.Item>
                     </Breadcrumb>

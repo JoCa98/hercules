@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import validations from './validations';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
+import PermissionsManager from "./PermissionsManager";
+
 
 class AddPhysicalInfo extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            permissionsManager: new PermissionsManager(),
             validations: new validations(),
             userName: [{}],
             partyID: sessionStorage.getItem("userPartyID"),
@@ -27,6 +30,9 @@ class AddPhysicalInfo extends Component {
     }
 
     componentDidMount() {
+        this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
+        window.scrollTo(0, 0);
+
         axios.get(`http://localhost:9000/User/getUserName`,
             {
                 params: { partyID: this.state.partyID }

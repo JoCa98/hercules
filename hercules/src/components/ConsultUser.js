@@ -13,6 +13,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
+import PermissionsManager from "./PermissionsManager";
+
 
 class ConsultUser extends Component {
     constructor(props) {
@@ -27,6 +29,7 @@ class ConsultUser extends Component {
         * Property that indicates the user id
         */
         this.state = {
+            permissionsManager: new PermissionsManager(),
             userInfo: [{}],
             partyID: sessionStorage.getItem("userPartyID")
         };
@@ -39,9 +42,13 @@ class ConsultUser extends Component {
     }
 
     componentDidMount() {
+        
+        this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
+        window.scrollTo(0, 0);
+
         this.getUserBasicInfo();
 
- 
+
         if (sessionStorage.getItem('userTypeID') != 4) {
             this.hideAdminBtns();
         }

@@ -1,7 +1,22 @@
 import React, { Component } from 'react';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
+import PermissionsManager from "./PermissionsManager";
 
 class UserHomeWithOut extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            permissionsManager: new PermissionsManager()
+        };
+
+    }
+
+    componentDidMount() {
+        this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
+        window.scrollTo(0, 0);
+    }
+
     render() {
         return (
             <div className="container">

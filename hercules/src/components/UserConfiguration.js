@@ -3,11 +3,14 @@ import axios from "axios";
 import validations from './validations';
 import Hash from './Hash';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
+import PermissionsManager from "./PermissionsManager";
+
 
 class UserConfiguration extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            permissionsManager: new PermissionsManager(),
             validations: new validations(),
             hash: new Hash(),
             identificationID: "",
@@ -82,7 +85,13 @@ class UserConfiguration extends Component {
         this.backButton = this.backButton.bind(this);
 
     }
+
+
     componentDidMount() {
+
+        this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
+        window.scrollTo(0, 0);
+
         var initProvinceID = 2;
         var initCantonID = 30;
         axios.get(`http://localhost:9000/User/getRelationType`).then(response => {

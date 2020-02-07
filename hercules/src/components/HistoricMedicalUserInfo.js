@@ -14,11 +14,23 @@
 import React, { Component } from 'react';
 import TableMedicalInfo from './TableMedicalInfo';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
+import PermissionsManager from "./PermissionsManager";
+
 
 class HistoricMedicalUserInfo extends Component {
     constructor() {
         super();
+
+        this.state = {
+            permissionsManager: new PermissionsManager()
+        };
+
         this.backButton = this.backButton.bind(this);
+    }
+
+    componentDidMount() {
+        this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
+        window.scrollTo(0, 0);
     }
 
     /**

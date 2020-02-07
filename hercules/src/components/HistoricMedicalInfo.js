@@ -18,6 +18,8 @@ import downloadImage from '../appImage/downloadImage.png';
 import axios from 'axios';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import json2csv from 'json2csv';
+import PermissionsManager from "./PermissionsManager";
+
 
 class HistoricMedicalInfo extends Component {
     constructor() {
@@ -31,6 +33,7 @@ class HistoricMedicalInfo extends Component {
       * Property that contains the id of the user
       */
         this.state = {
+            permissionsManager: new PermissionsManager(),
             userName: [{}],
             partyID: sessionStorage.getItem("userPartyID")
         }
@@ -73,7 +76,7 @@ class HistoricMedicalInfo extends Component {
                         'Neurologico', 'Cardiopulmonar', 'UmbraAerobico',
                         'FrecuenciaCardiaca', 'Peso', 'Talla', 'IMC',
                         'Cintura', 'Cadera', 'Recomendaciones',
-                         'RiesgoCardiovascular', 'ValidoHasta'];
+                        'RiesgoCardiovascular', 'ValidoHasta'];
                     const opts = { fields };
 
                     const csv = parse(response.data[0], opts);
@@ -90,6 +93,10 @@ class HistoricMedicalInfo extends Component {
     * when the page is load
     */
     componentDidMount() {
+
+        this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
+        window.scrollTo(0, 0);
+        
         try {
             axios.get(`http://localhost:9000/User/getUserName`,
                 {

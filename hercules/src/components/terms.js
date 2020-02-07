@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PermissionsManager from "./PermissionsManager";
 
 
 
@@ -7,14 +8,21 @@ class Terms extends Component {
         super(props);
 
         this.state = {
-            accept: 0
+            accept: 0,
+            permissionsManager : new PermissionsManager()
         }
 
         this.redirect = this.redirect.bind(this);
         this.backButton = this.backButton.bind(this);
     }
 
+    componentDidMount() {
+        this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
+        window.scrollTo(0,0);
+    }
+
     redirect() {
+        sessionStorage.setItem('termsConfirm', 'true');
         this.props.history.push(`/SignUp`);
     }
 

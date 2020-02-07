@@ -5,6 +5,9 @@ import TablePhysicalInfo from './TablePhysicalInfo';
 import axios from "axios";
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import json2csv from 'json2csv';
+import PermissionsManager from "./PermissionsManager";
+
+
 
 class HistoricPhysicalInfoAdmin extends Component {
 
@@ -19,6 +22,7 @@ class HistoricPhysicalInfoAdmin extends Component {
         * Property that contains the id of the user
         */
         this.state = {
+            permissionsManager: new PermissionsManager(),
             userName: [{}],
             partyID: sessionStorage.getItem("userPartyID"),
             physicalInfo: [{}]
@@ -30,6 +34,10 @@ class HistoricPhysicalInfoAdmin extends Component {
     }
 
     componentDidMount() {
+
+        this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
+        window.scrollTo(0, 0);
+
         try {
             axios.get(`http://localhost:9000/User/getUserName`,
                 {
@@ -70,9 +78,9 @@ class HistoricPhysicalInfoAdmin extends Component {
                     const { parse } = require('json2csv');
 
                     const fields = ['Fecha', 'Peso', 'PorcentajeDeGrasaCorporal', 'PorcentajeDeAguaCorporal',
-                     'MasaMuscular', 'ValoracionFisica', 'MasaOsea', 'DCI', 'EdadMetabolica', 'GrasaVisceral'];
+                        'MasaMuscular', 'ValoracionFisica', 'MasaOsea', 'DCI', 'EdadMetabolica', 'GrasaVisceral'];
                     const opts = { fields };
-            
+
                     const csv = parse(response.data[0], opts);
                     var fileDownload = require('js-file-download');
                     fileDownload(csv, this.state.userName[0].fullName + ' - Composición física.csv');
