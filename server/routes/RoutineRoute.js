@@ -16,7 +16,7 @@ router.get('/getExerciseType', (req, res) => {
 });
 
 router.get("/getExercise", (req, res) => {
-  connection.query("CALL proc_seeExercisePerRoutine(" + req.query.routineID + "," + req.query.id + ")", function (err, results) {
+  connection.query("CALL proc_seeExercisePerRoutine(" + req.query.routineID + "," + req.query.id + "," + req.query.routineDay + ")", function (err, results) {
     if (results) {
       res.send(results);
     }
@@ -91,6 +91,18 @@ router.get("/getRoutineType", (req, res) => {
     }
   });
 });
+
+
+router.get("/getNumberOfDays", (req,res)=>{
+  connection.query("call proc_numberOfRoutineDays(" + req.query.routineID + ")", function (err, results) {
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+  });
+})
 
 router.get("/getObjetiveType", (req, res) => {
   connection.query("SELECT * FROM view_objetives", function (err, results) {
