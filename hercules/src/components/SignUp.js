@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from "axios";
 import validations from './validations';
+import PermissionsManager from "./PermissionsManager";
 import Hash from './Hash';
 
 class SignUp extends Component {
@@ -8,6 +9,7 @@ class SignUp extends Component {
         super(props);
         this.state = {
             validations: new validations(),
+            permissionsManager : new PermissionsManager(),
             hash: new Hash(),
             identificationID: "",
             firstName: "",
@@ -64,6 +66,9 @@ class SignUp extends Component {
         //this.handleSubmit = this.handleSubmit.bind(this);
     }
     componentDidMount() {
+        this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
+        window.scrollTo(0,0);
+
         this.selectWorker();
         this.selectFemale();
         var initProvinceID = 2;
@@ -364,6 +369,7 @@ class SignUp extends Component {
     }
 
     backButton() {
+        sessionStorage.removeItem('termsConfirm');
         this.props.history.push(`/`);
     }
 

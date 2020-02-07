@@ -14,12 +14,15 @@ import React, { Component } from 'react';
 import validations from './validations';
 import Hash from './Hash';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
+import PermissionsManager from "./PermissionsManager";
+
 
 class ConfigurationAdmin extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
+            permissionsManager: new PermissionsManager(),
             hash: new Hash(),
             validations: new validations(),
             partyID: sessionStorage.getItem("partyID"),
@@ -31,6 +34,11 @@ class ConfigurationAdmin extends Component {
         this.changePassword = this.changePassword.bind(this);
         this.showPasswordFields = this.showPasswordFields.bind(this);
         this.backButton = this.backButton.bind(this);
+    }
+
+    componentDidMount() {
+        this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
+        window.scrollTo(0, 0);
     }
 
     /**

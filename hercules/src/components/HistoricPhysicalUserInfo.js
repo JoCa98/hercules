@@ -1,12 +1,23 @@
 import React, { Component } from 'react';
 import TablePhysicalInfo from './TablePhysicalInfo';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
+import PermissionsManager from "./PermissionsManager";
 
 
 class HistoricPhysicalUserInfo extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      permissionsManager: new PermissionsManager()
+    }
+
     this.backButton = this.backButton.bind(this);
+  }
+
+  componentDidMount() {
+    this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
+    window.scrollTo(0, 0);
   }
 
   /**

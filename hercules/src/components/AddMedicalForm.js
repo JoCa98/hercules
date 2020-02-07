@@ -15,6 +15,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import validations from './validations';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
+import PermissionsManager from "./PermissionsManager";
+
 
 /*global IMC*/
 
@@ -86,6 +88,7 @@ class AddMedicalForm extends Component {
         * @type {integer}
         */
         this.state = {
+            permissionsManager: new PermissionsManager(),
             userName: [{}],
             partyID: sessionStorage.getItem("userPartyID"),
             pathologies: "",
@@ -125,6 +128,10 @@ class AddMedicalForm extends Component {
     * when the page is load
     */
     componentDidMount() {
+
+        this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
+        window.scrollTo(0, 0);
+
         try {
             axios.get(`http://localhost:9000/User/getUserName`,
                 {
@@ -478,7 +485,7 @@ class AddMedicalForm extends Component {
                                                                 <div className="control-group">
                                                                     <label className="control-label" font-size="18px" htmlFor="inputHeight">Talla (cm)<font color="red">*</font></label>
                                                                     <div className="controls">
-                                                                        <input type="decimal" id="inputHeight" font-size="18px"  name="size" required value={this.state.size} onChange={this.inputNumberValidator} size="10" placeholder="ej: 170" />
+                                                                        <input type="decimal" id="inputHeight" font-size="18px" name="size" required value={this.state.size} onChange={this.inputNumberValidator} size="10" placeholder="ej: 170" />
                                                                     </div>
                                                                 </div>
                                                             </div>

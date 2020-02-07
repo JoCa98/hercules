@@ -14,6 +14,8 @@
 import React, { Component } from 'react';
 import axios from "axios";
 import Breadcrumb from 'react-bootstrap/Breadcrumb'
+import PermissionsManager from "./PermissionsManager";
+
 
 class HomeAdmin extends Component {
     constructor(props) {
@@ -33,6 +35,7 @@ class HomeAdmin extends Component {
         * Property that contains the search values
         */
         this.state = {
+            permissionsManager: new PermissionsManager(),
             userList: [],
             userListID: [],
             searchType: 0,
@@ -53,6 +56,8 @@ class HomeAdmin extends Component {
     * when loading the page for the first time
     */
     componentDidMount() {
+        this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
+        window.scrollTo(0, 0);
         this.getUserListByCarnet();
     }
 
@@ -196,9 +201,9 @@ class HomeAdmin extends Component {
 
         var breadcrumb = '';
         if (sessionStorage.getItem('userTypeID') !== '5') {
-            breadcrumb =<div className="row mt-4"><Breadcrumb><Breadcrumb.Item >Inicio</Breadcrumb.Item></Breadcrumb></div>;
+            breadcrumb = <div className="row mt-4"><Breadcrumb><Breadcrumb.Item >Inicio</Breadcrumb.Item></Breadcrumb></div>;
         }
-       
+
         return (
             <div className="container">
                 {breadcrumb}

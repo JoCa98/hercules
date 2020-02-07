@@ -4,11 +4,14 @@ import leftArrowImage from '../appImage/leftArrow.svg';
 import rightArrowImage from '../appImage/rightArrow.svg';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import Modal from 'react-bootstrap/Modal';
+import PermissionsManager from "./PermissionsManager";
+
 
 class AddRoutine extends Component {
     constructor() {
         super();
         this.state = {
+            permissionsManager: new PermissionsManager(),
             routineType: [{}],
             objective: [{}],
             Frecuency: 0,
@@ -33,7 +36,7 @@ class AddRoutine extends Component {
             name: "",
             routineDay: 1,
             daysCounter: 1
-            }
+        }
 
         this.inputNumberValidator = this.inputNumberValidator.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -58,6 +61,9 @@ class AddRoutine extends Component {
     }
 
     componentDidMount() {
+        this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
+        window.scrollTo(0, 0);
+
         axios.get("http://localhost:9000/RoutineRoute/getRoutineType").then(response => {
             this.state.routineType = response.data;
             this.setState({ routineType: response.data });
@@ -360,7 +366,7 @@ class AddRoutine extends Component {
 
                 if (this.state.exist) {
                     alert("El ejercicio ya fue agregado");
-                    
+
                 } else {
                     this.state.list.push(obj);
                     alert("El ejercicio ha sido agregado con éxito");
@@ -486,54 +492,54 @@ class AddRoutine extends Component {
     backButton() {
         this.props.history.push(`/HistoricRoutineInfo`);
     }
-    
+
     addDayButton(e) {
-        if(this.state.routineDay < 6){
-           var div = document.getElementById("btn");
-           var btn = document.createElement("button");
-           var value = (this.state.daysCounter + 1);
+        if (this.state.routineDay < 6) {
+            var div = document.getElementById("btn");
+            var btn = document.createElement("button");
+            var value = (this.state.daysCounter + 1);
             btn.value = value;
             btn.textContent = "Día " + value;
-            btn.id= value;
+            btn.id = value;
             btn.className = "buttonDaysSize mr-1";
             btn.onclick = this.dayButton;
             btn.style.backgroundColor = "#ffffff";
             btn.style.border = "2px solid #41ade7";
             btn.style.color = "#0c0c0c";
             div.appendChild(btn);
-            
-             this.setState({
-                 routineDay :  this.state.daysCounter + 1 ,
-                 daysCounter : this.state.daysCounter + 1
+
+            this.setState({
+                routineDay: this.state.daysCounter + 1,
+                daysCounter: this.state.daysCounter + 1
             })
 
-            this.changeButtonsColors(value); 
+            this.changeButtonsColors(value);
             e.preventDefault();
+        }
     }
-}
 
-    dayButton(event){
-  
-        if (this.state.routineDay != event.target.value){
+    dayButton(event) {
+
+        if (this.state.routineDay != event.target.value) {
             this.setState({
                 routineDay: event.target.value
             })
-           
+
             event.target.style.backgroundColor = "#ffffff";
             event.target.style.border = "2px solid #41ade7";
             event.target.style.color = "#0c0c0c";
             this.changeButtonsColors(event.target.value);
-            
+
         }
     }
 
-    changeButtonsColors(day){
-        for(var i = 1; i < this.state.daysCounter+1; i++ ){
-            if(i != day){
+    changeButtonsColors(day) {
+        for (var i = 1; i < this.state.daysCounter + 1; i++) {
+            if (i != day) {
                 document.getElementById(i).style.backgroundColor = "#41ade7";
                 document.getElementById(i).style.color = "#ffffff";
             }
-           }
+        }
     }
 
     render() {
@@ -686,15 +692,15 @@ class AddRoutine extends Component {
                             </div>
                             <div className="row mt-4" >
                                 <div className="col-9" id="btn" >
-                             
-                               <button className="buttonDays mr-1" value="1" id="1" onClick={this.dayButton}>Día 1</button>
-                             </div>
-                             <div className="col-2 offset-1"  >
-                
-                             <button className="buttonDaysSize" onClick={this.addDayButton}>Agregar día</button>
-                             </div>
-                             </div>
-                             <div className="row" >
+
+                                    <button className="buttonDays mr-1" value="1" id="1" onClick={this.dayButton}>Día 1</button>
+                                </div>
+                                <div className="col-2 offset-1"  >
+
+                                    <button className="buttonDaysSize" onClick={this.addDayButton}>Agregar día</button>
+                                </div>
+                            </div>
+                            <div className="row" >
                                 <div className="col-12" >
                                     <div className="container card mt-1">
                                         <div className="row mt-4">
@@ -772,8 +778,8 @@ class AddRoutine extends Component {
                                         </div>
                                     </div>
                                 </div>
-                            
-                            </div>                                                    
+
+                            </div>
 
                             <Modal show={this.state.show} handleClose={this.hideModal}>
                                 <Modal.Header closeButton onClick={this.hideModal}>

@@ -17,12 +17,15 @@ import validations from './validations';
 import Hash from './Hash';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import ModalComponent from './ModalComponent';
+import PermissionsManager from "./PermissionsManager";
+
 
 class AddAdmin extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
+            permissionsManager: new PermissionsManager(),
             hash: new Hash(),
             validations: new validations(),
             userTypeID: "3",
@@ -53,6 +56,8 @@ class AddAdmin extends Component {
     }
 
     componentDidMount() {
+        this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
+        window.scrollTo(0, 0);
         this.getAdminUserType();
     }
 
