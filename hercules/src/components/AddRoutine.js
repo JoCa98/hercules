@@ -4,12 +4,9 @@ import leftArrowImage from '../appImage/leftArrow.svg';
 import rightArrowImage from '../appImage/rightArrow.svg';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import Modal from 'react-bootstrap/Modal';
-<<<<<<< HEAD
 import { networkInterfaces } from 'os';
-=======
 import PermissionsManager from "./PermissionsManager";
 
->>>>>>> f6bba50c97f1c1207a7bc3abd64d936831d48022
 
 class AddRoutine extends Component {
     constructor() {
@@ -136,14 +133,9 @@ class AddRoutine extends Component {
             show: false,
             name: "",
             routineDay: 1,
-<<<<<<< HEAD
             daysCounter: 1,
             modalList: [{}]
             }
-=======
-            daysCounter: 1
-        }
->>>>>>> f6bba50c97f1c1207a7bc3abd64d936831d48022
 
         this.inputNumberValidator = this.inputNumberValidator.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -665,7 +657,6 @@ class AddRoutine extends Component {
         this.props.history.push(`/HistoricRoutineInfo`);
     }
 
-<<<<<<< HEAD
     /**
      * Method delete the last day button
      */
@@ -689,8 +680,6 @@ class AddRoutine extends Component {
      * Method that add a day button
      * @param {object} e 
      */
-=======
->>>>>>> f6bba50c97f1c1207a7bc3abd64d936831d48022
     addDayButton(e) {
         if (this.state.routineDay < 6) {
             var div = document.getElementById("btn");
@@ -711,7 +700,6 @@ class AddRoutine extends Component {
                 daysCounter: this.state.daysCounter + 1
             })
 
-<<<<<<< HEAD
             this.changeButtonsColors(value); 
            
     }
@@ -727,34 +715,15 @@ class AddRoutine extends Component {
             this.setState({
                 routineDay: event.target.value
             })
-=======
-            this.changeButtonsColors(value);
-            e.preventDefault();
-        }
-    }
-
-    dayButton(event) {
-
-        if (this.state.routineDay != event.target.value) {
-            this.setState({
-                routineDay: event.target.value
-            })
-
->>>>>>> f6bba50c97f1c1207a7bc3abd64d936831d48022
             event.target.style.backgroundColor = "#ffffff";
             event.target.style.border = "2px solid #41ade7";
             event.target.style.color = "#0c0c0c";
             this.changeButtonsColors(event.target.value);
-<<<<<<< HEAD
             this.emptyInputs();
-=======
-
->>>>>>> f6bba50c97f1c1207a7bc3abd64d936831d48022
         }
         event.preventDefault();
     }
 
-<<<<<<< HEAD
     /**
      * Method that change the color of the day buttons
      * @param {integer} day 
@@ -767,14 +736,6 @@ class AddRoutine extends Component {
                 document.getElementById(i).style.color = "#ffffff";
             }
            }
-=======
-    changeButtonsColors(day) {
-        for (var i = 1; i < this.state.daysCounter + 1; i++) {
-            if (i != day) {
-                document.getElementById(i).style.backgroundColor = "#41ade7";
-                document.getElementById(i).style.color = "#ffffff";
-            }
->>>>>>> f6bba50c97f1c1207a7bc3abd64d936831d48022
         }
     }
 
@@ -1017,7 +978,6 @@ class AddRoutine extends Component {
                             </div>
                             <div className="row mt-4" >
                                 <div className="col-9" id="btn" >
-<<<<<<< HEAD
                                     <button className="buttonDays mr-1" value="1" id="1" onClick={this.dayButton}>Día 1</button>
                                 </div>
                                 <div className="col-3 " id="addDelete">
@@ -1026,17 +986,6 @@ class AddRoutine extends Component {
                                 </div>
                             </div>
                              <div className="row" >
-=======
-
-                                    <button className="buttonDays mr-1" value="1" id="1" onClick={this.dayButton}>Día 1</button>
-                                </div>
-                                <div className="col-2 offset-1"  >
-
-                                    <button className="buttonDaysSize" onClick={this.addDayButton}>Agregar día</button>
-                                </div>
-                            </div>
-                            <div className="row" >
->>>>>>> f6bba50c97f1c1207a7bc3abd64d936831d48022
                                 <div className="col-12" >
                                     <div className="container card mt-1">
                                         <div className="row mt-4">
