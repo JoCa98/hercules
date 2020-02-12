@@ -10,6 +10,7 @@ class PermissionManager extends Component {
         this.user = this.user.bind(this);
         this.admin = this.admin.bind(this);
         this.homeAdmin = this.homeAdmin.bind(this);
+        this.userHome = this.userHome.bind(this);
         this.medic = this.medic.bind(this);
         this.signUp = this.signUp.bind(this);
         this.actCodeForm = this.actCodeForm.bind(this);
@@ -17,8 +18,6 @@ class PermissionManager extends Component {
         this.addMedicalForm = this.addMedicalForm.bind(this);
         this.addPhysicalInfo = this.addPhysicalInfo.bind(this);
         this.changeTempPassword = this.changeTempPassword.bind(this);
-        this.userHome = this.userHome.bind(this);
-        this.userHomeWithout = this.userHomeWithout.bind(this);
         this.redirectUser = this.redirectUser.bind(this);
         this.generalPagesSpecialPermission = this.generalPagesSpecialPermission.bind(this);
         this.adminUserSpecialPermission = this.adminUserSpecialPermission.bind(this);
@@ -28,15 +27,17 @@ class PermissionManager extends Component {
     validatePermission(pageName, page) {
         //Permisos de páginas sin login y permisos especiales para singUp y actCodeForm
         if (this.withoutLogin(pageName) &&
-            (sessionStorage.getItem('partyID') === 0
-                | sessionStorage.getItem('partyID') === ''
+            (sessionStorage.getItem('partyID') === ''
                 | sessionStorage.getItem('partyID') === null)) {
 
             if (this.signUp(pageName) && !(sessionStorage.getItem('termsConfirm') === 'true')) {
                 this.redirectUser(page);
+                return false;
             } else if (this.actCodeForm(pageName) &&
                 !(sessionStorage.getItem('identificationID') !== null && sessionStorage.getItem('identificationID') !== '')) {
                 this.redirectUser(page);
+                return false;
+
             }
 
             //Páginas de acceso sin login, estando logeado   
@@ -46,20 +47,57 @@ class PermissionManager extends Component {
                 | sessionStorage.getItem('partyID') !== null)) {
 
             this.redirectUser(page);
+            return false;
+
 
             //Página de cambio de contraseña temporal
         } else if (sessionStorage.getItem("changeTempPassword") === "true") {
 
             page.props.history.push(`/ChangeTempPassword`);
+            return true;
+
 
         } else if (this.changeTempPassword(pageName) &&
             sessionStorage.getItem("changeTempPassword") !== "true") {
 
             this.redirectUser(page);
+            return false;
 
+
+            //Páginas de usuario
+        } else if (this.user(pageName)
+            && !(sessionStorage.getItem("userTypeID") === '1' | sessionStorage.getItem("userTypeID") === '2')) {
+
+            console.log("Entró 1");
+
+            this.redirectUser(page);
+            return false;
+
+        } else if (this.userHome(pageName)
+            && (sessionStorage.getItem("userTypeID") === '1' | sessionStorage.getItem("userTypeID") === '2')) {
+
+            console.log(sessionStorage.getItem("routineID"));
+            console.log(sessionStorage.getItem("userTypeID"));
+
+            if ((sessionStorage.getItem("routineID") !== null
+                && sessionStorage.getItem("routineID") !== 'undefined')) {
+
+                page.props.history.push(`/UserHome`);
+                return false;
+
+
+            } else if (
+                (sessionStorage.getItem("routineID") === null
+                    | sessionStorage.getItem("routineID") === 'undefined')) {
+
+                page.props.history.push(`/UserHomeWithOut`);
+                return false;
+
+
+            }
 
             //Página de home admin
-        } else if (this.homeAdmin(page) && !(sessionStorage.getItem('userTypeID') === '3'
+        }  /** else if (this.homeAdmin(pageName) && !(sessionStorage.getItem('userTypeID') === '3'
             | sessionStorage.getItem('userTypeID') === '4'
             | sessionStorage.getItem('userTypeID') === '5')) {
 
@@ -69,39 +107,22 @@ class PermissionManager extends Component {
         } else if (this.generalPages(pageName) && !(sessionStorage.getItem('userTypeID') === '3'
             | sessionStorage.getItem('userTypeID') === '4')) {
 
+            console.log("Entró");
             this.redirectUser(page);
 
-        } else if (this.generalPages(pageName) && !(sessionStorage.getItem('userTypeID') === '3'
+        } else if (this.generalPages(pageName) && (sessionStorage.getItem('userTypeID') === '3'
             | sessionStorage.getItem('userTypeID') === '4')) {
 
             if (this.generalPagesSpecialPermission(pageName) &&
                 (sessionStorage.getItem("userPartyID") === null
-                    | sessionStorage.getItem("userPartyID") === "")) {
+                    | sessionStorage.getItem("userPartyID") === ""
+                    | sessionStorage.getItem("userPartyID") === 'undefined')) {
 
                 this.redirectUser(page);
 
             }
 
-            //Páginas de usuario
-        } else if (this.user(pageName)
-            && !(sessionStorage.getItem("userTypeID") === '1' && sessionStorage.getItem("userTypeID") === '2')) {
-
-            this.redirectUser(page);
-
-        } else if (this.user(pageName)
-            && (sessionStorage.getItem("userTypeID") === '1' && sessionStorage.getItem("userTypeID") === '2')) {
-
-            if (this.userHome(pageName) && sessionStorage.getItem("routineID") !== null) {
-
-                page.props.history.push(`/UserHome`);
-
-            } else if (this.userHomeWithout(pageName) && sessionStorage.getItem("routineID") === null) {
-
-                page.props.history.push(`/UserHomeWithOut`);
-
-            }
-
-            //Páginas de administrador    
+            //Páginas de administrador 
         } else if (this.admin(pageName) && !(sessionStorage.getItem('userTypeID') === '4')) {
             this.redirectUser(page);
 
@@ -150,18 +171,22 @@ class PermissionManager extends Component {
 
                 this.redirectUser(page)
             }
-        }
+        }*/
+        return true;
     }
 
     redirectUser(page) {
+        console.log("Entró 2");
         if (sessionStorage.getItem('userTypeID') === '1' | sessionStorage.getItem('userTypeID') === '2') {
             page.props.history.push(`/UserHome`);
         } else if (sessionStorage.getItem('userTypeID') === '3' | sessionStorage.getItem('userTypeID') === '4'
             | sessionStorage.getItem('userTypeID') === '5') {
+        console.log("Entró 3");
             page.props.history.push(`/HomeAdmin`);
         } else {
             page.props.history.push(`/`);
         }
+
     }
 
     withoutLogin(pageName) {
@@ -173,7 +198,7 @@ class PermissionManager extends Component {
     }
 
     user(pageName) {
-        return new RegExp("^((\/UserHome)|(\/UserHomeWithOut)|(\/UserConfiguration)|(\/HistoricPhysicalUserInfo)|(\/HistoricMedicalUserInfo))$").test(pageName);
+        return new RegExp("^((/UserHome)|(/UserHomeWithOut)|(\/UserConfiguration)|(\/HistoricPhysicalUserInfo)|(\/HistoricMedicalUserInfo))$").test(pageName);
     }
 
     admin(pageName) {
@@ -182,6 +207,10 @@ class PermissionManager extends Component {
 
     homeAdmin(pageName) {
         return new RegExp("^(\/HomeAdmin)$").test(pageName);
+    }
+
+    userHome(pageName) {
+        return new RegExp("^((/UserHome)|(/UserHomeWithOut))$").test(pageName);
     }
 
     medic(pageName) {
@@ -200,10 +229,6 @@ class PermissionManager extends Component {
         return new RegExp("^(\/ChangeTempPassword)$").test(pageName);
     }
 
-    userHome(pageName) {
-        return new RegExp("^(\/UserHome)$").test(pageName);
-    }
-
     routineAdmin(pageName) {
         return new RegExp("^(\/RoutineAdmin)$").test(pageName);
     }
@@ -214,10 +239,6 @@ class PermissionManager extends Component {
 
     addPhysicalInfo(pageName) {
         return new RegExp("^(\/AddPhysicalInfo)$").test(pageName);
-    }
-
-    userHomeWithout(pageName) {
-        return new RegExp("^(\/UserHomeWithOut)$").test(pageName);
     }
 
     generalPagesSpecialPermission(pageName) {

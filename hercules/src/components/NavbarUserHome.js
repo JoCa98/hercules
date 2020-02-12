@@ -104,10 +104,10 @@ class NavbarUserHome extends Component {
     render() {
         return (
             <nav className="navbar navbar-expand-md navbarColor justify-content-end">
-                <button class="navbar-toggler icon-bar navbar-light" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
-                    <span class="navbar-toggler-icon "></span>
+                <button className="navbar-toggler icon-bar navbar-light" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+                    <span className="navbar-toggler-icon "></span>
                 </button>
-                <div class="collapse navbar-collapse flex-grow-0" id="navbarSupportedContent">
+                <div className="collapse navbar-collapse flex-grow-0" id="navbarSupportedContent">
                     <ul className="navbar-nav text-center">
 
                         <li id ="rutine" className="nav-item">

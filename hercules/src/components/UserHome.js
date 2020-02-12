@@ -46,7 +46,7 @@ class UserHome extends Component {
         this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
         window.scrollTo(0, 0);
 
-        console.log(sessionStorage.getItem("routineID"));
+        //console.log(sessionStorage.getItem("routineID"));
         axios.get("http://localhost:9000/RoutineRoute/getRoutineInfo", {
             params: {
                 routineID: sessionStorage.getItem("routineID"),
