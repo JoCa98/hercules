@@ -31,14 +31,14 @@ class PermissionManager extends Component {
                 !(sessionStorage.getItem('identificationID') !== null && sessionStorage.getItem('identificationID') !== '')) {
                 this.redirectUser(page);
             }
-
+            
         //Páginas de acceso sin login, estando logeado   
         } else if (this.withoutLogin(pageName) &&
             (sessionStorage.getItem('partyID') !== 0
                 | sessionStorage.getItem('partyID') !== ''
                 | sessionStorage.getItem('partyID') !== null)) {
 
-            this.redirectUser();
+            this.redirectUser(page);
 
         //Página de cambio de contraseña temporal
         } else if (sessionStorage.getItem("changeTempPassword") === "true") {
@@ -52,12 +52,12 @@ class PermissionManager extends Component {
 
         //Páginas de usuario
         } else if (this.user(pageName) 
-        && !(sessionStorage.getItem("userTypeID") === 1 && sessionStorage.getItem("userTypeID") === 2)) {
+        && !(sessionStorage.getItem("userTypeID") === '1' && sessionStorage.getItem("userTypeID") === '2')) {
         
             this.redirectUser(page);
 
         } else if (this.user(pageName)
-            && (sessionStorage.getItem("userTypeID") === 1 && sessionStorage.getItem("userTypeID") === 2) ) {
+            && (sessionStorage.getItem("userTypeID") === '1' && sessionStorage.getItem("userTypeID") === '2') ) {
 
             if (this.userHome(pageName) && sessionStorage.getItem("routineID") !== null) {
         
@@ -70,27 +70,27 @@ class PermissionManager extends Component {
             }
         
         //Páginas de administrador    
-        } else if (this.admin(pageName) && !(sessionStorage.getItem('userTypeID') === 4)) {
+        } else if (this.admin(pageName) && !(sessionStorage.getItem('userTypeID') === '4')) {
             
             this.redirectUser(page);
 
         //Páginas de médico    
-        } else if (this.medic(pageName) && !(sessionStorage.getItem('userTypeID') === 3)) {
+        } else if (this.medic(pageName) && !(sessionStorage.getItem('userTypeID') === '3')) {
             
             this.redirectUser(page);
 
         //Páginas de asistente
-        } else if (this.assistant(page) && !(sessionStorage.getItem('userTypeID') === 5)) {
+        } else if (this.assistant(page) && !(sessionStorage.getItem('userTypeID') === '5')) {
 
             this.redirectUser(page);
         }
     }
 
     redirectUser(page) {
-        if (sessionStorage.getItem('userTypeID') === 1 | sessionStorage.getItem('userTypeID') === 2) {
+        if (sessionStorage.getItem('userTypeID') === '1' | sessionStorage.getItem('userTypeID') === '2') {
             page.props.history.push(`/UserHome`);
-        } else if (sessionStorage.getItem('userTypeID') === 3 | sessionStorage.getItem('userTypeID') === 4
-            | sessionStorage.getItem('userTypeID') === 5) {
+        } else if (sessionStorage.getItem('userTypeID') === '3' | sessionStorage.getItem('userTypeID') === '4'
+            | sessionStorage.getItem('userTypeID') === '5') {
             page.props.history.push(`/HomeAdmin`);
         } else {
             page.props.history.push(`/`);
