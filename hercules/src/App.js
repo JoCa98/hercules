@@ -7,7 +7,6 @@ import PasswordRecovery from './components/PasswordRecovery';
 import AddAdmin from './components/AddAdmin';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import NavbarAdmin from './components/NavbarAdmin';
 import HomeAdmin from './components/HomeAdmin';
 import HistoricPhysicalUserInfo from './components/HistoricPhysicalUserInfo';
 import HistoricRoutineInfo from './components/HistoricRoutineInfo';

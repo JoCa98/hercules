@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import logo from '../appImage/logo_ucr.png';
 import logoGym from '../appImage/logo_gimnasio.png';
-import NavbarAdmin from './NavbarAdmin';
 import NavbarUserHome from './NavbarUserHome';
 
 class Header extends Component {

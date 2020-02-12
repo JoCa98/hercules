@@ -56,7 +56,6 @@ class HomeAdmin extends Component {
     * when loading the page for the first time
     */
     componentDidMount() {
-
         this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
         window.scrollTo(0, 0);
         this.getUserListByCarnet();

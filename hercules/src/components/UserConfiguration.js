@@ -93,7 +93,6 @@ class UserConfiguration extends Component {
         if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
             window.scrollTo(0, 0);
 
-            console.log("Entró 4");
             var initProvinceID = 2;
             var initCantonID = 30;
             axios.get(`http://localhost:9000/User/getRelationType`).then(response => {

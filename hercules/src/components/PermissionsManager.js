@@ -28,7 +28,7 @@ class PermissionManager extends Component {
         //Permisos de páginas sin login y permisos especiales para singUp y actCodeForm
         if (this.withoutLogin(pageName) &&
             (sessionStorage.getItem('partyID') === ''
-                | sessionStorage.getItem('partyID') === null)) {
+                || sessionStorage.getItem('partyID') === null)) {
 
             if (this.signUp(pageName) && !(sessionStorage.getItem('termsConfirm') === 'true')) {
                 this.redirectUser(page);
@@ -43,8 +43,8 @@ class PermissionManager extends Component {
             //Páginas de acceso sin login, estando logeado   
         } else if (this.withoutLogin(pageName) &&
             (sessionStorage.getItem('partyID') !== 0
-                | sessionStorage.getItem('partyID') !== ''
-                | sessionStorage.getItem('partyID') !== null)) {
+                || sessionStorage.getItem('partyID') !== ''
+                || sessionStorage.getItem('partyID') !== null)) {
 
             this.redirectUser(page);
             return false;
@@ -66,15 +66,13 @@ class PermissionManager extends Component {
 
             //Páginas de usuario
         } else if (this.user(pageName)
-            && !(sessionStorage.getItem("userTypeID") === '1' | sessionStorage.getItem("userTypeID") === '2')) {
-
-            console.log("Entró 1");
+            && !(sessionStorage.getItem("userTypeID") === '1' || sessionStorage.getItem("userTypeID") === '2')) {
 
             this.redirectUser(page);
             return false;
 
         } else if (this.userHome(pageName)
-            && (sessionStorage.getItem("userTypeID") === '1' | sessionStorage.getItem("userTypeID") === '2')) {
+            && (sessionStorage.getItem("userTypeID") === '1' || sessionStorage.getItem("userTypeID") === '2')) {
 
             console.log(sessionStorage.getItem("routineID"));
             console.log(sessionStorage.getItem("userTypeID"));
@@ -97,14 +95,15 @@ class PermissionManager extends Component {
             }
 
             //Página de home admin
-        }  /** else if (this.homeAdmin(pageName) && !(sessionStorage.getItem('userTypeID') === '3'
+        }   else if (this.homeAdmin(pageName) && !(sessionStorage.getItem('userTypeID') === '3'
             | sessionStorage.getItem('userTypeID') === '4'
             | sessionStorage.getItem('userTypeID') === '5')) {
 
             this.redirectUser(page);
+            return false;
 
             //Páginas de acceso general para admin, asistente y medicos
-        } else if (this.generalPages(pageName) && !(sessionStorage.getItem('userTypeID') === '3'
+        } /**else if (this.generalPages(pageName) && !(sessionStorage.getItem('userTypeID') === '3'
             | sessionStorage.getItem('userTypeID') === '4')) {
 
             console.log("Entró");
@@ -176,12 +175,10 @@ class PermissionManager extends Component {
     }
 
     redirectUser(page) {
-        console.log("Entró 2");
-        if (sessionStorage.getItem('userTypeID') === '1' | sessionStorage.getItem('userTypeID') === '2') {
+        if (sessionStorage.getItem('userTypeID') === '1' || sessionStorage.getItem('userTypeID') === '2') {
             page.props.history.push(`/UserHome`);
-        } else if (sessionStorage.getItem('userTypeID') === '3' | sessionStorage.getItem('userTypeID') === '4'
+        } else if (sessionStorage.getItem('userTypeID') === '3' || sessionStorage.getItem('userTypeID') === '4'
             | sessionStorage.getItem('userTypeID') === '5') {
-        console.log("Entró 3");
             page.props.history.push(`/HomeAdmin`);
         } else {
             page.props.history.push(`/`);

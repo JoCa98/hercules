@@ -42,12 +42,10 @@ class ConsultUser extends Component {
     }
 
     componentDidMount() {
-
-        console.log(this.state.permissionsManager.generalPages(this.props.location.pathname));
         this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
         window.scrollTo(0, 0);
 
-        
+
         this.getUserBasicInfo();
 
 

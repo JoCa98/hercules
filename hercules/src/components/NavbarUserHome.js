@@ -17,8 +17,8 @@ class NavbarUserHome extends Component {
         this.adminConfig = this.adminConfig.bind(this);
     }
     componentDidMount() {
-        if (sessionStorage.getItem('partyID') === undefined 
-        || sessionStorage.getItem('partyID') === null){
+        if (sessionStorage.getItem('partyID') === undefined
+            || sessionStorage.getItem('partyID') === null) {
             document.getElementById('rutine').style.display = 'none';
             document.getElementById('medicalInfo').style.display = 'none';
             document.getElementById('physicalInfo').style.display = 'none';
@@ -27,24 +27,33 @@ class NavbarUserHome extends Component {
             document.getElementById('addAdmin').style.display = 'none';
             document.getElementById('adminConfig').style.display = 'none';
 
-            document.getElementById('logOut').style.display = 'none';       
-        
+            document.getElementById('logOut').style.display = 'none';
+
         } else {
-            if (sessionStorage.getItem('userTypeID') === "1" 
-            || sessionStorage.getItem('userTypeID') === "2"){
-                
+            if (sessionStorage.getItem('userTypeID') === "1"
+                || sessionStorage.getItem('userTypeID') === "2") {
+
                 document.getElementById('rutine').style.display = 'block';
                 document.getElementById('medicalInfo').style.display = 'block';
                 document.getElementById('physicalInfo').style.display = 'block';
                 document.getElementById('userProfile').style.display = 'block';
-    
+
                 document.getElementById('homeAdmin').style.display = 'none';
                 document.getElementById('addAdmin').style.display = 'none';
                 document.getElementById('adminConfig').style.display = 'none';
 
-            } else if (sessionStorage.getItem('userTypeID') === "3" 
-            || sessionStorage.getItem('userTypeID') === "4") {
-                
+            } else if (sessionStorage.getItem('userTypeID') === "3") {
+
+                document.getElementById('rutine').style.display = 'none';
+                document.getElementById('medicalInfo').style.display = 'none';
+                document.getElementById('physicalInfo').style.display = 'none';
+                document.getElementById('userProfile').style.display = 'none';
+
+                document.getElementById('homeAdmin').style.display = 'block';
+                document.getElementById('addAdmin').style.display = 'none';
+                document.getElementById('adminConfig').style.display = 'block';
+
+            } else if (sessionStorage.getItem('userTypeID') === "4") {
                 document.getElementById('rutine').style.display = 'none';
                 document.getElementById('medicalInfo').style.display = 'none';
                 document.getElementById('physicalInfo').style.display = 'none';
@@ -53,24 +62,26 @@ class NavbarUserHome extends Component {
                 document.getElementById('homeAdmin').style.display = 'block';
                 document.getElementById('addAdmin').style.display = 'block';
                 document.getElementById('adminConfig').style.display = 'block';
+
             } else if (sessionStorage.getItem('userTypeID') === "5") {
                 document.getElementById('rutine').style.display = 'none';
-            document.getElementById('medicalInfo').style.display = 'none';
-            document.getElementById('physicalInfo').style.display = 'none';
-            document.getElementById('userProfile').style.display = 'none';
-            document.getElementById('homeAdmin').style.display = 'none';
-            document.getElementById('addAdmin').style.display = 'none';
-            document.getElementById('adminConfig').style.display = 'none';
+                document.getElementById('medicalInfo').style.display = 'none';
+                document.getElementById('physicalInfo').style.display = 'none';
+                document.getElementById('userProfile').style.display = 'none';
+                document.getElementById('homeAdmin').style.display = 'none';
+                document.getElementById('addAdmin').style.display = 'none';
+                document.getElementById('adminConfig').style.display = 'none';
             }
-            document.getElementById('logOut').style.display = 'block';  
-        }        
+            document.getElementById('logOut').style.display = 'block';
+        }
     }
 
 
     logOut() {
+        sessionStorage.clear();
         this.props.history.push(`/`);
         window.location.reload();
-        sessionStorage.clear();
+
     }
 
     userHome() {
@@ -97,7 +108,7 @@ class NavbarUserHome extends Component {
         this.props.history.push(`/AddAdmin`);
     }
 
-    adminConfig(){
+    adminConfig() {
         this.props.history.push(`/ConfigurationAdmin`);
     }
 
@@ -110,30 +121,30 @@ class NavbarUserHome extends Component {
                 <div className="collapse navbar-collapse flex-grow-0" id="navbarSupportedContent">
                     <ul className="navbar-nav text-center">
 
-                        <li id ="rutine" className="nav-item">
-                            <button className="btn buttonNavbar"  onClick={this.userHome}>Rutina</button>
+                        <li id="rutine" className="nav-item">
+                            <button className="btn buttonNavbar" onClick={this.userHome}>Rutina</button>
                         </li>
-                        <li id ="medicalInfo" className="nav-item">
+                        <li id="medicalInfo" className="nav-item">
                             <button className="btn buttonNavbar" onClick={this.medicalUserInfo}>Consulta médica</button>
                         </li>
-                        <li id ="physicalInfo" className="nav-item">
+                        <li id="physicalInfo" className="nav-item">
                             <button className="btn buttonNavbar" onClick={this.physicalUserInfo}>Composición corporal</button>
                         </li>
-                        <li id ="userProfile" className="nav-item">
+                        <li id="userProfile" className="nav-item">
                             <button className="btn buttonNavbar" onClick={this.userConfiguration}>Perfil</button>
                         </li>
 
-                        <li id= "homeAdmin" className="nav-item">
+                        <li id="homeAdmin" className="nav-item">
                             <button className="btn buttonNavbar" onClick={this.homeAdmin}>Inicio</button>
                         </li>
-                        <li id= "addAdmin" className="nav-item">
+                        <li id="addAdmin" className="nav-item">
                             <button className="btn buttonNavbar" onClick={this.addAdmin}>Agregar administrador</button>
                         </li>
-                        <li id= "adminConfig" className="nav-item">
+                        <li id="adminConfig" className="nav-item">
                             <button className="btn buttonNavbar" onClick={this.adminConfig} >Perfil</button>
                         </li>
 
-                        <li id ="logOut" className="nav-item">
+                        <li id="logOut" className="nav-item">
                             <button className="btn buttonNavbar" onClick={this.logOut}>Salir</button>
                         </li>
                     </ul>
