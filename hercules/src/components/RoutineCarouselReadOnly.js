@@ -45,13 +45,18 @@ class RoutineCarouselReadOnly extends Component {
             exercise: [{}],
             typeID: 1,
             id:sessionStorage.getItem("routineID"),
-            lastTypeID: ""
+            lastTypeID: "",
+            days: 0,
+            day : 1
         };
 
         this.exerciseTypeSelect = this.exerciseTypeSelect.bind(this);
         this.rigthArrow = this.rigthArrow.bind(this);
         this.getExerciseData = this.getExerciseData.bind(this);
         this.leftArrow = this.leftArrow.bind(this);
+        this.addDayButton = this.addDayButton.bind(this);
+        this.changeRoutineDay = this.changeRoutineDay.bind(this);
+        this.changeButtonsColors = this.changeButtonsColors.bind(this);
     }
 
     /**
@@ -69,7 +74,19 @@ class RoutineCarouselReadOnly extends Component {
             this.setState({ lastTypeID: response.data[0] });
         })
 
+        axios.get(`http://localhost:9000/RoutineRoute/getNumberOfDays`,{
+            params: {
+                routineID: this.state.id,
+            }
+        }).then(response => {
+            var day = response.data[0];
+            this.state.days = day[0].days;
+            this.setState({days: day[0].days});
+            this.addDayButton();
+        });
+        
         this.getExerciseData();
+      
     }
 
     /**
@@ -86,6 +103,7 @@ class RoutineCarouselReadOnly extends Component {
 
         }
         this.getExerciseData();
+
     }
 
     /**
@@ -101,6 +119,29 @@ class RoutineCarouselReadOnly extends Component {
             this.setState({ typeID: value });
         }
         this.getExerciseData();
+    }
+
+    /**
+     * Method that add day buttons
+     */
+    addDayButton() {
+        for(var i = 1; i <= this.state.days; i++){
+          var div = document.getElementById("btn");
+           var btn = document.createElement("button");
+           var value = i;
+            btn.value = value;
+            btn.textContent =value;
+            btn.id= value;
+            btn.onclick = this.changeRoutineDay;
+            btn.className = "buttonDaysSizeUser mr-1 mb-1";
+            if(i == 1){
+            btn.style.backgroundColor = "#ffffff";
+            btn.style.border = "2px solid #41ade7";
+            btn.style.color = "#0c0c0c";
+            }
+            div.appendChild(btn);
+            
+        }
     }
 
     
@@ -121,12 +162,44 @@ class RoutineCarouselReadOnly extends Component {
         axios.get(`http://localhost:9000/RoutineRoute/getExercise`, {
             params: {
                 routineID: this.state.id,
-                id: this.state.typeID
+                id: this.state.typeID,
+                routineDay: this.state.day
             }
         }).then(response => {
             this.state.exercise = response.data[0];
             this.setState({ exercise: response.data[0] });
         });
+    }
+
+    /**
+     * Method that changes the state of day for the selected 
+     * @param {object} event 
+     */
+    changeRoutineDay(event) {
+        if (this.state.day != event.target.value){
+            this.setState({
+                day: event.target.value
+            })
+            event.target.style.backgroundColor = "#ffffff";
+            event.target.style.border = "2px solid #41ade7";
+            event.target.style.color = "#0c0c0c";
+            this.changeButtonsColors(event.target.value);
+            this.getExerciseData();
+        }
+        event.preventDefault();
+    }
+
+    /**
+     * Method that changes the color of the day buttons
+     * @param {integer} day 
+     */
+    changeButtonsColors(day){
+        for(var i = 1; i <= this.state.days; i++ ){
+            if(i != day){
+                document.getElementById(i).style.backgroundColor = "#41ade7";
+                document.getElementById(i).style.color = "#ffffff";
+            }
+           }
     }
 
 
@@ -158,10 +231,18 @@ class RoutineCarouselReadOnly extends Component {
             )
         })
         return (
+            <div className="container">
+                <div className="row mt-4" >
+                    <div className="col-12" id="btn" >
+                    
+                    </div>
+                </div>
+        
+
             <div className="container card">
                 <div className="row mt-4">
-                <div className="col-12">
-                    <div className="row">
+                    <div className="col-12">
+                        <div className="row">
                        
                             <div className="col-3" align="center">
                                 <img src={leftArrowImage} className="arrows pointer" onClick={this.leftArrow} responsive />
@@ -199,6 +280,7 @@ class RoutineCarouselReadOnly extends Component {
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
         )
     }
