@@ -57,7 +57,7 @@ class TableMedicalInfo extends Component {
      * Method that performs the search of al the registers of medical information
      */
     componentDidMount() {
-        sessionStorage.removeItem('dateLastRegistry');
+        sessionStorage.removeItem('dateLastMedicRegistry');
         var value = '';
         if(sessionStorage.getItem('userTypeID') == 1 || sessionStorage.getItem('userTypeID') == 2){
             
@@ -103,7 +103,7 @@ class TableMedicalInfo extends Component {
 
         const indexPersonalHist = this.state.medicalInfo.map((medicalInfo, i) => {
             if (i === 0 && sessionStorage.getItem('userTypeID') == 3) {
-                sessionStorage.setItem('dateLastRegistry', medicalInfo.date);
+                sessionStorage.setItem('dateLastMedicRegistry', medicalInfo.date);
                 return (
                     <tr className="pointer" onClick={this.rowEvent} key={i}>
                         <td className="diplayNone">{medicalInfo.medicalInfoID}</td>

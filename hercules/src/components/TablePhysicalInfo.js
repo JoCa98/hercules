@@ -16,7 +16,7 @@ class TablePhysicalInfo extends Component {
     }
 
     componentDidMount() {
-        sessionStorage.removeItem('dateLastRegistry');
+        sessionStorage.removeItem('dateLastPhysicalRegistry');
         var value = "";
         if (sessionStorage.getItem('userTypeID') == 1 || sessionStorage.getItem('userTypeID') == 2) {
 
@@ -59,7 +59,7 @@ class TablePhysicalInfo extends Component {
     render() {
         const physicalInfoListVisual = this.state.physicalInfo.map((physicalInfo, i) => {
             if (i == 0 && sessionStorage.getItem('userTypeID') == 4) {
-                sessionStorage.setItem('dateLastRegistry', physicalInfo.regDate);
+                sessionStorage.setItem('dateLastPhysicalRegistry', physicalInfo.regDate);
                 return (
                     <tr className="pointer" onClick={this.rowEvent} key={i}>
                         <td>{physicalInfo.regDate}</td>

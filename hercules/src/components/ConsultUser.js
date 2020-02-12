@@ -42,10 +42,9 @@ class ConsultUser extends Component {
     }
 
     componentDidMount() {
-        
+
         this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
         window.scrollTo(0, 0);
-
         this.getUserBasicInfo();
 
 
@@ -251,7 +250,7 @@ class ConsultUser extends Component {
                                     <button className="circularButton w-100" id="Routine" name="Routine" onClick={this.redirectRoutines}>Rutina</button>
                                     <br></br>
                                     <br></br>
-                                    <button className="circularButton w-100" id="ChangeUserStatus" onClick={this.changeUserStatus}>Desactivar</button>
+                                    <button className="circularButton w-100" id="ChangeUserStatus" name="ChangeUserStatus" onClick={this.changeUserStatus}>Desactivar</button>
 
                                 </div>
                             </div>
