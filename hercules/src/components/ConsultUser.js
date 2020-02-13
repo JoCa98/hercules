@@ -42,16 +42,17 @@ class ConsultUser extends Component {
     }
 
     componentDidMount() {
-        this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
-        window.scrollTo(0, 0);
+        if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
+            window.scrollTo(0, 0);
+
+            this.getUserBasicInfo();
 
 
-        this.getUserBasicInfo();
-
-
-        if (sessionStorage.getItem('userTypeID') != 4) {
-            this.hideAdminBtns();
+            if (sessionStorage.getItem('userTypeID') != 4) {
+                this.hideAdminBtns();
+            }
         }
+
     }
 
     /**
@@ -151,6 +152,7 @@ class ConsultUser extends Component {
     * Method that redirect to the previous page
     */
     backButton() {
+        sessionStorage.removeItem("userPartyID");
         this.props.history.push(`/HomeAdmin`);
     }
 

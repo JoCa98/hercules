@@ -95,34 +95,35 @@ class PermissionManager extends Component {
             }
 
             //Página de home admin
-        }   else if (this.homeAdmin(pageName) && !(sessionStorage.getItem('userTypeID') === '3'
+        } else if (this.homeAdmin(pageName) && !(sessionStorage.getItem('userTypeID') === '3'
             | sessionStorage.getItem('userTypeID') === '4'
             | sessionStorage.getItem('userTypeID') === '5')) {
 
             this.redirectUser(page);
             return false;
 
-            //Páginas de acceso general para admin, asistente y medicos
-        } /**else if (this.generalPages(pageName) && !(sessionStorage.getItem('userTypeID') === '3'
-            | sessionStorage.getItem('userTypeID') === '4')) {
+            //Páginas de acceso general para admin y medicos
+        } else if (this.generalPages(pageName) && !(sessionStorage.getItem('userTypeID') === '3'
+            || sessionStorage.getItem('userTypeID') === '4')) {
 
-            console.log("Entró");
             this.redirectUser(page);
+            return false;
+
 
         } else if (this.generalPages(pageName) && (sessionStorage.getItem('userTypeID') === '3'
             | sessionStorage.getItem('userTypeID') === '4')) {
 
             if (this.generalPagesSpecialPermission(pageName) &&
                 (sessionStorage.getItem("userPartyID") === null
-                    | sessionStorage.getItem("userPartyID") === ""
-                    | sessionStorage.getItem("userPartyID") === 'undefined')) {
+                    || sessionStorage.getItem("userPartyID") === ""
+                    || sessionStorage.getItem("userPartyID") === 'undefined')) {
 
                 this.redirectUser(page);
-
+                return false;
             }
 
             //Páginas de administrador 
-        } else if (this.admin(pageName) && !(sessionStorage.getItem('userTypeID') === '4')) {
+        } /**else if (this.admin(pageName) && !(sessionStorage.getItem('userTypeID') === '4')) {
             this.redirectUser(page);
 
         } else if (this.admin(pageName) && sessionStorage.getItem('userTypeID') === '4') {
