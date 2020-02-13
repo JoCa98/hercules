@@ -105,7 +105,7 @@ class HomeAdmin extends Component {
                     this.setState({ userList });
                 });
         } catch (err) {
-            console.error(err);
+            console.error("Un error inesperado ha ocurrido");
         }
     }
 
@@ -121,7 +121,7 @@ class HomeAdmin extends Component {
                     this.setState({ userList });
                 });
         } catch (err) {
-            console.error(err);
+            console.error("Un error inesperado ha ocurrido");
         }
     }
 
@@ -137,7 +137,7 @@ class HomeAdmin extends Component {
                     this.setState({ userList });
                 });
         } catch (err) {
-            console.error(err);
+            console.error("Un error inesperado ha ocurrido");
         }
     }
 
@@ -169,7 +169,7 @@ class HomeAdmin extends Component {
             sessionStorage.removeItem('dateLastPhysicalRegistry');
             this.props.history.push("/ConsultUser");
         } catch (err) {
-            console.error(err);
+            console.error("Un error inesperado ha ocurrido");
         }
     }
 

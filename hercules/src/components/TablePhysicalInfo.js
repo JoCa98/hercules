@@ -47,7 +47,7 @@ class TablePhysicalInfo extends Component {
                     this.setState({ physicalInfo });
                 });
         } catch (err) {
-            console.error(err);
+            console.error("Un error inesperado ha ocurrido");
         }
     }
 

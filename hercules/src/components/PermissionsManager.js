@@ -26,6 +26,9 @@ class PermissionManager extends Component {
     }
 
     validatePermission(pageName, page) {
+        console.log(pageName);
+        console.log(sessionStorage.getItem('update'));
+
         //Permisos de páginas sin login y permisos especiales para singUp y actCodeForm
         if (this.withoutLogin(pageName) &&
             (sessionStorage.getItem('partyID') === ''
@@ -74,9 +77,6 @@ class PermissionManager extends Component {
 
         } else if (this.userHome(pageName)
             && (sessionStorage.getItem("userTypeID") === '1' || sessionStorage.getItem("userTypeID") === '2')) {
-
-            console.log(sessionStorage.getItem("routineID"));
-            console.log(sessionStorage.getItem("userTypeID"));
 
             if ((sessionStorage.getItem("routineID") !== null
                 && sessionStorage.getItem("routineID") !== 'undefined')) {
@@ -157,36 +157,52 @@ class PermissionManager extends Component {
                 this.redirectUser(page);
                 return false;
 
-            } else if (this.editPhysicalInfo(pageName) && 
-            (sessionStorage.getItem('dateLastPhysicalRegistry') === null
-            || sessionStorage.getItem('dateLastPhysicalRegistry') === 'undefined')) {
+            } else if (this.editPhysicalInfo(pageName) &&
+                (sessionStorage.getItem('dateLastPhysicalRegistry') === null
+                    || sessionStorage.getItem('dateLastPhysicalRegistry') === 'undefined'
+                    || sessionStorage.getItem('dateLastPhysicalRegistry') === "")) {
                 this.redirectUser(page);
                 return false;
             }
 
             //Páginas de médico    
-        } /**else if (this.medic(pageName) && !(sessionStorage.getItem('userTypeID') === '3')) {
+        } else if (this.medic(pageName) && !(sessionStorage.getItem('userTypeID') === '3')) {
+
             this.redirectUser(page);
+            return false;
 
         } else if (this.medic(pageName) && sessionStorage.getItem('userTypeID') === '3') {
             //Quiera ingresar a addMedicalForm
             if (this.addMedicalForm(pageName) &&
                 (sessionStorage.getItem('update') === ""
-                    | sessionStorage.getItem('update') === null)) {
-
+                    || sessionStorage.getItem('update') === 'null'
+                    || sessionStorage.getItem('update') === null)) {
                 this.redirectUser(page);
+                return false;
 
                 //Quiera agregar pero no deba
             } else if (this.addMedicalForm(pageName) &&
                 sessionStorage.getItem('update') === "false" &&
-                (sessionStorage.setItem('dateLastMedicRegistry') !== null
-                    | sessionStorage.setItem('dateLastMedicRegistry') !== ""
-                    | sessionStorage.setItem('dateLastMedicRegistry') !== 'undefined') &&
+                (sessionStorage.getItem('dateLastMedicRegistry') !== null
+                || sessionStorage.getItem('dateLastMedicRegistry') !== 'null'
+                    || sessionStorage.getItem('dateLastMedicRegistry') !== ""
+                    || sessionStorage.getItem('dateLastMedicRegistry') !== 'undefined') &&
                 new Date(sessionStorage.getItem('dateLastMedicRegistry')) === Date(new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate())) {
 
+                console.log("Prueba exitosa");
                 this.redirectUser(page)
-            }
-        }*/
+                return false;
+
+                //Quiera editar pero no pueda 
+            } /**else if (this.addMedicalForm(pageName) &&
+                sessionStorage.getItem('update') === "true" &&
+                (sessionStorage.getItem('dateLastMedicRegistry') !== null
+                    || sessionStorage.getItem('dateLastMedicRegistry') !== ""
+                    || sessionStorage.getItem('dateLastMedicRegistry') !== 'undefined')) {
+                
+
+            }*/
+        }
         return true;
     }
 
@@ -227,7 +243,7 @@ class PermissionManager extends Component {
     }
 
     medic(pageName) {
-        return new RegExp("^((\/ChangeTempPassword)|(\/AddMedicalForm))$").test(pageName);
+        return new RegExp("^(\/AddMedicalForm)$").test(pageName);
     }
 
     signUp(pageName) {

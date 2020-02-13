@@ -8,35 +8,35 @@ Button{
 p{
   color:#666666;
   font:Arial;
-  font-size: 18px;
+  fontSize: 18px;
   font-family: sans-serif
 }
 
 h1{
   color:#41ade7;
   font:Arial;
-  font-size: 50px;
+  fontSize: 50px;
   font-family: sans-serif
 }
 
 h2{
   color:#666666;
   font:Arial;
-  font-size: 24px;
+  fontSize: 24px;
   font-family: sans-serif
 }
 
 h3{
   color:#666666;
   font:Arial;
-  font-size: 18px;
+  fontSize: 18px;
   font-family: sans-serif
 }
 
 h4{
   color:#999999;
   font:Arial;
-  font-size: 18px;
+  fontSize: 18px;
   font-family: sans-serif
 }
 
@@ -70,7 +70,7 @@ h4{
   -webkit-border-radius: 50px;
   -moz-border-radius: 50px;
   border-radius: 50px;
-  font-size:11px;
+  fontSize:11px;
   line-height:32px;
   text-transform: uppercase;
   float:right;
@@ -82,11 +82,11 @@ h4{
 
 .inputText {
   height: 40px;
-  font-size: 18px;
+  fontSize: 18px;
 }
 
 .bigInputText {
-  font-size: 18px;
+  fontSize: 18px;
   resize:none;
 }
 
@@ -170,7 +170,7 @@ footer{
 a{
   color:#41ADE7;
   font:Arial;
-  font-size: 18px;
+  fontSize: 18px;
   font-family: sans-serif
   
 }
@@ -186,7 +186,7 @@ a{
 }
 
 .aNavbar{
-  font-size: 13px;
+  fontSize: 13px;
 }
 
 .navbarColor{

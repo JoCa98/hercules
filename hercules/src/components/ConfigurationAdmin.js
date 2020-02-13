@@ -131,11 +131,11 @@ class ConfigurationAdmin extends Component {
 
                                             <div className="form-group" align="left" >
                                                 <p align="justify">Contraseña<font color="red">*</font></p>
-                                                <input type="password" font-size="18px" id="password" placeholder="Contraseña" name="password" className="form-control" onChange={this.handleInputChange} required></input>
+                                                <input type="password" fontSize="18px" id="password" placeholder="Contraseña" name="password" className="form-control" onChange={this.handleInputChange} required></input>
                                                 <br></br>
                                                 <p align="justify">Confirmar contraseña<font color="red">*</font></p>
-                                                <input type="password" font-size="18px" id="confirmPassword" placeholder="Confirmar contraseña" name="confirmPassword" className="form-control" onChange={this.handleInputChange} required></input>
-                                                <input type="checkbox" font-size="18px" id="showPasswordFields" placeholder="Contraseña" name="showPasswordFields" onChange={this.showPasswordFields} ></input>Mostrar campos
+                                                <input type="password" fontSize="18px" id="confirmPassword" placeholder="Confirmar contraseña" name="confirmPassword" className="form-control" onChange={this.handleInputChange} required></input>
+                                                <input type="checkbox" fontSize="18px" id="showPasswordFields" placeholder="Contraseña" name="showPasswordFields" onChange={this.showPasswordFields} ></input>Mostrar campos
                                                 <br />
                                                 <br />
                                                 <button align="right" className="buttonSizeGeneral offset-9">Guardar</button>

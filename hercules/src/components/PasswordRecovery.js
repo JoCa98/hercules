@@ -87,7 +87,7 @@ class PasswordRecovery extends Component {
                             <div class="form-group">
                                 <p align="justify">Ingrese el correo del usuario para recibir
                                  una contraseña<br /> nueva temporal</p>
-                                <input type="text" font-size="18px" name="email" className="form-control" onChange={this.handleInputChange}></input>
+                                <input type="text" fontSize="18px" name="email" className="form-control" onChange={this.handleInputChange}></input>
                             </div>
                             <div className="row mt-4">
                                 <div className="col-6 text-left">

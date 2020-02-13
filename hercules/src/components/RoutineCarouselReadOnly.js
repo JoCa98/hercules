@@ -248,7 +248,7 @@ class RoutineCarouselReadOnly extends Component {
                                 <img src={leftArrowImage} className="arrows pointer" onClick={this.leftArrow} responsive />
                             </div>
                             <div className="col-6 " align="center">
-                                <select font-size="18px" name="exerciseTypeDropDown" className="form-control" float="center" onChange={this.exerciseTypeSelect} value={this.state.typeID}>
+                                <select fontSize="18px" name="exerciseTypeDropDown" className="form-control" float="center" onChange={this.exerciseTypeSelect} value={this.state.typeID}>
                                     {exerciseList}
                                 </select>
                             </div>

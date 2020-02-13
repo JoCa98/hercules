@@ -102,13 +102,13 @@ class ChangeTempPassword extends Component {
                         <div className="row mt-4 " ></div>
                         <div className="form-group" align="left">
                             <p>Contraseña temporal</p>
-                            <input type="password" font-size="18px" name="tempPassword" id="tempPassword" value={this.state.tempPassword} className="form-control inputText w-100" onChange={this.handleInputChange}></input>
+                            <input type="password" fontSize="18px" name="tempPassword" id="tempPassword" value={this.state.tempPassword} className="form-control inputText w-100" onChange={this.handleInputChange}></input>
                             <br></br>
                             <p>Contraseña nueva</p>
-                            <input type="password" font-size="18px" name="newPassword" id="newPassword" value={this.state.newPassword} className="form-control inputText w-100" onChange={this.handleInputChange}></input>
+                            <input type="password" fontSize="18px" name="newPassword" id="newPassword" value={this.state.newPassword} className="form-control inputText w-100" onChange={this.handleInputChange}></input>
                             <br></br>
                             <p>Confirma contraseña nueva</p>
-                            <input type="password" font-size="18px" name="confirmPassword" id="confirmPassword" value={this.state.confirmPassword} className="form-control inputText w-100" onChange={this.handleInputChange}></input>
+                            <input type="password" fontSize="18px" name="confirmPassword" id="confirmPassword" value={this.state.confirmPassword} className="form-control inputText w-100" onChange={this.handleInputChange}></input>
                             <input type="checkbox" id="showPasswordFields" required name="showPasswordFields" onChange={this.showPasswordFields} ></input>Mostrar contraseña
                             <br></br>
                             <br></br>
