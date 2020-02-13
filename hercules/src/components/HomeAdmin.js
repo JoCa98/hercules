@@ -165,6 +165,8 @@ class HomeAdmin extends Component {
     rowEvent(event) {
         try {
             sessionStorage.setItem("userPartyID", this.state.userListID[event.target.parentNode.rowIndex - 1]);
+            sessionStorage.removeItem("routineID");
+            sessionStorage.removeItem('dateLastPhysicalRegistry');
             this.props.history.push("/ConsultUser");
         } catch (err) {
             console.error(err);

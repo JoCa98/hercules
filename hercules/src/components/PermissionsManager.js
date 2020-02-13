@@ -17,6 +17,7 @@ class PermissionManager extends Component {
         this.routineAdmin = this.routineAdmin.bind(this);
         this.addMedicalForm = this.addMedicalForm.bind(this);
         this.addPhysicalInfo = this.addPhysicalInfo.bind(this);
+        this.editPhysicalInfo = this.editPhysicalInfo.bind(this);
         this.changeTempPassword = this.changeTempPassword.bind(this);
         this.redirectUser = this.redirectUser.bind(this);
         this.generalPagesSpecialPermission = this.generalPagesSpecialPermission.bind(this);
@@ -123,34 +124,48 @@ class PermissionManager extends Component {
             }
 
             //Páginas de administrador 
-        } /**else if (this.admin(pageName) && !(sessionStorage.getItem('userTypeID') === '4')) {
+        } else if (this.admin(pageName) && !(sessionStorage.getItem('userTypeID') === '4')) {
+
             this.redirectUser(page);
+            return false;
 
         } else if (this.admin(pageName) && sessionStorage.getItem('userTypeID') === '4') {
 
             if (this.adminUserSpecialPermission(pageName) &&
                 (sessionStorage.getItem("userPartyID") === null
-                    | sessionStorage.getItem("userPartyID") === "")) {
+                    || sessionStorage.getItem("userPartyID") === "")) {
 
                 this.redirectUser(page);
+                return false;
+
 
             } else if (this.routineAdmin(pageName) &&
                 (sessionStorage.getItem("routineID") === null
-                    | sessionStorage.getItem("routineID") === "")) {
+                    || sessionStorage.getItem("routineID") === ""
+                    || sessionStorage.getItem("userPartyID") === null)) {
 
                 this.redirectUser(page);
+                return false;
+
 
             } else if (this.addPhysicalInfo(pageName) &&
-                (sessionStorage.setItem('dateLastPhysicalRegistry') !== null
-                    | sessionStorage.setItem('dateLastPhysicalRegistry') !== ""
-                    | sessionStorage.setItem('dateLastPhysicalRegistry') !== 'undefined') &&
+                (sessionStorage.getItem('dateLastPhysicalRegistry') !== null
+                    || sessionStorage.getItem('dateLastPhysicalRegistry') !== ""
+                    || sessionStorage.getItem('dateLastPhysicalRegistry') !== 'undefined') &&
                 new Date(sessionStorage.getItem('dateLastPhysicalRegistry')) === Date(new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate())) {
 
                 this.redirectUser(page);
+                return false;
+
+            } else if (this.editPhysicalInfo(pageName) && 
+            (sessionStorage.getItem('dateLastPhysicalRegistry') === null
+            || sessionStorage.getItem('dateLastPhysicalRegistry') === 'undefined')) {
+                this.redirectUser(page);
+                return false;
             }
 
             //Páginas de médico    
-        } else if (this.medic(pageName) && !(sessionStorage.getItem('userTypeID') === '3')) {
+        } /**else if (this.medic(pageName) && !(sessionStorage.getItem('userTypeID') === '3')) {
             this.redirectUser(page);
 
         } else if (this.medic(pageName) && sessionStorage.getItem('userTypeID') === '3') {
@@ -237,6 +252,10 @@ class PermissionManager extends Component {
 
     addPhysicalInfo(pageName) {
         return new RegExp("^(\/AddPhysicalInfo)$").test(pageName);
+    }
+
+    editPhysicalInfo(pageName) {
+        return new RegExp("^(\/EditPhysicalInfo)$").test(pageName);
     }
 
     generalPagesSpecialPermission(pageName) {

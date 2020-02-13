@@ -7,8 +7,10 @@ class Header extends Component {
 
 
   render() {
-    var navbar;    
-        navbar = <NavbarUserHome />      
+    var navbar;
+    if (sessionStorage.getItem('userTypeID') !== null) {
+      navbar = <NavbarUserHome />   
+    }        
     return (
       <div>
         <div className="container-fluid backgroundBlue">
