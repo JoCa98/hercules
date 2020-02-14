@@ -322,7 +322,7 @@ class AddAdmin extends Component {
                                     <button align="left" className="buttonSizeGeneral" onClick={this.backButton}>Volver</button>
                                 </div>
                                 <div className=" mt-3 col-md-3 offset-6">
-                                    <button align="rigth" className="buttonSizeGeneral" onClick={this.modalTrigger}>Guardar</button>
+                                    <button align="rigth" className="buttonSizeGeneral" onClick={this.handleSubmit}>Guardar</button>
                                 </div>
                             </div>
                             <div className="row">
