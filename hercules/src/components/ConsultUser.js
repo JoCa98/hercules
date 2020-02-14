@@ -120,7 +120,7 @@ class ConsultUser extends Component {
                 });
 
         } catch (err) {
-            console.error(err);
+            console.error("Un error inesperado ha ocurrido");
         }
     }
 

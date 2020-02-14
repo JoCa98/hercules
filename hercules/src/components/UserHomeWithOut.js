@@ -32,9 +32,9 @@ class UserHomeWithOut extends Component {
                             <div className="col-12 ">
                                 <div className="row">
                                     <div className="col-12">
-                                        <label font-size="18px">Aún no cuenta con una rutina.</label>
+                                        <label fontSize="18px">Aún no cuenta con una rutina.</label>
                                         <br />
-                                        <label font-size="18px">Diríjase a la oficina de deporte y recreación para que le asignen una.</label>
+                                        <label fontSize="18px">Diríjase a la oficina de deporte y recreación para que le asignen una.</label>
                                     </div>
                                 </div>
                             </div>

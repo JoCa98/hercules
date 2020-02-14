@@ -47,7 +47,7 @@ class HistoricPhysicalInfoAdmin extends Component {
                     this.setState({ userName });
                 });
         } catch (err) {
-            console.error(err);
+            console.error("Un error inesperado ha ocurrido");
         }
     }
 
@@ -84,7 +84,7 @@ class HistoricPhysicalInfoAdmin extends Component {
                     fileDownload(csv, this.state.userName[0].fullName + ' - Composición física.csv');
                 });
         } catch (err) {
-            console.error(err);
+            console.error("Un error inesperado ha ocurrido");
         }
     }
 

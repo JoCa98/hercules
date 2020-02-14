@@ -49,7 +49,7 @@ class TableMedicalInfo extends Component {
                     this.setState({ medicalInfo });
                 });
         } catch (err) {
-            console.error(err);
+            console.error("Un error inesperado ha ocurrido");
         }
     }
 
@@ -89,7 +89,7 @@ class TableMedicalInfo extends Component {
             this.props.history.push(`/AddMedicalForm`);
 
         } catch (err) {
-            console.error(err);
+            console.error("Un error inesperado ha ocurrido");
         }
     }
 

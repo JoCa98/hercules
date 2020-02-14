@@ -140,10 +140,10 @@ class LogIn extends Component {
                         <div className="row mt-4 " ></div>
                         <div className="form-group" align="left">
                             <p>Correo institucional</p>
-                            <input font-size="18px" type="email" name="email" onKeyPress={this.onKeyEvent} value={this.state.email} className="form-control inputText w-100" onChange={this.handleInputChange}></input>
+                            <input fontSize="18px" type="email" name="email" onKeyPress={this.onKeyEvent} value={this.state.email} className="form-control inputText w-100" onChange={this.handleInputChange}></input>
                             <br></br>
                             <p>Contraseña</p>
-                            <input font-size="18px" type="password" name="password" id="password" onKeyPress={this.onKeyEvent} value={this.state.password} className="form-control inputText w-100" onChange={this.handleInputChange}></input>
+                            <input fontSize="18px" type="password" name="password" id="password" onKeyPress={this.onKeyEvent} value={this.state.password} className="form-control inputText w-100" onChange={this.handleInputChange}></input>
                             <input type="checkbox" id="showPasswordFields" required name="showPasswordFields" onChange={this.showPasswordFields} ></input>Mostrar contraseña
                             <br></br>
                             <br></br>

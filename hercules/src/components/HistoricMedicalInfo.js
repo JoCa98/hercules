@@ -84,7 +84,7 @@ class HistoricMedicalInfo extends Component {
                     fileDownload(csv, this.state.userName[0].fullName + ' - Composición médica.csv');
                 });
         } catch (err) {
-            console.error(err);
+            console.error("Un error inesperado ha ocurrido");
         }
     }
 
@@ -115,7 +115,7 @@ class HistoricMedicalInfo extends Component {
 
             }
         } catch (err) {
-            console.error(err);
+            console.error("Un error inesperado ha ocurrido");
         }
     }
 

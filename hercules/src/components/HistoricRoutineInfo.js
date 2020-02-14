@@ -72,7 +72,7 @@ class HistoricRoutineInfo extends Component {
                     this.setState({ routineHist });
                 });
         } catch (err) {
-            console.error(err);
+            console.error("Un error inesperado ha ocurrido");
         }
     }
 
@@ -82,7 +82,7 @@ class HistoricRoutineInfo extends Component {
             sessionStorage.setItem("routineID", id);
             this.props.history.push(`/RoutineAdmin`);
         } catch (err) {
-            console.error(err);
+            console.error("Un error inesperado ha ocurrido");
         }
 
     }
@@ -98,7 +98,7 @@ class HistoricRoutineInfo extends Component {
 
         const name = this.state.userName.map((userName, i) => {
             return (
-                <label font-size="18px" className="form-label">Usuario: {userName.fullName}</label>
+                <label fontSize="18px" className="form-label">Usuario: {userName.fullName}</label>
             )
         })
 
