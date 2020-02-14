@@ -36,7 +36,10 @@ class AddAdmin extends Component {
             confirmPassword: null,
             medicalCod: null,
             userTypeList: [],
-            show: false
+            show: false,
+            modalTittle: "",
+            modalChildren: "",
+            isExit: false
         };
 
         this.showMedicalCod = this.showMedicalCod.bind(this);
@@ -49,8 +52,8 @@ class AddAdmin extends Component {
         this.backButton = this.backButton.bind(this);
         this.getAdminUserType = this.getAdminUserType.bind(this);
         this.modalTrigger = this.modalTrigger.bind(this);
-
-    }
+        this.closeModal = this.closeModal.bind(this);
+        }
 
     componentDidMount() {
         this.getAdminUserType();
@@ -96,20 +99,36 @@ class AddAdmin extends Component {
                 })
                     .then(res => res.json())
                     .then(data => {
-                        alert("El nuevo administrador ha sido agregado");
-                        this.props.history.push(`/HomeAdmin`);
+                        this.setState({ 
+                           isExit: true
+                        }); 
+                        this.modalTrigger(event,'Administrador agregado',this.state.firstName +' '+this.state.firstLastName);                        
                     })
                     .catch(err => console.error(err));
             }
         });
 
         event.preventDefault();
-
+   
     }
 
-    modalTrigger(event) {
-        this.setState({ show: !this.state.show });
-        event.preventDefault();
+    modalTrigger(event,mdTittle,mdChildren) {
+        this.setState({ 
+            show: !this.state.show,
+            modalTittle: mdTittle,
+            modalChildren: mdChildren
+        });     
+        event.preventDefault();      
+    };
+
+    closeModal(event) {
+        this.setState({ 
+            show: !this.state.show
+        });  
+        if(this.state.isExit){
+            this.props.history.push(`/HomeAdmin`);
+        }    
+        event.preventDefault();      
     };
 
     /**
@@ -317,13 +336,13 @@ class AddAdmin extends Component {
                                     <button align="left" className="buttonSizeGeneral" onClick={this.backButton}>Volver</button>
                                 </div>
                                 <div className=" mt-3 col-md-3 offset-6">
-                                    <button align="rigth" className="buttonSizeGeneral" onClick={this.modalTrigger}>Guardar</button>
+                                    <button align="rigth" className="buttonSizeGeneral" onClick={this.handleSubmit}>Guardar</button>
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="col-md-1">
-                                    <ModalComponent tittle="Administrador agregado" show={this.state.show} onClose={this.modalTrigger} >
-                                        <br />{this.state.firstName} {this.state.firstLastName}
+                                    <ModalComponent tittle={this.state.modalTittle} show={this.state.show} onClose={this.closeModal} >
+                                        <br />{this.state.modalChildren}
                                     </ModalComponent>
                                 </div>
                             </div>
