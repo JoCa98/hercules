@@ -18,6 +18,8 @@ import downloadImage from '../appImage/downloadImage.png';
 import axios from 'axios';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import json2csv from 'json2csv';
+import PermissionsManager from "./PermissionsManager";
+
 
 class HistoricMedicalInfo extends Component {
     constructor() {
@@ -31,6 +33,7 @@ class HistoricMedicalInfo extends Component {
       * Property that contains the id of the user
       */
         this.state = {
+            permissionsManager: new PermissionsManager(),
             userName: [{}],
             partyID: sessionStorage.getItem("userPartyID")
         }
@@ -44,9 +47,9 @@ class HistoricMedicalInfo extends Component {
     * when the user click the addButton
     */
     redirect() {
-        if (sessionStorage.getItem('dateLastRegistry') !== 'undefined' &&
-            sessionStorage.getItem('dateLastRegistry') !== null &&
-            new Date(sessionStorage.getItem('dateLastRegistry')) === Date(new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate())) {
+        if (sessionStorage.getItem('dateLastMedicRegistry') !== 'undefined' &&
+            sessionStorage.getItem('dateLastMedicRegistry') !== null &&
+            new Date(sessionStorage.getItem('dateLastMedicRegistry')) === Date(new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate())) {
             alert("Solo se puede agregar un registro por día.");
 
         } else {
@@ -73,7 +76,7 @@ class HistoricMedicalInfo extends Component {
                         'Neurologico', 'Cardiopulmonar', 'UmbraAerobico',
                         'FrecuenciaCardiaca', 'Peso', 'Talla', 'IMC',
                         'Cintura', 'Cadera', 'Recomendaciones',
-                         'RiesgoCardiovascular', 'ValidoHasta'];
+                        'RiesgoCardiovascular', 'ValidoHasta'];
                     const opts = { fields };
 
                     const csv = parse(response.data[0], opts);
@@ -81,7 +84,7 @@ class HistoricMedicalInfo extends Component {
                     fileDownload(csv, this.state.userName[0].fullName + ' - Composición médica.csv');
                 });
         } catch (err) {
-            console.error(err);
+            console.error("Un error inesperado ha ocurrido");
         }
     }
 
@@ -90,6 +93,10 @@ class HistoricMedicalInfo extends Component {
     * when the page is load
     */
     componentDidMount() {
+
+        this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
+        window.scrollTo(0, 0);
+        
         try {
             axios.get(`http://localhost:9000/User/getUserName`,
                 {
@@ -108,7 +115,7 @@ class HistoricMedicalInfo extends Component {
 
             }
         } catch (err) {
-            console.error(err);
+            console.error("Un error inesperado ha ocurrido");
         }
     }
 

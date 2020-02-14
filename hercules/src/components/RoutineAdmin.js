@@ -14,6 +14,8 @@ import React, { Component } from 'react';
 import Carousel from './RoutineCarouselReadOnly';
 import axios from "axios";
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
+import PermissionsManager from "./PermissionsManager";
+
 
 class RoutineAdmin extends Component {
     constructor(props) {
@@ -28,6 +30,7 @@ class RoutineAdmin extends Component {
         * Property that stores the routine info that comes from de database
         */
         this.state = {
+            permissionsManager: new PermissionsManager(),
             routineID: sessionStorage.getItem("routineID"),
             routine: [{}],
             userName: [{}],
@@ -41,6 +44,9 @@ class RoutineAdmin extends Component {
    * when loading the page for the first time
    */
     componentDidMount() {
+        this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
+        window.scrollTo(0, 0);
+        
         axios.get("http://localhost:9000/RoutineRoute/getRoutineInfo", {
             params: {
                 routineID: this.state.routineID,
@@ -78,7 +84,7 @@ class RoutineAdmin extends Component {
         })
         return (
             <div className="container">
-                 <div className="row mt-4">
+                <div className="row mt-4">
                     <Breadcrumb>
                         <Breadcrumb.Item href="#/HomeAdmin">Inicio</Breadcrumb.Item>
                         <Breadcrumb.Item href="#/ConsultUser">Consulta de usuario</Breadcrumb.Item>
@@ -104,7 +110,7 @@ class RoutineAdmin extends Component {
                                                     <p className="cssPText">Tipo de rutina: </p>
                                                 </div>
                                                 <div className="col-6">
-                                                    <input type="text" font-size="18px" name="textRutineType" className="form-control" disabled="disabled" value={this.state.routine[0].rtDescription} />
+                                                    <input type="text" fontSize="18px" name="textRutineType" className="form-control" disabled="disabled" value={this.state.routine[0].rtDescription} />
                                                 </div>
                                             </div>
                                         </div>
@@ -114,7 +120,7 @@ class RoutineAdmin extends Component {
                                                     <p className="cssPText">Objetivo:</p>
                                                 </div>
                                                 <div className="col-6">
-                                                    <input type="text" font-size="18px" name="textObjective" className="form-control" disabled="disabled" value={this.state.routine[0].otDescription} />
+                                                    <input type="text" fontSize="18px" name="textObjective" className="form-control" disabled="disabled" value={this.state.routine[0].otDescription} />
                                                 </div>
                                             </div>
                                         </div>
@@ -124,7 +130,7 @@ class RoutineAdmin extends Component {
                                                     <p className="cssPText">Frecuencia Cardíaca:</p>
                                                 </div>
                                                 <div className="col-6">
-                                                    <input type="text" font-size="18px" name="textHeartRatePerMinute" className="form-control" disabled="disabled" value={this.state.routine[0].heartRatePerMinute} />
+                                                    <input type="text" fontSize="18px" name="textHeartRatePerMinute" className="form-control" disabled="disabled" value={this.state.routine[0].heartRatePerMinute} />
                                                 </div>
                                             </div>
                                         </div>
@@ -138,7 +144,7 @@ class RoutineAdmin extends Component {
                                                     <p className="cssPText">Frecuencia:</p>
                                                 </div>
                                                 <div className="col-6">
-                                                    <input type="text" font-size="18px" name="textFrecuency" className="form-control" disabled="disabled" value={this.state.routine[0].frecuency} />
+                                                    <input type="text" fontSize="18px" name="textFrecuency" className="form-control" disabled="disabled" value={this.state.routine[0].frecuency} />
                                                 </div>
                                             </div>
                                         </div>
@@ -148,7 +154,7 @@ class RoutineAdmin extends Component {
                                                     <p className="cssPText">Intensidad:</p>
                                                 </div>
                                                 <div className="col-6">
-                                                    <input type="text" font-size="18px" name="textIntensity" className="form-control" disabled="disabled" value={this.state.routine[0].intensity} />
+                                                    <input type="text" fontSize="18px" name="textIntensity" className="form-control" disabled="disabled" value={this.state.routine[0].intensity} />
                                                 </div>
                                             </div>
                                         </div>
@@ -162,7 +168,7 @@ class RoutineAdmin extends Component {
                                                     <p className="cssPText">Densidad:</p>
                                                 </div>
                                                 <div className="col-6">
-                                                    <input type="text" font-size="18px" name="textDensity" className="form-control" disabled="disabled" value={this.state.routine[0].density} />
+                                                    <input type="text" fontSize="18px" name="textDensity" className="form-control" disabled="disabled" value={this.state.routine[0].density} />
                                                 </div>
                                             </div>
                                         </div>
@@ -172,7 +178,7 @@ class RoutineAdmin extends Component {
                                                     <p className="cssPText">Tiempo de descanso:</p>
                                                 </div>
                                                 <div className="col-6">
-                                                    <input type="text" font-size="18px" name="textRestTime" className="form-control" disabled="disabled" value={this.state.routine[0].timeLapse} />
+                                                    <input type="text" fontSize="18px" name="textRestTime" className="form-control" disabled="disabled" value={this.state.routine[0].timeLapse} />
                                                 </div>
                                             </div>
                                         </div>

@@ -15,6 +15,9 @@ import React, { Component } from 'react';
 import plusImage from '../appImage/plusImage.svg';
 import axios from 'axios';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
+import PermissionsManager from "./PermissionsManager";
+
+
 
 class HistoricRoutineInfo extends Component {
     constructor() {
@@ -28,6 +31,7 @@ class HistoricRoutineInfo extends Component {
         * Property that contains the id of the user
         */
         this.state = {
+            permissionsManager: new PermissionsManager(),
             userName: [{}],
             partyID: sessionStorage.getItem("userPartyID"),
             routineHist: [{}]
@@ -47,6 +51,10 @@ class HistoricRoutineInfo extends Component {
     * when the page is load
     */
     componentDidMount() {
+
+        this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
+        window.scrollTo(0, 0);
+
         try {
             axios.get(`http://localhost:9000/User/getUserName`,
                 {
@@ -64,7 +72,7 @@ class HistoricRoutineInfo extends Component {
                     this.setState({ routineHist });
                 });
         } catch (err) {
-            console.error(err);
+            console.error("Un error inesperado ha ocurrido");
         }
     }
 
@@ -74,7 +82,7 @@ class HistoricRoutineInfo extends Component {
             sessionStorage.setItem("routineID", id);
             this.props.history.push(`/RoutineAdmin`);
         } catch (err) {
-            console.error(err);
+            console.error("Un error inesperado ha ocurrido");
         }
 
     }
@@ -90,25 +98,25 @@ class HistoricRoutineInfo extends Component {
 
         const name = this.state.userName.map((userName, i) => {
             return (
-                <label font-size="18px" className="form-label">Usuario: {userName.fullName}</label>
+                <label fontSize="18px" className="form-label">Usuario: {userName.fullName}</label>
             )
         })
-      
+
         const indexRoutineHist = this.state.routineHist.map((routineHist, i) => {
-                return (
-                    <tr className="pointer" onClick={this.rowEvent} key={i}>
-                        <td className="diplayNone" >{routineHist.routineID}</td>
-                        <td align="center">{routineHist.date}</td>
-                        <td align="center">{routineHist.frecuency}</td>
-                        <td align="center">{routineHist.intensity}</td>
-                        <td align="center">{routineHist.timeLapse}</td>
-                        <td>{routineHist.rtDescription}</td>
-                        <td>{routineHist.otDescription}</td>
-                        <td align="center">{routineHist.heartRatePerMinute}</td>
-                    </tr>
-                )
-                })
-    
+            return (
+                <tr className="pointer" onClick={this.rowEvent} key={i}>
+                    <td className="diplayNone" >{routineHist.routineID}</td>
+                    <td align="center">{routineHist.date}</td>
+                    <td align="center">{routineHist.frecuency}</td>
+                    <td align="center">{routineHist.intensity}</td>
+                    <td align="center">{routineHist.timeLapse}</td>
+                    <td>{routineHist.rtDescription}</td>
+                    <td>{routineHist.otDescription}</td>
+                    <td align="center">{routineHist.heartRatePerMinute}</td>
+                </tr>
+            )
+        })
+
         return (
             <div className="container">
                 <div className="row mt-4">

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PermissionsManager from "./PermissionsManager";
 import './ActCodeForm.css';
 
 import axios from "axios";
@@ -7,6 +8,7 @@ class ActCodeForm extends Component {
   constructor() {
     super();
     this.state = {
+      permissionsManager: new PermissionsManager(),
       identificationID: sessionStorage.getItem('identificationID'),
       firstName: sessionStorage.getItem('firstName'),
       secondName: sessionStorage.getItem('secondName'),
@@ -35,6 +37,11 @@ class ActCodeForm extends Component {
     this.completeSignUp = this.completeSignUp.bind(this);
     this.resendCode = this.resendCode.bind(this);
     this.sendNotificationEmail = this.sendNotificationEmail.bind(this);
+  }
+
+  componentDidMount() {
+    this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
+    window.scrollTo(0, 0);
   }
 
   handleInputChange(event) {
@@ -69,47 +76,47 @@ class ActCodeForm extends Component {
         .then(data => {
         })
         .catch(err => console.error(err));
-        this.sendNotificationEmail();
-        alert("El registro fue completado con éxito. Permanecerá inactivo y no podrá ingresar al sistema hasta que el encargado (a) del gimnasio lo active. Se le ha enviado un correo con más detalles. Ahora será redirigido a la pantalla de ingreso.")
-        sessionStorage.clear();
-        this.props.history.push(`/`);
+      this.sendNotificationEmail();
+      alert("El registro fue completado con éxito. Permanecerá inactivo y no podrá ingresar al sistema hasta que el encargado (a) del gimnasio lo active. Se le ha enviado un correo con más detalles. Ahora será redirigido a la pantalla de ingreso.")
+      sessionStorage.clear();
+      this.props.history.push(`/`);
     } else {
       alert("El código ingresado es incorrecto");
     }
   }
 
-  resendCode(){
-        fetch("http://localhost:9000/User/sendEmail", {
-            method: "post",
-            body: JSON.stringify({ email: this.state.email, activationCode: this.state.activationCode }),
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json"
-            }
-        })
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
-            })
-            .catch(err => console.error(err));
-            alert("Se reenvió el código de activación, por favor revise su correo institucional.");
+  resendCode() {
+    fetch("http://localhost:9000/User/sendEmail", {
+      method: "post",
+      body: JSON.stringify({ email: this.state.email, activationCode: this.state.activationCode }),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      }
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+      })
+      .catch(err => console.error(err));
+    alert("Se reenvió el código de activación, por favor revise su correo institucional.");
   }
 
-  sendNotificationEmail(){
+  sendNotificationEmail() {
     fetch("http://localhost:9000/User/sendNotificationEmail", {
-        method: "post",
-        body: JSON.stringify({ email: this.state.email}),
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json"
-        }
+      method: "post",
+      body: JSON.stringify({ email: this.state.email }),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      }
     })
-        .then(res => res.json())
-        .then(data => {
-            console.log(data);
-        })
-        .catch(err => console.error(err));        
-}
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+      })
+      .catch(err => console.error(err));
+  }
 
   render() {
     return (
@@ -120,11 +127,11 @@ class ActCodeForm extends Component {
               <h1 className="text-left colorBlue">Activación de cuenta</h1>
               <div className="form-group">
                 <p align="left">Ingrese el código de activación enviado a su correo</p>
-                <input type="text" name="actCode" className="form-control" font-size="18px" onChange={this.handleInputChange} />
+                <input type="text" name="actCode" className="form-control" fontSize="18px" onChange={this.handleInputChange} />
               </div>
               <div className="row mt-4">
                 <div className="col-4">
-                  <button type="button" align="left" name="resendButton" className="cssCodeButtonResend"onClick={this.resendCode}> Reenviar código </button>
+                  <button type="button" align="left" name="resendButton" className="cssCodeButtonResend" onClick={this.resendCode}> Reenviar código </button>
                 </div>
                 <div className="col-4 offset-4">
                   <button type="button" align="right" name="confirmButton" className="cssCodeButtonConfirm" onClick={this.completeSignUp}> Confirmar </button>

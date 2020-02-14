@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import axios from "axios";
 import Hash from './Hash';
+import PermissionsManager from "./PermissionsManager";
 import NavbarUserHome from './NavbarUserHome';
+
 class LogIn extends Component {
     constructor(props) {
         super(props);
         this.state = {
             hash: new Hash(),
+            permissionsManager: new PermissionsManager(),
             email: "",
             password: "",
             userTypeID: "",
@@ -19,6 +22,11 @@ class LogIn extends Component {
         this.goPasswordRecovery = this.goPasswordRecovery.bind(this);
         this.showPasswordFields = this.showPasswordFields.bind(this);
         this.onKeyEvent = this.onKeyEvent.bind(this);
+    }
+
+    componentDidMount() {
+        this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
+        window.scrollTo(0, 0);
     }
 
     showPasswordFields() {
@@ -43,9 +51,10 @@ class LogIn extends Component {
                             sessionStorage.setItem('partyID', JSON.parse(JSON.stringify(response.data[0]))[0]['partyID']);
                             sessionStorage.setItem('userTypeID', JSON.parse(JSON.stringify(response.data[0]))[0]['userTypeID']);
                             var tempPassword = JSON.parse(JSON.stringify(response.data[0]))[0]['tempPassword'].data[0];
-                            var status= JSON.parse(JSON.stringify(response.data[0]))[0]['status'].data[0];
-                            if (status == 1){
+                            var status = JSON.parse(JSON.stringify(response.data[0]))[0]['status'].data[0];
+                            if (status == 1) {
                                 if (tempPassword == 1) {
+                                    sessionStorage.setItem("changeTempPassword", "true");
                                     this.props.history.push(`/ChangeTempPassword`);
                                 } else {
                                     if (sessionStorage.getItem('userTypeID') == 1 || sessionStorage.getItem('userTypeID') == 2) {
@@ -57,20 +66,20 @@ class LogIn extends Component {
                                         }).then(response => {
                                             if (response) {
                                                 console.log(response.data[0]);
-                                                 res = response.data[0];
-                                                if(res[0] != null){
+                                                res = response.data[0];
+                                                if (res[0] != null) {
                                                     sessionStorage.setItem("routineID", res[0].routineID);
                                                     this.props.history.push(`/UserHome`);
                                                     window.location.reload();
-                                                }else{
-                                                     this.props.history.push(`/UserHomeWithOut`);
-                                                     window.location.reload();
-                                                 }
+                                                } else {
+                                                    this.props.history.push(`/UserHomeWithOut`);
+                                                    window.location.reload();
+                                                }
                                             }
                                         })
-                                        
-                                    } else if (sessionStorage.getItem('userTypeID') == 3 || sessionStorage.getItem('userTypeID') == 4 
-                                    || sessionStorage.getItem('userTypeID') == 5) {
+
+                                    } else if (sessionStorage.getItem('userTypeID') == 3 || sessionStorage.getItem('userTypeID') == 4
+                                        || sessionStorage.getItem('userTypeID') == 5) {
                                         this.props.history.push(`/HomeAdmin`);
                                         window.location.reload();
                                     }
@@ -78,7 +87,7 @@ class LogIn extends Component {
                             } else {
                                 alert("Contraseña y/o correo ingresados no son correctos.")
                             }
-                            
+
 
                         });
                     } else {
@@ -131,11 +140,11 @@ class LogIn extends Component {
                         <div className="row mt-4 " ></div>
                         <div className="form-group" align="left">
                             <p>Correo institucional</p>
-                            <input font-size="18px" type="email" name="email" onKeyPress={this.onKeyEvent} value={this.state.email} className="form-control inputText w-100" onChange={this.handleInputChange}></input>
+                            <input fontSize="18px" type="email" name="email" onKeyPress={this.onKeyEvent} value={this.state.email} className="form-control inputText w-100" onChange={this.handleInputChange}></input>
                             <br></br>
                             <p>Contraseña</p>
-                            <input font-size="18px" type="password" name="password" id="password" onKeyPress={this.onKeyEvent} value={this.state.password} className="form-control inputText w-100" onChange={this.handleInputChange}></input>
-                            <input  type="checkbox" id="showPasswordFields" required name="showPasswordFields" onChange={this.showPasswordFields} ></input>Mostrar contraseña
+                            <input fontSize="18px" type="password" name="password" id="password" onKeyPress={this.onKeyEvent} value={this.state.password} className="form-control inputText w-100" onChange={this.handleInputChange}></input>
+                            <input type="checkbox" id="showPasswordFields" required name="showPasswordFields" onChange={this.showPasswordFields} ></input>Mostrar contraseña
                             <br></br>
                             <br></br>
                             <button align="left" name="logIn" className="buttonSizeGeneral w-100" onClick={this.tryLogin}>Ingresar</button>

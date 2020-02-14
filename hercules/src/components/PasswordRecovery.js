@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
 import RandomPassword from './RandomPassword';
 import Hash from './Hash';
+import PermissionsManager from "./PermissionsManager";
+
+
+
 class PasswordRecovery extends Component {
     constructor() {
         super();
         this.state = {
+            permissionsManager: new PermissionsManager(),
             randomPassword: new RandomPassword(),
             hash: new Hash(),
             email: ""
@@ -13,6 +18,11 @@ class PasswordRecovery extends Component {
         this.sendTempPasswordEmail = this.sendTempPasswordEmail.bind(this);
         this.updatePassword = this.updatePassword.bind(this);
         this.backButton = this.backButton.bind(this);
+    }
+
+    componentDidMount() {
+        this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
+        window.scrollTo(0, 0);
     }
 
     updatePassword() {
@@ -77,7 +87,7 @@ class PasswordRecovery extends Component {
                             <div class="form-group">
                                 <p align="justify">Ingrese el correo del usuario para recibir
                                  una contraseña<br /> nueva temporal</p>
-                                <input type="text" font-size="18px" name="email" className="form-control" onChange={this.handleInputChange}></input>
+                                <input type="text" fontSize="18px" name="email" className="form-control" onChange={this.handleInputChange}></input>
                             </div>
                             <div className="row mt-4">
                                 <div className="col-6 text-left">

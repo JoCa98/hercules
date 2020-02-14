@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import logo from '../appImage/logo_ucr.png';
 import logoGym from '../appImage/logo_gimnasio.png';
-import NavbarAdmin from './NavbarAdmin';
 import NavbarUserHome from './NavbarUserHome';
 
 class Header extends Component {
 
 
   render() {
-    var navbar;    
-        navbar = <NavbarUserHome />      
+    var navbar;
+    if (sessionStorage.getItem('userTypeID') !== null) {
+      navbar = <NavbarUserHome />   
+    }        
     return (
       <div>
         <div className="container-fluid backgroundBlue">

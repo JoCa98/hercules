@@ -4,11 +4,112 @@ import leftArrowImage from '../appImage/leftArrow.svg';
 import rightArrowImage from '../appImage/rightArrow.svg';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import Modal from 'react-bootstrap/Modal';
+import { networkInterfaces } from 'os';
+import PermissionsManager from "./PermissionsManager";
+
 
 class AddRoutine extends Component {
     constructor() {
         super();
+        /**
+         * routineType: 
+         * @type {Array}
+         * Property that stores the type of the routines that comes from to the database
+         * 
+         * objective:
+         * @type {Array}
+         * Property that stores the objectives of the routine that comes from to the database
+         * 
+         * Frecuency:
+         * @type {integer}
+         * Property that stores the input frecuency of the routine
+         * 
+         * Intesity:
+         * @type {integer}
+         * Property that stores the input instensity of the routine
+         * 
+         * Density:
+         * @type {integer}
+         * Property that stores the input density of the routine
+         * 
+         * RestTime:
+         * @type {integer}
+         * Property that stores the input rest time of the routine
+         * 
+         * HeartRatePerMinute
+         * @type {String}
+         * Property that stores the input heart rate of the routine
+         * 
+         * routineTypeID
+         * @type {integer}
+         * Property that stores the id of the routine's type selected
+         * 
+         * objectiveID
+         * @type {integer}
+         * Property that stores the id of the routine's objective selected
+         * 
+         * partyID:
+         * @type {integer}
+         * Property that stores the id of the user selected to the session storage
+         * 
+         * date:
+         * @type {Date}
+         * Property that stores the date of routine's creation
+         * 
+         * exerciseType:
+         * @type {Array}
+         * Property that stores the exercise's types that comes from the database
+         * 
+         * exercise:
+         * @type {Array}
+         * Property that stores the exercises that comes from the database
+         * 
+         * typeID:
+         * @type {integer}
+         * Property that stores the exercise's type selected
+         * 
+         * id:
+         * @type {integer}
+         * Property that stores the exercise's id selected
+         * 
+         * lastTypeID:
+         * @type {integer}
+         * Property that stores the id of exercise's last type existent
+         * 
+         * list:
+         * @type {Array}
+         * Property that stores the list of exercises selected
+         * 
+         * exerciseID:
+         * @type {integer}
+         * Property that stores the id of the exercise selected
+         * 
+         * exist:
+         * @type {boolean}
+         * Property that stores if one exercise is in the list of selected or not
+         * 
+         * index:
+         * @type {integer}
+         * Property that stores the index in list of selected if the exercise exists there
+         * 
+         * show:
+         * @type {boolean}
+         * Property that stores if the modal have to be shown or not
+         * 
+         * name:
+         * @type {String}
+         * Property that stores the name of the exercise selected
+         * 
+         * routineDay:
+         * @type {integer}
+         * Property that stores the day selected
+         * 
+         * daysCounter:
+         * @type {integer}
+         * Property that stores the quantity of days
+         */
         this.state = {
+            permissionsManager: new PermissionsManager(),
             routineType: [{}],
             objective: [{}],
             Frecuency: 0,
@@ -32,7 +133,8 @@ class AddRoutine extends Component {
             show: false,
             name: "",
             routineDay: 1,
-            daysCounter: 1
+            daysCounter: 1,
+            modalList: [{}]
             }
 
         this.inputNumberValidator = this.inputNumberValidator.bind(this);
@@ -55,9 +157,19 @@ class AddRoutine extends Component {
         this.addDayButton = this.addDayButton.bind(this);
         this.dayButton = this.dayButton.bind(this);
         this.changeButtonsColors = this.changeButtonsColors.bind(this);
+        this.deleteDayButton = this.deleteDayButton.bind(this);
+        this.reorganizeList = this.reorganizeList.bind(this);
+
     }
 
+    /**
+    * Method that  load the routine type list, objective list, exercise type list and get the last type id,
+    * and call to init buttons, get exercise data and cardio exercise when loading the page for the first time
+    */
     componentDidMount() {
+        this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
+        window.scrollTo(0, 0);
+
         axios.get("http://localhost:9000/RoutineRoute/getRoutineType").then(response => {
             this.state.routineType = response.data;
             this.setState({ routineType: response.data });
@@ -79,11 +191,17 @@ class AddRoutine extends Component {
         this.cardioExercise();
     }
 
+    /**
+     * Method that put the state of show in true
+     */
     showModal = (e) => {
         this.setState({ show: true });
         e.preventDefault();
     };
 
+    /**
+     * Method that put the state of show in false
+     */
     hideModal = (e) => {
         this.setState({ show: false });
         e.preventDefault();
@@ -103,6 +221,8 @@ class AddRoutine extends Component {
         }
         this.cardioExercise();
         this.getExerciseData();
+        this.disabledInputs();
+        this.emptyInputs();
     }
 
     /**
@@ -119,6 +239,8 @@ class AddRoutine extends Component {
         }
         this.cardioExercise();
         this.getExerciseData();
+        this.disabledInputs();
+        this.emptyInputs();
     }
 
     /**
@@ -128,7 +250,9 @@ class AddRoutine extends Component {
         this.state.typeID = event.target.value;
         this.setState({ typeID: event.target.value });
         this.cardioExercise();
+        this.disabledInputs();
         this.getExerciseData();
+        this.emptyInputs();
     }
 
     /**
@@ -145,6 +269,9 @@ class AddRoutine extends Component {
         });
     }
 
+    /**
+     * Method to init buttons of edit and delete exercise
+     */
     initButtons() {
         document.getElementById("edit").style.display = 'none';
         document.getElementById("delete").style.display = 'none';
@@ -152,10 +279,9 @@ class AddRoutine extends Component {
 
     /**
     * Method that when the type of exercise is 1, show the arguments to cardiovascular 
-    * exercises, and hide the other, or make the oposite whe the type of exercise is different than 1
+    * exercises, and hide the other, or make the oposite when the type of exercise is different than 1
     */
     cardioExercise() {
-        this.disabledInputs();
         if (this.state.typeID == 1) {
             document.getElementById("weightInput").style.display = "none";
             document.getElementById("seriesInput").style.display = "none";
@@ -231,6 +357,10 @@ class AddRoutine extends Component {
     }
 
 
+    /**
+     * Method that get the exercise selected and check if is in the list to add or not
+     * @param {object} event 
+     */
     rowEvent(event) {
         const id = document.getElementById("routines").rows[event.target.parentNode.rowIndex].cells[0].innerHTML;
         var a = document.getElementsByTagName("tr");
@@ -244,27 +374,30 @@ class AddRoutine extends Component {
         this.enabledInputs();
         if (this.state.list.length !== 0) {
             this.state.list.map((ex, i) => {
-                if (ex.exerciseID == id) {
+                if (ex.exerciseID == id && ex.day == this.state.routineDay) {
                     this.setState({ exist: true, index: i });
                     if (this.state.typeID == 1) {
                         this.cardioExercise();
+                        if(ex.heartRate != null){
                         var textHR = ex.heartRate.split('-');
                         document.getElementById("heartRateInput1").value = textHR[0];
                         document.getElementById("heartRateInput2").value = textHR[1];
+                        }
                         document.getElementById("intensityInput").value = ex.intensityPercentage;
                         document.getElementById("minutesInput").value = ex.minutes;
+                        
                     } else {
                         document.getElementById("weightInput").value = ex.charge;
                         document.getElementById("seriesInput").value = ex.series;
                         document.getElementById("repetitionsInput").value = ex.repetitions;
                         document.getElementById("minutesInput").value = ex.minutes;
-                        document.getElementById("add").style.display = "none";
-                        document.getElementById("edit").style.display = "initial";
-                        document.getElementById("delete").style.display = "initial";
                     }
+                    
+                    document.getElementById("add").style.display = "none";
+                    document.getElementById("edit").style.display = "initial";
+                    document.getElementById("delete").style.display = "initial";
                 } else {
                     this.setState({ exist: false });
-                    this.emptyInputs();
                     document.getElementById("add").style.display = "initial";
                     document.getElementById("edit").style.display = "none";
                     document.getElementById("delete").style.display = "none";
@@ -273,6 +406,10 @@ class AddRoutine extends Component {
         }
     }
 
+    /**
+     * Method for edit a exercise in the list to add
+     * @param {object} e 
+     */
     editExercise(e) {
         if (this.state.exist) {
             if (this.state.typeID == 1) {
@@ -295,6 +432,10 @@ class AddRoutine extends Component {
         e.preventDefault();
     }
 
+    /**
+     * Method to delete an exercise of the list to add
+     * @param {object} e 
+     */
     deleteExercise(e) {
         if (this.state.exist) {
             this.state.list.splice(this.state.index, 1);
@@ -307,7 +448,10 @@ class AddRoutine extends Component {
         e.preventDefault();
     }
 
-
+    /**
+    * Method to add an exercise in the list to add
+    * @param {object} e 
+    */
     addExercise(e) {
 
         if (document.getElementById("weightInput").value.length == 0 && document.getElementById("seriesInput").value.length === 0
@@ -344,7 +488,7 @@ class AddRoutine extends Component {
                     intensityPercentage = null;
                 }
                 if (heartRate == "" || heartRate == "-") {
-                    heartRate = null;
+                    heartRate = "";
                 }
                 var obj = {
                     exerciseID: this.state.exerciseID,
@@ -360,7 +504,7 @@ class AddRoutine extends Component {
 
                 if (this.state.exist) {
                     alert("El ejercicio ya fue agregado");
-                    
+
                 } else {
                     this.state.list.push(obj);
                     alert("El ejercicio ha sido agregado con éxito");
@@ -372,6 +516,10 @@ class AddRoutine extends Component {
         e.preventDefault();
     }
 
+    /**
+     * Method for validate if the input text is a number
+     * @param {object} event 
+     */
     inputNumberValidator(event) {
         const re = /^[0-9\b]+$/;
         const { name, value } = event.target;
@@ -391,16 +539,28 @@ class AddRoutine extends Component {
         }
     }
 
+
+    /**
+     * Method to get the value of the selected routine type
+     * @param {object} event 
+     */
     routineTypeSelect(event) {
         this.state.routineTypeID = event.target.value;
         this.setState({ routineTypeID: event.target.value });
     }
-
+    /**
+     * Method to get the value of the selected routine objective
+     * @param {object} event 
+     */
     objectiveSelect(event) {
         this.state.objectiveID = event.target.value;
         this.setState({ objectiveID: event.target.value });
     }
 
+    /**
+     * Method that add an routine to the database
+     * @param {object} e 
+     */
     handleSubmit(e) {
         var id;
         if (!this.empty()) {
@@ -430,6 +590,10 @@ class AddRoutine extends Component {
 
     }
 
+    /**
+     * Method that add a list of exercises to a routine in the database
+     * @param {integer} id 
+     */
     submitExercise(id) {
         if (!this.arrayEmpty()) {
             this.state.list.map((ex) => {
@@ -463,6 +627,9 @@ class AddRoutine extends Component {
         }
     }
 
+    /**
+     * Method that verifies if some input is empty
+     */
     empty() {
         if (this.state.Frecuency == "" || this.state.Density == "" || this.state.Intensity == "" || this.state.RestTime == ""
             || this.state.objectiveID == "" || this.state.routineTypeID == "" || this.state.HeartRatePerMinute == "") {
@@ -472,6 +639,9 @@ class AddRoutine extends Component {
         }
     }
 
+    /**
+     * Method that verifies if the list to add is empty
+     */
     arrayEmpty() {
         if (this.state.list.length == 0) {
             return true;
@@ -481,68 +651,189 @@ class AddRoutine extends Component {
     }
 
     /**
-* Method that redirect to the previous page
-*/
+    * Method that redirect to the previous page
+    */
     backButton() {
         this.props.history.push(`/HistoricRoutineInfo`);
     }
-    
-    addDayButton(e) {
-        if(this.state.routineDay < 6){
+
+    /**
+     * Method delete the last day button
+     */
+    deleteDayButton(){
+        if(this.state.daysCounter > 1){
            var div = document.getElementById("btn");
-           var btn = document.createElement("button");
-           var value = (this.state.daysCounter + 1);
+           var button = document.getElementById(this.state.daysCounter);
+           div.removeChild(button);
+            var day = this.state.daysCounter - 1;
+            this.setState({
+                routineDay: day,
+                daysCounter : this.state.daysCounter - 1
+           })
+           document.getElementById(day).style.backgroundColor = "#ffffff";
+           document.getElementById(day).style.border = "2px solid #41ade7";
+           document.getElementById(day).style.color = "#0c0c0c";
+        }
+    }
+    
+    /**
+     * Method that add a day button
+     * @param {object} e 
+     */
+    addDayButton(e) {
+        if (this.state.routineDay < 6) {
+            var div = document.getElementById("btn");
+            var btn = document.createElement("button");
+            var value = (this.state.daysCounter + 1);
             btn.value = value;
             btn.textContent = "Día " + value;
-            btn.id= value;
+            btn.id = value;
             btn.className = "buttonDaysSize mr-1";
             btn.onclick = this.dayButton;
             btn.style.backgroundColor = "#ffffff";
             btn.style.border = "2px solid #41ade7";
             btn.style.color = "#0c0c0c";
             div.appendChild(btn);
-            
-             this.setState({
-                 routineDay :  this.state.daysCounter + 1 ,
-                 daysCounter : this.state.daysCounter + 1
+
+            this.setState({
+                routineDay: this.state.daysCounter + 1,
+                daysCounter: this.state.daysCounter + 1
             })
 
             this.changeButtonsColors(value); 
-            e.preventDefault();
+           
     }
+    e.preventDefault();
 }
 
+    /**
+     * Method that change the state of routineDay for the selected day
+     * @param {object} event 
+     */
     dayButton(event){
-  
         if (this.state.routineDay != event.target.value){
             this.setState({
                 routineDay: event.target.value
             })
-           
             event.target.style.backgroundColor = "#ffffff";
             event.target.style.border = "2px solid #41ade7";
             event.target.style.color = "#0c0c0c";
             this.changeButtonsColors(event.target.value);
-            
+            this.emptyInputs();
         }
+        event.preventDefault();
     }
 
+    /**
+     * Method that change the color of the day buttons
+     * @param {integer} day 
+     */
     changeButtonsColors(day){
-        for(var i = 1; i < this.state.daysCounter+1; i++ ){
+        if(day != 1){
+        for(var i = 1; i <= this.state.daysCounter; i++ ){
             if(i != day){
                 document.getElementById(i).style.backgroundColor = "#41ade7";
                 document.getElementById(i).style.color = "#ffffff";
             }
            }
+        }
     }
 
+    reorganizeList(e){
+        var list1 = [];
+        var list2 = [];
+        var list3 = [];
+        var list4 = [];
+        var list5 = [];
+        var list6 = [];
+        var newList = [];
+        var obj = {};
+
+        for(var i=0; i < this.state.list.length; i++){
+            obj = {
+                name: this.state.list[i].name
+            };
+            switch(this.state.list[i].day){
+                case 1:
+                    list1.push(obj);
+                    break;
+                case 2:
+                    list2.push(obj);
+                    break;
+                case 3:
+                    list3.push(obj);
+                    break;
+                case 4:
+                    list4.push(obj);
+                    break;
+                case 5:
+                    list5.push(obj);
+                    break;
+                case 6:
+                    list6.push(obj);
+                    break;
+            }
+        }
+
+        if(list1.length != 0){
+            if(list2.length != 0){
+                if(list3.length != 0){
+                    if(list4.length != 0){
+                        if(list5.length != 0){
+                            if(list6.length != 0){
+                                newList = [{id:1, list:list1}
+                                    ,{id:2, list:list2}
+                                    ,{id:3, list:list3}
+                                    ,{id:4, list:list4}
+                                    ,{id:5, list:list5}
+                                    ,{id:6, list:list6}];
+                            }else{
+                                newList = [{id:1, list:list1},{id:2,list:list2},{id:3, list:list3},{id:4, list:list4},{id:5, list:list5}];
+                            }
+                        }else{
+                            newList = [{id:1, list:list1},{id:2,list:list2},{id:3, list:list3},{id:4, list:list4}];
+                        }
+                    }else{
+                        newList = [{id:1, list:list1},{id:2,list:list2},{id:3, list:list3}];
+                    }
+                }else{
+                    newList = [{id:1, list:list1},{id:2,list:list2}];
+                }
+            }else{
+                newList = [{id:1, list:list1}];
+            }
+        }
+
+        let nlist = [];
+        newList.map((obj) =>{
+            nlist.push(<b>Día {obj.id}</b>);
+            obj.list.map((exercise) => {
+                nlist.push(<p>{exercise.name}</p>)
+            })
+            nlist.push(<p>Total de ejercicios: {obj.list.length}</p>)
+        });
+
+        this.setState({
+            modalList: nlist
+        });
+
+        this.showModal(e);
+    }
+
+
     render() {
+        /**
+         * Create options with the routine's types
+         */
         const routineTypeList = this.state.routineType.map((types, i) => {
             return (
                 <option value={types.routineTypeID} key={i}>{types.description}</option>
             )
         })
 
+        /**
+         * Create options with the routine's objectives
+         */
         const objetiveType = this.state.objective.map((objetives, i) => {
             return (
                 <option value={objetives.objectiveID} key={i}>{objetives.description}</option>
@@ -550,8 +841,8 @@ class AddRoutine extends Component {
         })
 
         /**
-      * The exercise.map is for create a table with the exercises information
-      */
+        * The exercise.map is for create a table with the exercises information
+        */
         const exerciseVisual = this.state.exercise.map((exercise, i) => {
             return (
                 <tr className="pointer" key={i}>
@@ -570,11 +861,12 @@ class AddRoutine extends Component {
             )
         })
 
-        const allExercise = this.state.list.map((exercise, i) => {
-            return (
-                <p>{exercise.name}</p>
-            )
-        })
+        /**
+         * Create a list of the exercises to add
+         */
+  
+          
+     
 
         return (
             <div className="container">
@@ -686,14 +978,13 @@ class AddRoutine extends Component {
                             </div>
                             <div className="row mt-4" >
                                 <div className="col-9" id="btn" >
-                             
-                               <button className="buttonDays mr-1" value="1" id="1" onClick={this.dayButton}>Día 1</button>
-                             </div>
-                             <div className="col-2 offset-1"  >
-                
-                             <button className="buttonDaysSize" onClick={this.addDayButton}>Agregar día</button>
-                             </div>
-                             </div>
+                                    <button className="buttonDays mr-1" value="1" id="1" onClick={this.dayButton}>Día 1</button>
+                                </div>
+                                <div className="col-3 " id="addDelete">
+                                    <button className="buttonDaysSize mr-1" onClick={this.addDayButton}>Agregar día</button>
+                                    <button className="buttonDaysSize ml-1" onClick={this.deleteDayButton}>Eliminar día</button>
+                                </div>
+                            </div>
                              <div className="row" >
                                 <div className="col-12" >
                                     <div className="container card mt-1">
@@ -764,24 +1055,24 @@ class AddRoutine extends Component {
 
                                                     <div className="form-group" align="right">
                                                         <button align="right" id="add" className="buttonSizeGeneral" onClick={this.addExercise}>Agregar</button>
-                                                        <button align="right" id="edit" className="buttonSizeGeneral" onClick={this.editExercise} >Editar</button>
-                                                        <button align="right" id="delete" className="buttonSizeGeneral" onClick={this.deleteExercise} >Eliminar</button>
+                                                        <button align="right" id="edit" className="buttonSizeGeneral mr-1" onClick={this.editExercise} >Editar</button>
+                                                        <button align="right" id="delete" className="buttonSizeGeneral ml-1" onClick={this.deleteExercise} >Eliminar</button>
                                                     </div>
                                                 </form>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            
-                            </div>                                                    
+
+                            </div>
 
                             <Modal show={this.state.show} handleClose={this.hideModal}>
                                 <Modal.Header closeButton onClick={this.hideModal}>
                                     <Modal.Title>Ejercicios seleccionados</Modal.Title>
                                 </Modal.Header>
                                 <Modal.Body>
-                                    <div>
-                                        {allExercise}
+                                    <div id="listExercise">
+                                       {this.state.modalList}
                                         <label className="inputText">Total de ejercicios: {this.state.list.length}</label>
                                     </div>
                                 </Modal.Body>
@@ -796,7 +1087,7 @@ class AddRoutine extends Component {
                                     <button align="right" className="buttonSizeGeneral" onClick={this.backButton}>Volver</button>
                                 </div>
                                 <div className=" mt-4 col-2">
-                                    <button align="left" name="saveButton" className="buttonSizeGeneral" onClick={this.showModal}> Guardar </button>
+                                    <button align="left" name="saveButton" className="buttonSizeGeneral" onClick={this.reorganizeList}> Guardar </button>
                                 </div>
                             </div>
                         </form>

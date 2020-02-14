@@ -2,12 +2,15 @@ import React, { Component } from 'react';
 import axios from "axios";
 import Hash from './Hash';
 import validations from './validations';
+import PermissionsManager from "./PermissionsManager";
+
 class ChangeTempPassword extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            permissionsManager: new PermissionsManager(),
             hash: new Hash(),
-            validations: new validations(),           
+            validations: new validations(),
             tempPassword: "",
             newPassword: "",
             confirmPassword: "",
@@ -16,6 +19,11 @@ class ChangeTempPassword extends Component {
         this.updatePassword = this.updatePassword.bind(this);
         this.changeTempPassword = this.changeTempPassword.bind(this);
         this.showPasswordFields = this.showPasswordFields.bind(this);
+    }
+
+    componentDidMount() {
+        this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
+        window.scrollTo(0, 0);
     }
 
     showPasswordFields() {
@@ -30,7 +38,7 @@ class ChangeTempPassword extends Component {
             document.getElementById('confirmPassword').type = "password";
         }
     }
-    
+
     updatePassword() {
         var newPassword = this.state.hash.encode(this.state.newPassword);
         fetch("http://localhost:9000/User/updatePassword", {
@@ -50,12 +58,13 @@ class ChangeTempPassword extends Component {
                 console.log(data);
             })
             .catch(err => console.error(err));
-            sessionStorage.setItem('password', newPassword);
+        sessionStorage.setItem('password', newPassword);
         alert("La contraseña fue cambiada con éxito. Ahora será redirigido a la página principal.");
+        sessionStorage.removeItem("changeTempPassword");
         if (sessionStorage.getItem('userTypeID') == 1 || sessionStorage.getItem('userTypeID') == 2) {
             this.props.history.push(`/UserHome`);
             window.location.reload();
-        } else if (sessionStorage.getItem('userTypeID') == 3 || sessionStorage.getItem('userTypeID') == 4){
+        } else if (sessionStorage.getItem('userTypeID') == 3 || sessionStorage.getItem('userTypeID') == 4) {
             this.props.history.push(`/HomeAdmin`);
             window.location.reload();
         }
@@ -93,13 +102,13 @@ class ChangeTempPassword extends Component {
                         <div className="row mt-4 " ></div>
                         <div className="form-group" align="left">
                             <p>Contraseña temporal</p>
-                            <input type="password" font-size="18px" name="tempPassword" id="tempPassword" value={this.state.tempPassword} className="form-control inputText w-100" onChange={this.handleInputChange}></input>
+                            <input type="password" fontSize="18px" name="tempPassword" id="tempPassword" value={this.state.tempPassword} className="form-control inputText w-100" onChange={this.handleInputChange}></input>
                             <br></br>
                             <p>Contraseña nueva</p>
-                            <input type="password" font-size="18px" name="newPassword" id="newPassword" value={this.state.newPassword} className="form-control inputText w-100" onChange={this.handleInputChange}></input>
+                            <input type="password" fontSize="18px" name="newPassword" id="newPassword" value={this.state.newPassword} className="form-control inputText w-100" onChange={this.handleInputChange}></input>
                             <br></br>
                             <p>Confirma contraseña nueva</p>
-                            <input type="password" font-size="18px" name="confirmPassword" id="confirmPassword" value={this.state.confirmPassword} className="form-control inputText w-100" onChange={this.handleInputChange}></input>
+                            <input type="password" fontSize="18px" name="confirmPassword" id="confirmPassword" value={this.state.confirmPassword} className="form-control inputText w-100" onChange={this.handleInputChange}></input>
                             <input type="checkbox" id="showPasswordFields" required name="showPasswordFields" onChange={this.showPasswordFields} ></input>Mostrar contraseña
                             <br></br>
                             <br></br>

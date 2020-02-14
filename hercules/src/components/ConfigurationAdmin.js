@@ -14,12 +14,15 @@ import React, { Component } from 'react';
 import validations from './validations';
 import Hash from './Hash';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
+import PermissionsManager from "./PermissionsManager";
+
 
 class ConfigurationAdmin extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
+            permissionsManager: new PermissionsManager(),
             hash: new Hash(),
             validations: new validations(),
             partyID: sessionStorage.getItem("partyID"),
@@ -31,6 +34,11 @@ class ConfigurationAdmin extends Component {
         this.changePassword = this.changePassword.bind(this);
         this.showPasswordFields = this.showPasswordFields.bind(this);
         this.backButton = this.backButton.bind(this);
+    }
+
+    componentDidMount() {
+        this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
+        window.scrollTo(0, 0);
     }
 
     /**
@@ -123,11 +131,11 @@ class ConfigurationAdmin extends Component {
 
                                             <div className="form-group" align="left" >
                                                 <p align="justify">Contraseña<font color="red">*</font></p>
-                                                <input type="password" font-size="18px" id="password" placeholder="Contraseña" name="password" className="form-control" onChange={this.handleInputChange} required></input>
+                                                <input type="password" fontSize="18px" id="password" placeholder="Contraseña" name="password" className="form-control" onChange={this.handleInputChange} required></input>
                                                 <br></br>
                                                 <p align="justify">Confirmar contraseña<font color="red">*</font></p>
-                                                <input type="password" font-size="18px" id="confirmPassword" placeholder="Confirmar contraseña" name="confirmPassword" className="form-control" onChange={this.handleInputChange} required></input>
-                                                <input type="checkbox" font-size="18px" id="showPasswordFields" placeholder="Contraseña" name="showPasswordFields" onChange={this.showPasswordFields} ></input>Mostrar campos
+                                                <input type="password" fontSize="18px" id="confirmPassword" placeholder="Confirmar contraseña" name="confirmPassword" className="form-control" onChange={this.handleInputChange} required></input>
+                                                <input type="checkbox" fontSize="18px" id="showPasswordFields" placeholder="Contraseña" name="showPasswordFields" onChange={this.showPasswordFields} ></input>Mostrar campos
                                                 <br />
                                                 <br />
                                                 <button align="right" className="buttonSizeGeneral offset-9">Guardar</button>

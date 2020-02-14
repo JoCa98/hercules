@@ -1,7 +1,22 @@
 import React, { Component } from 'react';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
+import PermissionsManager from "./PermissionsManager";
 
 class UserHomeWithOut extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            permissionsManager: new PermissionsManager()
+        };
+
+    }
+
+    componentDidMount() {
+        this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
+        window.scrollTo(0, 0);
+    }
+
     render() {
         return (
             <div className="container">
@@ -17,9 +32,9 @@ class UserHomeWithOut extends Component {
                             <div className="col-12 ">
                                 <div className="row">
                                     <div className="col-12">
-                                        <label font-size="18px">Aún no cuenta con una rutina.</label>
+                                        <label fontSize="18px">Aún no cuenta con una rutina.</label>
                                         <br />
-                                        <label font-size="18px">Diríjase a la oficina de deporte y recreación para que le asignen una.</label>
+                                        <label fontSize="18px">Diríjase a la oficina de deporte y recreación para que le asignen una.</label>
                                     </div>
                                 </div>
                             </div>

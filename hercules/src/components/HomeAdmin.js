@@ -14,6 +14,8 @@
 import React, { Component } from 'react';
 import axios from "axios";
 import Breadcrumb from 'react-bootstrap/Breadcrumb'
+import PermissionsManager from "./PermissionsManager";
+
 
 class HomeAdmin extends Component {
     constructor(props) {
@@ -33,6 +35,7 @@ class HomeAdmin extends Component {
         * Property that contains the search values
         */
         this.state = {
+            permissionsManager: new PermissionsManager(),
             userList: [],
             userListID: [],
             searchType: 0,
@@ -53,6 +56,8 @@ class HomeAdmin extends Component {
     * when loading the page for the first time
     */
     componentDidMount() {
+        this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
+        window.scrollTo(0, 0);
         this.getUserListByCarnet();
     }
 
@@ -100,7 +105,7 @@ class HomeAdmin extends Component {
                     this.setState({ userList });
                 });
         } catch (err) {
-            console.error(err);
+            console.error("Un error inesperado ha ocurrido");
         }
     }
 
@@ -116,7 +121,7 @@ class HomeAdmin extends Component {
                     this.setState({ userList });
                 });
         } catch (err) {
-            console.error(err);
+            console.error("Un error inesperado ha ocurrido");
         }
     }
 
@@ -132,7 +137,7 @@ class HomeAdmin extends Component {
                     this.setState({ userList });
                 });
         } catch (err) {
-            console.error(err);
+            console.error("Un error inesperado ha ocurrido");
         }
     }
 
@@ -160,9 +165,11 @@ class HomeAdmin extends Component {
     rowEvent(event) {
         try {
             sessionStorage.setItem("userPartyID", this.state.userListID[event.target.parentNode.rowIndex - 1]);
+            sessionStorage.removeItem("routineID");
+            sessionStorage.removeItem('dateLastPhysicalRegistry');
             this.props.history.push("/ConsultUser");
         } catch (err) {
-            console.error(err);
+            console.error("Un error inesperado ha ocurrido");
         }
     }
 
@@ -196,9 +203,9 @@ class HomeAdmin extends Component {
 
         var breadcrumb = '';
         if (sessionStorage.getItem('userTypeID') !== '5') {
-            breadcrumb =<div className="row mt-4"><Breadcrumb><Breadcrumb.Item >Inicio</Breadcrumb.Item></Breadcrumb></div>;
+            breadcrumb = <div className="row mt-4"><Breadcrumb><Breadcrumb.Item >Inicio</Breadcrumb.Item></Breadcrumb></div>;
         }
-       
+
         return (
             <div className="container">
                 {breadcrumb}

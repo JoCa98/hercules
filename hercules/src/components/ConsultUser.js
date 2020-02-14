@@ -13,6 +13,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
+import PermissionsManager from "./PermissionsManager";
+
 
 class ConsultUser extends Component {
     constructor(props) {
@@ -27,6 +29,7 @@ class ConsultUser extends Component {
         * Property that indicates the user id
         */
         this.state = {
+            permissionsManager: new PermissionsManager(),
             userInfo: [{}],
             partyID: sessionStorage.getItem("userPartyID")
         };
@@ -39,12 +42,17 @@ class ConsultUser extends Component {
     }
 
     componentDidMount() {
-        this.getUserBasicInfo();
+        if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
+            window.scrollTo(0, 0);
 
- 
-        if (sessionStorage.getItem('userTypeID') != 4) {
-            this.hideAdminBtns();
+            this.getUserBasicInfo();
+
+
+            if (sessionStorage.getItem('userTypeID') != 4) {
+                this.hideAdminBtns();
+            }
         }
+
     }
 
     /**
@@ -112,7 +120,7 @@ class ConsultUser extends Component {
                 });
 
         } catch (err) {
-            console.error(err);
+            console.error("Un error inesperado ha ocurrido");
         }
     }
 
@@ -144,6 +152,7 @@ class ConsultUser extends Component {
     * Method that redirect to the previous page
     */
     backButton() {
+        sessionStorage.removeItem("userPartyID");
         this.props.history.push(`/HomeAdmin`);
     }
 
@@ -244,7 +253,7 @@ class ConsultUser extends Component {
                                     <button className="circularButton w-100" id="Routine" name="Routine" onClick={this.redirectRoutines}>Rutina</button>
                                     <br></br>
                                     <br></br>
-                                    <button className="circularButton w-100" id="ChangeUserStatus" onClick={this.changeUserStatus}>Desactivar</button>
+                                    <button className="circularButton w-100" id="ChangeUserStatus" name="ChangeUserStatus" onClick={this.changeUserStatus}>Desactivar</button>
 
                                 </div>
                             </div>
