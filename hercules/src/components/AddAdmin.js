@@ -49,8 +49,6 @@ class AddAdmin extends Component {
         this.handleInputChange = this.handleInputChange.bind(this);
         this.empty = this.empty.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.inputNumberValidator = this.inputNumberValidator.bind(this);
-        this.emailValidator = this.emailValidator.bind(this);
         this.showPasswordFields = this.showPasswordFields.bind(this);
         this.backButton = this.backButton.bind(this);
         this.getAdminUserType = this.getAdminUserType.bind(this);
@@ -73,22 +71,22 @@ class AddAdmin extends Component {
             var isEmailValid = JSON.parse(JSON.stringify(response.data))[0]['isEmailValid'].data[0];
 
             if (this.empty()) {
-                alert("Los campos con * son obligatorios");
+                this.modalTrigger(event,'Campos obligatorios','Los campos de texto con un * no se pueden dejar en blanco');                
             } else if (!this.state.validations.validateTextField(this.state.firstName.trim())
                 || (this.state.secondName != null && (this.state.secondName.trim() != "") && (!this.state.validations.validateTextField(this.state.secondName.trim())))
                 || !this.state.validations.validateTextField(this.state.firstLastName.trim())
                 || (this.state.secondLastName != null && (this.state.secondLastName.trim() != "") && (!this.state.validations.validateTextField(this.state.secondLastName.trim())))
             ) {
-                alert("Los datos del nombre solo pueden estar compuestos por letras y extensión mínima de 2 caracteres");
-            } else if (!this.state.validations.validateIdentification(this.state.identificationID)) {
-                alert("El formato de la cédula ingresada es incorrecto");
+                this.modalTrigger(event,'Números','Los datos del nombre solo pueden estar compuestos por letras');                
+            } else if (!this.state.validations.validateIdentification(this.state.identificationID)) {                
+                this.modalTrigger(event,'Cédula','El formato de la cédula ingresada es incorrecto');                 
             } else if (!this.state.validations.validateAdminEmailField(this.state.email)) {
-                alert("El email no tiene el formato correcto");
+                this.modalTrigger(event,'Email','El email no tiene el formato correcto');                 
             } else if (this.state.password != this.state.confirmPassword) {
-                alert("Los campos de contraseña no coinciden");
+                this.modalTrigger(event,'Contraseña','Los campos de la contraseña no coinciden');                                 
             } else if (isEmailValid == 1) {
                 document.getElementById("email").value = null;
-                alert("El correo ingresado ya corresponde a otro administrador registrado");
+                this.modalTrigger(event,'Email','El correo ingresado ya corresponde a otro administrador registrado');                
             } else {
                 this.setState({
                     password: this.state.hash.encode(this.state.password)
@@ -144,7 +142,6 @@ class AddAdmin extends Component {
         this.setState({
             [name]: value
         });
-
     }
 
     getAdminUserType() {
@@ -154,11 +151,9 @@ class AddAdmin extends Component {
                 this.setState({ userTypeList });
             });
         } catch (err) {
-            console.error("Un error inesperado ha ocurrido");
+            console.error("No se encuentran los admnUsrTp");
         }
     }
-
-
 
     /**
     * Method set the userTypeID value and shows or hide the medicalCod input field
@@ -173,34 +168,6 @@ class AddAdmin extends Component {
             document.getElementById("medicalCodDiv").style.display = 'none';
         } else {
             document.getElementById("medicalCodDiv").style.display = 'block';
-        }
-    }
-
-    /**
-    * Method that verify that the input text in a input type decimal is a number
-    */
-    inputNumberValidator(event) {
-        const re = /^[0-9\b]+$/;
-        const { name, value } = event.target;
-
-        if (value === "" || re.test(value)) {
-            this.setState({
-                [name]: value
-            });
-        } else {
-            this.showModal(event);
-        }
-    }
-
-    /**
-    * Method that verify that the input text in a input type email is a valid email
-    */
-    emailValidator() {
-        const re = /^[_a-z0-9-]+(.[_a-z0-9-]+)*@[a-z0-9-]+(.[a-z0-9-]+)*[.][a-z]{2,4}$/;
-        if (re.test(this.state.email)) {
-            return true;
-        } else {
-            return false;
         }
     }
 
@@ -289,7 +256,7 @@ class AddAdmin extends Component {
                                 <div className="col-6">
                                     <div className="form-group" align="left">
                                         <p align="justify">Cédula<font color="red">*</font></p>
-                                        <input type="text" name="identificationID" placeholder="#########" fontSize="18px" className="form-control" onChange={this.inputNumberValidator} required></input>
+                                        <input type="text" name="identificationID" placeholder="#########" fontSize="18px" className="form-control" onChange={this.handleInputChange} required></input>
                                     </div>
                                 </div>
                             </div>
