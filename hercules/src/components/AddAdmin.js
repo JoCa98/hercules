@@ -59,9 +59,10 @@ class AddAdmin extends Component {
         }
 
     componentDidMount() {
-        this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
+       if( this.state.permissionsManager.validatePermission(this.props.location.pathname, this)){
         window.scrollTo(0, 0);
         this.getAdminUserType();
+       }        
     }
 
     /**

@@ -35,9 +35,10 @@ class EditPhysicalInfo extends Component {
     }
 
     componentDidMount() {
-        this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
-        window.scrollTo(0, 0);
-        this.loadInformation();
+        if(this.state.permissionsManager.validatePermission(this.props.location.pathname, this)){
+            window.scrollTo(0, 0);
+            this.loadInformation();
+        }        
     }
 
     loadInformation() {
