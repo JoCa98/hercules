@@ -44,29 +44,31 @@ class RoutineAdmin extends Component {
    * when loading the page for the first time
    */
     componentDidMount() {
-        this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
-        window.scrollTo(0, 0);
-        
-        axios.get("http://localhost:9000/RoutineRoute/getRoutineInfo", {
-            params: {
-                routineID: this.state.routineID,
-            }
-        }).then(response => {
+        if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
+            window.scrollTo(0, 0);
 
-            if (response) {
-                this.setState({
-                    routine: response.data[0]
-                });
-            }
-        })
-
-        axios.get(`http://localhost:9000/User/getUserName`,
-            {
-                params: { partyID: this.state.partyID }
+            axios.get("http://localhost:9000/RoutineRoute/getRoutineInfo", {
+                params: {
+                    routineID: this.state.routineID,
+                }
             }).then(response => {
-                const userName = response.data[0];
-                this.setState({ userName });
-            });
+
+                if (response) {
+                    this.setState({
+                        routine: response.data[0]
+                    });
+                }
+            })
+
+            axios.get(`http://localhost:9000/User/getUserName`,
+                {
+                    params: { partyID: this.state.partyID }
+                }).then(response => {
+                    const userName = response.data[0];
+                    this.setState({ userName });
+                });
+        }
+
     }
 
     /**

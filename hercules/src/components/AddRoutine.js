@@ -167,28 +167,32 @@ class AddRoutine extends Component {
     * and call to init buttons, get exercise data and cardio exercise when loading the page for the first time
     */
     componentDidMount() {
-        this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
-        window.scrollTo(0, 0);
+        
 
-        axios.get("http://localhost:9000/RoutineRoute/getRoutineType").then(response => {
-            this.state.routineType = response.data;
-            this.setState({ routineType: response.data });
-        });
-        axios.get("http://localhost:9000/RoutineRoute/getObjetiveType").then(response => {
-            this.state.objective = response.data;
-            this.setState({ objective: response.data });
-        });
-        axios.get(`http://localhost:9000/RoutineRoute/getExerciseType`).then(response => {
-            this.state.exerciseType = response.data;
-            this.setState({ exerciseType: response.data });
-        });
-        axios.get(`http://localhost:9000/RoutineRoute/getLastType`).then(response => {
-            this.state.lastTypeID = response.data[0];
-            this.setState({ lastTypeID: response.data[0] });
-        });
-        this.initButtons();
-        this.getExerciseData();
-        this.cardioExercise();
+        if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
+            window.scrollTo(0, 0);
+
+            axios.get("http://localhost:9000/RoutineRoute/getRoutineType").then(response => {
+                this.state.routineType = response.data;
+                this.setState({ routineType: response.data });
+            });
+            axios.get("http://localhost:9000/RoutineRoute/getObjetiveType").then(response => {
+                this.state.objective = response.data;
+                this.setState({ objective: response.data });
+            });
+            axios.get(`http://localhost:9000/RoutineRoute/getExerciseType`).then(response => {
+                this.state.exerciseType = response.data;
+                this.setState({ exerciseType: response.data });
+            });
+            axios.get(`http://localhost:9000/RoutineRoute/getLastType`).then(response => {
+                this.state.lastTypeID = response.data[0];
+                this.setState({ lastTypeID: response.data[0] });
+            });
+            this.initButtons();
+            this.getExerciseData();
+            this.cardioExercise();
+        }
+       
     }
 
     /**

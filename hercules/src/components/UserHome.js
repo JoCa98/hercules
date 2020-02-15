@@ -42,23 +42,22 @@ class UserHome extends Component {
     * when loading the page for the first time
     */
     componentDidMount() {
-
-        this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
-        window.scrollTo(0, 0);
-
-        //console.log(sessionStorage.getItem("routineID"));
-        axios.get("http://localhost:9000/RoutineRoute/getRoutineInfo", {
-            params: {
-                routineID: sessionStorage.getItem("routineID"),
-            }
-        }).then(response => {
-            if (response) {
-                console.log(response.data[0]);
-                this.setState({
-                    routine: response.data[0]
-                });
-            }
-        })
+        
+        if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
+            window.scrollTo(0, 0);
+            axios.get("http://localhost:9000/RoutineRoute/getRoutineInfo", {
+                params: {
+                    routineID: sessionStorage.getItem("routineID"),
+                }
+            }).then(response => {
+                if (response) {
+                    console.log(response.data[0]);
+                    this.setState({
+                        routine: response.data[0]
+                    });
+                }
+            })
+        }
     }
 
 

@@ -94,29 +94,31 @@ class HistoricMedicalInfo extends Component {
     */
     componentDidMount() {
 
-        this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
-        window.scrollTo(0, 0);
-        
-        try {
-            axios.get(`http://localhost:9000/User/getUserName`,
-                {
-                    params: { partyID: this.state.partyID }
-                }).then(response => {
-                    const userName = response.data[0];
-                    this.setState({ userName });
-                });
+        if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
+            window.scrollTo(0, 0);
+            try {
+                axios.get(`http://localhost:9000/User/getUserName`,
+                    {
+                        params: { partyID: this.state.partyID }
+                    }).then(response => {
+                        const userName = response.data[0];
+                        this.setState({ userName });
+                    });
 
-            if (sessionStorage.getItem("userTypeID") == 3) {
-                document.getElementById("addImage").style.display = "initial";
-                document.getElementById("addText").style.display = "initial";
-            } else {
-                document.getElementById("addImage").style.display = "none";
-                document.getElementById("addText").style.display = "none";
+                if (sessionStorage.getItem("userTypeID") == 3) {
+                    document.getElementById("addImage").style.display = "initial";
+                    document.getElementById("addText").style.display = "initial";
+                } else {
+                    document.getElementById("addImage").style.display = "none";
+                    document.getElementById("addText").style.display = "none";
 
+                }
+            } catch (err) {
+                console.error("Un error inesperado ha ocurrido");
             }
-        } catch (err) {
-            console.error("Un error inesperado ha ocurrido");
         }
+
+
     }
 
     /**
