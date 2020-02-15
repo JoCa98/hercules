@@ -110,22 +110,23 @@ class AddMedicalForm extends Component {
             smoking: 0,
             neurologicalInfo: "",
             pulmonaryCardioInfo: "",
-            bloodPressure: "0",
-            heartRate: "0",
-            aerobicThreshold: "0",
-            SpO2: "0",
+            bloodPressure: "",
+            heartRate: 0,
+            aerobicThreshold: 0,
+            SpO2: 0,
             weight: 0,
             size: 0,
-            IMC: "0",
-            waist: "0",
-            hip: "0",
-            cardiovascularRisk: "0",
+            IMC: 0,
+            waist: 0,
+            hip: 0,
+            cardiovascularRisk: 1,
             recommendations: "",
             medicalInfo: [{}],
-            medicalID: "0",
+            medicalID: "",
             validations: new validations(),
-            medicalCod: "0",
-            upToDate: (new Date().getFullYear() + 1) + "-" + ("0" + (new Date().getMonth() + 1)).slice(-2) + "-" + ("0" + new Date().getDate()).slice(-2),
+            medicalCod: "8888",
+            date: new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate(),
+            upToDate: new Date()
 
         };
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -134,6 +135,8 @@ class AddMedicalForm extends Component {
         this.loadData = this.loadData.bind(this);
         this.backButton = this.backButton.bind(this);
         this.calcIMC = this.calcIMC.bind(this);
+        this.checkEmptySpaces = this.checkEmptySpaces.bind(this);
+        this.cardioVascularSelect = this.cardioVascularSelect.bind(this);
     }
 
     /**
@@ -153,8 +156,8 @@ class AddMedicalForm extends Component {
                         const userName = response.data[0];
                         this.setState({ userName });
                     });
-    
-                if (sessionStorage.getItem("update") === "true") {
+
+                if (sessionStorage.getItem("update") == "true") {
                     this.setState({ medicalID: sessionStorage.getItem("medicalFormID") });
                     axios.get("http://localhost:9000/MedicalInfo/getMedicalInfoHist", {
                         params: {
@@ -162,12 +165,13 @@ class AddMedicalForm extends Component {
                         }
                     }).then(response => {
                         if (response) {
+                            console.log(response.data[0]);
                             this.setState({ medicalInfo: response.data[0] });
                             this.loadData();
                         }
                     })
                 }
-    
+
                 if (sessionStorage.getItem("userTypeID") == 3) {
                     axios.get("http://localhost:9000/MedicalInfo/getMedicalCod", {
                         params: {
@@ -175,18 +179,17 @@ class AddMedicalForm extends Component {
                         }
                     }).then(response => {
                         if (response) {
-                            this.setState({ medicalCod: response.data[0] });
-                            this.loadData();
+                            var d = response.data[0];
+                            this.setState({ medicalCod: d[0].medicalCod });
+
                         }
                     })
                 }
             } catch (err) {
                 console.error("Un error inesperado ha ocurrido");
             }
-     }
+        }
     }
-
-
 
     /**
     * Method that load the data is it an update 
@@ -213,6 +216,25 @@ class AddMedicalForm extends Component {
             document.getElementById("traumasYes").checked = false;
             document.getElementById("traumasNo").checked = true;
         }
+        document.getElementById("pathologies").value = this.state.medicalInfo[0].pathologies;
+        document.getElementById("allergies").value = this.state.medicalInfo[0].allergies;
+        document.getElementById("surgeries").value = this.state.medicalInfo[0].surgeries;
+        document.getElementById("weight").value = this.state.medicalInfo[0].weight;
+        document.getElementById("size").value = this.state.medicalInfo[0].size;
+        document.getElementById("heartRate").value = this.state.medicalInfo[0].heartRate;
+        document.getElementById("aerobicThreshold").value = this.state.medicalInfo[0].aerobicThreshold;
+        document.getElementById("SpO2").value = this.state.medicalInfo[0].SpO2;
+        document.getElementById("waist").value = this.state.medicalInfo[0].waist;
+        document.getElementById("hip").value = this.state.medicalInfo[0].hip;
+        document.getElementById("neurologicalInfo").value = this.state.medicalInfo[0].neurologicalInfo;
+        document.getElementById("pulmonaryCardioInfo").value = this.state.medicalInfo[0].pulmonaryCardioInfo;
+        document.getElementById("cardiovascularRisk").value = this.state.medicalInfo[0].cardiovascularRisk;
+        document.getElementById("recommendations").value = this.state.medicalInfo[0].recommendations;
+        document.getElementById("upToDate").value = this.state.medicalInfo[0].upToDate;
+        var textBloodPressure = this.state.medicalInfo[0].bloodPressure.split('-');
+        document.getElementById("bloodPressure1").value = textBloodPressure[0];
+        document.getElementById("bloodPressure2").value = textBloodPressure[1];
+
         this.setState({ pathologies: this.state.medicalInfo[0].pathologies });
         this.setState({ surgeries: this.state.medicalInfo[0].surgeries });
         this.setState({ allergies: this.state.medicalInfo[0].allergies });
@@ -229,6 +251,7 @@ class AddMedicalForm extends Component {
         this.setState({ hip: this.state.medicalInfo[0].hip });
         this.setState({ cardiovascularRisk: this.state.medicalInfo[0].cardiovascularRisk });
         this.setState({ recommendations: this.state.medicalInfo[0].recommendations });
+        this.setState({ upToDate: this.state.medicalInfo[0].upToDate });
 
     }
 
@@ -236,10 +259,8 @@ class AddMedicalForm extends Component {
     * Method that submit all the information in the form
     */
     handleSubmit(event) {
-        console.log("en el metodo");
-        if (sessionStorage.getItem("update") === "true"
-        || sessionStorage.getItem('update') === true) {
-            this.validation();
+        this.validation();
+        if (sessionStorage.getItem("update") == "true") {
             fetch(`http://localhost:9000/MedicalInfo/updateMedicalRegister`, {
                 method: "post",
                 body: JSON.stringify(this.state),
@@ -256,8 +277,6 @@ class AddMedicalForm extends Component {
             event.preventDefault();
             sessionStorage.setItem("update", false);
         } else {
-            this.validation();
-            console.log("validando");
             fetch("http://localhost:9000/MedicalInfo/addMedicalInfo", {
                 method: "post",
                 body: JSON.stringify(this.state),
@@ -271,8 +290,9 @@ class AddMedicalForm extends Component {
                     console.log(data);
                 })
                 .catch(err => console.error(err));
-            event.preventDefault();
+
             this.props.history.push(`/HistoricMedicalInfo`);
+            event.preventDefault();
         }
     }
 
@@ -281,14 +301,36 @@ class AddMedicalForm extends Component {
     */
     handleInputChange(event) {
         const { name, value } = event.target;
-        this.setState({
-            [name]: value
-        });
+        if (name === "bloodPressure1" || name === "bloodPressure2") {
+            if (document.getElementById("bloodPressure1").value.length != 0 &&
+                document.getElementById("bloodPressure2").value.length != 0) {
+                this.setState({
+                    bloodPressure: document.getElementById("bloodPressure1").value + '-' + document.getElementById("bloodPressure2").value
+                });
+            }
+        } else {
+            this.setState({
+                [name]: value
+            });
+        }
 
-        if(this.state.size != 0 && this.state.weight != 0){
+        if (this.state.size != 0 && this.state.weight != 0) {
             this.calcIMC();
         }
-       
+
+        if (this.state.pathologies != "" || this.state.allergies != "" || this.state.surgeries != ""
+            || this.state.neurologicalInfo != "" || this.state.pulmonaryCardioInfo != "" || this.state.recommendations != "") {
+            this.checkEmptySpaces();
+        }
+
+    }
+
+    /**
+     * Method that set the state when the select changes
+     * @param {*} event 
+     */
+    cardioVascularSelect(event) {
+        this.setState({ cardiovascularRisk: event.target.value });
     }
 
     /**
@@ -306,17 +348,18 @@ class AddMedicalForm extends Component {
     * Method that verify that the require inputs are not empty
     */
     validation() {
-        if ((this.state.smoking !== 0 && this.state.smoking !== 1)
-            || (this.state.traumas !== 0 && this.state.traumas !== 1)
-            || this.state.size.toString().trim().length == 0
-            || this.state.weight.toString().trim().length == 0
-            || this.state.heartRate.toString().trim().length == 0
-            || this.state.aerobicThreshold.toString().trim().length == 0
-            || this.state.SpO2.toString().trim().length == 0
-            || this.state.waist.toString().trim().length == 0
-            || this.state.hip.toString().trim().length == 0
-            || this.state.bloodPressure.toString().trim().length == 0
-            || this.state.cardiovascularRisk.toString().trim().length == 0) {
+        if ((this.state.smoking.length == 0)
+            || (this.state.traumas.length == 0)
+            || this.state.size.length == 0
+            || this.state.weight.length == 0
+            || this.state.heartRate.length == 0
+            || this.state.aerobicThreshold.length == 0
+            || this.state.SpO2.length == 0
+            || this.state.waist.length == 0
+            || this.state.hip.length == 0
+            || this.state.bloodPressure.trim().length == 0
+            || this.state.cardiovascularRisk == 0
+            || this.state.upToDate == 0) {
             alert("Todos los campos obligatorios  deben estar llenos");
         } else if (this.state.pathologies.trim().length != 0) {
             if (!this.state.validations.validateTextField(this.state.pathologies.trim())) {
@@ -342,25 +385,66 @@ class AddMedicalForm extends Component {
             if (!this.state.validations.validateTextField(this.state.recommendations.trim())) {
                 alert("El campo de recomendaciones no puede contener números");
             }
-        } else if (!this.state.validations.validateNumericField(this.state.bloodPressure.trim())
-            || !this.state.validations.validateNumericField(this.state.heartRate.trim())
-            || !this.state.validations.validateNumericField(this.state.aerobicThreshold.trim())//se debe cambiar por umbral aerobico
-            || !this.state.validations.validateNumericField(this.state.SpO2.trim())
-            || !this.state.validations.validateNumericField(this.state.weight.trim())
-            || !this.state.validations.validateNumericField(this.state.size.trim())
-            || !this.state.validations.validateNumericField(this.state.IMC.trim())
+        } else if (!this.state.validations.validatePercent(this.state.heartRate.trim())
+            || !this.state.validations.validatePercent(this.state.aerobicThreshold.trim())
+            || !this.state.validations.validatePercent(this.state.SpO2.trim())
+            || !this.state.validations.validateKg(this.state.weight.trim())
+            || !this.state.validations.validateKg(this.state.size.trim())
+            || !this.state.validations.validateKg(this.state.IMC.trim())
             || !this.state.validations.validateNumericField(this.state.waist.trim())
-            || !this.state.validations.validateNumericField(this.state.hip.trim())
-            || !this.state.validations.validateNumericField(this.state.cardiovascularRisk.trim())) {
-            alert("Los campos de presión arterial, pulso, umbral aeróbico, oxígeno, peso, talla, cadera, cintura deben ser números");
+            || !this.state.validations.validateNumericField(this.state.hip.trim())) {
+            alert("Los campos de presión arterial, pulso, umbral aeróbico, oxígeno, peso, talla,cadera, cintura deben ser números");
         }
     }
+
+    /**
+     * This method set the state empty for the null values
+     */
+    checkEmptySpaces() {
+        if (document.getElementById("pathologies").value.length == 0 || document.getElementById("pathologies").value == "N/A") {
+            this.setState({
+                pathologies: ""
+            });
+        }
+        if (document.getElementById("allergies").value.length == 0 || document.getElementById("allergies").value == "N/A") {
+            this.setState({
+                allergies: ""
+            });
+        }
+        if (document.getElementById("surgeries").value.length == 0 || document.getElementById("surgeries").value == "N/A") {
+            this.setState({
+                surgeries: ""
+            });
+        }
+        if (document.getElementById("neurologicalInfo").value.length == 0 || document.getElementById("neurologicalInfo").value == "N/A") {
+            this.setState({
+                neurologicalInfo: ""
+            });
+        }
+        if (document.getElementById("pulmonaryCardioInfo").value.length == 0 || document.getElementById("pulmonaryCardioInfo").value == "N/A") {
+            this.setState({
+                pulmonaryCardioInfo: ""
+            });
+        }
+        if (document.getElementById("recommendations").value.length == 0 || document.getElementById("recommendations").value == "N/A") {
+            this.setState({
+                recommendations: ""
+            });
+        }
+        if (document.getElementById("cardiovascularRisk").value == 1) {
+            this.setState({
+                cardiovascularRisk: 1
+            });
+        }
+
+    }
+
 
     /**
     * Method that redirect to the previous page
     */
     backButton() {
-        sessionStorage.setItem('update', null);
+        sessionStorage.setItem('update', false);
         this.props.history.push(`/HistoricMedicalInfo`);
     }
 
@@ -412,7 +496,7 @@ class AddMedicalForm extends Component {
                                                         <div className="control-group">
                                                             <label className="control-label" htmlFor="pathologies" fontSize="18px">Patológicos</label>
                                                             <div className="controls">
-                                                                <input type="text" name="pathologies" id="pathologies" fontSize="18px" className="form-control inputText" value={this.state.pathologies} onChange={this.handleInputChange} />
+                                                                <input type="text" name="pathologies" id="pathologies" fontSize="18px" className="form-control inputText" onChange={this.handleInputChange} />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -422,7 +506,7 @@ class AddMedicalForm extends Component {
                                                         <div className="control-group">
                                                             <label className="control-label" htmlFor="allergies" fontSize="18px">Alergias</label>
                                                             <div className="controls">
-                                                                <input type="text" name="allergies" id="allergies" fontSize="18px" className="form-control inputText" value={this.state.allergies} onChange={this.handleInputChange} />
+                                                                <input type="text" name="allergies" id="allergies" fontSize="18px" className="form-control inputText" onChange={this.handleInputChange} />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -432,7 +516,7 @@ class AddMedicalForm extends Component {
                                                         <div className="control-group">
                                                             <label className="control-label" htmlFor="surgerie" fontSize="18px">Quirúrgicos</label>
                                                             <div className="controls">
-                                                                <input type="text" id="surgerie" className="form-control inputText" fontSize="18px" name="surgeries" value={this.state.surgeries} onChange={this.handleInputChange} />
+                                                                <input type="text" id="surgeries" className="form-control inputText" fontSize="18px" name="surgeries" onChange={this.handleInputChange} />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -496,114 +580,121 @@ class AddMedicalForm extends Component {
                                             <div className="col-12">
                                                 <div className="row">
                                                     <div className="col-3 mt-4">
-                                                    <div className="row">
-                                                            <div className="col-2">
+                                                        <div className="row">
+                                                            <div className="col-7">
                                                                 <div className="control-group">
                                                                     <label className="control-label" font-size="18px" htmlFor="weight">Peso (kg)<font color="red">*</font></label>
                                                                     <div className="controls">
-                                                                        <input type="decimal" id="weight" font-size="18px" name="weight" required  onChange={this.handleInputChange} size="10" placeholder="ej. 80" />
+                                                                        <input type="number" id="weight" font-size="18px" name="weight" required onChange={this.handleInputChange} className="form-control" placeholder="ej. 80" />
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div className="row">
-                                                            <div className="col-2">
+                                                            <div className="col-7">
                                                                 <div className="control-group">
                                                                     <label className="control-label" font-size="18px" htmlFor="size">Talla (m)<font color="red">*</font></label>
                                                                     <div className="controls">
-                                                                        <input type="integer" id="size" font-size="18px" name="size" required onChange={this.handleInputChange} size="10" placeholder="ej: 1.70" />
+                                                                        <input type="number" id="size" font-size="18px" name="size" required onChange={this.handleInputChange} className="form-control" placeholder="ej: 1.70" />
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div className="row">
-                                                            <div className="col-2">
+                                                            <div className="col-7">
                                                                 <div className="control-group">
-                                                                    <label className="control-label"  htmlFor="IMC" font-size="18px">IMC</label>
+                                                                    <label className="control-label" htmlFor="IMC" font-size="18px">IMC</label>
                                                                     <div className="controls">
-                                                                        <input type="text" id="IMC" name="IMC" font-size="18px" value={this.state.IMC} disabled display="none" size="10" />
+                                                                        <input type="number" id="IMC" name="IMC" font-size="18px" value={this.state.IMC} disabled className="form-control" />
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div className="row">
-                                                            <div className="col-2">
+                                                            <div className="col-7">
                                                                 <div className="control-group">
                                                                     <label className="control-label" htmlFor="heartRate" font-size="18px">FC<font color="red">*</font></label>
                                                                     <div className="controls">
-                                                                        <input type="decimal" id="heartRate" name="heartRate" font-size="18px" required  onChange={this.handleInputChange} size="10"/>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                   
-                                                    <div className="row">
-                                                            <div className="col-2">
-                                                                <div className="control-group">
-                                                                    <label className="control-label" htmlFor="aerobicThreshold" font-size="18px">Umbral aeróbico<font color="red">*</font></label>
-                                                                    <div className="controls">
-                                                                        <input type="decimal" id="aerobicThreshold" font-size="18px" name="aerobicThreshold" required  onChange={this.handleInputChange} size="10" />
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        </div>
-                                                       
-                                                    <div className="col-3 mt-4">
-                                                  
-                                                        <div className="row">
-                                                            <div className="col-2">
-                                                                <div className="control-group">
-                                                                    <label className="control-label" htmlFor="SpO2" fontSize="18px">Sp02<font color="red">*</font></label>
-                                                                    <div className="controls">
-                                                                        <input type="decimal" id="SpO2" name="SpO2" font-size="18px" required  onChange={this.handleInputChange} size="10" />
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div className="row">
-                                                            <div className="col-2">
-                                                                <div className="control-group">
-                                                                    <label className="control-label" htmlFor="waist" fontSize="18px">Cintura (cm)<font color="red">*</font></label>
-                                                                    <div className="controls">
-                                                                        <input type="decimal" id="waist" name="waist" font-size="18px" required  onChange={this.handleInputChange} size="10"  />
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div className="row">
-                                                            <div className="col-2">
-                                                                <div className="control-group">
-                                                                    <label className="control-label" htmlFor="hip" fontSize="18px">Cadera (cm)<font color="red">*</font></label>
-                                                                    <div className="controls">
-                                                                        <input type="decimal" id="hip" name="hip" font-size="18px" required onChange={this.handleInputChange} size="10"  />
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div className="row">
-                                                            <div className="col-2">
-                                                                <div className="control-group">
-                                                                    <label className="control-label" htmlFor="bloodPressure" fontSize="18px">Presión Arterial<font color="red">*</font></label>
-                                                                    <div className="controls">
-                                                                        <input type="text" id="bloodPressure" font-size="18px" name="bloodPressure" required  onChange={this.handleInputChange} size="10"  />
+                                                                        <input type="number" id="heartRate" name="heartRate" font-size="18px" required onChange={this.handleInputChange} className="form-control" />
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
 
+                                                        <div className="row">
+                                                            <div className="col-7">
+                                                                <div className="control-group">
+                                                                    <label className="control-label" htmlFor="aerobicThreshold" font-size="18px">Umbral aeróbico<font color="red">*</font></label>
+                                                                    <div className="controls">
+                                                                        <input type="number" id="aerobicThreshold" font-size="18px" name="aerobicThreshold" required onChange={this.handleInputChange} className="form-control" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div className="col-6 mt-4">
+
+                                                    <div className="col-4 mt-4">
+
+                                                        <div className="row">
+                                                            <div className="col-5">
+                                                                <div className="control-group">
+                                                                    <label className="control-label" htmlFor="SpO2" fontSize="18px">Sp02<font color="red">*</font></label>
+                                                                    <div className="controls">
+                                                                        <input type="number" id="SpO2" name="SpO2" font-size="18px" required onChange={this.handleInputChange} className="form-control" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div className="row">
+                                                            <div className="col-5">
+                                                                <div className="control-group">
+                                                                    <label className="control-label" htmlFor="waist" fontSize="18px">Cintura (cm)<font color="red">*</font></label>
+                                                                    <div className="controls">
+                                                                        <input type="number" id="waist" name="waist" font-size="18px" required onChange={this.handleInputChange} className="form-control" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div className="row">
+                                                            <div className="col-5">
+                                                                <div className="control-group">
+                                                                    <label className="control-label" htmlFor="hip" fontSize="18px">Cadera (cm)<font color="red">*</font></label>
+                                                                    <div className="controls">
+                                                                        <input type="number" id="hip" name="hip" font-size="18px" required onChange={this.handleInputChange} className="form-control" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div className="row">
+                                                            <div className="col-5">
+                                                                <label className="control-label" htmlFor="bloodPressure" fontSize="18px">Presión Arterial<font color="red">*</font></label>
+                                                            </div>
+                                                        </div>
+                                                        <div className="row">
+                                                            <div className="col-5">
+                                                                <input type="number" id="bloodPressure1" className="form-control" name="bloodPressure1" required onChange={this.handleInputChange} />
+                                                            </div>
+
+                                                            <label>-</label>
+
+                                                            <div className="col-5">
+                                                                <input type="number" id="bloodPressure2" className="form-control" align="right" name="bloodPressure2" required onChange={this.handleInputChange} />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div className="col-5 mt-4">
                                                         <div className="control-group">
                                                             <label className="control-label" htmlFor="neurologicalInfo" fontSize="18px">Neurológico</label>
                                                             <div className="form-group">
-                                                                <textarea id="neurologicalInfo" className="form-control" font-size="18px" rows="4" name="neurologicalInfo"  onChange={this.handleInputChange}></textarea>
+                                                                <textarea id="neurologicalInfo" className="form-control" font-size="18px" rows="4" name="neurologicalInfo" onChange={this.handleInputChange}></textarea>
                                                             </div>
                                                         </div>
                                                         <div className="control-group">
                                                             <label className="control-label" htmlFor="pulmonaryCardioInfo" fontSize="18px">Cardiopulmonar</label>
                                                             <div className="form-group">
-                                                                <textarea id="pulmonaryCardioInfo" rows="5" font-size="18px" className="form-control" name="pulmonaryCardioInfo"  onChange={this.handleInputChange}></textarea>
+                                                                <textarea id="pulmonaryCardioInfo" rows="5" font-size="18px" className="form-control" name="pulmonaryCardioInfo" onChange={this.handleInputChange}></textarea>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -622,10 +713,10 @@ class AddMedicalForm extends Component {
                                                             <label className="control-label" htmlFor="cardiovascularRisk" fontSize="18px">Riesgo Cardiovascular<font color="red">*</font></label>
                                                         </div>
                                                         <div className="controls">
-                                                            <select name="cardiovascularRisk" id="cardiovascularRisk" font-size="18px" className="form-control" align="left"  onChange={this.handleInputChange} >
-                                                                <option value="1" selected >1</option>
-                                                                <option value="2">2</option>
-                                                                <option value="3">3</option>
+                                                            <select name="cardiovascularRisk" id="cardiovascularRisk" font-size="18px" className="form-control" align="left" onChange={this.cardioVascularSelect} >
+                                                                <option value={1} default >1</option>
+                                                                <option value={2}>2</option>
+                                                                <option value={3}>3</option>
                                                             </select>
                                                         </div>
 
@@ -636,7 +727,7 @@ class AddMedicalForm extends Component {
                                                         <div className="control-group">
                                                             <label className="control-label" htmlFor="recommendations" fontSize="18px">Recomendaciones</label>
                                                             <div className="form-group">
-                                                                <textarea id="recommendations" rows="5" name="recommendations" font-size="18px" className="form-control"  onChange={this.handleInputChange} />
+                                                                <textarea id="recommendations" rows="5" name="recommendations" font-size="18px" className="form-control" onChange={this.handleInputChange} />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -646,7 +737,7 @@ class AddMedicalForm extends Component {
                                                         <div className="form-group" align="left">
                                                             <br></br>
                                                             <p title="Campo obligatorio">Válido hasta<font color="red">*</font></p>
-                                                            <input type="date" name="upToDate" font-size="18px" required onChange={this.handleInputChange}  className="form-control InputText"></input>
+                                                            <input type="date" name="upToDate" id="upToDate" font-size="18px" required onChange={this.handleInputChange} value={this.state.upToDate} className="form-control InputText"></input>
                                                         </div>
                                                     </div>
                                                 </div>
