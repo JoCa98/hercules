@@ -52,28 +52,31 @@ class HistoricRoutineInfo extends Component {
     */
     componentDidMount() {
 
-        this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
-        window.scrollTo(0, 0);
 
-        try {
-            axios.get(`http://localhost:9000/User/getUserName`,
-                {
-                    params: { partyID: this.state.partyID }
-                }).then(response => {
-                    const userName = response.data[0];
-                    this.setState({ userName });
-                });
+        if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
+            window.scrollTo(0, 0);
+            
+            try {
+                axios.get(`http://localhost:9000/User/getUserName`,
+                    {
+                        params: { partyID: this.state.partyID }
+                    }).then(response => {
+                        const userName = response.data[0];
+                        this.setState({ userName });
+                    });
 
-            axios.get(`http://localhost:9000/RoutineRoute/getRoutineHistoric`,
-                {
-                    params: { partyID: this.state.partyID }
-                }).then(response => {
-                    const routineHist = response.data[0];
-                    this.setState({ routineHist });
-                });
-        } catch (err) {
-            console.error("Un error inesperado ha ocurrido");
+                axios.get(`http://localhost:9000/RoutineRoute/getRoutineHistoric`,
+                    {
+                        params: { partyID: this.state.partyID }
+                    }).then(response => {
+                        const routineHist = response.data[0];
+                        this.setState({ routineHist });
+                    });
+            } catch (err) {
+                console.error("Un error inesperado ha ocurrido");
+            }
         }
+
     }
 
     rowEvent(event) {

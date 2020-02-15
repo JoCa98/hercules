@@ -30,16 +30,17 @@ class AddPhysicalInfo extends Component {
     }
 
     componentDidMount() {
-        this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
-        window.scrollTo(0, 0);
+        if(this.state.permissionsManager.validatePermission(this.props.location.pathname, this)){
+            window.scrollTo(0, 0);
 
-        axios.get(`http://localhost:9000/User/getUserName`,
-            {
-                params: { partyID: this.state.partyID }
-            }).then(response => {
-                const userName = response.data[0];
-                this.setState({ userName });
-            });
+            axios.get(`http://localhost:9000/User/getUserName`,
+                {
+                    params: { partyID: this.state.partyID }
+                }).then(response => {
+                    const userName = response.data[0];
+                    this.setState({ userName });
+                });
+        }        
     }
 
     handleSubmit() {

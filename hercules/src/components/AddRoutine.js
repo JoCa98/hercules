@@ -12,6 +12,9 @@ class AddRoutine extends Component {
     constructor() {
         super();
         /**
+         *  permissionsManager:
+         * @type {PermissionsManager}
+         * 
          * routineType: 
          * @type {Array}
          * Property that stores the type of the routines that comes from to the database
@@ -135,7 +138,7 @@ class AddRoutine extends Component {
             routineDay: 1,
             daysCounter: 1,
             modalList: [{}]
-            }
+        }
 
         this.inputNumberValidator = this.inputNumberValidator.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -167,28 +170,32 @@ class AddRoutine extends Component {
     * and call to init buttons, get exercise data and cardio exercise when loading the page for the first time
     */
     componentDidMount() {
-        this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
-        window.scrollTo(0, 0);
+        
 
-        axios.get("http://localhost:9000/RoutineRoute/getRoutineType").then(response => {
-            this.state.routineType = response.data;
-            this.setState({ routineType: response.data });
-        });
-        axios.get("http://localhost:9000/RoutineRoute/getObjetiveType").then(response => {
-            this.state.objective = response.data;
-            this.setState({ objective: response.data });
-        });
-        axios.get(`http://localhost:9000/RoutineRoute/getExerciseType`).then(response => {
-            this.state.exerciseType = response.data;
-            this.setState({ exerciseType: response.data });
-        });
-        axios.get(`http://localhost:9000/RoutineRoute/getLastType`).then(response => {
-            this.state.lastTypeID = response.data[0];
-            this.setState({ lastTypeID: response.data[0] });
-        });
-        this.initButtons();
-        this.getExerciseData();
-        this.cardioExercise();
+        if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
+            window.scrollTo(0, 0);
+
+            axios.get("http://localhost:9000/RoutineRoute/getRoutineType").then(response => {
+                this.state.routineType = response.data;
+                this.setState({ routineType: response.data });
+            });
+            axios.get("http://localhost:9000/RoutineRoute/getObjetiveType").then(response => {
+                this.state.objective = response.data;
+                this.setState({ objective: response.data });
+            });
+            axios.get(`http://localhost:9000/RoutineRoute/getExerciseType`).then(response => {
+                this.state.exerciseType = response.data;
+                this.setState({ exerciseType: response.data });
+            });
+            axios.get(`http://localhost:9000/RoutineRoute/getLastType`).then(response => {
+                this.state.lastTypeID = response.data[0];
+                this.setState({ lastTypeID: response.data[0] });
+            });
+            this.initButtons();
+            this.getExerciseData();
+            this.cardioExercise();
+        }
+       
     }
 
     /**
@@ -378,21 +385,21 @@ class AddRoutine extends Component {
                     this.setState({ exist: true, index: i });
                     if (this.state.typeID == 1) {
                         this.cardioExercise();
-                        if(ex.heartRate != null){
-                        var textHR = ex.heartRate.split('-');
-                        document.getElementById("heartRateInput1").value = textHR[0];
-                        document.getElementById("heartRateInput2").value = textHR[1];
+                        if (ex.heartRate != null) {
+                            var textHR = ex.heartRate.split('-');
+                            document.getElementById("heartRateInput1").value = textHR[0];
+                            document.getElementById("heartRateInput2").value = textHR[1];
                         }
                         document.getElementById("intensityInput").value = ex.intensityPercentage;
                         document.getElementById("minutesInput").value = ex.minutes;
-                        
+
                     } else {
                         document.getElementById("weightInput").value = ex.charge;
                         document.getElementById("seriesInput").value = ex.series;
                         document.getElementById("repetitionsInput").value = ex.repetitions;
                         document.getElementById("minutesInput").value = ex.minutes;
                     }
-                    
+
                     document.getElementById("add").style.display = "none";
                     document.getElementById("edit").style.display = "initial";
                     document.getElementById("delete").style.display = "initial";
@@ -660,22 +667,22 @@ class AddRoutine extends Component {
     /**
      * Method delete the last day button
      */
-    deleteDayButton(){
-        if(this.state.daysCounter > 1){
-           var div = document.getElementById("btn");
-           var button = document.getElementById(this.state.daysCounter);
-           div.removeChild(button);
+    deleteDayButton() {
+        if (this.state.daysCounter > 1) {
+            var div = document.getElementById("btn");
+            var button = document.getElementById(this.state.daysCounter);
+            div.removeChild(button);
             var day = this.state.daysCounter - 1;
             this.setState({
                 routineDay: day,
-                daysCounter : this.state.daysCounter - 1
-           })
-           document.getElementById(day).style.backgroundColor = "#ffffff";
-           document.getElementById(day).style.border = "2px solid #41ade7";
-           document.getElementById(day).style.color = "#0c0c0c";
+                daysCounter: this.state.daysCounter - 1
+            })
+            document.getElementById(day).style.backgroundColor = "#ffffff";
+            document.getElementById(day).style.border = "2px solid #41ade7";
+            document.getElementById(day).style.color = "#0c0c0c";
         }
     }
-    
+
     /**
      * Method that add a day button
      * @param {object} e 
@@ -700,18 +707,18 @@ class AddRoutine extends Component {
                 daysCounter: this.state.daysCounter + 1
             })
 
-            this.changeButtonsColors(value); 
-           
+            this.changeButtonsColors(value);
+
+        }
+        e.preventDefault();
     }
-    e.preventDefault();
-}
 
     /**
      * Method that change the state of routineDay for the selected day
      * @param {object} event 
      */
-    dayButton(event){
-        if (this.state.routineDay != event.target.value){
+    dayButton(event) {
+        if (this.state.routineDay != event.target.value) {
             this.setState({
                 routineDay: event.target.value
             })
@@ -728,18 +735,22 @@ class AddRoutine extends Component {
      * Method that change the color of the day buttons
      * @param {integer} day 
      */
-    changeButtonsColors(day){
-        if(day != 1){
-        for(var i = 1; i <= this.state.daysCounter; i++ ){
-            if(i != day){
-                document.getElementById(i).style.backgroundColor = "#41ade7";
-                document.getElementById(i).style.color = "#ffffff";
+    changeButtonsColors(day) {
+        if (day != 1) {
+            for (var i = 1; i <= this.state.daysCounter; i++) {
+                if (i != day) {
+                    document.getElementById(i).style.backgroundColor = "#41ade7";
+                    document.getElementById(i).style.color = "#ffffff";
+                }
             }
-           }
         }
     }
 
-    reorganizeList(e){
+    /**
+     * Method that reorganize the exercises' list for days
+     * @param {object} e 
+     */
+    reorganizeList(e) {
         var list1 = [];
         var list2 = [];
         var list3 = [];
@@ -749,11 +760,11 @@ class AddRoutine extends Component {
         var newList = [];
         var obj = {};
 
-        for(var i=0; i < this.state.list.length; i++){
+        for (var i = 0; i < this.state.list.length; i++) {
             obj = {
                 name: this.state.list[i].name
             };
-            switch(this.state.list[i].day){
+            switch (this.state.list[i].day) {
                 case 1:
                     list1.push(obj);
                     break;
@@ -775,37 +786,37 @@ class AddRoutine extends Component {
             }
         }
 
-        if(list1.length != 0){
-            if(list2.length != 0){
-                if(list3.length != 0){
-                    if(list4.length != 0){
-                        if(list5.length != 0){
-                            if(list6.length != 0){
-                                newList = [{id:1, list:list1}
-                                    ,{id:2, list:list2}
-                                    ,{id:3, list:list3}
-                                    ,{id:4, list:list4}
-                                    ,{id:5, list:list5}
-                                    ,{id:6, list:list6}];
-                            }else{
-                                newList = [{id:1, list:list1},{id:2,list:list2},{id:3, list:list3},{id:4, list:list4},{id:5, list:list5}];
+        if (list1.length != 0) {
+            if (list2.length != 0) {
+                if (list3.length != 0) {
+                    if (list4.length != 0) {
+                        if (list5.length != 0) {
+                            if (list6.length != 0) {
+                                newList = [{ id: 1, list: list1 }
+                                    , { id: 2, list: list2 }
+                                    , { id: 3, list: list3 }
+                                    , { id: 4, list: list4 }
+                                    , { id: 5, list: list5 }
+                                    , { id: 6, list: list6 }];
+                            } else {
+                                newList = [{ id: 1, list: list1 }, { id: 2, list: list2 }, { id: 3, list: list3 }, { id: 4, list: list4 }, { id: 5, list: list5 }];
                             }
-                        }else{
-                            newList = [{id:1, list:list1},{id:2,list:list2},{id:3, list:list3},{id:4, list:list4}];
+                        } else {
+                            newList = [{ id: 1, list: list1 }, { id: 2, list: list2 }, { id: 3, list: list3 }, { id: 4, list: list4 }];
                         }
-                    }else{
-                        newList = [{id:1, list:list1},{id:2,list:list2},{id:3, list:list3}];
+                    } else {
+                        newList = [{ id: 1, list: list1 }, { id: 2, list: list2 }, { id: 3, list: list3 }];
                     }
-                }else{
-                    newList = [{id:1, list:list1},{id:2,list:list2}];
+                } else {
+                    newList = [{ id: 1, list: list1 }, { id: 2, list: list2 }];
                 }
-            }else{
-                newList = [{id:1, list:list1}];
+            } else {
+                newList = [{ id: 1, list: list1 }];
             }
         }
 
         let nlist = [];
-        newList.map((obj) =>{
+        newList.map((obj) => {
             nlist.push(<b>Día {obj.id}</b>);
             obj.list.map((exercise) => {
                 nlist.push(<p>{exercise.name}</p>)
@@ -860,13 +871,6 @@ class AddRoutine extends Component {
                 <option value={exercises.exerciseTypeID} key={i}>{exercises.description} </option>
             )
         })
-
-        /**
-         * Create a list of the exercises to add
-         */
-  
-          
-     
 
         return (
             <div className="container">
@@ -985,7 +989,7 @@ class AddRoutine extends Component {
                                     <button className="buttonDaysSize ml-1" onClick={this.deleteDayButton}>Eliminar día</button>
                                 </div>
                             </div>
-                             <div className="row" >
+                            <div className="row" >
                                 <div className="col-12" >
                                     <div className="container card mt-1">
                                         <div className="row mt-4">
@@ -1063,7 +1067,6 @@ class AddRoutine extends Component {
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
 
                             <Modal show={this.state.show} handleClose={this.hideModal}>
@@ -1072,7 +1075,7 @@ class AddRoutine extends Component {
                                 </Modal.Header>
                                 <Modal.Body>
                                     <div id="listExercise">
-                                       {this.state.modalList}
+                                        {this.state.modalList}
                                         <label className="inputText">Total de ejercicios: {this.state.list.length}</label>
                                     </div>
                                 </Modal.Body>

@@ -66,47 +66,49 @@ class SignUp extends Component {
         //this.handleSubmit = this.handleSubmit.bind(this);
     }
     componentDidMount() {
-        this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
-        window.scrollTo(0,0);
+        if(this.state.permissionsManager.validatePermission(this.props.location.pathname, this)){
+            window.scrollTo(0,0);
 
-        this.selectWorker();
-        this.selectFemale();
-        var initProvinceID = 2;
-        var initCantonID = 30;
-        var initDistrictID = 242;
-        axios.get(`http://localhost:9000/User/getRelationType`).then(response => {
-            this.setState({ relations: response.data });
-        });
-        axios.get(`http://localhost:9000/User/getProvinces`).then(response => {
-            this.setState({ provinces: response.data });
-            this.provinceList = this.state.provinces.map((provinces, i) => {
-                return (
-                    <option value={provinces.provinceID} key={i}>{provinces.provinceDescription} </option>
-                )
-            })
-            this.setState({ provinceID: initProvinceID });
-            document.getElementById('provinceID').value = initProvinceID
-        });
-        axios.get(`http://localhost:9000/User/getCantons`, { params: { pID: initProvinceID } }).then(response => {
-            this.setState({ cantons: response.data[0] });
-            this.state.cantonList = this.state.cantons.map((cantons, i) => {
-                return (
-                    <option value={cantons.cantonID} key={i}>{cantons.cantonDescription}</option>
-                )
+            this.selectWorker();
+            this.selectFemale();
+            var initProvinceID = 2;
+            var initCantonID = 30;
+            var initDistrictID = 242;
+            axios.get(`http://localhost:9000/User/getRelationType`).then(response => {
+                this.setState({ relations: response.data });
             });
-            this.setState({ cantonID: initCantonID });
-            document.getElementById('cantonID').value = initCantonID
-        });
-        axios.get(`http://localhost:9000/User/getDistricts`, { params: { cID: initCantonID } }).then(response => {
-            this.setState({ districts: response.data[0] });
-            this.state.districtList = this.state.districts.map((districts, i) => {
-                return (
-                    <option value={districts.districtID} key={i}>{districts.districtDescription}</option>
-                )
+            axios.get(`http://localhost:9000/User/getProvinces`).then(response => {
+                this.setState({ provinces: response.data });
+                this.provinceList = this.state.provinces.map((provinces, i) => {
+                    return (
+                        <option value={provinces.provinceID} key={i}>{provinces.provinceDescription} </option>
+                    )
+                })
+                this.setState({ provinceID: initProvinceID });
+                document.getElementById('provinceID').value = initProvinceID
             });
-            this.setState({ districtID: initDistrictID });
-            document.getElementById('districtID').value = initDistrictID
-        });
+            axios.get(`http://localhost:9000/User/getCantons`, { params: { pID: initProvinceID } }).then(response => {
+                this.setState({ cantons: response.data[0] });
+                this.state.cantonList = this.state.cantons.map((cantons, i) => {
+                    return (
+                        <option value={cantons.cantonID} key={i}>{cantons.cantonDescription}</option>
+                    )
+                });
+                this.setState({ cantonID: initCantonID });
+                document.getElementById('cantonID').value = initCantonID
+            });
+            axios.get(`http://localhost:9000/User/getDistricts`, { params: { cID: initCantonID } }).then(response => {
+                this.setState({ districts: response.data[0] });
+                this.state.districtList = this.state.districts.map((districts, i) => {
+                    return (
+                        <option value={districts.districtID} key={i}>{districts.districtDescription}</option>
+                    )
+                });
+                this.setState({ districtID: initDistrictID });
+                document.getElementById('districtID').value = initDistrictID
+            });
+        }
+       
     }
 
     getCantonsByProvince(event) {
