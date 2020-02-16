@@ -3,6 +3,7 @@ import axios from "axios";
 import Hash from './Hash';
 import validations from './validations';
 import PermissionsManager from "./PermissionsManager";
+import ModalComponent from './ModalComponent';
 
 class ChangeTempPassword extends Component {
     constructor(props) {
@@ -14,11 +15,17 @@ class ChangeTempPassword extends Component {
             tempPassword: "",
             newPassword: "",
             confirmPassword: "",
+            show: false,
+            modalTittle: "",
+            modalChildren: "",
+            isExit: false
         };
         this.handleInputChange = this.handleInputChange.bind(this);
         this.updatePassword = this.updatePassword.bind(this);
         this.changeTempPassword = this.changeTempPassword.bind(this);
         this.showPasswordFields = this.showPasswordFields.bind(this);
+        this.modalTrigger = this.modalTrigger.bind(this);
+        this.closeModal = this.closeModal.bind(this);
     }
 
     componentDidMount() {
@@ -39,7 +46,7 @@ class ChangeTempPassword extends Component {
         }
     }
 
-    updatePassword() {
+    updatePassword(event) {
         var newPassword = this.state.hash.encode(this.state.newPassword);
         fetch("http://localhost:9000/User/updatePassword", {
             method: "post",
@@ -59,29 +66,25 @@ class ChangeTempPassword extends Component {
             })
             .catch(err => console.error(err));
         sessionStorage.setItem('password', newPassword);
-        alert("La contraseña fue cambiada con éxito. Ahora será redirigido a la página principal.");
+        this.setState({
+            isExit: true
+        });
+        this.modalTrigger(event, 'Contraseña', 'La contraseña fue cambiada con éxito. Ahora será redirigido a la página principal');
         sessionStorage.removeItem("changeTempPassword");
-        if (sessionStorage.getItem('userTypeID') == 1 || sessionStorage.getItem('userTypeID') == 2) {
-            this.props.history.push(`/UserHome`);
-            window.location.reload();
-        } else if (sessionStorage.getItem('userTypeID') == 3 || sessionStorage.getItem('userTypeID') == 4) {
-            this.props.history.push(`/HomeAdmin`);
-            window.location.reload();
-        }
     }
 
-    changeTempPassword() {
+    changeTempPassword(event) {
         if (document.getElementById('tempPassword').value.length == 0 || document.getElementById('newPassword').value.length == 0
             || document.getElementById('confirmPassword').value.length == 0) {
-            alert("Todos los campos deben estar llenos")
+            this.modalTrigger(event, 'Campos obligatorios', 'Todos los campos deben estar llenos');
         } else if (!this.state.hash.comparePassword(this.state.tempPassword, sessionStorage.getItem('password'))) {
-            alert("La contraseña temporal es incorrecta");
+            this.modalTrigger(event, 'Contraseña', 'La contraseña temporal es incorrecta');
         } else if (!this.state.validations.validatePasswordField(this.state.newPassword) || !this.state.validations.validatePasswordField(this.state.confirmPassword)) {
-            alert("La contraseña debe contar con una extensión mínima de 8 caracteres y estar compuesta almenos por números y letras");
+            this.modalTrigger(event, 'Contraseña', 'La contraseña debe contar con una extensión mínima de 8 caracteres y estar compuesta almenos por números y letras');
         } else if (this.state.newPassword != this.state.confirmPassword) {
-            alert("Los campos de nueva contraseña no coinciden");
+            this.modalTrigger(event, 'Contraseña', 'Los campos de nueva contraseña no coinciden');
         } else {
-            this.updatePassword();
+            this.updatePassword(event);
         }
     }
 
@@ -91,6 +94,37 @@ class ChangeTempPassword extends Component {
             [name]: value
         });
     }
+
+    /**
+        * This method takes care of show a modal with useful information
+        */
+    modalTrigger(event, mdTittle, mdChildren) {
+        this.setState({
+            show: !this.state.show,
+            modalTittle: mdTittle,
+            modalChildren: mdChildren
+        });
+        event.preventDefault();
+    };
+
+    /**
+     * This method close the modal  
+     */
+    closeModal(event) {
+        this.setState({
+            show: !this.state.show
+        });
+        if (this.state.isExit) {
+            if (sessionStorage.getItem('userTypeID') == 1 || sessionStorage.getItem('userTypeID') == 2) {
+                this.props.history.push(`/UserHome`);
+                window.location.reload();
+            } else if (sessionStorage.getItem('userTypeID') == 3 || sessionStorage.getItem('userTypeID') == 4) {
+                this.props.history.push(`/HomeAdmin`);
+                window.location.reload();
+            }
+        }
+        event.preventDefault();
+    };
 
     render() {
         return (
@@ -118,7 +152,13 @@ class ChangeTempPassword extends Component {
                         </div>
                     </div>
                     <div className="col-3">
-
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-md-1">
+                        <ModalComponent tittle={this.state.modalTittle} show={this.state.show} onClose={this.closeModal} >
+                            <br />{this.state.modalChildren}
+                        </ModalComponent>
                     </div>
                 </div>
             </div>
