@@ -83,6 +83,8 @@ class AddAdmin extends Component {
                 this.modalTrigger(event,'Cédula','El formato de la cédula ingresada es incorrecto');                 
             } else if (!this.state.validations.validateAdminEmailField(this.state.email)) {
                 this.modalTrigger(event,'Email','El email no tiene el formato correcto');                 
+            } else if (!this.state.validations.validatePasswordField(this.state.password) || !this.state.validations.validatePasswordField(this.state.confirmPassword)) {
+                this.modalTrigger(event, 'Contraseña', 'La contraseña debe contar con una extensión mínima de 8 caracteres y estar compuesta almenos por números y letras');
             } else if (this.state.password != this.state.confirmPassword) {
                 this.modalTrigger(event,'Contraseña','Los campos de la contraseña no coinciden');                                 
             } else if (isEmailValid == 1) {
@@ -116,6 +118,9 @@ class AddAdmin extends Component {
    
     }
 
+    /**
+     * This method takes care of show a modal with useful information
+     */
     modalTrigger(event,mdTittle,mdChildren) {
         this.setState({ 
             show: !this.state.show,
@@ -125,6 +130,9 @@ class AddAdmin extends Component {
         event.preventDefault();      
     };
 
+    /**
+     * This method close the modal  
+     */
     closeModal(event) {
         this.setState({ 
             show: !this.state.show
@@ -202,10 +210,6 @@ class AddAdmin extends Component {
             document.getElementById('password').type = "password";
             document.getElementById('confirmPassword').type = "password";
         }
-    }
-
-    onClose = (e) => {
-        this.props.onClose && this.props.onClose(e);
     }
 
     /**

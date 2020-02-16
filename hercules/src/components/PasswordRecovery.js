@@ -44,6 +44,7 @@ class PasswordRecovery extends Component {
                 console.log(data);
             })
             .catch(err => console.error(err));
+            alert(tempPassword);
         this.sendTempPasswordEmail(tempPassword);
         alert("Se ha enviado una contraseña temporal al correo ingresado. Ahora será redirigido a la pantalla de ingreso");
         this.props.history.push(`/`);

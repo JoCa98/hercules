@@ -4,7 +4,6 @@ import validations from './validations';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import PermissionsManager from "./PermissionsManager";
 
-
 class EditPhysicalInfo extends Component {
     constructor(props) {
         super(props);

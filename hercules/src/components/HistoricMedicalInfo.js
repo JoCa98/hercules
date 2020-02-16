@@ -51,7 +51,6 @@ class HistoricMedicalInfo extends Component {
             sessionStorage.getItem('dateLastMedicRegistry') !== null &&
             new Date(sessionStorage.getItem('dateLastMedicRegistry')) === Date(new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate())) {
             alert("Solo se puede agregar un registro por día.");
-
         } else {
             sessionStorage.setItem("update", false);
             this.props.history.push(`/AddMedicalForm`);
