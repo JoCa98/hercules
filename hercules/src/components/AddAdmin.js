@@ -19,7 +19,6 @@ import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import ModalComponent from './ModalComponent';
 import PermissionsManager from "./PermissionsManager";
 
-
 class AddAdmin extends Component {
     constructor(props) {
         super(props);
@@ -78,7 +77,7 @@ class AddAdmin extends Component {
                 || !this.state.validations.validateTextField(this.state.firstLastName.trim())
                 || (this.state.secondLastName != null && (this.state.secondLastName.trim() != "") && (!this.state.validations.validateTextField(this.state.secondLastName.trim())))
             ) {
-                this.modalTrigger(event,'Números','Los datos del nombre solo pueden estar compuestos por letras');                
+                this.modalTrigger(event,'Nombre','Los datos del nombre solo pueden estar compuestos por letras');                
             } else if (!this.state.validations.validateIdentification(this.state.identificationID)) {                
                 this.modalTrigger(event,'Cédula','El formato de la cédula ingresada es incorrecto');                 
             } else if (!this.state.validations.validateAdminEmailField(this.state.email)) {
@@ -113,9 +112,7 @@ class AddAdmin extends Component {
                     .catch(err => console.error(err));
             }
         });
-
         event.preventDefault();
-   
     }
 
     /**

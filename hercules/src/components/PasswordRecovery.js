@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import RandomPassword from './RandomPassword';
 import Hash from './Hash';
 import PermissionsManager from "./PermissionsManager";
-
-
+import ModalComponent from './ModalComponent';
 
 class PasswordRecovery extends Component {
     constructor() {
@@ -12,12 +11,18 @@ class PasswordRecovery extends Component {
             permissionsManager: new PermissionsManager(),
             randomPassword: new RandomPassword(),
             hash: new Hash(),
-            email: ""
+            email: "",
+            show: false,
+            modalTittle: "",
+            modalChildren: "",
+            isExit: false
         }
         this.handleInputChange = this.handleInputChange.bind(this);
         this.sendTempPasswordEmail = this.sendTempPasswordEmail.bind(this);
         this.updatePassword = this.updatePassword.bind(this);
         this.backButton = this.backButton.bind(this);
+        this.modalTrigger = this.modalTrigger.bind(this);
+        this.closeModal = this.closeModal.bind(this);
     }
 
     componentDidMount() {
@@ -25,7 +30,7 @@ class PasswordRecovery extends Component {
         window.scrollTo(0, 0);
     }
 
-    updatePassword() {
+    updatePassword(event) {
         var tempPassword = this.state.randomPassword.generatePassword();
         fetch("http://localhost:9000/User/updatePassword", {
             method: "post",
@@ -43,11 +48,12 @@ class PasswordRecovery extends Component {
             .then(data => {
                 console.log(data);
             })
-            .catch(err => console.error(err));
-            alert(tempPassword);
+            .catch(err => console.error(err));            
         this.sendTempPasswordEmail(tempPassword);
-        alert("Se ha enviado una contraseña temporal al correo ingresado. Ahora será redirigido a la pantalla de ingreso");
-        this.props.history.push(`/`);
+        this.setState({ 
+            isExit: true
+         }); 
+        this.modalTrigger(event,'Contraseña','Se ha enviado una contraseña temporal al correo ingresado. Ahora será redirigido a la pantalla de ingreso');                                            
     }
 
     sendTempPasswordEmail(tempPassword) {
@@ -73,6 +79,32 @@ class PasswordRecovery extends Component {
         });
     }
 
+
+    /**
+     * This method takes care of show a modal with useful information
+     */
+    modalTrigger(event,mdTittle,mdChildren) {
+        this.setState({ 
+            show: !this.state.show,
+            modalTittle: mdTittle,
+            modalChildren: mdChildren
+        });     
+        event.preventDefault();      
+    };
+
+    /**
+     * This method close the modal  
+     */
+    closeModal(event) {
+        this.setState({ 
+            show: !this.state.show
+        });  
+        if(this.state.isExit){
+            this.props.history.push(`/`);
+        }    
+        event.preventDefault();      
+    };
+
     backButton() {
         this.props.history.push(`/`);
     }
@@ -96,6 +128,13 @@ class PasswordRecovery extends Component {
                                 </div>
                                 <div className="col-6 text-right">
                                     <button type="button" name="sendTempPassword" className="buttonSizeGeneral" onClick={this.updatePassword}>Enviar</button>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-md-1">
+                                    <ModalComponent tittle={this.state.modalTittle} show={this.state.show} onClose={this.closeModal} >
+                                        <br />{this.state.modalChildren}
+                                    </ModalComponent>
                                 </div>
                             </div>
                         </form>
