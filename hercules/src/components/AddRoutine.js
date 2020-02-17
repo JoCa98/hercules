@@ -4,8 +4,8 @@ import leftArrowImage from '../appImage/leftArrow.svg';
 import rightArrowImage from '../appImage/rightArrow.svg';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import Modal from 'react-bootstrap/Modal';
-import { networkInterfaces } from 'os';
 import PermissionsManager from "./PermissionsManager";
+import ModalComponent from './ModalComponent';
 
 
 class AddRoutine extends Component {
@@ -133,11 +133,15 @@ class AddRoutine extends Component {
             exerciseID: 0,
             exist: false,
             index: 0,
-            show: false,
+            showModal: false,
             name: "",
             routineDay: 1,
             daysCounter: 1,
-            modalList: [{}]
+            modalList: [{}],
+            show: false,
+            modalTittle: "",
+            modalChildren: "",
+            isExit: false
         }
 
         this.inputNumberValidator = this.inputNumberValidator.bind(this);
@@ -162,16 +166,43 @@ class AddRoutine extends Component {
         this.changeButtonsColors = this.changeButtonsColors.bind(this);
         this.deleteDayButton = this.deleteDayButton.bind(this);
         this.reorganizeList = this.reorganizeList.bind(this);
+        this.modalTrigger = this.modalTrigger.bind(this);
+        this.closeModal = this.closeModal.bind(this);
 
     }
+
+
+    /**
+       * This method takes care of show a modal with useful information
+       */
+    modalTrigger(event, mdTittle, mdChildren) {
+        this.setState({
+            show: !this.state.show,
+            modalTittle: mdTittle,
+            modalChildren: mdChildren
+        });
+        event.preventDefault();
+    };
+
+    /**
+    * This method close the modal  
+    */
+    closeModal(event) {
+        this.setState({
+            show: !this.state.show
+        });
+        if (this.state.isExit) {
+            this.props.history.push(`/`);
+        }
+        event.preventDefault();
+    };
+
 
     /**
     * Method that  load the routine type list, objective list, exercise type list and get the last type id,
     * and call to init buttons, get exercise data and cardio exercise when loading the page for the first time
     */
     componentDidMount() {
-        
-
         if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
             window.scrollTo(0, 0);
 
@@ -195,14 +226,14 @@ class AddRoutine extends Component {
             this.getExerciseData();
             this.cardioExercise();
         }
-       
+
     }
 
     /**
      * Method that put the state of show in true
      */
     showModal = (e) => {
-        this.setState({ show: true });
+        this.setState({ showModal: true });
         e.preventDefault();
     };
 
@@ -210,7 +241,7 @@ class AddRoutine extends Component {
      * Method that put the state of show in false
      */
     hideModal = (e) => {
-        this.setState({ show: false });
+        this.setState({ showModal: false });
         e.preventDefault();
     };
 
@@ -430,9 +461,10 @@ class AddRoutine extends Component {
                 this.state.list[this.state.index].minutes = document.getElementById("minutesInput").value;
                 this.state.list[this.state.index].charge = document.getElementById("weightInput").value;
             }
-            alert("Se ha editado con éxito");
+
+            this.modalTrigger(e, 'Ejercicios', 'Se ha editado con éxito el ejercicio');
         } else {
-            alert("El elemento no se encuentra");
+            this.modalTrigger(e, 'Ejercicios', 'El ejercicio no se encuentra registrado');
         }
         this.emptyInputs();
         this.disabledInputs();
@@ -446,9 +478,9 @@ class AddRoutine extends Component {
     deleteExercise(e) {
         if (this.state.exist) {
             this.state.list.splice(this.state.index, 1);
-            alert("Se ha eliminado con éxito");
+            this.modalTrigger(e, 'Ejercicios', 'Se ha eliminado con éxito el ejercicio');
         } else {
-            alert("El elemento no se encuentra");
+            this.modalTrigger(e, 'Ejercicios', 'El ejercicio no se encuentra registrado');
         }
         this.emptyInputs();
         this.disabledInputs();
@@ -465,11 +497,11 @@ class AddRoutine extends Component {
             && document.getElementById("repetitionsInput").value.length == 0 && document.getElementById("minutesInput").value.length === 0
             && document.getElementById("intensityInput").value.length === 0 && (document.getElementById("heartRateInput1").value.length === 0
                 && document.getElementById("heartRateInput2").value.length === 0)) {
-            alert("Debe llenar al menos un dato");
+            this.modalTrigger(e, 'Campos obligatorios', 'Debe llenar al menos un dato del ejercicio');
         } else {
             if ((document.getElementById("heartRateInput1").value.length !== 0 && document.getElementById("heartRateInput2").value.length === 0)
                 || (document.getElementById("heartRateInput1").value.length === 0 && document.getElementById("heartRateInput2").value.length !== 0)) {
-                alert("Debe agregar ambas datos para la frecuencia cardíaca");
+                this.modalTrigger(e, 'Campos obligatorios', 'Debe agregar ambas datos para la frecuencia cardíaca');
                 e.preventDefault();
             } else {
                 var weight = document.getElementById("weightInput").value;
@@ -510,11 +542,10 @@ class AddRoutine extends Component {
                 }
 
                 if (this.state.exist) {
-                    alert("El ejercicio ya fue agregado");
-
+                    this.modalTrigger(e, 'Ejercicios', 'El ejercicio ya estaba agregado anteriormente');
                 } else {
                     this.state.list.push(obj);
-                    alert("El ejercicio ha sido agregado con éxito");
+                    this.modalTrigger(e, 'Ejercicios', 'El ejercicio ha sido agregado con éxito');
                 }
             }
         }
@@ -584,14 +615,14 @@ class AddRoutine extends Component {
             })
                 .then(response => {
                     id = response.data[0];
-                    this.submitExercise(id[0].id);
+                    this.submitExercise(id[0].id,e);
                 })
 
                 .catch(err => console.error(err));
 
             e.preventDefault();
         } else {
-            alert("Debe agregar los datos de la preescripción física");
+            this.modalTrigger(e, 'Campos obligatorios', 'Debe agregar los datos de la preescripción física');
             e.preventDefault();
         }
 
@@ -601,7 +632,7 @@ class AddRoutine extends Component {
      * Method that add a list of exercises to a routine in the database
      * @param {integer} id 
      */
-    submitExercise(id) {
+    submitExercise(id,e) {
         if (!this.arrayEmpty()) {
             this.state.list.map((ex) => {
                 fetch("http://localhost:9000/RoutineRoute/addExercise", {
@@ -624,13 +655,16 @@ class AddRoutine extends Component {
                 })
                     .then(res => res.json())
                     .then(data => {
-                        console.log(data);
+                        this.setState({
+                            isExit: true
+                        });
+                        this.modalTrigger(e, 'Ingreso de registro', 'Se ha ingresado exitosamente la rutina');
                     })
                     .catch(err => console.error(err));
             })
-            this.props.history.push(`/HistoricRoutineInfo`);
+
         } else {
-            alert("Debe agregar ejercicios");
+            this.modalTrigger(e, 'Ejercicios', 'Debe agregar ejercicios');
         }
     }
 
@@ -1069,7 +1103,7 @@ class AddRoutine extends Component {
                                 </div>
                             </div>
 
-                            <Modal show={this.state.show} handleClose={this.hideModal}>
+                            <Modal show={this.state.showModal} handleClose={this.hideModal}>
                                 <Modal.Header closeButton onClick={this.hideModal}>
                                     <Modal.Title>Ejercicios seleccionados</Modal.Title>
                                 </Modal.Header>
@@ -1091,6 +1125,13 @@ class AddRoutine extends Component {
                                 </div>
                                 <div className=" mt-4 col-2">
                                     <button align="left" name="saveButton" className="buttonSizeGeneral" onClick={this.reorganizeList}> Guardar </button>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-md-1">
+                                    <ModalComponent tittle={this.state.modalTittle} show={this.state.show} onClose={this.closeModal} >
+                                        <br />{this.state.modalChildren}
+                                    </ModalComponent>
                                 </div>
                             </div>
                         </form>

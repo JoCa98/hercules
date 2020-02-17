@@ -18,7 +18,7 @@ import UserConfiguration from './components/UserConfiguration';
 import LogIn from './components/LogIn';
 import ConsultUser from './components/ConsultUser';
 import HistoricPhysicalInfoAdmin from './components/HistoricPhysicalInfoAdmin';
-import AddMedicalForm from './components/AddMedicalForm';
+import MedicalForm from './components/MedicalForm';
 import HistoricMedicalInfo from './components/HistoricMedicalInfo';
 import RoutineAdmin from './components/RoutineAdmin';
 import AddPhysicalInfo from './components/AddPhysicalInfo';
@@ -48,7 +48,7 @@ function App() {
           {/** Admin Side */}
           <Route exact path="/HomeAdmin" component={HomeAdmin} />
           <Route exact path="/AddAdmin" component={AddAdmin} />
-          <Route exact path="/AddMedicalForm" component={AddMedicalForm} />
+          <Route exact path="/MedicalForm" component={MedicalForm} />
           <Route exact path="/AddPhysicalInfo" component={AddPhysicalInfo} />
           <Route exact path="/EditPhysicalInfo" component={EditPhysicalInfo} />
           <Route exact path="/AddRoutine" component={AddRoutine} />

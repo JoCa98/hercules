@@ -4,8 +4,8 @@ import downloadImage from '../appImage/downloadImage.png';
 import TablePhysicalInfo from './TablePhysicalInfo';
 import axios from "axios";
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
-import json2csv from 'json2csv';
 import PermissionsManager from "./PermissionsManager";
+import ModalComponent from './ModalComponent';
 
 
 
@@ -25,13 +25,40 @@ class HistoricPhysicalInfoAdmin extends Component {
             permissionsManager: new PermissionsManager(),
             userName: [{}],
             partyID: sessionStorage.getItem("userPartyID"),
-            physicalInfo: [{}]
+            physicalInfo: [{}],
+            show: false,
+            modalTittle: "",
+            modalChildren: ""
         }
 
         this.redirect = this.redirect.bind(this);
         this.backButton = this.backButton.bind(this);
         this.downloadCSV = this.downloadCSV.bind(this);
+        this.modalTrigger = this.modalTrigger.bind(this);
+        this.closeModal = this.closeModal.bind(this);
     }
+
+    /**
+   * This method takes care of show a modal with useful information
+   */
+    modalTrigger(event, mdTittle, mdChildren) {
+        this.setState({
+            show: !this.state.show,
+            modalTittle: mdTittle,
+            modalChildren: mdChildren
+        });
+        event.preventDefault();
+    };
+
+    /**
+    * This method close the modal  
+    */
+    closeModal(event) {
+        this.setState({
+            show: !this.state.show
+        });
+        event.preventDefault();
+    };
 
     componentDidMount() {
 
@@ -51,16 +78,13 @@ class HistoricPhysicalInfoAdmin extends Component {
         }
     }
 
-    redirect() {
+    redirect(event) {
         if (sessionStorage.getItem('dateLastPhysicalRegistry') !== 'undefined' &&
             sessionStorage.getItem('dateLastPhysicalRegistry') !== null &&
             new Date(sessionStorage.getItem('dateLastPhysicalRegistry')) === Date(new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate())) {
-
-            alert("Solo se puede agregar un registro por día.");
-
+            this.modalTrigger(event, 'Restricciones', 'Solo se puede agregar un registro por día');
         } else {
             this.props.history.push(`/AddPhysicalInfo`);
-
         }
     }
 
@@ -134,6 +158,13 @@ class HistoricPhysicalInfoAdmin extends Component {
                     <div className="row">
                         <div className=" mt-4 col-md-8">
                             <button align="left" className="buttonSizeGeneral" onClick={this.backButton}>Volver</button>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-md-1">
+                            <ModalComponent tittle={this.state.modalTittle} show={this.state.show} onClose={this.closeModal} >
+                                <br />{this.state.modalChildren}
+                            </ModalComponent>
                         </div>
                     </div>
                 </div>

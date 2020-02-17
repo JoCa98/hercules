@@ -4,7 +4,7 @@ import validations from './validations';
 import Hash from './Hash';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import PermissionsManager from "./PermissionsManager";
-
+import ModalComponent from './ModalComponent';
 
 class UserConfiguration extends Component {
     constructor(props) {
@@ -43,6 +43,9 @@ class UserConfiguration extends Component {
             cantonID: "",
             districts: [{}],
             districtList: null,
+            show: false,
+            modalTittle: "",
+            modalChildren: ""
         };
 
         this.handleSelectProvince = this.handleSelectProvince.bind(this);
@@ -68,7 +71,6 @@ class UserConfiguration extends Component {
         this.changeContact = this.changeContact.bind(this);
         this.cancelContact = this.cancelContact.bind(this);
 
-
         this.loadUserInfo = this.loadUserInfo.bind(this);
         this.getLocalGeoSupID = this.getLocalGeoSupID.bind(this);
         this.initButtons = this.initButtons.bind(this);
@@ -82,11 +84,11 @@ class UserConfiguration extends Component {
         this.initAllFields = this.initAllFields.bind(this);
         this.showPasswordFields = this.showPasswordFields.bind(this);
 
+        this.modalTrigger = this.modalTrigger.bind(this);        
+
         this.backButton = this.backButton.bind(this);
 
     }
-
-
 
     componentDidMount() {
 
@@ -298,7 +300,7 @@ class UserConfiguration extends Component {
         this.state.email = sessionStorage.getItem('email');
     }
 
-    updateUser() {
+    updateUser(event) {
         var secondName = this.state.secondName;
         var secondLastName = this.state.secondLastName;
         if (secondName == null) {
@@ -333,10 +335,10 @@ class UserConfiguration extends Component {
                 console.log(data);
             })
             .catch(err => console.error(err));
-        alert("Los datos de usuario fueron actualizados con éxito");
+        this.modalTrigger(event, 'Datos personales', 'Los datos de usuario fueron actualizados con éxito');
     }
 
-    updatePassword() {
+    updatePassword(event) {
         fetch("http://localhost:9000/User/updatePassword", {
             method: "post",
             body: JSON.stringify({
@@ -354,10 +356,10 @@ class UserConfiguration extends Component {
                 console.log(data);
             })
             .catch(err => console.error(err));
-        alert("La contraseña fue cambiada con éxito");
+        this.modalTrigger(event, 'Contraseña', 'La contraseña fue cambiada con éxito');
     }
 
-    updateContact() {
+    updateContact(event) {
         //Validacion 
         fetch("http://localhost:9000/User/updateContact", {
             method: "post",
@@ -377,7 +379,7 @@ class UserConfiguration extends Component {
                 console.log(data);
             })
             .catch(err => console.error(err));
-        alert("Los datos del contacto de emergencia fueron actualizados con éxito");
+        this.modalTrigger(event, 'Contacto de emergencia', 'Los datos del contacto de emergencia fueron actualizados con éxito');
     }
 
     loadAccountInfo() {
@@ -478,7 +480,7 @@ class UserConfiguration extends Component {
         this.enableInfoFields(false)
     }
 
-    changeInfo() {
+    changeInfo(event) {
         axios.get(`http://localhost:9000/User/isIdentificationValid`, { params: { identificationID: this.state.identificationID } }).then(response => {
             var identificationIDValid = JSON.parse(JSON.stringify(response.data))[0]['isIdentificationValid'].data[0];
             axios.get(`http://localhost:9000/User/isCarnetValid`, { params: { carnet: this.state.carnet } }).then(response => {
@@ -487,30 +489,30 @@ class UserConfiguration extends Component {
                     || this.state.phoneNumber1.trim().length == 0
                     || this.state.career.trim().length == 0 || this.state.carnet.trim().length == 0
                     || this.state.identificationID.toString().trim().length == 0) {
-                    alert("Todos los datos del usuarios deben estar llenos");
+                    this.modalTrigger(event, 'Campos obligatorios', 'Todos los datos del usuarios deben estar llenos');
                 } else if (!this.state.validations.validateTextField(this.state.firstName.trim())
                     || (this.state.secondName != null && (this.state.secondName.trim().length != 0) && (!this.state.validations.validateTextField(this.state.secondName.trim())))
                     || !this.state.validations.validateTextField(this.state.lastName.trim())
                     || (this.state.secondLastName != null && (this.state.secondLastName.trim().length != 0) && (!this.state.validations.validateTextField(this.state.secondLastName.trim())))
                 ) {
-                    alert("Los datos del nombre solo pueden estar compuestos por letras y extensión mínima de 2 caracteres");
+                    this.modalTrigger(event, 'Nombre', 'Los datos del nombre solo pueden estar compuestos por letrasy extensión mínima de 2 caracteres');
                 } else if (!this.state.validations.validatePhoneNumberField(this.state.phoneNumber1)
                     || ((this.state.phoneNumber2.trim().length != 0) && (!this.state.validations.validatePhoneNumberField(this.state.phoneNumber2)))) {
-                    alert("Los números telefónicos deben estar compuestos por 8 dígitos");
+                    this.modalTrigger(event, 'Números telefónicos', 'Los números telefónicos deben estar compuestos por 8 dígitos');
                 } else if (this.state.carnet != "N/A" && !this.state.validations.validateCarnetField(this.state.carnet)) {
-                    alert("El carné debe estar compuesto por 1 letra inicial y 5 dígitos");
+                    this.modalTrigger(event, 'Carné', 'El carné debe estar compuesto por 1 letra inicial y 5 dígitos');
                 } else if (this.state.carnet != "N/A" && carnetValid == 1 && (this.state.carnet != sessionStorage.getItem('currentCarnet'))) {
-                    alert("El carné ingresado ya corresponde a otro usuario registrado");
+                    this.modalTrigger(event, 'Carné', 'El carné ingresado ya corresponde a otro usuario registrado');
                 } else if (!this.state.validations.validateIdentification(this.state.identificationID)) {
-                    alert("El formato de la cédula ingresada es incorrecto");
+                    this.modalTrigger(event, 'Cédula', 'El formato de la cédula ingresada es incorrecto');
                 } else if (identificationIDValid == 1 && (this.state.identificationID != sessionStorage.getItem('currentIdentificationID'))) {
-                    alert("La cédula ingresado ya corresponde a otro usuario registrado");
+                    this.modalTrigger(event, 'Cédula', 'La cédula ingresado ya corresponde a otro usuario registrado');
                 } else {
                     if (window.confirm("¿Está seguro de actualizar los datos de usuario?") == true) {
                         document.getElementById('changeInfo').style.display = 'none';
                         document.getElementById('editInfo').style.display = 'block';
                         document.getElementById('cancelInfo').style.display = 'none';
-                        this.updateUser();
+                        this.updateUser(event);
                         this.enableInfoFields(false);
                     }
                 }
@@ -533,22 +535,22 @@ class UserConfiguration extends Component {
         this.enablePasswordFields(false);
     }
 
-    changePassword() {
+    changePassword(event) {
         if (document.getElementById('password').value.length == 0 || document.getElementById('newPassword').value.length == 0
             || document.getElementById('confirmNewPassword').value.length == 0) {
-            alert("Todos los campos de contraseña deben estar llenos")
+            this.modalTrigger(event, 'Contraseña', 'Todos los campos de contraseña deben estar llenos');
         } else if (!this.state.hash.comparePassword(this.state.password, sessionStorage.getItem('password'))) {
-            alert("La contraseña actual es incorrecta");
+            this.modalTrigger(event, 'Contraseña', 'La contraseña actual es incorrecta');
         } else if (!this.state.validations.validatePasswordField(this.state.newPassword) || !this.state.validations.validatePasswordField(this.state.confirmNewPassword)) {
-            alert("La contraseña debe contar con una extensión mínima de 8 caracteres y estar compuesta almenos por números y letras");
+            this.modalTrigger(event, 'Contraseña', 'La contraseña debe contar con una extensión mínima de 8 caracteres y estar compuesta almenos por números y letras');
         } else if (this.state.newPassword != this.state.confirmNewPassword) {
-            alert("Los campos de nueva contraseña no coinciden");
+            this.modalTrigger(event, 'Contraseña', 'Los campos de nueva contraseña no coinciden');
         } else {
             if (window.confirm("¿Está seguro de actualizar los datos de la contraseña?") == true) {
                 document.getElementById('changePassword').style.display = 'none';
                 document.getElementById('editPassword').style.display = 'block';
                 document.getElementById('cancelPassword').style.display = 'none';
-                this.updatePassword();
+                this.updatePassword(event);
                 this.setState({ password: "", newPassword: "", confirmNewPassword: "" })
                 this.enablePasswordFields(false);
             }
@@ -570,20 +572,19 @@ class UserConfiguration extends Component {
         this.enableContactFields(false);
     }
 
-    changeContact() {
-        if (this.state.emergencyContactPhoneNumber.trim().length == 0 || this.state.contactName.trim().length == 0) {
-            alert("Todos los datos del contacto de emergencia deben estar llenos");
-
+    changeContact(event) {
+        if (this.state.emergencyContactPhoneNumber.trim().length == 0 || this.state.contactName.trim().length == 0) {            
+            this.modalTrigger(event, 'Contacto de emergencia', 'Todos los datos del contacto de emergencia deben estar llenos');
         } else if (!this.state.validations.validateTextField(this.state.contactName)) {
-            alert("El nombre del contacto de emergencia solo pueden estar compuesto por letras y extensión mínima de 2 caracteres");
+            this.modalTrigger(event, 'Contacto de emergencia', 'El nombre del contacto de emergencia solo pueden estar compuesto por letras y extensión mínima de 2 caracteres');            
         } else if (!this.state.validations.validatePhoneNumberField(this.state.emergencyContactPhoneNumber)) {
-            alert("El número teléfonico del contacto de emergencia debe estar compuesto por 8 dígitos");
+            this.modalTrigger(event, 'Contacto de emergencia', 'El número teléfonico del contacto de emergencia debe estar compuesto por 8 dígitos');            
         } else {
             if (window.confirm("¿Está seguro de actualizar los datos del contacto de emergencia?") == true) {
                 document.getElementById('changeContact').style.display = 'none';
                 document.getElementById('editContact').style.display = 'block';
                 document.getElementById('cancelContact').style.display = 'none';
-                this.updateContact();
+                this.updateContact(event);
                 this.enableContactFields(false);
             }
         }
@@ -601,6 +602,18 @@ class UserConfiguration extends Component {
             document.getElementById('confirmNewPassword').type = "password";
         }
     }
+
+    /**
+     * This method takes care of show a modal with useful information
+     */
+    modalTrigger(event, mdTittle, mdChildren) {
+        this.setState({
+            show: !this.state.show,
+            modalTittle: mdTittle,
+            modalChildren: mdChildren
+        });
+        event.preventDefault();
+    };
 
     /**
    * Method that redirect to the previous page
@@ -866,6 +879,13 @@ class UserConfiguration extends Component {
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-md-1">
+                                <ModalComponent tittle={this.state.modalTittle} show={this.state.show} onClose={this.modalTrigger} >
+                                    <br />{this.state.modalChildren}
+                                </ModalComponent>
                             </div>
                         </div>
                         <div className="row">

@@ -3,13 +3,14 @@ import axios from "axios";
 import validations from './validations';
 import PermissionsManager from "./PermissionsManager";
 import Hash from './Hash';
+import ModalComponent from './ModalComponent';
 
 class SignUp extends Component {
     constructor(props) {
         super(props);
         this.state = {
             validations: new validations(),
-            permissionsManager : new PermissionsManager(),
+            permissionsManager: new PermissionsManager(),
             hash: new Hash(),
             identificationID: "",
             firstName: "",
@@ -42,7 +43,10 @@ class SignUp extends Component {
             cantonID: "30",
             districts: [{}],
             districtList: null,
-
+            show: false,
+            modalTittle: "",
+            modalChildren: "",
+            isExit: false
         };
 
         this.handleSelectProvince = this.handleSelectProvince.bind(this);
@@ -64,10 +68,12 @@ class SignUp extends Component {
         this.showPasswordFields = this.showPasswordFields.bind(this);
         this.backButton = this.backButton.bind(this);
         //this.handleSubmit = this.handleSubmit.bind(this);
+        this.modalTrigger = this.modalTrigger.bind(this);
+        this.closeModal = this.closeModal.bind(this);
     }
     componentDidMount() {
-        if(this.state.permissionsManager.validatePermission(this.props.location.pathname, this)){
-            window.scrollTo(0,0);
+        if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
+            window.scrollTo(0, 0);
 
             this.selectWorker();
             this.selectFemale();
@@ -108,7 +114,7 @@ class SignUp extends Component {
                 document.getElementById('districtID').value = initDistrictID
             });
         }
-       
+
     }
 
     getCantonsByProvince(event) {
@@ -142,6 +148,7 @@ class SignUp extends Component {
             });
         });
     };
+
     getDistrictsByCanton(event) {
         this.setState({ cantonID: event.target.value });
         document.getElementById('cantonID').value = event.target.value
@@ -183,6 +190,7 @@ class SignUp extends Component {
         });
 
     }
+
     loadDistricts() {
         this.state.districtList = this.state.districts.map((districts, i) => {
             return (
@@ -234,6 +242,7 @@ class SignUp extends Component {
             this.state.userTypeID = 1;
         }
     }
+
     showStudentFields() {
         document.getElementById('divStudent1').style.display = 'block';
         document.getElementById('divStudent2').style.display = 'block';
@@ -248,16 +257,7 @@ class SignUp extends Component {
             this.state.genderID = 2;
         }
     }
-    showPasswordFields() {
-        var show = document.getElementById('showPasswordFields').checked;
-        if (show == true) {
-            document.getElementById('password').type = "text";
-            document.getElementById('confirmPassword').type = "text";
-        } else {
-            document.getElementById('password').type = "password";
-            document.getElementById('confirmPassword').type = "password";
-        }
-    }
+
     selectFemale() {
         if (document.getElementById('cbFemale').checked == true) {
             document.getElementById('cbMale').checked = false;
@@ -268,7 +268,18 @@ class SignUp extends Component {
         }
     }
 
-    goActCodeForm() {
+    showPasswordFields() {
+        var show = document.getElementById('showPasswordFields').checked;
+        if (show == true) {
+            document.getElementById('password').type = "text";
+            document.getElementById('confirmPassword').type = "text";
+        } else {
+            document.getElementById('password').type = "password";
+            document.getElementById('confirmPassword').type = "password";
+        }
+    }
+
+    goActCodeForm(event) {
         axios.get(`http://localhost:9000/User/isEmailValid`, { params: { email: this.state.email } }).then(response => {
             var emailValid = JSON.parse(JSON.stringify(response.data))[0]['isEmailValid'].data[0]
             axios.get(`http://localhost:9000/User/isIdentificationValid`, { params: { identificationID: this.state.identificationID } }).then(response => {
@@ -285,36 +296,36 @@ class SignUp extends Component {
                         || this.state.emergencyContactPhoneNumber.toString().trim().length == 0
                         || (this.state.userTypeID == 1 && (this.state.carnet.trim().length == 0 || this.state.career.trim().length == 0))
                     ) {
-                        alert("Todos los campos obligatorios  deben estar llenos");
+                        this.modalTrigger(event, 'Campos obligatorios', 'Todos los campos obligatorios  deben estar llenos');
                     } else if (!this.state.validations.validateTextField(this.state.firstName.trim())
                         || (this.state.secondName != null && (this.state.secondName.trim().length != 0) && (!this.state.validations.validateTextField(this.state.secondName.trim())))
                         || !this.state.validations.validateTextField(this.state.lastName.trim())
                         || (this.state.secondLastName != null && (this.state.secondLastName.trim().length != 0) && (!this.state.validations.validateTextField(this.state.secondLastName.trim())))) {
-                        alert("Los datos del nombre solo pueden estar compuestos por letras y extensión mínima de 2 caracteres");
+                        this.modalTrigger(event, 'Nombre', 'Los datos del nombre solo pueden estar compuestos por letras y extensión mínima de 2 caracteres');
                     } else if (!this.state.validations.validatePhoneNumberField(this.state.phoneNumber1)
                         || ((this.state.phoneNumber2.trim().length != 0) && (!this.state.validations.validatePhoneNumberField(this.state.phoneNumber2)))
                         || !this.state.validations.validatePhoneNumberField(this.state.emergencyContactPhoneNumber)) {
-                        alert("Los números telefónicos deben estar compuestos por 8 dígitos");
+                        this.modalTrigger(event, 'Números telefónicos', 'Los números telefónicos deben estar compuestos por 8 dígitos');
                     } else if (!this.state.validations.validateIdentification(this.state.identificationID)) {
-                        alert("El formato de la cédula ingresada es incorrecto");
+                        this.modalTrigger(event, 'Cédula', 'El formato de la cédula ingresada es incorrecto');
                     } else if (identificationIDValid == 1) {
-                        alert("La cédula ingresada ya corresponde a otro usuario registrado");
+                        this.modalTrigger(event, 'Cédula', 'La cédula ingresada ya corresponde a otro usuario registrado');
                     } else if (this.state.userTypeID == 1 && !this.state.validations.validateCarnetField(this.state.carnet)) {
-                        alert("El carné debe estar compuesto por 1 letra inicial y 5 dígitos");
+                        this.modalTrigger(event, 'Carné', 'El carné debe estar compuesto por 1 letra inicial y 5 dígitos');
                     } else if (this.state.userTypeID == 1 && carnetValid == 1) {
-                        alert("El carné ingresado ya corresponde a otro usuario registrado");
+                        this.modalTrigger(event, 'Carné', 'El carné ingresado ya corresponde a otro usuario registrado');
                     } else if (this.state.userTypeID == 1 && !this.state.validations.validateTextField(this.state.career.trim())) {
-                        alert("El dato de la carrera solo debe de contener letras.");
+                        this.modalTrigger(event, 'Números', 'El dato de la carrera solo debe de contener letras');
                     } else if (!this.state.validations.validateEmailField(this.state.email)) {
-                        alert("Debe utilizar su cuenta de correo institucional");
+                        this.modalTrigger(event, 'Email', 'Debe utilizar su cuenta de correo institucional');
                     } else if (emailValid == 1) {
-                        alert("El correo ingresado ya corresponde a otro usuario registrado");
+                        this.modalTrigger(event, 'Email', 'El correo ingresado ya corresponde a otro usuario registrado');
                     } else if (this.state.password != this.state.confirmPassword) {
-                        alert("Los campos de contraseña no coinciden");
+                        this.modalTrigger(event, 'Contraseña', 'Los campos de contraseña no coinciden');
                     } else if (!this.state.validations.validatePasswordField(this.state.password) || !this.state.validations.validatePasswordField(this.state.confirmPassword)) {
-                        alert("La contraseña debe contar con una extensión entre de 8 y 16 caracteres y estar compuesta al menos por números y letras");
+                        this.modalTrigger(event, 'Contraseña', 'La contraseña debe contar con una extensión entre de 8 y 16 caracteres y estar compuesta al menos por números y letras');
                     } else if (!this.state.validations.validateTextField(this.state.contactName.trim())) {
-                        alert("El nombre del contacto de emergencia solo debe contener letras");
+                        this.modalTrigger(event, 'Contacto de emergencia', 'El nombre del contacto de emergencia solo debe contener letras');
                     } else {
                         this.GetCode();
                         sessionStorage.setItem('identificationID', this.state.identificationID);
@@ -345,7 +356,10 @@ class SignUp extends Component {
                         sessionStorage.setItem('relationTypeID', this.state.relationTypeID);
                         sessionStorage.setItem('emergencyContactPhoneNumber', this.state.emergencyContactPhoneNumber);
                         this.sendEmail();
-                        this.props.history.push(`/ActCodeForm`);
+                        this.setState({
+                            isExit: true
+                        });
+                        this.modalTrigger(event, 'Código de activación', 'Se ha enviado un código de activación al correo, debe copiarlo para completar el proceso de registro');
                     }
                 });
             });
@@ -381,6 +395,33 @@ class SignUp extends Component {
             [name]: value
         });
     }
+
+
+    /**
+     * This method takes care of show a modal with useful information
+     */
+    modalTrigger(event, mdTittle, mdChildren) {
+        this.setState({
+            show: !this.state.show,
+            modalTittle: mdTittle,
+            modalChildren: mdChildren
+        });
+        event.preventDefault();
+    };
+
+    /**
+     * This method close the modal  
+     */
+    closeModal(event) {
+        this.setState({
+            show: !this.state.show
+        });
+        if (this.state.isExit) {
+            this.props.history.push(`/ActCodeForm`);
+        }
+        event.preventDefault();
+    };
+
     render() {
         const relationList = this.state.relations.map((relations, i) => {
             return (
@@ -555,17 +596,6 @@ class SignUp extends Component {
                                                     <p title="Campo obligatorio">Email<font color="red">*</font></p>
                                                     <input fontSize="18px" type="text" title="Únicamenta correos institucionales" placeholder="Ej: correo@ucr.ac.cr" required name="email" value={this.state.email} onChange={this.handleInputChange} className="form-control inputText w-100"></input>
 
-
-
-
-
-
-
-
-
-
-
-
                                                 </div>
                                             </div>
                                         </div>
@@ -631,16 +661,23 @@ class SignUp extends Component {
                         </div>
                     </div>
                     <div className="col-12">
-                    <div className="row">
+                        <div className="row">
                             <div className="col-3">
                                 <button align="left" className="buttonSizeGeneral" onClick={this.backButton}>Cancelar</button>
                             </div>
                             <div className="col-3 offset-6">
                                 <button align="right" className="buttonSizeGeneral" onClick={this.goActCodeForm}>Guardar</button>
                             </div>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-md-1">
+                            <ModalComponent tittle={this.state.modalTittle} show={this.state.show} onClose={this.closeModal} >
+                                <br />{this.state.modalChildren}
+                            </ModalComponent>
+                        </div>
                     </div>
                 </div>
-            </div>
             </div>
         )
     }
