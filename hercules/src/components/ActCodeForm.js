@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PermissionsManager from "./PermissionsManager";
-import './ActCodeForm.css';
 import ModalComponent from './ModalComponent';
 
 
@@ -46,6 +45,10 @@ class ActCodeForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  
+  /**
+   * This method takes care of show a modal with useful information
+   */
   modalTrigger(event, mdTittle, mdChildren) {
     this.setState({
       show: !this.state.show,
@@ -55,6 +58,9 @@ class ActCodeForm extends Component {
     event.preventDefault();
   };
 
+   /**
+   * This method close the modal  
+   */
   closeModal(event) {
     this.setState({
       show: !this.state.show
@@ -66,7 +72,6 @@ class ActCodeForm extends Component {
   };
 
   componentDidMount() {
-    console.log(this.state.activationCode);
     this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
     window.scrollTo(0, 0);
   }
