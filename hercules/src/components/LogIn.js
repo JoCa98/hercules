@@ -25,8 +25,11 @@ class LogIn extends Component {
     }
 
     componentDidMount() {
-        this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
         window.scrollTo(0, 0);
+
+        if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
+            sessionStorage.clear();
+        }
     }
 
     showPasswordFields() {
