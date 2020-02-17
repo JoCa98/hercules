@@ -86,7 +86,7 @@ class TableMedicalInfo extends Component {
             var id = this.state.medicalInfo[0].medicalInfoID;
             sessionStorage.setItem("medicalFormID", id);
             sessionStorage.setItem("update", true);
-            this.props.history.push(`/AddMedicalForm`);
+            this.props.history.push(`/MedicalForm`);
 
         } catch (err) {
             console.error(err);

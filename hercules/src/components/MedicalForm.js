@@ -6,7 +6,7 @@
  *
  * @author    María Ester Molina Richmond <maria.molina@ucrso.info>
  * History
- * v1.0 – Initial Release
+ * v2.0 – Initial Release
  * ----
  * The first version of AddMedicalForm was written by Ester Molina.
  */
@@ -16,11 +16,12 @@ import axios from 'axios';
 import validations from './validations';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import PermissionsManager from "./PermissionsManager";
+import ModalComponent from './ModalComponent';
 
 
 /*global IMC*/
 
-class AddMedicalForm extends Component {
+class MedicalForm extends Component {
     constructor(props) {
         super(props);
         /**
@@ -126,7 +127,11 @@ class AddMedicalForm extends Component {
             validations: new validations(),
             medicalCod: "8888",
             date: new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate(),
-            upToDate: new Date()
+            upToDate: new Date(),
+            show: false,
+            modalTittle: "",
+            modalChildren: "",
+            isExit: false
 
         };
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -137,7 +142,35 @@ class AddMedicalForm extends Component {
         this.calcIMC = this.calcIMC.bind(this);
         this.checkEmptySpaces = this.checkEmptySpaces.bind(this);
         this.cardioVascularSelect = this.cardioVascularSelect.bind(this);
+        this.modalTrigger = this.modalTrigger.bind(this);
+        this.closeModal = this.closeModal.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
+
+    /**
+  * This method takes care of show a modal with useful information
+  */
+    modalTrigger(event, mdTittle, mdChildren) {
+        this.setState({
+            show: !this.state.show,
+            modalTittle: mdTittle,
+            modalChildren: mdChildren
+        });
+        event.preventDefault();
+    };
+
+    /**
+    * This method close the modal  
+    */
+    closeModal(event) {
+        this.setState({
+            show: !this.state.show
+        });
+        if (this.state.isExit) {
+            this.props.history.push(`/HistoricMedicalInfo`);
+        }
+        event.preventDefault();
+    };
 
     /**
     * Method that can get full name of the user and the data if is it an update, and the medical cod
@@ -252,14 +285,13 @@ class AddMedicalForm extends Component {
         this.setState({ cardiovascularRisk: this.state.medicalInfo[0].cardiovascularRisk });
         this.setState({ recommendations: this.state.medicalInfo[0].recommendations });
         this.setState({ upToDate: this.state.medicalInfo[0].upToDate });
-
     }
 
     /**
     * Method that submit all the information in the form
     */
     handleSubmit(event) {
-        this.validation();
+        this.validation(event);
         if (sessionStorage.getItem("update") == "true") {
             fetch(`http://localhost:9000/MedicalInfo/updateMedicalRegister`, {
                 method: "post",
@@ -271,11 +303,14 @@ class AddMedicalForm extends Component {
             })
                 .then(res => res.json())
                 .then(data => {
-                    console.log(data);
+                    this.setState({
+                        isExit: true
+                    });
                 })
                 .catch(err => console.error(err));
             event.preventDefault();
             sessionStorage.setItem("update", false);
+            this.modalTrigger(event, 'Actualización de registro', 'Se actualizó de manera correcta el registro médico');
         } else {
             fetch("http://localhost:9000/MedicalInfo/addMedicalInfo", {
                 method: "post",
@@ -287,11 +322,13 @@ class AddMedicalForm extends Component {
             })
                 .then(res => res.json())
                 .then(data => {
-                    console.log(data);
+                    this.setState({
+                        isExit: true
+                    });
                 })
                 .catch(err => console.error(err));
+            this.modalTrigger(event, 'Ingreso de registro', 'Se ingresó de manera correcta el registro médico');
 
-            this.props.history.push(`/HistoricMedicalInfo`);
             event.preventDefault();
         }
     }
@@ -347,7 +384,7 @@ class AddMedicalForm extends Component {
     /**
     * Method that verify that the require inputs are not empty
     */
-    validation() {
+    validation(event) {
         if ((this.state.smoking.length == 0)
             || (this.state.traumas.length == 0)
             || this.state.size.length == 0
@@ -360,30 +397,30 @@ class AddMedicalForm extends Component {
             || this.state.bloodPressure.trim().length == 0
             || this.state.cardiovascularRisk == 0
             || this.state.upToDate == 0) {
-            alert("Todos los campos obligatorios  deben estar llenos");
+            this.modalTrigger(event, 'Campos obligatorios', 'Todos los campos obligatorios  deben estar llenos');
         } else if (this.state.pathologies.trim().length != 0) {
             if (!this.state.validations.validateTextField(this.state.pathologies.trim())) {
-                alert("El campo de patologías no puede contener números");
+                this.modalTrigger(event, 'Formato incorrecto', 'El campo de patologías no puede contener números');
             }
         } else if (this.state.allergies.trim().length != 0) {
             if (!this.state.validations.validateTextField(this.state.allergies.trim())) {
-                alert("El campo de alergias no puede contener números");
+                this.modalTrigger(event, 'Formato incorrecto', 'El campo de alergias no puede contener números');
             }
         } else if (this.state.surgeries.trim().length != 0) {
             if (!this.state.validations.validateTextField(this.state.surgeries.trim())) {
-                alert("El campo de quirúrgicos no puede contener números");
+                this.modalTrigger(event, 'Formato incorrecto', 'El campo de quirúrgicos no puede contener números');
             }
         } else if (this.state.neurologicalInfo.trim().length != 0) {
             if (!this.state.validations.validateTextField(this.state.neurologicalInfo.trim())) {
-                alert("El campo de información neurólogica no puede contener números");
+                this.modalTrigger(event, 'Formato incorrecto', 'El campo de información neurólogica no puede contener números');
             }
         } else if (this.state.pulmonaryCardioInfo.trim().length != 0) {
             if (!this.state.validations.validateTextField(this.state.pulmonaryCardioInfo.trim())) {
-                alert("El campo de información cardiopulmonar no puede contener números");
+                this.modalTrigger(event, 'Formato incorrecto', 'El campo de información cardiopulmonar no puede contener números');
             }
         } else if (this.state.recommendations.trim().length != 0) {
             if (!this.state.validations.validateTextField(this.state.recommendations.trim())) {
-                alert("El campo de recomendaciones no puede contener números");
+                this.modalTrigger(event, 'Formato incorrecto', 'El campo de recomendaciones no puede contener números');
             }
         } else if (!this.state.validations.validatePercent(this.state.heartRate.trim())
             || !this.state.validations.validatePercent(this.state.aerobicThreshold.trim())
@@ -393,7 +430,7 @@ class AddMedicalForm extends Component {
             || !this.state.validations.validateKg(this.state.IMC.trim())
             || !this.state.validations.validateNumericField(this.state.waist.trim())
             || !this.state.validations.validateNumericField(this.state.hip.trim())) {
-            alert("Los campos de presión arterial, pulso, umbral aeróbico, oxígeno, peso, talla,cadera, cintura deben ser números");
+            this.modalTrigger(event, 'Formato incorrecto', 'Los campos de  frecuencia cardiaca, umbral aeróbico, oxígeno, peso, talla, cadera, cintura deben ser números');
         }
     }
 
@@ -754,6 +791,13 @@ class AddMedicalForm extends Component {
                                     <button align="right" name="save" className="buttonSizeGeneral" onClick={this.handleSubmit}>Guardar</button>
                                 </div>
                             </div>
+                            <div className="row">
+                                <div className="col-md-1">
+                                    <ModalComponent tittle={this.state.modalTittle} show={this.state.show} onClose={this.closeModal} >
+                                        <br />{this.state.modalChildren}
+                                    </ModalComponent>
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -761,4 +805,4 @@ class AddMedicalForm extends Component {
         )
     }
 }
-export default AddMedicalForm;
+export default MedicalForm;

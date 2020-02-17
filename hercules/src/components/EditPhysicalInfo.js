@@ -3,6 +3,7 @@ import axios from 'axios';
 import validations from './validations';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import PermissionsManager from "./PermissionsManager";
+import ModalComponent from './ModalComponent';
 
 class EditPhysicalInfo extends Component {
     constructor(props) {
@@ -21,7 +22,11 @@ class EditPhysicalInfo extends Component {
             metabolicAge: "",
             totalBodyFat: "",
             muscleMass: "",
-            physicalAssesment: ""
+            physicalAssesment: "",
+            show: false,
+            modalTittle: "",
+            modalChildren: "",
+            isExit: false
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -30,14 +35,41 @@ class EditPhysicalInfo extends Component {
         this.loadName = this.loadName.bind(this);
         this.loadPhysicalInformation = this.loadPhysicalInformation.bind(this);
         this.backButton = this.backButton.bind(this);
+        this.modalTrigger = this.modalTrigger.bind(this);
+        this.closeModal = this.closeModal.bind(this);
 
     }
 
+    /**
+   * This method takes care of show a modal with useful information
+   */
+    modalTrigger(event, mdTittle, mdChildren) {
+        this.setState({
+            show: !this.state.show,
+            modalTittle: mdTittle,
+            modalChildren: mdChildren
+        });
+        event.preventDefault();
+    };
+
+    /**
+    * This method close the modal  
+    */
+    closeModal(event) {
+        this.setState({
+            show: !this.state.show
+        });
+        if (this.state.isExit) {
+            this.props.history.push(`/HistoricPhysicalInfoAdmin`);
+        }
+        event.preventDefault();
+    };
+
     componentDidMount() {
-        if(this.state.permissionsManager.validatePermission(this.props.location.pathname, this)){
+        if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
             window.scrollTo(0, 0);
             this.loadInformation();
-        }        
+        }
     }
 
     loadInformation() {
@@ -46,7 +78,6 @@ class EditPhysicalInfo extends Component {
     }
 
     loadName() {
-        //Name
         axios.get(`http://localhost:9000/User/getUserName`,
             {
                 params: { partyID: this.state.partyID }
@@ -57,7 +88,6 @@ class EditPhysicalInfo extends Component {
     }
 
     loadPhysicalInformation() {
-        //PhysicalInfo
         axios.get(`http://localhost:9000/PhysicalInfo/getOnePhysicalInfoByID`,
             {
                 params: { partyID: this.state.partyID }
@@ -78,46 +108,36 @@ class EditPhysicalInfo extends Component {
                         physicalAssesment: physicalInfo.physicalAssessment
                     });
                 })
-
-
             });
     }
 
-    saveChange() {
+    saveChange(event) {
 
         if (this.state.weight.toString().trim().length === 0 || this.state.bodyWater.toString().trim().length === 0 ||
             this.state.visceralFat.toString().trim().length === 0 || this.state.boneMass.toString().trim().length === 0 ||
             this.state.DCI.toString().trim().length === 0 || this.state.metabolicAge.toString().trim().length === 0 ||
             this.state.totalBodyFat.toString().trim().length === 0 || this.state.muscleMass.toString().trim().length === 0 ||
             this.state.physicalAssesment.toString().trim().length === 0) {
-            alert("Todos los campos deben de estar llenos");
+            this.modalTrigger(event, 'Campos obligatorios', 'Todos los campos deben de estar llenos');
 
         } else if (!this.state.validations.validateKg(this.state.weight.toString().trim())) {
-            alert("El peso debe estar formado por un máximo de 3 números, puede contener punto decimal y dos decimales máximo");
-
+            this.modalTrigger(event, 'Formato incorrecto', 'El peso debe estar formado por un máximo de 3 números, puede contener punto decimal y dos decimales máximo');
         } else if (!this.state.validations.validatePercent(this.state.totalBodyFat.toString().trim())) {
-            alert("El porcentaje de grasa corporal solo debe contener números de entre 0 a 100, con punto decimal y dos decimales máximo");
-
+            this.modalTrigger(event, 'Formato incorrecto', 'El porcentaje de grasa corporal solo debe contener números de entre 0 a 100, con punto decimal y dos decimales máximo');
         } else if (!this.state.validations.validatePercent(this.state.bodyWater.toString().trim())) {
-            alert("El porcentaje de agua corporal solo debe contener números de entre 0 a 100, con punto decimal y dos decimales máximo");
-
+            this.modalTrigger(event, 'Formato incorrecto', 'El porcentaje de agua corporal solo debe contener números de entre 0 a 100, con punto decimal y dos decimales máximo');
         } else if (!this.state.validations.validateKg(this.state.muscleMass.toString().trim())) {
-            alert("La masa muscular debe estar formada por un máximo de 3 números, puede contener punto decimal y dos decimales máximo");
-
+            this.modalTrigger(event, 'Formato incorrecto', 'La masa muscular debe estar formada por un máximo de 3 números, puede contener punto decimal y dos decimales máximo');
         } else if (!this.state.validations.validatePhysicalAssesment(this.state.physicalAssesment.toString().trim())) {
-            alert("La valoración física debe ser un número entre 1 y 9");
-
+            this.modalTrigger(event, 'Formato incorrecto', 'La valoración física debe ser un número entre 1 y 9');
         } else if (!this.state.validations.validateKg(this.state.boneMass.toString().trim())) {
-            alert("La masa ósea debe estar formada por un máximo de 3 números, puede contener punto decimal y dos decimales máximo");
-
+            this.modalTrigger(event, 'Formato incorrecto', 'La masa ósea debe estar formada por un máximo de 3 números, puede contener punto decimal y dos decimales máximo');
         } else if (!this.state.validations.validateDCI(this.state.DCI.toString().trim())) {
-            alert("El DCI/BMR debe estar formado por un máximo de 5 números, puede contener punto decimal y dos decimales máximo");
-
+            this.modalTrigger(event, 'Formato incorrecto', '"El DCI/BMR debe estar formado por un máximo de 5 números, puede contener punto decimal y dos decimales máximo');
         } else if (!this.state.validations.validateMetabolicAge(this.state.metabolicAge.toString().trim())) {
-            alert("La edad metabólica debe de estar compuesta únicamente de 3 números como máximo");
-
+            this.modalTrigger(event, 'Formato incorrecto', 'La edad metabólica debe de estar compuesta únicamente de 3 números como máximo');
         } else if (!this.state.validations.validateViceralFat(this.state.visceralFat.toString().trim())) {
-            alert("La grasa viceral debe ser un número entre 1 y 60");
+            this.modalTrigger(event, 'Formato incorrecto', 'La grasa viceral debe ser un número entre 1 y 60');
         } else {
             if (window.confirm("¿Está seguro de actualizar los datos?") == true) {
                 fetch("http://localhost:9000/PhysicalInfo/updatePhysicalInfo", {
@@ -130,11 +150,13 @@ class EditPhysicalInfo extends Component {
                 })
                     .then(res => res.json())
                     .then(data => {
+                        this.setState({
+                            isExit: true
+                        });
+                        this.modalTrigger(event, 'Actualización de registro', 'Se actulización correctamente el registro de composición corporal');
                     })
                     .catch(err => console.error(err));
 
-                alert("Los datos se actualizaron correctamente");
-                this.props.history.push('/HistoricPhysicalInfoAdmin');
                 window.location.reload();
             }
         }
@@ -261,6 +283,13 @@ class EditPhysicalInfo extends Component {
                             </div>
                             <div className="mt-5 col-4">
                                 <button align="right" onClick={this.saveChange} className="buttonSizeGeneral">Guardar cambios</button>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-md-1">
+                                <ModalComponent tittle={this.state.modalTittle} show={this.state.show} onClose={this.closeModal} >
+                                    <br />{this.state.modalChildren}
+                                </ModalComponent>
                             </div>
                         </div>
                     </div>

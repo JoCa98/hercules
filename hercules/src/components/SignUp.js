@@ -596,17 +596,6 @@ class SignUp extends Component {
                                                     <p title="Campo obligatorio">Email<font color="red">*</font></p>
                                                     <input fontSize="18px" type="text" title="Únicamenta correos institucionales" placeholder="Ej: correo@ucr.ac.cr" required name="email" value={this.state.email} onChange={this.handleInputChange} className="form-control inputText w-100"></input>
 
-
-
-
-
-
-
-
-
-
-
-
                                                 </div>
                                             </div>
                                         </div>
