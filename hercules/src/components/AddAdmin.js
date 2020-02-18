@@ -70,7 +70,7 @@ class AddAdmin extends Component {
         axios.get(`http://localhost:9000/User/isEmailValid`, { params: { email: this.state.email } }).then(response => {
             var isEmailValid = JSON.parse(JSON.stringify(response.data))[0]['isEmailValid'].data[0];
 
-            if (this.empty()) {
+            if (!this.empty()) {
                 this.modalTrigger(event,'Campos obligatorios','Los campos de texto con un * no se pueden dejar en blanco');                
             } else if (!this.state.validations.validateTextField(this.state.firstName.trim())
                 || (this.state.secondName != null && (this.state.secondName.trim() != "") && (!this.state.validations.validateTextField(this.state.secondName.trim())))
@@ -83,7 +83,7 @@ class AddAdmin extends Component {
             } else if (!this.state.validations.validateAdminEmailField(this.state.email)) {
                 this.modalTrigger(event,'Email','El email no tiene el formato correcto');                 
             } else if (!this.state.validations.validatePasswordField(this.state.password) || !this.state.validations.validatePasswordField(this.state.confirmPassword)) {
-                this.modalTrigger(event, 'Contraseña', 'La contraseña debe contar con una extensión mínima de 8 caracteres y estar compuesta almenos por números y letras');
+                this.modalTrigger(event, 'Contraseña', 'La contraseña debe contar con una extensión mínima de 8 caracteres y estar compuesta al menos por números y letras');
             } else if (this.state.password != this.state.confirmPassword) {
                 this.modalTrigger(event,'Contraseña','Los campos de la contraseña no coinciden');                                 
             } else if (isEmailValid == 1) {

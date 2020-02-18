@@ -57,7 +57,7 @@ class ConfigurationAdmin extends Component {
         } else if (this.state.password != this.state.confirmPassword) {
             this.modalTrigger(event,'Contraseña','Los campos de contraseña no coinciden');                                                                                    
         } if (!this.state.validations.validatePasswordField(this.state.password) || !this.state.validations.validatePasswordField(this.state.confirmPassword)) {
-            this.modalTrigger(event, 'Contraseña', 'La contraseña debe contar con una extensión mínima de 8 caracteres y estar compuesta almenos por números y letras');
+            this.modalTrigger(event, 'Contraseña', 'La contraseña debe contar con una extensión mínima de 8 caracteres y estar compuesta al menos por números y letras');
         } else {
             fetch("http://localhost:9000/AdminRoute/updateAdminPassword", {
                 method: "post",

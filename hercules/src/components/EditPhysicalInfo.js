@@ -135,7 +135,7 @@ class EditPhysicalInfo extends Component {
         } else if (!this.state.validations.validateKg(this.state.boneMass.toString().trim())) {
             this.modalTrigger(event, 'Formato incorrecto', 'La masa ósea debe estar formada por un máximo de 3 números, puede contener punto decimal y dos decimales máximo');
         } else if (!this.state.validations.validateDCI(this.state.DCI.toString().trim())) {
-            this.modalTrigger(event, 'Formato incorrecto', '"El DCI/BMR debe estar formado por un máximo de 5 números, puede contener punto decimal y dos decimales máximo');
+            this.modalTrigger(event, 'Formato incorrecto', 'El DCI/BMR debe estar formado por un máximo de 5 números, puede contener punto decimal y dos decimales máximo');
         } else if (!this.state.validations.validateMetabolicAge(this.state.metabolicAge.toString().trim())) {
             this.modalTrigger(event, 'Formato incorrecto', 'La edad metabólica debe de estar compuesta únicamente de 3 números como máximo');
         } else if (!this.state.validations.validateViceralFat(this.state.visceralFat.toString().trim())) {
