@@ -75,7 +75,8 @@ closeModal(event) {
     redirect(event) {
         if (sessionStorage.getItem('dateLastMedicRegistry') !== 'undefined' &&
             sessionStorage.getItem('dateLastMedicRegistry') !== null &&
-            new Date(sessionStorage.getItem('dateLastMedicRegistry')) === Date(new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate())) {
+            new Date(sessionStorage.getItem('dateLastMedicRegistry')).toString() 
+            === new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).toString() ) {
             this.modalTrigger(event, 'Restricciones', 'Solo se puede agregar un registro por día');
             } else {
             sessionStorage.setItem("update", false);

@@ -116,12 +116,10 @@ class AddPhysicalInfo extends Component {
                     this.setState({
                         isExit: true
                     });
-                    this.modalTrigger(event, 'Ingreso de registro', 'Se ingresó correctamente el registro de composición corporal');
                 })
                 .catch(err => console.error(err));
 
-
-
+                this.modalTrigger(event, 'Ingreso de registro', 'Se ingresó correctamente el registro de composición corporal');
         }
 
     }
