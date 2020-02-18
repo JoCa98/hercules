@@ -79,9 +79,12 @@ class HistoricPhysicalInfoAdmin extends Component {
     }
 
     redirect(event) {
+
         if (sessionStorage.getItem('dateLastPhysicalRegistry') !== 'undefined' &&
             sessionStorage.getItem('dateLastPhysicalRegistry') !== null &&
-            new Date(sessionStorage.getItem('dateLastPhysicalRegistry')) === Date(new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate())) {
+            new Date(sessionStorage.getItem('dateLastPhysicalRegistry')).toString() 
+            === new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).toString() ) {
+
             this.modalTrigger(event, 'Restricciones', 'Solo se puede agregar un registro por día');
         } else {
             this.props.history.push(`/AddPhysicalInfo`);
