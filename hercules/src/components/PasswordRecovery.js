@@ -15,8 +15,7 @@ import React, { Component } from 'react';
 import RandomPassword from './RandomPassword';
 import Hash from './Hash';
 import PermissionsManager from "./PermissionsManager";
-
-
+import ModalComponent from './ModalComponent';
 
 class PasswordRecovery extends Component {
     constructor() {
@@ -44,12 +43,18 @@ class PasswordRecovery extends Component {
             permissionsManager: new PermissionsManager(),
             randomPassword: new RandomPassword(),
             hash: new Hash(),
-            email: ""
+            email: "",
+            show: false,
+            modalTittle: "",
+            modalChildren: "",
+            isExit: false
         }
         this.handleInputChange = this.handleInputChange.bind(this);
         this.sendTempPasswordEmail = this.sendTempPasswordEmail.bind(this);
         this.updatePassword = this.updatePassword.bind(this);
         this.backButton = this.backButton.bind(this);
+        this.modalTrigger = this.modalTrigger.bind(this);
+        this.closeModal = this.closeModal.bind(this);
     }
 
     /**
@@ -81,10 +86,12 @@ class PasswordRecovery extends Component {
             .then(data => {
                 console.log(data);
             })
-            .catch(err => console.error(err));
+            .catch(err => console.error(err));            
         this.sendTempPasswordEmail(tempPassword);
-        alert("Se ha enviado una contraseña temporal al correo ingresado. Ahora será redirigido a la pantalla de ingreso");
-        this.props.history.push(`/`);
+        this.setState({ 
+            isExit: true
+         }); 
+        this.modalTrigger(event,'Contraseña','Se ha enviado una contraseña temporal al correo ingresado. Ahora será redirigido a la pantalla de ingreso');                                            
     }
 
     /**
@@ -147,6 +154,13 @@ class PasswordRecovery extends Component {
                                 </div>
                                 <div className="col-6 text-right">
                                     <button type="button" name="sendTempPassword" className="buttonSizeGeneral" onClick={this.updatePassword}>Enviar</button>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-md-1">
+                                    <ModalComponent tittle={this.state.modalTittle} show={this.state.show} onClose={this.closeModal} >
+                                        <br />{this.state.modalChildren}
+                                    </ModalComponent>
                                 </div>
                             </div>
                         </form>

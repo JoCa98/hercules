@@ -15,7 +15,7 @@ import validations from './validations';
 import Hash from './Hash';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import PermissionsManager from "./PermissionsManager";
-
+import ModalComponent from './ModalComponent';
 
 class ConfigurationAdmin extends Component {
     constructor(props) {
@@ -27,13 +27,19 @@ class ConfigurationAdmin extends Component {
             validations: new validations(),
             partyID: sessionStorage.getItem("partyID"),
             password: "",
-            confirmPassword: ""
+            confirmPassword: "",
+            show: false,
+            modalTittle: "",
+            modalChildren: "",
+            isExit: false
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.changePassword = this.changePassword.bind(this);
         this.showPasswordFields = this.showPasswordFields.bind(this);
         this.backButton = this.backButton.bind(this);
+        this.modalTrigger = this.modalTrigger.bind(this);
+        this.closeModal = this.closeModal.bind(this);
     }
 
     componentDidMount() {
@@ -47,9 +53,11 @@ class ConfigurationAdmin extends Component {
     changePassword = event => {
 
         if (this.state.password == "" || this.state.confirmPassword == "") {
-            alert("Los campos con * son obligatorios");
+            this.modalTrigger(event,'Campos obligatorios','Los campos de texto con un * no se pueden dejar en blanco');                
         } else if (this.state.password != this.state.confirmPassword) {
-            alert("Los campos de contraseña no coinciden");
+            this.modalTrigger(event,'Contraseña','Los campos de contraseña no coinciden');                                                                                    
+        } if (!this.state.validations.validatePasswordField(this.state.password) || !this.state.validations.validatePasswordField(this.state.confirmPassword)) {
+            this.modalTrigger(event, 'Contraseña', 'La contraseña debe contar con una extensión mínima de 8 caracteres y estar compuesta almenos por números y letras');
         } else {
             fetch("http://localhost:9000/AdminRoute/updateAdminPassword", {
                 method: "post",
@@ -64,8 +72,10 @@ class ConfigurationAdmin extends Component {
             })
                 .then(res => res.json())
                 .then(data => {
-                    alert("La contraseña fue cambiada con éxito");
-                    this.props.history.push(`/HomeAdmin`);
+                    this.setState({ 
+                        isExit: true
+                     }); 
+                    this.modalTrigger(event,'Contraseña','La contraseña fue cambiada con éxito');                                                                        
                 })
                 .catch(err => console.error(err));
         }
@@ -92,6 +102,31 @@ class ConfigurationAdmin extends Component {
             document.getElementById('confirmPassword').type = "password";
         }
     }
+
+  /**
+     * This method takes care of show a modal with useful information
+     */
+    modalTrigger(event,mdTittle,mdChildren) {
+        this.setState({ 
+            show: !this.state.show,
+            modalTittle: mdTittle,
+            modalChildren: mdChildren
+        });     
+        event.preventDefault();      
+    };
+
+    /**
+     * This method close the modal  
+     */
+    closeModal(event) {
+        this.setState({ 
+            show: !this.state.show
+        });  
+        if(this.state.isExit){
+            this.props.history.push(`/HomeAdmin`);
+        }    
+        event.preventDefault();      
+    };
 
     /**
 * Method that redirect to the previous page
@@ -151,6 +186,13 @@ class ConfigurationAdmin extends Component {
                                 <button className="buttonSizeGeneral" onClick={this.backButton}>Volver</button>
                             </div>
                         </div>
+                        <div className="row">
+                                <div className="col-md-1">
+                                    <ModalComponent tittle={this.state.modalTittle} show={this.state.show} onClose={this.closeModal} >
+                                        <br />{this.state.modalChildren}
+                                    </ModalComponent>
+                                </div>
+                            </div>
                     </div>
                 </div>
             </div>

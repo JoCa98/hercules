@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from "axios";
 import Hash from './Hash';
 import PermissionsManager from "./PermissionsManager";
-import NavbarUserHome from './NavbarUserHome';
+import ModalComponent from './ModalComponent';
 
 class LogIn extends Component {
     constructor(props) {
@@ -15,6 +15,9 @@ class LogIn extends Component {
             userTypeID: "",
             partyID: "",
             isUserValid: "",
+            show: false,
+            modalTittle: "",
+            modalChildren: ""
         };
         this.goSignUp = this.goSignUp.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -22,11 +25,15 @@ class LogIn extends Component {
         this.goPasswordRecovery = this.goPasswordRecovery.bind(this);
         this.showPasswordFields = this.showPasswordFields.bind(this);
         this.onKeyEvent = this.onKeyEvent.bind(this);
+        this.modalTrigger = this.modalTrigger.bind(this);
     }
 
     componentDidMount() {
-        this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
         window.scrollTo(0, 0);
+
+        if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
+            sessionStorage.clear();
+        }
     }
 
     showPasswordFields() {
@@ -38,7 +45,7 @@ class LogIn extends Component {
         }
     }
 
-    tryLogin() {
+    tryLogin(event) {
         axios.get(`http://localhost:9000/User/isEmailValid`, { params: { email: this.state.email.trim() } }).then(response => {
             this.setState({ isUserValid: JSON.parse(JSON.stringify(response.data))[0]['isEmailValid'].data[0] });
             if (this.state.isUserValid == 1) {
@@ -85,21 +92,31 @@ class LogIn extends Component {
                                     }
                                 }
                             } else {
-                                alert("Contraseña y/o correo ingresados no son correctos.")
+                                this.modalTrigger(event, 'Usuario', 'Este usuario no está activo');
                             }
-
-
                         });
                     } else {
-                        alert("Contraseña y/o correo ingresados no son correctos.")
+                        this.modalTrigger(event, 'Contraseña', 'Contraseña y/o correo ingresados no son correctos');
                     }
                 });
             } else {
-                alert("Contraseña y/o correo ingresados no son correctos.")
+                this.modalTrigger(event, 'Contraseña', 'Contraseña y/o correo ingresados no son correctos');
             }
         });
 
     }
+
+    /**
+       * This method takes care of show a modal with useful information
+       */
+    modalTrigger(event, mdTittle, mdChildren) {
+        this.setState({
+            show: !this.state.show,
+            modalTittle: mdTittle,
+            modalChildren: mdChildren
+        });
+        event.preventDefault();
+    };
 
     goSignUp() {
         this.props.history.push(`/Terms`);
@@ -124,7 +141,7 @@ class LogIn extends Component {
        */
     onKeyEvent(e) {
         if (e.key == "Enter") {
-            this.tryLogin();
+            this.tryLogin(e);
         }
     }
 
@@ -158,7 +175,13 @@ class LogIn extends Component {
                         </div>
                     </div>
                     <div className="col-3">
-
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-md-1">
+                        <ModalComponent tittle={this.state.modalTittle} show={this.state.show} onClose={this.modalTrigger} >
+                            <br />{this.state.modalChildren}
+                        </ModalComponent>
                     </div>
                 </div>
             </div>

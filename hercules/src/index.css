@@ -8,35 +8,35 @@ Button{
 p{
   color:#666666;
   font:Arial;
-  fontSize: 18px;
+  font-Size: 18px;
   font-family: sans-serif
 }
 
 h1{
   color:#41ade7;
   font:Arial;
-  fontSize: 50px;
+  font-Size: 50px;
   font-family: sans-serif
 }
 
 h2{
   color:#666666;
   font:Arial;
-  fontSize: 24px;
+  font-Size: 24px;
   font-family: sans-serif
 }
 
 h3{
   color:#666666;
   font:Arial;
-  fontSize: 18px;
+  font-Size: 18px;
   font-family: sans-serif
 }
 
 h4{
   color:#999999;
   font:Arial;
-  fontSize: 18px;
+  font-Size: 18px;
   font-family: sans-serif
 }
 
@@ -47,6 +47,11 @@ h4{
 
 .buttonDaysSize{
   width: 100px;
+  height: 40px;
+}
+
+.buttonIMCSize{
+  width: 120px;
   height: 40px;
 }
 
@@ -70,7 +75,7 @@ h4{
   -webkit-border-radius: 50px;
   -moz-border-radius: 50px;
   border-radius: 50px;
-  fontSize:11px;
+  font-Size:11px;
   line-height:32px;
   text-transform: uppercase;
   float:right;
@@ -82,11 +87,11 @@ h4{
 
 .inputText {
   height: 40px;
-  fontSize: 18px;
+  font-Size: 18px;
 }
 
 .bigInputText {
-  fontSize: 18px;
+  font-Size: 18px;
   resize:none;
 }
 
@@ -170,7 +175,7 @@ footer{
 a{
   color:#41ADE7;
   font:Arial;
-  fontSize: 18px;
+  font-size: 18px;
   font-family: sans-serif
   
 }
@@ -186,7 +191,7 @@ a{
 }
 
 .aNavbar{
-  fontSize: 13px;
+  font-size: 13px;
 }
 
 .navbarColor{
@@ -231,5 +236,29 @@ height: 45px;
 
 .imageHistoricPage {
   width: 40px;
+}
+
+.cssCodeButtonConfirm{
+  width: 140px;
+  height: 40px;
+  margin-top: 20px;
+  margin-bottom: 20px; 
+  background-color: #41ade7;
+  border-radius: 5px 5px 5px 5px;
+  -moz-border-radius: 5px 5px 5px 5px;
+  -webkit-border-radius: 5px 5px 5px 5px;
+  border: 0px inset #000000;
+}
+
+.cssCodeButtonResend{
+  width: 140px;
+  height: 40px;
+  margin-top: 20px;
+  margin-bottom: 20px; 
+  background-color: #41ade7;
+  border-radius: 5px 5px 5px 5px;
+  -moz-border-radius: 5px 5px 5px 5px;
+  -webkit-border-radius: 5px 5px 5px 5px;
+  border: 0px inset #000000;
 }
 

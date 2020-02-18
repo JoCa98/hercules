@@ -83,13 +83,13 @@ class TableMedicalInfo extends Component {
      */
     rowEvent(event) {
         try {
-            var id = document.getElementById("medicalInfo").rows[event.target.parentNode.rowIndex].cells[0].innerHTML;
+            var id = this.state.medicalInfo[0].medicalInfoID;
             sessionStorage.setItem("medicalFormID", id);
             sessionStorage.setItem("update", true);
-            this.props.history.push(`/AddMedicalForm`);
+            this.props.history.push(`/MedicalForm`);
 
         } catch (err) {
-            console.error("Un error inesperado ha ocurrido");
+            console.error(err);
         }
     }
 
@@ -106,7 +106,6 @@ class TableMedicalInfo extends Component {
                 sessionStorage.setItem('dateLastMedicRegistry', medicalInfo.date);
                 return (
                     <tr className="pointer" onClick={this.rowEvent} key={i}>
-                        <td className="diplayNone">{medicalInfo.medicalInfoID}</td>
                         <td>{medicalInfo.date}</td>
                         <td>{medicalInfo.medicalCod}</td>
                         <td>{medicalInfo.pathologies}</td>
@@ -134,7 +133,6 @@ class TableMedicalInfo extends Component {
             if (i === 0 && sessionStorage.getItem('userTypeID') == 3) {
                      return (
                     <tr className="pointer" onClick={this.rowEvent} key={i}>
-                        <td className="diplayNone">{medicalInfo.medicalInfoID}</td>
                         <td>{medicalInfo.date}</td>
                         <td>{medicalInfo.bloodPressure}</td>
                         <td>{medicalInfo.SpO2}</td>
@@ -160,13 +158,12 @@ class TableMedicalInfo extends Component {
         })
 
         const indexExploration2 = this.state.medicalInfo.map((medicalInfo, i) => {
-            if (i === 0 && sessionStorage.getItem('userTypeID') == 3) {
+            if (i === 0 && sessionStorage.getItem("userTypeID") == 3) {
                 return (
                     <tr className="pointer" onClick={this.rowEvent} key={i}>
-                        <td className="diplayNone">{medicalInfo.medicalInfoID}</td>
+                        <td>{medicalInfo.date}</td>  
                         <td>{medicalInfo.weight}</td>
                         <td>{medicalInfo.size}</td>
-                        <td>{medicalInfo.date}</td>  
                         <td>{medicalInfo.IMC}</td>                      
                         <td>{medicalInfo.waist}</td>
                         <td>{medicalInfo.hip}</td>                        
@@ -190,7 +187,6 @@ class TableMedicalInfo extends Component {
             if (i === 0 && sessionStorage.getItem('userTypeID') == 3) {
                 return (
                     <tr className="pointer" onClick={this.rowEvent} key={i}>
-                        <td className="diplayNone">{medicalInfo.medicalInfoID}</td>
                         <td>{medicalInfo.date}</td>
                         <td>{medicalInfo.recommendations}</td>
                         <td>{medicalInfo.cardiovascularRisk}</td>

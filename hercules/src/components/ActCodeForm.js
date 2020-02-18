@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import PermissionsManager from "./PermissionsManager";
-import './ActCodeForm.css';
+import ModalComponent from './ModalComponent';
 
-import axios from "axios";
 
 class ActCodeForm extends Component {
   constructor() {
@@ -128,16 +127,50 @@ class ActCodeForm extends Component {
       emergencyContactPhoneNumber: sessionStorage.getItem('emergencyContactPhoneNumber'),
       activationCode: sessionStorage.getItem('activationCode'),
       actCode: "",
+      show: false,
+      modalTittle: "",
+      modalChildren: "",
+      isExit: false
 
     }
     this.handleInputChange = this.handleInputChange.bind(this);
     this.completeSignUp = this.completeSignUp.bind(this);
     this.resendCode = this.resendCode.bind(this);
     this.sendNotificationEmail = this.sendNotificationEmail.bind(this);
+    this.modalTrigger = this.modalTrigger.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
   /**
     * Method that validate the page permissions.
   */
+
+  
+  /**
+   * This method takes care of show a modal with useful information
+   */
+  modalTrigger(event, mdTittle, mdChildren) {
+    this.setState({
+      show: !this.state.show,
+      modalTittle: mdTittle,
+      modalChildren: mdChildren
+    });
+    event.preventDefault();
+  };
+
+   /**
+   * This method close the modal  
+   */
+  closeModal(event) {
+    this.setState({
+      show: !this.state.show
+    });
+    if (this.state.isExit) {
+      this.props.history.push(`/`);
+    }
+    event.preventDefault();
+  };
+
   componentDidMount() {
     this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
     window.scrollTo(0, 0);
@@ -156,17 +189,17 @@ class ActCodeForm extends Component {
       [name]: value
     });
   }
+  
   /**
   * Method that deletes the blank spaces within the actCode field. Also warns the user that the field is obligatory.
   * 
   */
-  handleSubmit(e) {
-
-    e.preventDefault();
-    if (this.state.actCode.trim() !== "") {
-      alert(this.state.actCode.trim());
+  handleSubmit(event) {
+    event.preventDefault();
+    if (this.state.actCode.trim().length != 0) {
+      this.completeSignUp(event);
     } else {
-      alert('El código de activación es obligatorio');
+      this.modalTrigger(event, 'Campo Obligatorio', 'El código de activación es obligatorio');
     }
   }
   /**
@@ -186,14 +219,16 @@ class ActCodeForm extends Component {
       })
         .then(res => res.json())
         .then(data => {
+          this.setState({
+            isExit: true
+          });
         })
         .catch(err => console.error(err));
       this.sendNotificationEmail();
-      alert("El registro fue completado con éxito. Permanecerá inactivo y no podrá ingresar al sistema hasta que el encargado (a) del gimnasio lo active. Se le ha enviado un correo con más detalles. Ahora será redirigido a la pantalla de ingreso.")
+      this.modalTrigger(event, 'Registro exitoso', 'El registro fue completado con éxito. Permanecerá inactivo y no podrá ingresar al sistema hasta que el encargado (a) del gimnasio lo active. Se le ha enviado un correo con más detalles. Ahora será redirigido a la pantalla de ingreso');
       sessionStorage.clear();
-      this.props.history.push(`/`);
     } else {
-      alert("El código ingresado es incorrecto");
+      this.modalTrigger(event, 'Código incorrecto', 'El código ingresado es incorrecto');
     }
   }
 
@@ -214,7 +249,7 @@ class ActCodeForm extends Component {
         console.log(data);
       })
       .catch(err => console.error(err));
-    alert("Se reenvió el código de activación, por favor revise su correo institucional.");
+    this.modalTrigger(event, 'Reenvio', 'Se reenvió el código de activación, por favor revise su correo institucional');
   }
 
   /**
@@ -242,7 +277,7 @@ class ActCodeForm extends Component {
       <div className="container">
         <div className="row mt-4 ">
           <div className="col-6 offset-3 card p-5">
-            <form className="activationCodeForm" onSubmit={this.handleSubmit}>
+            <form className="activationCodeForm" >
               <h1 className="text-left colorBlue">Activación de cuenta</h1>
               <div className="form-group">
                 <p align="left">Ingrese el código de activación enviado a su correo</p>
@@ -253,7 +288,14 @@ class ActCodeForm extends Component {
                   <button type="button" align="left" name="resendButton" className="cssCodeButtonResend" onClick={this.resendCode}> Reenviar código </button>
                 </div>
                 <div className="col-4 offset-4">
-                  <button type="button" align="right" name="confirmButton" className="cssCodeButtonConfirm" onClick={this.completeSignUp}> Confirmar </button>
+                  <button type="button" align="right" name="confirmButton" className="cssCodeButtonConfirm" onClick={this.handleSubmit}> Confirmar </button>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-md-1">
+                  <ModalComponent tittle={this.state.modalTittle} show={this.state.show} onClose={this.closeModal} >
+                    <br />{this.state.modalChildren}
+                  </ModalComponent>
                 </div>
               </div>
             </form>

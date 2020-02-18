@@ -17,9 +17,8 @@ import TableMedicalInfo from './TableMedicalInfo';
 import downloadImage from '../appImage/downloadImage.png';
 import axios from 'axios';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
-import json2csv from 'json2csv';
 import PermissionsManager from "./PermissionsManager";
-
+import ModalComponent from './ModalComponent';
 
 class HistoricMedicalInfo extends Component {
     constructor() {
@@ -35,26 +34,52 @@ class HistoricMedicalInfo extends Component {
         this.state = {
             permissionsManager: new PermissionsManager(),
             userName: [{}],
-            partyID: sessionStorage.getItem("userPartyID")
+            partyID: sessionStorage.getItem("userPartyID"),
+            show: false,
+            modalTittle: "",
+            modalChildren: ""
         }
         this.redirect = this.redirect.bind(this);
         this.backButton = this.backButton.bind(this);
         this.downloadCSV = this.downloadCSV.bind(this);
+        this.modalTrigger = this.modalTrigger.bind(this);
+        this.closeModal = this.closeModal.bind(this);
     }
+
+        /**
+   * This method takes care of show a modal with useful information
+   */
+  modalTrigger(event, mdTittle, mdChildren) {
+    this.setState({
+        show: !this.state.show,
+        modalTittle: mdTittle,
+        modalChildren: mdChildren
+    });
+    event.preventDefault();
+};
+
+/**
+* This method close the modal  
+*/
+closeModal(event) {
+    this.setState({
+        show: !this.state.show
+    });
+    event.preventDefault();
+};
 
     /**
     * Method that can redirect to the page of AddMedicalForm
     * when the user click the addButton
     */
-    redirect() {
+    redirect(event) {
         if (sessionStorage.getItem('dateLastMedicRegistry') !== 'undefined' &&
             sessionStorage.getItem('dateLastMedicRegistry') !== null &&
             new Date(sessionStorage.getItem('dateLastMedicRegistry')) === Date(new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate())) {
-            alert("Solo se puede agregar un registro por día.");
-
-        } else {
+            this.modalTrigger(event, 'Restricciones', 'Solo se puede agregar un registro por día');
+            } else {
             sessionStorage.setItem("update", false);
-            this.props.history.push(`/AddMedicalForm`);
+            this.props.history.push(`/MedicalForm`);
 
         }
     }
@@ -167,6 +192,13 @@ class HistoricMedicalInfo extends Component {
                                 <button align="left" className="buttonSizeGeneral" onClick={this.backButton}>Volver</button>
                             </div>
                         </div>
+                        <div className="row">
+                        <div className="col-md-1">
+                            <ModalComponent tittle={this.state.modalTittle} show={this.state.show} onClose={this.closeModal} >
+                                <br />{this.state.modalChildren}
+                            </ModalComponent>
+                        </div>
+                    </div>
                     </div>
                 </div>
             </div>

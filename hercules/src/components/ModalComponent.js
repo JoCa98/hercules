@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Modal from 'react-bootstrap/Modal';
 import PropTypes from 'prop-types';
 
 class ModalComponent extends Component {
