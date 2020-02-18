@@ -93,7 +93,7 @@ router.get('/getOnePhysicalInfoByID',  (req, res) => {
 */
 router.post('/updatePhysicalInfo', function (req, res) {
 
-  connection.query("CALL proc_updatePhysicalInfo(" + req.body.idPhisicalInfo + "," + req.body.weight + 
+  connection.query("CALL proc_updatePhysicalInfo(" + req.body.idPhysicalInfo + "," + req.body.weight + 
                                             "," + req.body.bodyWater + ","+ req.body.boneMass + 
                                             "," + req.body.DCI + "," + req.body.metabolicAge + "," + req.body.totalBodyFat +
                                             "," + req.body.muscleMass + "," + req.body.physicalAssesment + "," + req.body.visceralFat +

@@ -26,8 +26,6 @@ class PermissionManager extends Component {
     }
 
     validatePermission(pageName, page) {
-        console.log(pageName);
-        console.log(sessionStorage.getItem('update'));
 
         //Permisos de páginas sin login y permisos especiales para singUp y actCodeForm
         if (this.withoutLogin(pageName) &&
@@ -192,16 +190,7 @@ class PermissionManager extends Component {
                 console.log("Prueba exitosa");
                 this.redirectUser(page)
                 return false;
-
-                //Quiera editar pero no pueda 
-            } /**else if (this.addMedicalForm(pageName) &&
-                sessionStorage.getItem('update') === "true" &&
-                (sessionStorage.getItem('dateLastMedicRegistry') !== null
-                    || sessionStorage.getItem('dateLastMedicRegistry') !== ""
-                    || sessionStorage.getItem('dateLastMedicRegistry') !== 'undefined')) {
-                
-
-            }*/
+            }
         }
         return true;
     }
