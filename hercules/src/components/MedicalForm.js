@@ -131,7 +131,7 @@ class MedicalForm extends Component {
             show: false,
             modalTittle: "",
             modalChildren: "",
-            isExit: false
+            isExit: 0
 
         };
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -166,8 +166,10 @@ class MedicalForm extends Component {
         this.setState({
             show: !this.state.show
         });
-        if (this.state.isExit) {
+        if (this.state.isExit == 1) {
             this.props.history.push(`/HistoricMedicalInfo`);
+        }else if(this.state.isExit == 2){
+            this.handleSubmit(event);
         }
         event.preventDefault();
     };
@@ -291,7 +293,7 @@ class MedicalForm extends Component {
     * Method that submit all the information in the form
     */
     handleSubmit(event) {
-        this.validation(event);
+
         if (sessionStorage.getItem("update") == "true") {
             fetch(`http://localhost:9000/MedicalInfo/updateMedicalRegister`, {
                 method: "post",
@@ -304,13 +306,14 @@ class MedicalForm extends Component {
                 .then(res => res.json())
                 .then(data => {
                     this.setState({
-                        isExit: true
+                        isExit: 1
                     });
+                    sessionStorage.setItem("update", false);
+                    this.modalTrigger(event, 'Actualización de registro', 'Se actualizó de manera correcta el registro médico');
+
                 })
                 .catch(err => console.error(err));
             event.preventDefault();
-            sessionStorage.setItem("update", false);
-            this.modalTrigger(event, 'Actualización de registro', 'Se actualizó de manera correcta el registro médico');
         } else {
             fetch("http://localhost:9000/MedicalInfo/addMedicalInfo", {
                 method: "post",
@@ -323,12 +326,11 @@ class MedicalForm extends Component {
                 .then(res => res.json())
                 .then(data => {
                     this.setState({
-                        isExit: true
+                        isExit: 1
                     });
+                    this.modalTrigger(event, 'Ingreso de registro', 'Se ingresó de manera correcta el registro médico');
                 })
                 .catch(err => console.error(err));
-            this.modalTrigger(event, 'Ingreso de registro', 'Se ingresó de manera correcta el registro médico');
-
             event.preventDefault();
         }
     }
@@ -351,10 +353,6 @@ class MedicalForm extends Component {
             });
         }
 
-        if (this.state.size != 0 && this.state.weight != 0) {
-            this.calcIMC();
-        }
-
         if (this.state.pathologies != "" || this.state.allergies != "" || this.state.surgeries != ""
             || this.state.neurologicalInfo != "" || this.state.pulmonaryCardioInfo != "" || this.state.recommendations != "") {
             this.checkEmptySpaces();
@@ -372,13 +370,15 @@ class MedicalForm extends Component {
 
     /**
     * Method that calculate the imc based in the size and weight
+    * peso/altura a la 2
     */
-    calcIMC() {
-
-        let size = (this.state.size * this.state.size);
-        let imc = (this.state.weight / size);
+    calcIMC(event) {
+        this.validation(event);
+        var size = (this.state.size * this.state.size);
+        var imc = (this.state.weight / size);
         var round = imc.toFixed(2);
-        this.setState({ IMC: round });
+        this.setState({ IMC: round, isExit: 2});
+        this.modalTrigger(event,"Cálculo IMC", "El IMC es de "+ round);
     }
 
     /**
@@ -422,14 +422,14 @@ class MedicalForm extends Component {
             if (!this.state.validations.validateTextField(this.state.recommendations.trim())) {
                 this.modalTrigger(event, 'Formato incorrecto', 'El campo de recomendaciones no puede contener números');
             }
-        } else if (!this.state.validations.validatePercent(this.state.heartRate.trim())
-            || !this.state.validations.validatePercent(this.state.aerobicThreshold.trim())
-            || !this.state.validations.validatePercent(this.state.SpO2.trim())
-            || !this.state.validations.validateKg(this.state.weight.trim())
-            || !this.state.validations.validateKg(this.state.size.trim())
-            || !this.state.validations.validateKg(this.state.IMC.trim())
-            || !this.state.validations.validateNumericField(this.state.waist.trim())
-            || !this.state.validations.validateNumericField(this.state.hip.trim())) {
+        } else if (!this.state.validations.validatePercent(this.state.heartRate.toString().trim())
+            || !this.state.validations.validatePercent(this.state.aerobicThreshold.toString().trim())
+            || !this.state.validations.validatePercent(this.state.SpO2.toString().trim())
+            || !this.state.validations.validateKg(this.state.weight.toString().trim())
+            || !this.state.validations.validateKg(this.state.size.toString().trim())
+            || !this.state.validations.validateKg(this.state.IMC.toString().trim())
+            || !this.state.validations.validateNumericField(this.state.waist.toString().trim())
+            || !this.state.validations.validateNumericField(this.state.hip.toString().trim())) {
             this.modalTrigger(event, 'Formato incorrecto', 'Los campos de  frecuencia cardiaca, umbral aeróbico, oxígeno, peso, talla, cadera, cintura deben ser números');
         }
     }
@@ -640,16 +640,6 @@ class MedicalForm extends Component {
                                                         <div className="row">
                                                             <div className="col-7">
                                                                 <div className="control-group">
-                                                                    <label className="control-label" htmlFor="IMC" font-size="18px">IMC</label>
-                                                                    <div className="controls">
-                                                                        <input type="number" id="IMC" name="IMC" font-size="18px" value={this.state.IMC} disabled className="form-control" />
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div className="row">
-                                                            <div className="col-7">
-                                                                <div className="control-group">
                                                                     <label className="control-label" htmlFor="heartRate" font-size="18px">FC<font color="red">*</font></label>
                                                                     <div className="controls">
                                                                         <input type="number" id="heartRate" name="heartRate" font-size="18px" required onChange={this.handleInputChange} className="form-control" />
@@ -657,7 +647,6 @@ class MedicalForm extends Component {
                                                                 </div>
                                                             </div>
                                                         </div>
-
                                                         <div className="row">
                                                             <div className="col-7">
                                                                 <div className="control-group">
@@ -788,7 +777,7 @@ class MedicalForm extends Component {
                                     <button align="left" className="buttonSizeGeneral" onClick={this.backButton}>Volver</button>
                                 </div>
                                 <div className="mt-4 col-2 offset-7">
-                                    <button align="right" name="save" className="buttonSizeGeneral" onClick={this.handleSubmit}>Guardar</button>
+                                    <button align="right" name="save" className="buttonSizeGeneral" onClick={this.calcIMC}>Guardar</button>
                                 </div>
                             </div>
                             <div className="row">

@@ -242,6 +242,7 @@ class AddRoutine extends Component {
      */
     hideModal = (e) => {
         this.setState({ showModal: false });
+        alert("false");
         e.preventDefault();
     };
 
@@ -410,6 +411,7 @@ class AddRoutine extends Component {
         this.setState({ exerciseID: id });
         this.setState({ name: name });
         this.enabledInputs();
+        alert(this.state.list.length);
         if (this.state.list.length !== 0) {
             this.state.list.map((ex, i) => {
                 if (ex.exerciseID == id && ex.day == this.state.routineDay) {
@@ -601,7 +603,6 @@ class AddRoutine extends Component {
      */
     handleSubmit(e) {
         var id;
-        if (!this.empty()) {
             axios.post("http://localhost:9000/RoutineRoute/addRoutine", {
                 Frecuency: this.state.Frecuency,
                 Intensity: this.state.Intensity,
@@ -621,12 +622,8 @@ class AddRoutine extends Component {
                 .catch(err => console.error(err));
 
             e.preventDefault();
-        } else {
-            this.modalTrigger(e, 'Campos obligatorios', 'Debe agregar los datos de la preescripción física');
-            e.preventDefault();
-        }
-
-    }
+        } 
+    
 
     /**
      * Method that add a list of exercises to a routine in the database
@@ -672,8 +669,8 @@ class AddRoutine extends Component {
      * Method that verifies if some input is empty
      */
     empty() {
-        if (this.state.Frecuency == "" || this.state.Density == "" || this.state.Intensity == "" || this.state.RestTime == ""
-            || this.state.objectiveID == "" || this.state.routineTypeID == "" || this.state.HeartRatePerMinute == "") {
+        if (this.state.Frecuency.toString().trim() == 0 || this.state.Density.toString().trim() == 0 || this.state.Intensity.toString().trim() == 0 || this.state.RestTime.toString().trim() == 0 
+            || this.state.objectiveID.toString().trim() == 0 || this.state.routineTypeID.toString().trim() == 0 || this.state.HeartRatePerMinute.trim() == 0) {
             return true;
         } else {
             return false;

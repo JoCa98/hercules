@@ -29,8 +29,11 @@ class LogIn extends Component {
     }
 
     componentDidMount() {
-        this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
         window.scrollTo(0, 0);
+
+        if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
+            sessionStorage.clear();
+        }
     }
 
     showPasswordFields() {
@@ -89,7 +92,8 @@ class LogIn extends Component {
                                     }
                                 }
                             } else {
-                                this.modalTrigger(event, 'Usuario', 'Este usuario no está activo');
+                                sessionStorage.clear();
+                                this.modalTrigger(event, 'Usuario', 'Este usuario no está activo');  
                             }
                         });
                     } else {

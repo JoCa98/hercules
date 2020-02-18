@@ -1,11 +1,32 @@
+/**
+ * @fileoverview Terms page, this page contains the rules about the use of the gym. The user must agrees with them so they 
+ * can continue with the sign up process.
+ *
+ * @version 1.0
+ *
+ * @author Kevin Loria Paniagua <kevin.loria@ucrso.info>
+ * History
+ * v1.0 – Initial Release
+ * ----
+ * The first version of Terms was written by Kevin Loría.
+ */
+
 import React, { Component } from 'react';
 import PermissionsManager from "./PermissionsManager";
-
-
 
 class Terms extends Component {
     constructor(props) {
         super(props);
+        /**
+        *permissionsManager:
+        * @type {PermissionsManager}
+        * Instance of PermissionManager to grant or deny permission to the user to access certain pages from the current one
+        * and depending of the user type.
+        * 
+        * accept:
+        * @type {integer}
+        * Property that stores a 1 if the user agrees with the terms of usage or a 0 if they don´t.
+        */
 
         this.state = {
             accept: 0,
@@ -15,20 +36,24 @@ class Terms extends Component {
         this.redirect = this.redirect.bind(this);
         this.backButton = this.backButton.bind(this);
     }
-
+    /**
+    * Method that validate the page permissions.
+    */
     componentDidMount() {
         this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
         window.scrollTo(0,0);
     }
-
+    /**
+    * Method that redirect the user to the next page if they agreed with the terms of usage.
+    */
     redirect() {
         sessionStorage.setItem('termsConfirm', 'true');
         this.props.history.push(`/SignUp`);
     }
 
     /**
-* Method that redirect to the previous page
-*/
+    * Method that redirect to the previous page
+    */
     backButton() {
         this.props.history.push(`/`);
     }
