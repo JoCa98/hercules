@@ -373,7 +373,6 @@ class MedicalForm extends Component {
     * peso/altura a la 2
     */
     calcIMC(event) {
-        this.validation(event);
         var size = (this.state.size * this.state.size);
         var imc = (this.state.weight / size);
         var round = imc.toFixed(2);
@@ -385,19 +384,19 @@ class MedicalForm extends Component {
     * Method that verify that the require inputs are not empty
     */
     validation(event) {
-        if ((this.state.smoking.length == 0)
-            || (this.state.traumas.length == 0)
-            || this.state.size.length == 0
-            || this.state.weight.length == 0
-            || this.state.heartRate.length == 0
-            || this.state.aerobicThreshold.length == 0
-            || this.state.SpO2.length == 0
-            || this.state.waist.length == 0
-            || this.state.hip.length == 0
-            || this.state.bloodPressure.trim().length == 0
+        if ((this.state.smoking.toString().trim() != 0 && this.state.smoking.toString().trim() != 1)
+            || (this.state.traumas.toString().trim() != 0 && this.state.traumas.toString().trim() != 1)
+            || this.state.size == 0
+            || this.state.weight == 0
+            || this.state.heartRate == 0
+            || this.state.aerobicThreshold == 0
+            || this.state.SpO2 == 0
+            || this.state.waist == 0
+            || this.state.hip  == 0
+            || this.state.bloodPressure == 0
             || this.state.cardiovascularRisk == 0
             || this.state.upToDate == 0) {
-            this.modalTrigger(event, 'Campos obligatorios', 'Todos los campos obligatorios  deben estar llenos');
+            this.modalTrigger(event, 'Campos obligatorios', 'Todos los campos obligatorios  deben estar llenos y no pueden ser cero');
         } else if (this.state.pathologies.trim().length != 0) {
             if (!this.state.validations.validateTextField(this.state.pathologies.trim())) {
                 this.modalTrigger(event, 'Formato incorrecto', 'El campo de patologías no puede contener números');
@@ -431,7 +430,10 @@ class MedicalForm extends Component {
             || !this.state.validations.validateNumericField(this.state.waist.toString().trim())
             || !this.state.validations.validateNumericField(this.state.hip.toString().trim())) {
             this.modalTrigger(event, 'Formato incorrecto', 'Los campos de  frecuencia cardiaca, umbral aeróbico, oxígeno, peso, talla, cadera, cintura deben ser números');
+        }else{
+            this.calcIMC(event);
         }
+      
     }
 
     /**
@@ -575,7 +577,7 @@ class MedicalForm extends Component {
                                                                 <div className="col-2">
                                                                     <div className="controls">
                                                                         <label fontSize="18px">No
-                                                                 <input type="radio" name="smoking" id="smokingNo" value="0" />
+                                                                 <input type="radio" name="smoking" id="smokingNo" value="0" checked/>
                                                                         </label>
                                                                     </div>
                                                                 </div>
@@ -598,7 +600,7 @@ class MedicalForm extends Component {
                                                                 <div className="col-2">
                                                                     <div className="controls">
                                                                         <label fontSize="18px"> No
-                                                        <input type="radio" name="traumas" id="traumasNo" value="0" />
+                                                        <input type="radio" name="traumas" id="traumasNo" value="0" checked/>
                                                                         </label>
                                                                     </div>
                                                                 </div>
@@ -777,7 +779,7 @@ class MedicalForm extends Component {
                                     <button align="left" className="buttonSizeGeneral" onClick={this.backButton}>Volver</button>
                                 </div>
                                 <div className="mt-4 col-2 offset-7">
-                                    <button align="right" name="save" className="buttonSizeGeneral" onClick={this.calcIMC}>Guardar</button>
+                                    <button align="right" name="save" className="buttonSizeGeneral" onClick={this.validation}>Guardar</button>
                                 </div>
                             </div>
                             <div className="row">
