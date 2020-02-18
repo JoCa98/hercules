@@ -80,7 +80,7 @@ class ChangeTempPassword extends Component {
         } else if (!this.state.hash.comparePassword(this.state.tempPassword, sessionStorage.getItem('password'))) {
             this.modalTrigger(event, 'Contraseña', 'La contraseña temporal es incorrecta');
         } else if (!this.state.validations.validatePasswordField(this.state.newPassword) || !this.state.validations.validatePasswordField(this.state.confirmPassword)) {
-            this.modalTrigger(event, 'Contraseña', 'La contraseña debe contar con una extensión mínima de 8 caracteres y estar compuesta almenos por números y letras');
+            this.modalTrigger(event, 'Contraseña', 'La contraseña debe contar con una extensión mínima de 8 caracteres y estar compuesta al menos por números y letras');
         } else if (this.state.newPassword != this.state.confirmPassword) {
             this.modalTrigger(event, 'Contraseña', 'Los campos de nueva contraseña no coinciden');
         } else {

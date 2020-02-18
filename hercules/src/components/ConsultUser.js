@@ -14,7 +14,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import PermissionsManager from "./PermissionsManager";
-
+import ModalComponent from './ModalComponent';
 
 class ConsultUser extends Component {
     constructor(props) {
@@ -31,7 +31,10 @@ class ConsultUser extends Component {
         this.state = {
             permissionsManager: new PermissionsManager(),
             userInfo: [{}],
-            partyID: sessionStorage.getItem("userPartyID")
+            partyID: sessionStorage.getItem("userPartyID"),
+            show: false,
+            modalTittle: "",
+            modalChildren: ""
         };
         this.getUserBasicInfo = this.getUserBasicInfo.bind(this);
         this.redirectMedical = this.redirectMedical.bind(this);
@@ -39,6 +42,7 @@ class ConsultUser extends Component {
         this.redirectRoutines = this.redirectRoutines.bind(this);
         this.backButton = this.backButton.bind(this);
         this.changeUserStatus = this.changeUserStatus.bind(this);
+        this.modalTrigger = this.modalTrigger.bind(this);        
     }
 
     componentDidMount() {
@@ -47,13 +51,25 @@ class ConsultUser extends Component {
 
             this.getUserBasicInfo();
 
-
             if (sessionStorage.getItem('userTypeID') != 4) {
                 this.hideAdminBtns();
             }
         }
 
     }
+
+
+    /**
+     * This method takes care of show a modal with useful information
+     */
+    modalTrigger(event, mdTittle, mdChildren) {
+        this.setState({
+            show: !this.state.show,
+            modalTittle: mdTittle,
+            modalChildren: mdChildren
+        });
+        event.preventDefault();
+    };
 
     /**
     * method that hides the buttons that only the main administrator has access to
@@ -64,7 +80,7 @@ class ConsultUser extends Component {
         document.getElementById("ChangeUserStatus").style.display = 'none';
     }
 
-    changeUserStatus() {
+    changeUserStatus(event) {
         if (window.confirm("¿Está seguro que desea cambiar el estado del usuario?") === true) {
             var accountState;
             if (document.getElementById("status").textContent === "Inactivo") {
@@ -88,7 +104,7 @@ class ConsultUser extends Component {
                     console.log(data);
                 })
                 .catch(err => console.error(err));
-            alert("El estado del usuario fue cambiado con éxito")
+                this.modalTrigger(event,'Estado','El estado del usuario fue cambiado con éxito');                                
             if (accountState === 0) {
                 document.getElementById('status').textContent = "Inactivo";
                 document.getElementById('ChangeUserStatus').textContent = "Activar";
@@ -263,6 +279,13 @@ class ConsultUser extends Component {
                                 <div className="form-group" align="left">
                                     <button align="left" className="buttonSizeGeneral" onClick={this.backButton}>Volver</button>
                                 </div>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-md-1">
+                                <ModalComponent tittle={this.state.modalTittle} show={this.state.show} onClose={this.modalTrigger} >
+                                    <br />{this.state.modalChildren}
+                                </ModalComponent>
                             </div>
                         </div>
                     </div>
