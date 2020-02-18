@@ -68,7 +68,7 @@ class PasswordRecovery extends Component {
     /**
     * Method that updates the current user password with a new one.
     */
-    updatePassword() {
+    updatePassword(event) {
         var tempPassword = this.state.randomPassword.generatePassword();
         alert(tempPassword);
         fetch("http://localhost:9000/User/updatePassword", {

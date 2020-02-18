@@ -78,7 +78,7 @@ class ChangeTempPassword extends Component {
     * Method that updates the temporal password with a new one. Notifies the user when the update is done and
     * redirects them to their home page.
     */
-    updatePassword() {
+    updatePassword(event) {
         var newPassword = this.state.hash.encode(this.state.newPassword);
         fetch("http://localhost:9000/User/updatePassword", {
             method: "post",
@@ -108,7 +108,7 @@ class ChangeTempPassword extends Component {
     /**
     * Method that validates the password field before update the password.
     */
-    changeTempPassword() {
+    changeTempPassword(event) {
         if (document.getElementById('tempPassword').value.length == 0 || document.getElementById('newPassword').value.length == 0
             || document.getElementById('confirmPassword').value.length == 0) {
             this.modalTrigger(event, 'Campos obligatorios', 'Todos los campos deben estar llenos');

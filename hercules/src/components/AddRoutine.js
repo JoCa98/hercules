@@ -242,6 +242,7 @@ class AddRoutine extends Component {
      */
     hideModal = (e) => {
         this.setState({ showModal: false });
+        alert("false");
         e.preventDefault();
     };
 
@@ -410,6 +411,7 @@ class AddRoutine extends Component {
         this.setState({ exerciseID: id });
         this.setState({ name: name });
         this.enabledInputs();
+        alert(this.state.list.length);
         if (this.state.list.length !== 0) {
             this.state.list.map((ex, i) => {
                 if (ex.exerciseID == id && ex.day == this.state.routineDay) {

@@ -64,7 +64,6 @@ class LogIn extends Component {
                                     sessionStorage.setItem("changeTempPassword", "true");
                                     this.props.history.push(`/ChangeTempPassword`);
                                 } else {
-                                    alert("verificando usuario");
                                     if (sessionStorage.getItem('userTypeID') == 1 || sessionStorage.getItem('userTypeID') == 2) {
                                         var res = 0;
                                         axios.get("http://localhost:9000/RoutineRoute/getRoutineID", {
@@ -94,8 +93,7 @@ class LogIn extends Component {
                                 }
                             } else {
                                 sessionStorage.clear();
-                                this.modalTrigger(event, 'Usuario', 'Este usuario no está activo');
-                                
+                                this.modalTrigger(event, 'Usuario', 'Este usuario no está activo');  
                             }
                         });
                     } else {

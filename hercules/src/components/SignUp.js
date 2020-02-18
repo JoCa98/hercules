@@ -476,7 +476,7 @@ class SignUp extends Component {
     * If the data is correct, redirects the user to the ActCodeFormPage.
     * 
     */
-    goActCodeForm() {
+    goActCodeForm(event) {
         axios.get(`http://localhost:9000/User/isEmailValid`, { params: { email: this.state.email } }).then(response => {
             var emailValid = JSON.parse(JSON.stringify(response.data))[0]['isEmailValid'].data[0]
             axios.get(`http://localhost:9000/User/isIdentificationValid`, { params: { identificationID: this.state.identificationID } }).then(response => {

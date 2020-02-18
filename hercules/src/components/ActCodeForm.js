@@ -172,6 +172,7 @@ class ActCodeForm extends Component {
   };
 
   componentDidMount() {
+    alert(this.state.activationCode);
     this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
     window.scrollTo(0, 0);
   }
@@ -206,7 +207,7 @@ class ActCodeForm extends Component {
   * Method that completes the user sign up process by adding them to the data base. Notifies the user 
   * they still need to be activates by and admin and redirects them to the login page.  * 
   */
-  completeSignUp() {
+  completeSignUp(event) {
     if (this.state.actCode == this.state.activationCode) {
       fetch("http://localhost:9000/User/addUser", {
         method: "post",
@@ -235,7 +236,7 @@ class ActCodeForm extends Component {
   /**
   * Method that allows the user to resend the code to their email if something went wrong or the email was never received.
   */
-  resendCode() {
+  resendCode(event) {
     fetch("http://localhost:9000/User/sendEmail", {
       method: "post",
       body: JSON.stringify({ email: this.state.email, activationCode: this.state.activationCode }),
