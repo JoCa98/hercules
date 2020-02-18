@@ -1,3 +1,16 @@
+/**
+ * @fileoverview PasswordRecovery page, in this page, the user enters their email if the want to request a 
+ * new pasword in case they lost the current one. Then a temporal password is generated and sent to the given email.
+ *
+ * @version 1.0
+ *
+ * @author Kevin Loria Paniagua <kevin.loria@ucrso.info>
+ * History
+ * v1.0 – Initial Release
+ * ----
+ * The first version of PasswordRecovery was written by Kevin Loría.
+ */
+
 import React, { Component } from 'react';
 import RandomPassword from './RandomPassword';
 import Hash from './Hash';
@@ -8,6 +21,25 @@ import PermissionsManager from "./PermissionsManager";
 class PasswordRecovery extends Component {
     constructor() {
         super();
+        /**
+        *permissionsManager:
+        * @type {PermissionsManager}
+        * Instance of PermissionManager to grant or deny permission to the user to access certain pages from the current one
+        * and depending of the user type.
+        * 
+        * randomPassword:
+        * @type {RandomPassword}
+        * Instance of RandomPassword which generates a random password.
+        * 
+        * hash
+        * @type {hash}
+        * Instance of Hash which encrypts the temporal password.
+        * 
+        * email
+        * @type {String}
+        * Property that stores the user email.
+        */
+
         this.state = {
             permissionsManager: new PermissionsManager(),
             randomPassword: new RandomPassword(),
@@ -20,11 +52,17 @@ class PasswordRecovery extends Component {
         this.backButton = this.backButton.bind(this);
     }
 
+    /**
+    * Method that validate the page permissions.
+    */
     componentDidMount() {
         this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
         window.scrollTo(0, 0);
     }
 
+    /**
+    * Method that updates the current user password with a new one.
+    */
     updatePassword() {
         var tempPassword = this.state.randomPassword.generatePassword();
         fetch("http://localhost:9000/User/updatePassword", {
@@ -49,6 +87,9 @@ class PasswordRecovery extends Component {
         this.props.history.push(`/`);
     }
 
+    /**
+    * Method that send an email to the user email with a temporal password.
+    */
     sendTempPasswordEmail(tempPassword) {
         fetch("http://localhost:9000/User/sendTempPasswordEmail", {
             method: "post",
@@ -65,6 +106,13 @@ class PasswordRecovery extends Component {
             .catch(err => console.error(err));
     }
 
+    /**
+    * Method that changes the value of the state variable using the object that triggers the event.
+    *  To do this the element must have the property name defined as the state variable
+    * 
+    * Receive an object that contains the element that called the method
+    *  @param {Object} 
+    */
     handleInputChange(event) {
         const { name, value } = event.target;
         this.setState({
@@ -72,6 +120,10 @@ class PasswordRecovery extends Component {
         });
     }
 
+    /**
+    * Method that redirect the user to the previous page.
+    * 
+    */
     backButton() {
         this.props.history.push(`/`);
     }

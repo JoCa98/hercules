@@ -7,6 +7,29 @@ import PermissionsManager from "./PermissionsManager";
 class ChangeTempPassword extends Component {
     constructor(props) {
         super(props);
+        /**
+        *permissionsManager:
+        * @type {PermissionsManager}
+        * Instance of PermissionManager to grant or deny permission to the user to access certain pages from the current one
+        * and depending of the user type.
+        * 
+        * hash
+        * @type {hash}
+        * Instance of Hash which encrypts the password.
+        * 
+        * tempPassword:
+        * @type {String}
+        * Property that stores the temporal password.
+        * 
+        * tempPassword:
+        * @type {String}
+        * Property that stores the new password.
+        * 
+        * confirmPassword:
+        * @type {String}
+        * Property that stores the comfirmation new password.
+        * 
+        */
         this.state = {
             permissionsManager: new PermissionsManager(),
             hash: new Hash(),
@@ -21,11 +44,16 @@ class ChangeTempPassword extends Component {
         this.showPasswordFields = this.showPasswordFields.bind(this);
     }
 
+    /**
+    * Method that validate the page permissions.
+    */
     componentDidMount() {
         this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
         window.scrollTo(0, 0);
     }
-
+    /**
+    * Method that allows to show or hide the password fields content.
+    */
     showPasswordFields() {
         var show = document.getElementById('showPasswordFields').checked;
         if (show == true) {
@@ -39,6 +67,10 @@ class ChangeTempPassword extends Component {
         }
     }
 
+    /**
+    * Method that updates the temporal password with a new one. Notifies the user when the update is done and
+    * redirects them to their home page.
+    */
     updatePassword() {
         var newPassword = this.state.hash.encode(this.state.newPassword);
         fetch("http://localhost:9000/User/updatePassword", {
@@ -70,6 +102,9 @@ class ChangeTempPassword extends Component {
         }
     }
 
+    /**
+    * Method that validates the password field before update the password.
+    */
     changeTempPassword() {
         if (document.getElementById('tempPassword').value.length == 0 || document.getElementById('newPassword').value.length == 0
             || document.getElementById('confirmPassword').value.length == 0) {
@@ -85,6 +120,13 @@ class ChangeTempPassword extends Component {
         }
     }
 
+    /**
+    * Method that changes the value of the state variable using the object that triggers the event.
+    * To do this the element must have the property name defined as the state variable
+    * 
+    * Receive an object that contains the element that called the method
+    * @param {Object} 
+    */
     handleInputChange(event) {
         const { name, value } = event.target;
         this.setState({
