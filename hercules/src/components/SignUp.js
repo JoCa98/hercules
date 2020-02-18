@@ -8,6 +8,148 @@ import ModalComponent from './ModalComponent';
 class SignUp extends Component {
     constructor(props) {
         super(props);
+        /**
+    *permissionsManager:
+    * @type {PermissionsManager}
+    * Instance of PermissionManager to grant or deny permission to the user to access certain pages from the current one
+    * and depending of the user type.
+    * 
+    * hash
+    * @type {hash}
+    * Instance of Hash which encrypts the password.
+    * 
+    * valiadations
+    * @type {validations}
+    * Instance of validations which allows to validates different types of data.
+    * 
+    * identificationID:
+    * @type {integer}
+    * Property that stores the identification ID of the user.
+    * 
+    * identificationID:
+    * @type {integer}
+    * Property that stores the identification ID of the user.
+    * 
+    * firstName:
+    * @type {String}
+    * Property that stores the first name of the user.
+    * 
+    * secondName:
+    * @type {String}
+    * Property that stores the second name of the user.
+    * 
+    * lastName:
+    * @type {String}
+    * Property that stores the last name of the user.
+    * 
+    * secondLastName:
+    * @type {String}
+    * Property that stores the second last name of the user.
+    * 
+    * carnet:
+    * @type {String}
+    * Property that stores the carnet of the user.
+    * 
+    * career:
+    * @type {String}
+    * Property that stores the career of the user (if they are a student).
+    * 
+    * birthDate:
+    * @type {Date}
+    * Property that stores the birth date of the user.
+    * 
+    * genderID:
+    * @type {integer}
+    * Property that stores a 1 if the user is male a or a if the user is female.
+    * 
+    * userTypeID:
+    * @type {integer}
+    * Property that stores the ID of the type of user.
+    * 
+    * email:
+    * @type {String}
+    * Property that stores the email of the user.
+    * 
+    * password:
+    * @type {String}
+    * Property that stores the password of the user account.
+    * 
+    * confirmPassword:
+    * @type {String}
+    * Property that stores the confirmation password of the user account.
+    *         
+    * phoneNumber1:
+    * @type {integer}
+    * Property that stores the main phone number of the user.
+    * 
+    * phoneNumber2:
+    * @type {integer}
+    * Property that stores the secondary phone number of the user.
+    * 
+    * startDate:
+    * @type {Date}
+    * Property that stores the sign up date of the user.
+    * 
+    * districtID:
+    * @type {integer}
+    * Property that stores the ID number of the district of residence of the user.
+    * 
+    * addressLine:
+    * @type {String}
+    * Property that stores the datails about the address of the user.
+    * 
+    * contactName:
+    * @type {String}
+    * Property that stores the name of the user´s contact.
+    * 
+    * relationTypeID:
+    * @type {integer}
+    * Property that stores the ID number of the relation between the user and their contact.
+    * 
+    * emergencyContactPhoneNumber:
+    * @type {integer}
+    * Property that stores the  phone number of the user´s contact.
+    * 
+    * activationCode:
+    * @type {integer}
+    * Property that stores the previously sent activation code required to complete the sing up process.
+    * 
+    * relations:
+    * @type {Array}
+    * Property that stores an array which contains the relation types.
+    * 
+    * provinces:
+    * @type {Array}
+    * Property that stores an array which contains the all provinces.
+    * 
+    * provinceList:
+    * @type {Set}
+    * Property that stores a set of every province´s name and ID.
+    * 
+    * districtID:
+    * @type {integer}
+    * Property that stores the ID number of the province of residence of the user.
+    * 
+    * cantons:
+    * @type {Array}
+    * Property that stores an array which contains the all cantons.
+    * 
+    * cantonList:
+    * @type {Set}
+    * Property that stores a set of every canton´s name and ID.
+    * 
+    * districtID:
+    * @type {integer}
+    * Property that stores the ID number of the canton of residence of the user.
+    * 
+    * districts:
+    * @type {Array}
+    * Property that stores an array which contains all the districts.
+    * 
+    * districtList:
+    * @type {Set}
+    * Property that stores a set of every district´s name and ID.
+    */
         this.state = {
             validations: new validations(),
             permissionsManager: new PermissionsManager(),
@@ -71,6 +213,10 @@ class SignUp extends Component {
         this.modalTrigger = this.modalTrigger.bind(this);
         this.closeModal = this.closeModal.bind(this);
     }
+
+    /**
+    * Method that validate the page permissions. Then, loads all the address select elements.
+    */
     componentDidMount() {
         if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
             window.scrollTo(0, 0);
@@ -117,6 +263,9 @@ class SignUp extends Component {
 
     }
 
+    /**
+    * Method that gets and sets the list of cantons by the selected province. 
+    */
     getCantonsByProvince(event) {
         this.setState({ provinceID: event.target.value });
         document.getElementById('provinceID').value = event.target.value
@@ -149,6 +298,9 @@ class SignUp extends Component {
         });
     };
 
+    /**
+    * Method that gets and sets the list of districts by the selected canton. 
+    */
     getDistrictsByCanton(event) {
         this.setState({ cantonID: event.target.value });
         document.getElementById('cantonID').value = event.target.value
@@ -168,20 +320,28 @@ class SignUp extends Component {
         });
     };
 
+    /**
+    * Method that gets the selected district.. 
+    */
     getDistrict(event) {
         this.setState({ districtID: event.target.value });
         document.getElementById('districtID').value = event.target.value;
     };
 
+    /**
+    * Method that load all the cantons on the select element. 
+    */
     loadCantons() {
         this.state.cantonList = this.state.cantons.map((cantons, i) => {
             return (
                 <option value={cantons.cantonID} key={i}>{cantons.cantonDescription}</option>
             )
         });
-
     }
 
+    /**
+    * Method that load all the provinces on the select element. 
+    */
     loadProvinces() {
         this.state.provinceList = this.state.provinces.map((provinces, i) => {
             return (
@@ -191,6 +351,9 @@ class SignUp extends Component {
 
     }
 
+    /**
+    * Method that load all the districts on the select element. 
+    */
     loadDistricts() {
         this.state.districtList = this.state.districts.map((districts, i) => {
             return (
@@ -199,22 +362,42 @@ class SignUp extends Component {
         });
     }
 
+    /**
+    * Method that gets and sets the canton list by province.
+    * 
+    * Receive an object that contains the selected province.
+    * @param {Object} 
+    */
     handleSelectProvince(event) {
         var value = event.target.value;
         this.getCantonsByProvince(value);
-        //this.loadCantons();
     }
 
+    /**
+    * Method that gets and sets the district list by province.
+    * 
+    * Receive an object that contains the selected canton.
+    * @param {Object} 
+    */
     handleSelectCanton(event) {
         var value = event.target.value;
         this.getDistrictsByCanton(value);
         this.loadDistricts();
     }
 
+    /**
+    * Method that generates the activation code required to complete the sign up process.
+    * 
+    * 
+    */
     GetCode() {
         this.state.activationCode = Math.floor((Math.random() * ((10000 - 100000) + 1)) + 100000);
     }
 
+    /**
+    * Method that hides and shows the student user exclusive fields.
+    * 
+    */
     selectStudent() {
         if (document.getElementById('cbStudent').checked == true) {
             document.getElementById('cbWorker').checked = false;
@@ -229,6 +412,10 @@ class SignUp extends Component {
         }
     }
 
+    /**
+    * Method that hides and shows the worker user exclusive fields.
+    * 
+    */
     selectWorker() {
         if (document.getElementById('cbWorker').checked == true) {
             document.getElementById('cbStudent').checked = false;
@@ -242,12 +429,10 @@ class SignUp extends Component {
             this.state.userTypeID = 1;
         }
     }
-
-    showStudentFields() {
-        document.getElementById('divStudent1').style.display = 'block';
-        document.getElementById('divStudent2').style.display = 'block';
-    }
-
+    /**
+    * Method that checks the male check button and unchecks the female check.
+    * 
+    */
     selectMale() {
         if (document.getElementById('cbMale').checked == true) {
             document.getElementById('cbFemale').checked = false;
@@ -257,17 +442,10 @@ class SignUp extends Component {
             this.state.genderID = 2;
         }
     }
-
-    selectFemale() {
-        if (document.getElementById('cbFemale').checked == true) {
-            document.getElementById('cbMale').checked = false;
-            this.state.genderID = 2;
-        } else {
-            document.getElementById('cbMale').checked = true;
-            this.state.genderID = 1;
-        }
-    }
-
+    /**
+    * Method that hides and shows the password fields.
+    * 
+    */
     showPasswordFields() {
         var show = document.getElementById('showPasswordFields').checked;
         if (show == true) {
@@ -279,7 +457,26 @@ class SignUp extends Component {
         }
     }
 
-    goActCodeForm(event) {
+    /**
+    * Method that checks the female check button and unchecks the male check.
+    * 
+    */
+    selectFemale() {
+        if (document.getElementById('cbFemale').checked == true) {
+            document.getElementById('cbMale').checked = false;
+            this.state.genderID = 2;
+        } else {
+            document.getElementById('cbMale').checked = true;
+            this.state.genderID = 1;
+        }
+    }
+
+    /**
+    * Methods validate all the fields and warns the user when the data in wrong or missing.
+    * If the data is correct, redirects the user to the ActCodeFormPage.
+    * 
+    */
+    goActCodeForm() {
         axios.get(`http://localhost:9000/User/isEmailValid`, { params: { email: this.state.email } }).then(response => {
             var emailValid = JSON.parse(JSON.stringify(response.data))[0]['isEmailValid'].data[0]
             axios.get(`http://localhost:9000/User/isIdentificationValid`, { params: { identificationID: this.state.identificationID } }).then(response => {
@@ -363,12 +560,15 @@ class SignUp extends Component {
                     }
                 });
             });
-
         });
-
     }
 
+    /**
+    * Method that sends an email to the user with the activation code.
+    * 
+    */
     sendEmail() {
+        console.log(this.state.activationCode);
         fetch("http://localhost:9000/User/sendEmail", {
             method: "post",
             body: JSON.stringify({ email: this.state.email, activationCode: this.state.activationCode }),
@@ -383,12 +583,23 @@ class SignUp extends Component {
             })
             .catch(err => console.error(err));
     }
-
+    
+    /**
+    * Method that redirect the user to the previous page.
+    * 
+    */
     backButton() {
         sessionStorage.removeItem('termsConfirm');
         this.props.history.push(`/`);
     }
 
+    /**
+    * Method that changes the value of the state variable using the object that triggers the event.
+    * To do this the element must have the property name defined as the state variable
+    * 
+    * Receive an object that contains the element that called the method
+    * @param {Object} 
+    */
     handleInputChange(event) {
         const { name, value } = event.target;
         this.setState({

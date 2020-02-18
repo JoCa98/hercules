@@ -6,6 +6,103 @@ import ModalComponent from './ModalComponent';
 class ActCodeForm extends Component {
   constructor() {
     super();
+    /**
+    *permissionsManager:
+    * @type {PermissionsManager}
+    * Instance of PermissionManager to grant or deny permission to the user to access certain pages from the current one
+    * and depending of the user type.
+    * 
+    * identificationID:
+    * @type {integer}
+    * Property that stores the identification ID of the user.
+    * 
+    * identificationID:
+    * @type {integer}
+    * Property that stores the identification ID of the user.
+    * 
+    * firstName:
+    * @type {String}
+    * Property that stores the first name of the user.
+    * 
+    * secondName:
+    * @type {String}
+    * Property that stores the second name of the user.
+    * 
+    * lastName:
+    * @type {String}
+    * Property that stores the last name of the user.
+    * 
+    * secondLastName:
+    * @type {String}
+    * Property that stores the second last name of the user.
+    * 
+    * carnet:
+    * @type {String}
+    * Property that stores the carnet of the user.
+    * 
+    * career:
+    * @type {String}
+    * Property that stores the career of the user (if they are a student).
+    * 
+    * birthDate:
+    * @type {Date}
+    * Property that stores the birth date of the user.
+    * 
+    * genderID:
+    * @type {integer}
+    * Property that stores a 1 if the user is male a or a if the user is female.
+    * 
+    * userTypeID:
+    * @type {integer}
+    * Property that stores the ID of the type of user.
+    * 
+    * email:
+    * @type {String}
+    * Property that stores the email of the user.
+    * 
+    * password:
+    * @type {String}
+    * Property that stores the password of the user account.
+    *         
+    * phoneNumber1:
+    * @type {integer}
+    * Property that stores the main phone number of the user.
+    * 
+    * phoneNumber2:
+    * @type {integer}
+    * Property that stores the secondary phone number of the user.
+    * 
+    * startDate:
+    * @type {Date}
+    * Property that stores the sign up date of the user.
+    * 
+    * districtID:
+    * @type {integer}
+    * Property that stores the ID number of the district of residence of the user.
+    * 
+    * addressLine:
+    * @type {String}
+    * Property that stores the datails about the address of the user.
+    * 
+    * contactName:
+    * @type {String}
+    * Property that stores the name of the user´s contact.
+    * 
+    * relationTypeID:
+    * @type {integer}
+    * Property that stores the ID number of the relation between the user and their contact.
+    * 
+    * emergencyContactPhoneNumber:
+    * @type {integer}
+    * Property that stores the  phone number of the user´s contact.
+    * 
+    * activationCode:
+    * @type {integer}
+    * Property that stores the previously sent activation code required to complete the sing up process.
+    * actCode:
+    * @type {integer}
+    * Property that stores the activation code entered by the user.
+    */
     this.state = {
       permissionsManager: new PermissionsManager(),
       identificationID: sessionStorage.getItem('identificationID'),
@@ -44,6 +141,9 @@ class ActCodeForm extends Component {
     this.closeModal = this.closeModal.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+  /**
+    * Method that validate the page permissions.
+  */
 
   
   /**
@@ -76,13 +176,24 @@ class ActCodeForm extends Component {
     window.scrollTo(0, 0);
   }
 
+  /**
+  * Method that changes the value of the state variable using the object that triggers the event.
+  *  To do this the element must have the property name defined as the state variable
+  * 
+  * Receive an object that contains the element that called the method
+  *  @param {Object} 
+  */
   handleInputChange(event) {
     const { name, value } = event.target;
     this.setState({
       [name]: value
     });
   }
-
+  
+  /**
+  * Method that deletes the blank spaces within the actCode field. Also warns the user that the field is obligatory.
+  * 
+  */
   handleSubmit(event) {
     event.preventDefault();
     if (this.state.actCode.trim().length != 0) {
@@ -91,8 +202,11 @@ class ActCodeForm extends Component {
       this.modalTrigger(event, 'Campo Obligatorio', 'El código de activación es obligatorio');
     }
   }
-
-  completeSignUp(event) {
+  /**
+  * Method that completes the user sign up process by adding them to the data base. Notifies the user 
+  * they still need to be activates by and admin and redirects them to the login page.  * 
+  */
+  completeSignUp() {
     if (this.state.actCode == this.state.activationCode) {
       fetch("http://localhost:9000/User/addUser", {
         method: "post",
@@ -118,7 +232,10 @@ class ActCodeForm extends Component {
     }
   }
 
-  resendCode(event) {
+  /**
+  * Method that allows the user to resend the code to their email if something went wrong or the email was never received.
+  */
+  resendCode() {
     fetch("http://localhost:9000/User/sendEmail", {
       method: "post",
       body: JSON.stringify({ email: this.state.email, activationCode: this.state.activationCode }),
@@ -135,6 +252,10 @@ class ActCodeForm extends Component {
     this.modalTrigger(event, 'Reenvio', 'Se reenvió el código de activación, por favor revise su correo institucional');
   }
 
+  /**
+  * Method that sends an email to the user which says that the sign up process is complete but they still need 
+  * an administrator to activate ther account to be able to login. 
+  */
   sendNotificationEmail() {
     fetch("http://localhost:9000/User/sendNotificationEmail", {
       method: "post",

@@ -12,7 +12,7 @@ class EditPhysicalInfo extends Component {
             permissionsManager: new PermissionsManager(),
             validations: new validations(),
             userName: [{}],
-            idPhisicalInfo: "",
+            idPhysicalInfo: "",
             partyID: sessionStorage.getItem("userPartyID"),
             weight: "",
             bodyWater: "",
@@ -60,7 +60,9 @@ class EditPhysicalInfo extends Component {
             show: !this.state.show
         });
         if (this.state.isExit) {
+
             this.props.history.push(`/HistoricPhysicalInfoAdmin`);
+            window.location.reload();
         }
         event.preventDefault();
     };
@@ -96,7 +98,7 @@ class EditPhysicalInfo extends Component {
 
                 physicalInfo.map((physicalInfo, i) => {
                     this.setState({
-                        idPhisicalInfo: physicalInfo.idPhisical_info,
+                        idPhysicalInfo: physicalInfo.idPhysical_info,
                         weight: physicalInfo.weight,
                         bodyWater: physicalInfo.bodyWater,
                         visceralFat: physicalInfo.visceralFat,
@@ -153,11 +155,9 @@ class EditPhysicalInfo extends Component {
                         this.setState({
                             isExit: true
                         });
-                        this.modalTrigger(event, 'Actualización de registro', 'Se actulización correctamente el registro de composición corporal');
-                    })
-                    .catch(err => console.error(err));
+                    }).catch(err => console.error(err + 'hola'));
 
-                window.location.reload();
+                this.modalTrigger(event, 'Actualización de registro', 'Se actualizó correctamente el registro de composición corporal');
             }
         }
 
@@ -171,6 +171,7 @@ class EditPhysicalInfo extends Component {
     }
 
     handleInputChange(event) {
+        console.log(this.state);
         const { name, value } = event.target;
         this.setState({
             [name]: value,
