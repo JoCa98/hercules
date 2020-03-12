@@ -70,7 +70,7 @@ class AddAdmin extends Component {
         axios.get(`http://localhost:9000/User/isEmailValid`, { params: { email: this.state.email } }).then(response => {
             var isEmailValid = JSON.parse(JSON.stringify(response.data))[0]['isEmailValid'].data[0];
 
-            if (!this.empty()) {
+            if (this.empty()) {
                 this.modalTrigger(event, 'Campos obligatorios', 'Los campos de texto con un * no se pueden dejar en blanco');
             } else if (!this.state.validations.validateTextField(this.state.firstName.trim())
                 || (this.state.secondName != null && (this.state.secondName.trim() != "") && (!this.state.validations.validateTextField(this.state.secondName.trim())))

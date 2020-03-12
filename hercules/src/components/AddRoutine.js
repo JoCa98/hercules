@@ -33,7 +33,7 @@ class AddRoutine extends Component {
          * 
          * Density:
          * @type {integer}
-         * Property that stores the input density of the routine
+         * Property that stores the input restBetweenSerie of the routine
          * 
          * RestTime:
          * @type {integer}
@@ -978,7 +978,7 @@ class AddRoutine extends Component {
                                         <div className="col-12">
                                             <div className="row">
                                                 <div className="col-7">
-                                                    <p>Densidad<font color="red">*</font></p>
+                                                    <p>Descanso entre serie<font color="red">*</font></p>
                                                 </div>
                                                 <div className="col-5">
                                                     <input type="number" fontSize="18px" name="Density" onKeyPress={this.onKeyEvent} className="form-control" onChange={this.inputNumberValidator} placeholder="" />
@@ -988,7 +988,7 @@ class AddRoutine extends Component {
                                         <div className="col-12">
                                             <div className="row">
                                                 <div className="col-7">
-                                                    <p>Tiempo de descanso<font color="red">*</font></p>
+                                                    <p>Descanso entre ejercicios<font color="red">*</font></p>
                                                 </div>
                                                 <div className="col-5">
                                                     <input type="number" fontSize="18px" name="RestTime" onKeyPress={this.onKeyEvent} className="form-control" onChange={this.inputNumberValidator} placeholder="Segundos" />

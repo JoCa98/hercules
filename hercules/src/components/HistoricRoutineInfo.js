@@ -107,7 +107,7 @@ class HistoricRoutineInfo extends Component {
                     <td align="center">{routineHist.date}</td>
                     <td align="center">{routineHist.frecuency}</td>
                     <td align="center">{routineHist.intensity}</td>
-                    <td align="center">{routineHist.timeLapse}</td>
+                    <td align="center">{routineHist.restBetweenExercises}</td>
                     <td>{routineHist.rtDescription}</td>
                     <td>{routineHist.otDescription}</td>
                     <td align="center">{routineHist.heartRatePerMinute}</td>
