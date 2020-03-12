@@ -8,6 +8,140 @@ import ModalComponent from './ModalComponent';
 
 class UserConfiguration extends Component {
     constructor(props) {
+        /**
+    *permissionsManager:
+    * @type {PermissionsManager}
+    * Instance of PermissionManager to grant or deny permission to the user to access certain pages from the current one
+    * and depending of the user type.
+    * 
+    * hash
+    * @type {hash}
+    * Instance of Hash which encrypts the password.
+    * 
+    * valiadations
+    * @type {validations}
+    * Instance of validations which allows to validates different types of data.
+    * 
+    * identificationID:
+    * @type {integer}
+    * Property that stores the identification ID of the user.
+    * 
+    * firstName:
+    * @type {String}
+    * Property that stores the first name of the user.
+    * 
+    * secondName:
+    * @type {String}
+    * Property that stores the second name of the user.
+    * 
+    * lastName:
+    * @type {String}
+    * Property that stores the last name of the user.
+    * 
+    * secondLastName:
+    * @type {String}
+    * Property that stores the second last name of the user.
+    * 
+    * carnet:
+    * @type {String}
+    * Property that stores the carnet of the user.
+    * 
+    * career:
+    * @type {String}
+    * Property that stores the career of the user (if they are a student).
+    * 
+    * birthDate:
+    * @type {Date}
+    * Property that stores the birth date of the user.
+    *  
+    * userTypeID:
+    * @type {integer}
+    * Property that stores the ID of the type of user.
+    * 
+    * email:
+    * @type {String}
+    * Property that stores the email of the user.
+    * 
+    * password:
+    * @type {String}
+    * Property that stores the password of the user account.
+    * 
+    * confirmPassword:
+    * @type {String}
+    * Property that stores the confirmation password of the user account.
+    *         
+    * phoneNumber1:
+    * @type {integer}
+    * Property that stores the main phone number of the user.
+    * 
+    * phoneNumber2:
+    * @type {integer}
+    * Property that stores the secondary phone number of the user.
+    * 
+    * startDate:
+    * @type {Date}
+    * Property that stores the sign up date of the user.
+    * 
+    * districtID:
+    * @type {integer}
+    * Property that stores the ID number of the district of residence of the user.
+    * 
+    * addressLine:
+    * @type {String}
+    * Property that stores the datails about the address of the user.
+    * 
+    * contactName:
+    * @type {String}
+    * Property that stores the name of the user´s contact.
+    * 
+    * relationTypeID:
+    * @type {integer}
+    * Property that stores the ID number of the relation between the user and their contact.
+    * 
+    * emergencyContactPhoneNumber:
+    * @type {integer}
+    * Property that stores the  phone number of the user´s contact.
+    * 
+    * activationCode:
+    * @type {integer}
+    * Property that stores the previously sent activation code required to complete the sing up process.
+    * 
+    * relations:
+    * @type {Array}
+    * Property that stores an array which contains the relation types.
+    * 
+    * provinces:
+    * @type {Array}
+    * Property that stores an array which contains the all provinces.
+    * 
+    * provinceList:
+    * @type {Set}
+    * Property that stores a set of every province´s name and ID.
+    * 
+    * provinceID:
+    * @type {integer}
+    * Property that stores the ID number of the province of residence of the user.
+    * 
+    * cantons:
+    * @type {Array}
+    * Property that stores an array which contains the all cantons.
+    * 
+    * cantonList:
+    * @type {Set}
+    * Property that stores a set of every canton´s name and ID.
+    * 
+    * districtID:
+    * @type {integer}
+    * Property that stores the ID number of the canton of residence of the user.
+    * 
+    * districts:
+    * @type {Array}
+    * Property that stores an array which contains all the districts.
+    * 
+    * districtList:
+    * @type {Set}
+    * Property that stores a set of every district´s name and ID.
+    */
         super(props);
         this.state = {
             permissionsManager: new PermissionsManager(),
@@ -89,7 +223,9 @@ class UserConfiguration extends Component {
         this.backButton = this.backButton.bind(this);
 
     }
-
+    /**
+    * Method that validate the page permissions. Then, loads all the user info.
+    */
     componentDidMount() {
 
         if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
@@ -132,6 +268,9 @@ class UserConfiguration extends Component {
         }
     }
 
+    /**
+    * Method that gets and sets the list of cantons by the selected province. 
+    */
     getCantonsByProvince(event) {
         this.setState({ provinceID: event.target.value });
         document.getElementById('provinceID').value = event.target.value
@@ -164,6 +303,9 @@ class UserConfiguration extends Component {
         });
     };
 
+    /**
+    * Method that gets and sets the list of districts by the selected canton. 
+    */
     getDistrictsByCanton(event) {
         this.setState({ cantonID: event.target.value });
         document.getElementById('cantonID').value = event.target.value
@@ -182,12 +324,17 @@ class UserConfiguration extends Component {
             document.getElementById('districtID').value = districtValue;
         });
     };
-
+    /**
+    * Method that gets the selected district.
+    */
     getDistrict(event) {
         this.setState({ districtID: event.target.value });
         document.getElementById('districtID').value = event.target.value;
     };
 
+    /**
+    * Method that loads all the relation types on the select element. 
+    */
     loadRelations() {
         this.state.relationList = this.state.relations.map((relations, i) => {
             return (
@@ -196,6 +343,9 @@ class UserConfiguration extends Component {
         })
     }
 
+    /**
+    * Method that loads all the provinces on the select element. 
+    */
     loadProvinces() {
         this.state.provinceList = this.state.provinces.map((provinces, i) => {
             return (
@@ -203,6 +353,10 @@ class UserConfiguration extends Component {
             )
         })
     }
+
+    /**
+    * Method that loads all the cantons on the select element. 
+    */
     loadCantons() {
         this.state.cantonList = this.state.cantons.map((cantons, i) => {
 
@@ -212,6 +366,9 @@ class UserConfiguration extends Component {
         });
     }
 
+    /**
+    * Method that loads all the districts on the select element. 
+    */
     loadDistricts() {
         this.state.districtList = this.state.districts.map((districts, i) => {
 
@@ -221,11 +378,25 @@ class UserConfiguration extends Component {
         });
     }
 
+    /**
+    * Method that gets the first canton of the selected province. 
+    * value:
+    * @type {integer}
+    * Property that stores a province´s ID.
+    * 
+    */
     getFirstCantonOfProvince(value) {
         axios.get(`http://localhost:9000/User/getFirstCantonOfProvince`, { params: { provinceID: value } }).then(response => {
             return JSON.parse(JSON.stringify(response.data[0]))[0]['cantonID']
         });
     }
+
+   /**
+    * Method that gets and sets the canton list by province.
+    * 
+    * Receive an object that contains the selected province.
+    * @param {Object} 
+    */
 
     handleSelectProvince(event) {
         this.handleInputChange(event);
@@ -234,7 +405,12 @@ class UserConfiguration extends Component {
         this.loadCantons();
 
     }
-
+    /**
+    * Method that gets and sets the district list by province.
+    * 
+    * Receive an object that contains the selected canton.
+    * @param {Object} 
+    */
     handleSelectCanton(event) {
         this.handleInputChange(event);
         var value = event.target.value;
@@ -242,6 +418,13 @@ class UserConfiguration extends Component {
         this.loadDistricts();
     }
 
+    /**
+    * Method that gets the province of a canton or the canton of a district. 
+    * value:
+    * @type {integer}
+    * Property that stores a disctric/canton ID.
+    * 
+    */
     getLocalGeoSupID(value) {
         axios.get(`http://localhost:9000/User/getLocalGeoSupID`, { params: { localGeoSupID: value } }).then(response => {
             this.setState({ cantonID: JSON.parse(JSON.stringify(response.data[0]))[0]['localGeoSupID'] });
@@ -269,6 +452,10 @@ class UserConfiguration extends Component {
         });
     }
 
+    /**
+    * Methods that loads all the user data.
+    * 
+    */
     loadUserInfo() {
         axios.get(`http://localhost:9000/User/getUserInfo`, { params: { partyID: sessionStorage.getItem('partyID') } }).then(response => {
             response.data[0].map((response) => {
@@ -299,7 +486,10 @@ class UserConfiguration extends Component {
         this.state.userTypeID = sessionStorage.getItem('userTypeID');
         this.state.email = sessionStorage.getItem('email');
     }
-
+    /**
+    * Method that updates the  information of the user.  
+    * 
+    */
     updateUser(event) {
         var secondName = this.state.secondName;
         var secondLastName = this.state.secondLastName;
@@ -338,6 +528,10 @@ class UserConfiguration extends Component {
         this.modalTrigger(event, 'Datos personales', 'Los datos de usuario fueron actualizados con éxito');
     }
 
+    /**
+    * Method that updates the password of the user.  
+    * 
+    */
     updatePassword(event) {
         fetch("http://localhost:9000/User/updatePassword", {
             method: "post",
@@ -359,6 +553,10 @@ class UserConfiguration extends Component {
         this.modalTrigger(event, 'Contraseña', 'La contraseña fue cambiada con éxito');
     }
 
+    /**
+    * Method that updates the informatio of the user emergency contact.  
+    * 
+    */
     updateContact(event) {
         //Validacion 
         fetch("http://localhost:9000/User/updateContact", {
@@ -381,7 +579,11 @@ class UserConfiguration extends Component {
             .catch(err => console.error(err));
         this.modalTrigger(event, 'Contacto de emergencia', 'Los datos del contacto de emergencia fueron actualizados con éxito');
     }
-
+    
+    /**
+    * Method that loads the info of the user´s account.  
+    * 
+    */
     loadAccountInfo() {
         this.state.email = sessionStorage.getItem('email');
         this.state.password = "";
@@ -389,6 +591,13 @@ class UserConfiguration extends Component {
         this.state.confirmNewPassword = "";
     }
 
+    /**
+    * Method that changes the value of the state variable using the object that triggers the event.
+    * To do this the element must have the property name defined as the state variable
+    * 
+    * Receive an object that contains the element that called the method
+    * @param {Object} 
+    */
     handleInputChange(event) {
         const { name, value } = event.target;
         this.setState({
@@ -396,6 +605,9 @@ class UserConfiguration extends Component {
         });
     }
 
+    /**
+    * Method that sets the default state of the buttons.
+    */
     initButtons() {
         document.getElementById('cancelInfo').style.display = 'none';
         document.getElementById('editInfo').style.display = 'block';
@@ -410,12 +622,18 @@ class UserConfiguration extends Component {
         document.getElementById('changeContact').style.display = 'none';
     }
 
+    /**
+    * Method that sets the default state of the fields
+    */
     initAllFields() {
         this.enableInfoFields(false);
         this.enablePasswordFields(false);
         this.enableContactFields(false);
     }
 
+    /**
+    * Method that allows or not to input new data on the the information fields.
+    */
     enableInfoFields(value) {
         var disabled = '';
         if (value == true) {
@@ -440,6 +658,10 @@ class UserConfiguration extends Component {
         document.getElementById('identificationID').disabled = disabled;
     }
 
+    /**
+    * Method that allows or not to input new data on the the password fields.
+    */
+
     enablePasswordFields(value) {
         var disabled = '';
         if (value == true) {
@@ -453,6 +675,9 @@ class UserConfiguration extends Component {
         document.getElementById('showPasswordFields').disabled = disabled;
     }
 
+    /**
+    * Method that allows or not to input new data on the emergency contact fields.
+    */
     enableContactFields(value) {
         var disabled = '';
         if (value == true) {
@@ -465,12 +690,20 @@ class UserConfiguration extends Component {
         document.getElementById('emergencyContactPhoneNumber').disabled = disabled;
     }
 
+    /**
+    * Method that allows or not to edit the information fields.
+    */
+
     editInfo() {
         document.getElementById('editInfo').style.display = 'none';
         document.getElementById('cancelInfo').style.display = 'block';
         document.getElementById('changeInfo').style.display = 'block';
         this.enableInfoFields(true)
     }
+
+    /**
+    * Method that reverts the changes on the information fields.
+    */
 
     cancelInfo() {
         document.getElementById('cancelInfo').style.display = 'none';
@@ -480,6 +713,9 @@ class UserConfiguration extends Component {
         this.enableInfoFields(false)
     }
 
+    /**
+    * Method that updates the information of the user.
+    */
     changeInfo(event) {
         axios.get(`http://localhost:9000/User/isIdentificationValid`, { params: { identificationID: this.state.identificationID } }).then(response => {
             var identificationIDValid = JSON.parse(JSON.stringify(response.data))[0]['isIdentificationValid'].data[0];
@@ -520,6 +756,9 @@ class UserConfiguration extends Component {
         });
     }
 
+    /**
+    * Method that allows or not to edit the password fields.
+    */
     editPassword() {
         document.getElementById('editPassword').style.display = 'none';
         document.getElementById('cancelPassword').style.display = 'block';
@@ -527,6 +766,9 @@ class UserConfiguration extends Component {
         this.enablePasswordFields(true);
     }
 
+    /**
+    * Method that reverts the changes on the password fields.
+    */
     cancelPassword() {
         document.getElementById('cancelPassword').style.display = 'none';
         document.getElementById('editPassword').style.display = 'block';
@@ -535,6 +777,9 @@ class UserConfiguration extends Component {
         this.enablePasswordFields(false);
     }
 
+    /**
+    * Method that updates the password of the user.
+    */
     changePassword(event) {
         if (document.getElementById('password').value.length == 0 || document.getElementById('newPassword').value.length == 0
             || document.getElementById('confirmNewPassword').value.length == 0) {
@@ -557,6 +802,9 @@ class UserConfiguration extends Component {
         }
     }
 
+    /**
+    * Method that allows or not to edit the emergency contact fields.
+    */
     editContact() {
         document.getElementById('editContact').style.display = 'none';
         document.getElementById('cancelContact').style.display = 'block';
@@ -564,6 +812,10 @@ class UserConfiguration extends Component {
         this.enableContactFields(true);
     }
 
+
+    /**
+    * Method that reverts the changes on the emergency contact fields.
+    */
     cancelContact() {
         document.getElementById('cancelContact').style.display = 'none';
         document.getElementById('editContact').style.display = 'block';
@@ -572,6 +824,9 @@ class UserConfiguration extends Component {
         this.enableContactFields(false);
     }
 
+    /**
+    * Method that updates the emergency contact of the user.
+    */
     changeContact(event) {
         if (this.state.emergencyContactPhoneNumber.trim().length == 0 || this.state.contactName.trim().length == 0) {            
             this.modalTrigger(event, 'Contacto de emergencia', 'Todos los datos del contacto de emergencia deben estar llenos');
@@ -590,6 +845,10 @@ class UserConfiguration extends Component {
         }
     }
 
+    /**
+    * Method that hides and shows the password fields.
+    * 
+    */
     showPasswordFields() {
         var show = document.getElementById('showPasswordFields').checked;
         if (show == true) {
@@ -616,8 +875,8 @@ class UserConfiguration extends Component {
     };
 
     /**
-   * Method that redirect to the previous page
-   */
+    * Method that redirect to the previous page
+    */
     backButton() {
         this.props.history.push(`/UserHome`);
     }
