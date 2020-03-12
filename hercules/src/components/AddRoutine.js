@@ -411,8 +411,7 @@ class AddRoutine extends Component {
         this.setState({ exerciseID: id });
         this.setState({ name: name });
         this.enabledInputs();
-        alert(this.state.list.length);
-        if (this.state.list.length !== 0) {
+        if (this.state.list.length != 0) {
             this.state.list.map((ex, i) => {
                 if (ex.exerciseID == id && ex.day == this.state.routineDay) {
                     this.setState({ exist: true, index: i });
@@ -443,6 +442,11 @@ class AddRoutine extends Component {
                     document.getElementById("delete").style.display = "none";
                 }
             })
+        }else{
+            this.setState({ exist: false });
+            document.getElementById("add").style.display = "initial";
+            document.getElementById("edit").style.display = "none";
+            document.getElementById("delete").style.display = "none";
         }
     }
 
@@ -470,6 +474,9 @@ class AddRoutine extends Component {
         }
         this.emptyInputs();
         this.disabledInputs();
+        document.getElementById("add").style.display = "initial";
+        document.getElementById("edit").style.display = "none";
+        document.getElementById("delete").style.display = "none";
         e.preventDefault();
     }
 
@@ -486,6 +493,9 @@ class AddRoutine extends Component {
         }
         this.emptyInputs();
         this.disabledInputs();
+        document.getElementById("add").style.display = "initial";
+        document.getElementById("edit").style.display = "none";
+        document.getElementById("delete").style.display = "none";
         e.preventDefault();
     }
 
@@ -630,7 +640,6 @@ class AddRoutine extends Component {
      * @param {integer} id 
      */
     submitExercise(id,e) {
-        if (!this.arrayEmpty()) {
             this.state.list.map((ex) => {
                 fetch("http://localhost:9000/RoutineRoute/addExercise", {
                     method: "post",
@@ -659,32 +668,28 @@ class AddRoutine extends Component {
                     })
                     .catch(err => console.error(err));
             })
-
-        } else {
-            this.modalTrigger(e, 'Ejercicios', 'Debe agregar ejercicios');
-        }
     }
 
     /**
      * Method that verifies if some input is empty
      */
-    empty() {
-        if (this.state.Frecuency.toString().trim() == 0 || this.state.Density.toString().trim() == 0 || this.state.Intensity.toString().trim() == 0 || this.state.RestTime.toString().trim() == 0 
-            || this.state.objectiveID.toString().trim() == 0 || this.state.routineTypeID.toString().trim() == 0 || this.state.HeartRatePerMinute.trim() == 0) {
-            return true;
+    empty(event) {
+        if (this.state.Frecuency.toString().trim().length == 0 || this.state.Density.toString().trim().length  == 0 || this.state.Intensity.toString().trim().length  == 0 || this.state.RestTime.toString().trim().length  == 0 
+            || this.state.objectiveID.toString().trim().length  == 0 || this.state.routineTypeID.toString().trim().length  == 0 || this.state.HeartRatePerMinute.trim().length  == 0) {
+                this.modalTrigger(event,'Campos obligatorios','Debe agregar los datos de la preescripción física');
         } else {
-            return false;
+            this.arrayEmpty(event);
         }
     }
 
     /**
      * Method that verifies if the list to add is empty
      */
-    arrayEmpty() {
+    arrayEmpty(event) {
         if (this.state.list.length == 0) {
-            return true;
+           this.modalTrigger(event,'Ejercicios','Debe agregar al menos un ejercicio en la rutina');
         } else {
-            return false;
+            this.reorganizeList(event);
         }
     }
 
@@ -1121,7 +1126,7 @@ class AddRoutine extends Component {
                                     <button align="right" className="buttonSizeGeneral" onClick={this.backButton}>Volver</button>
                                 </div>
                                 <div className=" mt-4 col-2">
-                                    <button align="left" name="saveButton" className="buttonSizeGeneral" onClick={this.reorganizeList}> Guardar </button>
+                                    <button align="left" name="saveButton" className="buttonSizeGeneral" onClick={this.empty}> Guardar </button>
                                 </div>
                             </div>
                             <div className="row">
