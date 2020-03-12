@@ -53,17 +53,17 @@ class AddAdmin extends Component {
         this.getAdminUserType = this.getAdminUserType.bind(this);
         this.modalTrigger = this.modalTrigger.bind(this);
         this.closeModal = this.closeModal.bind(this);
-        }
+    }
 
     componentDidMount() {
-       if( this.state.permissionsManager.validatePermission(this.props.location.pathname, this)){
-        window.scrollTo(0, 0);
-        this.getAdminUserType();
-       }        
+        if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
+            window.scrollTo(0, 0);
+            this.getAdminUserType();
+        }
     }
 
     /**
-        * Method that submit all the information in the form
+        * Method that submit all the information in the form to the database
         */
     handleSubmit = event => {
 
@@ -71,24 +71,24 @@ class AddAdmin extends Component {
             var isEmailValid = JSON.parse(JSON.stringify(response.data))[0]['isEmailValid'].data[0];
 
             if (!this.empty()) {
-                this.modalTrigger(event,'Campos obligatorios','Los campos de texto con un * no se pueden dejar en blanco');                
+                this.modalTrigger(event, 'Campos obligatorios', 'Los campos de texto con un * no se pueden dejar en blanco');
             } else if (!this.state.validations.validateTextField(this.state.firstName.trim())
                 || (this.state.secondName != null && (this.state.secondName.trim() != "") && (!this.state.validations.validateTextField(this.state.secondName.trim())))
                 || !this.state.validations.validateTextField(this.state.firstLastName.trim())
                 || (this.state.secondLastName != null && (this.state.secondLastName.trim() != "") && (!this.state.validations.validateTextField(this.state.secondLastName.trim())))
             ) {
-                this.modalTrigger(event,'Nombre','Los datos del nombre solo pueden estar compuestos por letras');                
-            } else if (!this.state.validations.validateIdentification(this.state.identificationID)) {                
-                this.modalTrigger(event,'Cédula','El formato de la cédula ingresada es incorrecto');                 
+                this.modalTrigger(event, 'Nombre', 'Los datos del nombre solo pueden estar compuestos por letras');
+            } else if (!this.state.validations.validateIdentification(this.state.identificationID)) {
+                this.modalTrigger(event, 'Cédula', 'El formato de la cédula ingresada es incorrecto');
             } else if (!this.state.validations.validateAdminEmailField(this.state.email)) {
-                this.modalTrigger(event,'Email','El email no tiene el formato correcto');                 
+                this.modalTrigger(event, 'Email', 'El email no tiene el formato correcto');
             } else if (!this.state.validations.validatePasswordField(this.state.password) || !this.state.validations.validatePasswordField(this.state.confirmPassword)) {
                 this.modalTrigger(event, 'Contraseña', 'La contraseña debe contar con una extensión mínima de 8 caracteres y estar compuesta al menos por números y letras');
             } else if (this.state.password != this.state.confirmPassword) {
-                this.modalTrigger(event,'Contraseña','Los campos de la contraseña no coinciden');                                 
+                this.modalTrigger(event, 'Contraseña', 'Los campos de la contraseña no coinciden');
             } else if (isEmailValid == 1) {
                 document.getElementById("email").value = null;
-                this.modalTrigger(event,'Email','El correo ingresado ya corresponde a otro administrador registrado');                
+                this.modalTrigger(event, 'Email', 'El correo ingresado ya corresponde a otro administrador registrado');
             } else {
                 this.setState({
                     password: this.state.hash.encode(this.state.password)
@@ -104,10 +104,10 @@ class AddAdmin extends Component {
                 })
                     .then(res => res.json())
                     .then(data => {
-                        this.setState({ 
-                           isExit: true
-                        }); 
-                        this.modalTrigger(event,'Administrador agregado',this.state.firstName +' '+this.state.firstLastName);                        
+                        this.setState({
+                            isExit: true
+                        });
+                        this.modalTrigger(event, 'Administrador agregado', this.state.firstName + ' ' + this.state.firstLastName);
                     })
                     .catch(err => console.error(err));
             }
@@ -118,26 +118,26 @@ class AddAdmin extends Component {
     /**
      * This method takes care of show a modal with useful information
      */
-    modalTrigger(event,mdTittle,mdChildren) {
-        this.setState({ 
+    modalTrigger(event, mdTittle, mdChildren) {
+        this.setState({
             show: !this.state.show,
             modalTittle: mdTittle,
             modalChildren: mdChildren
-        });     
-        event.preventDefault();      
+        });
+        event.preventDefault();
     };
 
     /**
      * This method close the modal  
      */
     closeModal(event) {
-        this.setState({ 
+        this.setState({
             show: !this.state.show
-        });  
-        if(this.state.isExit){
+        });
+        if (this.state.isExit) {
             this.props.history.push(`/HomeAdmin`);
-        }    
-        event.preventDefault();      
+        }
+        event.preventDefault();
     };
 
     /**
@@ -150,6 +150,9 @@ class AddAdmin extends Component {
         });
     }
 
+    /**
+    * This method load the information in the dropdownlist
+    */
     getAdminUserType() {
         try {
             axios.get(`http://localhost:9000/AdminRoute/getAdminUserType`).then(response => {

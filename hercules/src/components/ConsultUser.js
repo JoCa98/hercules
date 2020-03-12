@@ -80,6 +80,9 @@ class ConsultUser extends Component {
         document.getElementById("ChangeUserStatus").style.display = 'none';
     }
 
+     /**
+    * method that activate or deactivate a user 
+    */
     changeUserStatus(event) {
         if (window.confirm("¿Está seguro que desea cambiar el estado del usuario?") === true) {
             var accountState;

@@ -1,3 +1,16 @@
+/**
+ * @fileoverview ModalComponent is used to simplify the way in that the 
+ * information about anything necessary to be shown to the user 
+ *
+ * @version 1.0
+ *
+ * @author    Antony Jimenez G <antony.jimenez@ucrso.info>
+ * History
+ * v1.0 – Initial Release
+ * ----
+ * The first version of ModalComponent was written by Antony Jimenez G.
+ */
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 

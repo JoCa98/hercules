@@ -17,8 +17,6 @@ import axios from 'axios';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import PermissionsManager from "./PermissionsManager";
 
-
-
 class HistoricRoutineInfo extends Component {
     constructor() {
         super();
@@ -51,8 +49,6 @@ class HistoricRoutineInfo extends Component {
     * when the page is load
     */
     componentDidMount() {
-
-
         if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
             window.scrollTo(0, 0);
             
@@ -76,7 +72,6 @@ class HistoricRoutineInfo extends Component {
                 console.error("Un error inesperado ha ocurrido");
             }
         }
-
     }
 
     rowEvent(event) {
