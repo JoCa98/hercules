@@ -92,7 +92,6 @@ router.get("/getRoutineType", (req, res) => {
   });
 });
 
-
 router.get("/getNumberOfDays", (req,res)=>{
   connection.query("call proc_numberOfRoutineDays(" + req.query.routineID + ")", function (err, results) {
     if (results) {

@@ -74,13 +74,12 @@ class PermissionManager extends Component {
             return false;
 
         } else if (this.userHome(pageName)
-            && (sessionStorage.getItem("userTypeID") === '1' || sessionStorage.getItem("userTypeID") === '2')) {
-
+            && (sessionStorage.getItem("userTypeID") === '1' || sessionStorage.getItem("userTypeID") === '2')) {                
             if ((sessionStorage.getItem("routineID") !== null
                 && sessionStorage.getItem("routineID") !== 'undefined')) {
 
                 page.props.history.push(`/UserHome`);
-                return false;
+                return true;
 
 
             } else if (

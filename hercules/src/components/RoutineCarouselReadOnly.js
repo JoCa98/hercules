@@ -202,7 +202,6 @@ class RoutineCarouselReadOnly extends Component {
            }
     }
 
-
     render() {
         
         /**
@@ -233,12 +232,9 @@ class RoutineCarouselReadOnly extends Component {
         return (
             <div className="container">
                 <div className="row mt-4" >
-                    <div className="col-12" id="btn" >
-                    
+                    <div className="col-12" id="btn" >                    
                     </div>
                 </div>
-        
-
             <div className="container card">
                 <div className="row mt-4">
                     <div className="col-12">

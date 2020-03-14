@@ -41,18 +41,15 @@ class UserHome extends Component {
     * Method that can be sent to load the routine info
     * when loading the page for the first time
     */
-    componentDidMount() {
-          
-    alert(sessionStorage.getItem("routineID"));
-
+    componentDidMount() {            
         if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
-            window.scrollTo(0, 0);
+            window.scrollTo(0, 0);            
             axios.get("http://localhost:9000/RoutineRoute/getRoutineInfo", {
                 params: {
                     routineID: sessionStorage.getItem("routineID"),
                 }
             }).then(response => {
-                if (response) {
+                if (response) {                    
                     console.log(response.data[0]);
                     this.setState({
                         routine: response.data[0]
@@ -61,7 +58,6 @@ class UserHome extends Component {
             })
         }
     }
-
 
     render() {
         return (
