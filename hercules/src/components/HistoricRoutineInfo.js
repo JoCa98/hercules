@@ -107,7 +107,7 @@ class HistoricRoutineInfo extends Component {
                     <td align="center">{routineHist.date}</td>
                     <td align="center">{routineHist.frecuency}</td>
                     <td align="center">{routineHist.intensity}</td>
-                    <td align="center">{routineHist.timeLapse}</td>
+                    <td align="center">{routineHist.restBetweenExercises}</td>
                     <td>{routineHist.rtDescription}</td>
                     <td>{routineHist.otDescription}</td>
                     <td align="center">{routineHist.heartRatePerMinute}</td>
@@ -144,7 +144,7 @@ class HistoricRoutineInfo extends Component {
                                     <th scope="col" className="align-middle">Fecha</th>
                                     <th scope="col" className="align-middle">Frecuencia</th>
                                     <th scope="col" className="align-middle">Intensidad</th>
-                                    <th scope="col" className="align-middle">Lapso de descanso</th>
+                                    <th scope="col" className="align-middle">Descanso entre ejercicios</th>
                                     <th scope="col" className="align-middle">Tipo de rutina</th>
                                     <th scope="col" className="align-middle">Objetivo</th>
                                     <th scope="col" className="align-middle">Frecuencia Cardíaca</th>
