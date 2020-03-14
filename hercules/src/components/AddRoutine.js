@@ -31,11 +31,11 @@ class AddRoutine extends Component {
          * @type {integer}
          * Property that stores the input instensity of the routine
          * 
-         * Density:
+         * restBetweenSerie:
          * @type {integer}
          * Property that stores the input restBetweenSerie of the routine
          * 
-         * RestTime:
+         * restBetweenExercises:
          * @type {integer}
          * Property that stores the input rest time of the routine
          * 
@@ -117,8 +117,8 @@ class AddRoutine extends Component {
             objective: [{}],
             Frecuency: 0,
             Intensity: 0,
-            Density: 0,
-            RestTime: 0,
+            restBetweenSerie: 0,
+            restBetweenExercises: 0,
             HeartRatePerMinute: "",
             routineTypeID: 1,
             objectiveID: 1,
@@ -616,8 +616,8 @@ class AddRoutine extends Component {
             axios.post("http://localhost:9000/RoutineRoute/addRoutine", {
                 Frecuency: this.state.Frecuency,
                 Intensity: this.state.Intensity,
-                RestTime: this.state.RestTime,
-                Density: this.state.Density,
+                restBetweenExercises: this.state.restBetweenExercises,
+                restBetweenSerie: this.state.restBetweenSerie,
                 date: this.state.date,
                 partyID: this.state.partyID,
                 routineTypeID: this.state.routineTypeID,
@@ -674,7 +674,7 @@ class AddRoutine extends Component {
      * Method that verifies if some input is empty
      */
     empty(event) {
-        if (this.state.Frecuency.toString().trim().length == 0 || this.state.Density.toString().trim().length  == 0 || this.state.Intensity.toString().trim().length  == 0 || this.state.RestTime.toString().trim().length  == 0 
+        if (this.state.Frecuency.toString().trim().length == 0 || this.state.restBetweenSerie.toString().trim().length  == 0 || this.state.Intensity.toString().trim().length  == 0 || this.state.restBetweenExercises.toString().trim().length  == 0 
             || this.state.objectiveID.toString().trim().length  == 0 || this.state.routineTypeID.toString().trim().length  == 0 || this.state.HeartRatePerMinute.trim().length  == 0) {
                 this.modalTrigger(event,'Campos obligatorios','Debe agregar los datos de la preescripción física');
         } else {
@@ -981,7 +981,7 @@ class AddRoutine extends Component {
                                                     <p>Descanso entre serie<font color="red">*</font></p>
                                                 </div>
                                                 <div className="col-5">
-                                                    <input type="number" fontSize="18px" name="Density" onKeyPress={this.onKeyEvent} className="form-control" onChange={this.inputNumberValidator} placeholder="" />
+                                                    <input type="number" fontSize="18px" name="restBetweenSerie" onKeyPress={this.onKeyEvent} className="form-control" onChange={this.inputNumberValidator} placeholder="" />
                                                 </div>
                                             </div>
                                         </div>
@@ -991,7 +991,7 @@ class AddRoutine extends Component {
                                                     <p>Descanso entre ejercicios<font color="red">*</font></p>
                                                 </div>
                                                 <div className="col-5">
-                                                    <input type="number" fontSize="18px" name="RestTime" onKeyPress={this.onKeyEvent} className="form-control" onChange={this.inputNumberValidator} placeholder="Segundos" />
+                                                    <input type="number" fontSize="18px" name="restBetweenExercises" onKeyPress={this.onKeyEvent} className="form-control" onChange={this.inputNumberValidator} placeholder="Segundos" />
                                                 </div>
                                             </div>
                                         </div>

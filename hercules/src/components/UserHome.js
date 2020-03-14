@@ -138,7 +138,7 @@ class UserHome extends Component {
                                                     <p className="cssPText">Descanso entre serie:</p>
                                                 </div>
                                                 <div className="col-6">
-                                                    <input type="text" fontSize="18px" name="textDensity" className="form-control" disabled="disabled" value={this.state.routine[0].restBetweenSerie} />
+                                                    <input type="text" fontSize="18px" name="textRestBetweenSerie" className="form-control" disabled="disabled" value={this.state.routine[0].restBetweenSerie} />
                                                 </div>
                                             </div>
                                         </div>
@@ -148,7 +148,7 @@ class UserHome extends Component {
                                                     <p className="cssPText">Descanso entre ejercicios:</p>
                                                 </div>
                                                 <div className="col-6">
-                                                    <input type="text" fontSize="18px" name="textRestTime" className="form-control" disabled="disabled" value={this.state.routine[0].restBetweenExercises} />
+                                                    <input type="text" fontSize="18px" name="textrestBetweenExercises" className="form-control" disabled="disabled" value={this.state.routine[0].restBetweenExercises} />
                                                 </div>
                                             </div>
                                         </div>
