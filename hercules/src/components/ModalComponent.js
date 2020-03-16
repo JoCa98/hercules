@@ -1,3 +1,16 @@
+/**
+ * @fileoverview ModalComponent is used to simplify the way in that the 
+ * information about anything necessary to be shown to the user 
+ *
+ * @version 1.0
+ *
+ * @author    Antony Jimenez G <antony.jimenez@ucrso.info>
+ * History
+ * v1.0 – Initial Release
+ * ----
+ * The first version of ModalComponent was written by Antony Jimenez G.
+ */
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
@@ -9,32 +22,11 @@ class ModalComponent extends Component {
             return null;
         }
 
-        // The gray background
-        const backdropStyle = {
-            position: 'fixed',
-            top: 0,
-            bottom: 0,
-            left: 0,
-            right: 0,
-            backgroundColor: 'rgba(0,0,0,0.3)',
-            padding: 50
-        };
-
-        // The modal "window"
-        const modalStyle = {
-            backgroundColor: '#fff',
-            borderRadius: 5,
-            maxWidth: 500,
-            minHeight: 150,
-            margin: '0 auto',
-            padding: 20
-        };
-
         return (
 
-            <div style={backdropStyle}>
+            <div className="backdropStyle">
 
-                <div style={modalStyle}>
+                <div className="modalStyle">
 
                     <div className="modal-header">
                         <h2>{this.props.tittle}</h2>

@@ -48,7 +48,7 @@ class ConfigurationAdmin extends Component {
     }
 
     /**
-        * Method that submit the information in the form of password configuration 
+        * Method that submit the information in the form of password configuration to the database
         */
     changePassword = event => {
 

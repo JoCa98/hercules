@@ -126,7 +126,7 @@ class SignUp extends Component {
     * @type {Set}
     * Property that stores a set of every province´s name and ID.
     * 
-    * districtID:
+    * provinceID:
     * @type {integer}
     * Property that stores the ID number of the province of residence of the user.
     * 
@@ -321,7 +321,7 @@ class SignUp extends Component {
     };
 
     /**
-    * Method that gets the selected district.. 
+    * Method that gets the selected district.
     */
     getDistrict(event) {
         this.setState({ districtID: event.target.value });
@@ -387,8 +387,7 @@ class SignUp extends Component {
 
     /**
     * Method that generates the activation code required to complete the sign up process.
-    * 
-    * 
+    *    
     */
     GetCode() {
         this.state.activationCode = Math.floor((Math.random() * ((10000 - 100000) + 1)) + 100000);
@@ -472,7 +471,7 @@ class SignUp extends Component {
     }
 
     /**
-    * Methods validate all the fields and warns the user when the data in wrong or missing.
+    * Method that validates all the fields and warns the user when the data in wrong or missing.
     * If the data is correct, redirects the user to the ActCodeFormPage.
     * 
     */

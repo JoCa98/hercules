@@ -167,20 +167,20 @@ class RoutineAdmin extends Component {
                                         <div className="col-12">
                                             <div className="row">
                                                 <div className="col-6">
-                                                    <p className="cssPText">Densidad:</p>
+                                                    <p className="cssPText">Descanso entre serie:</p>
                                                 </div>
                                                 <div className="col-6">
-                                                    <input type="text" fontSize="18px" name="textDensity" className="form-control" disabled="disabled" value={this.state.routine[0].density} />
+                                                    <input type="text" fontSize="18px" name="textRestBetweenSerie" className="form-control" disabled="disabled" value={this.state.routine[0].restBetweenSerie} />
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="col-12">
                                             <div className="row">
                                                 <div className="col-6">
-                                                    <p className="cssPText">Tiempo de descanso:</p>
+                                                    <p className="cssPText">Descanso entre ejercicios:</p>
                                                 </div>
                                                 <div className="col-6">
-                                                    <input type="text" fontSize="18px" name="textRestTime" className="form-control" disabled="disabled" value={this.state.routine[0].timeLapse} />
+                                                    <input type="text" fontSize="18px" name="textrestBetweenExercises" className="form-control" disabled="disabled" value={this.state.routine[0].restBetweenExercises} />
                                                 </div>
                                             </div>
                                         </div>

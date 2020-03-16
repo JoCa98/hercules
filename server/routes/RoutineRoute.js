@@ -92,7 +92,6 @@ router.get("/getRoutineType", (req, res) => {
   });
 });
 
-
 router.get("/getNumberOfDays", (req,res)=>{
   connection.query("call proc_numberOfRoutineDays(" + req.query.routineID + ")", function (err, results) {
     if (results) {
@@ -127,8 +126,8 @@ router.get("/getRoutineID", (req, res) => {
 });
 
 router.post("/addRoutine", (req, res) => {
-  connection.query("CALL proc_addRoutine(" + req.body.Frecuency + "," + req.body.Intensity + "," + req.body.RestTime +
-  "," + req.body.Density + ",'" + req.body.date + "'," + req.body.partyID + "," + req.body.routineTypeID + "," + req.body.objectiveID + ",'" + req.body.HeartRatePerMinute + "')", function (err, results) {
+  connection.query("CALL proc_addRoutine(" + req.body.Frecuency + "," + req.body.Intensity + "," + req.body.restBetweenExercises +
+  "," + req.body.restBetweenSerie + ",'" + req.body.date + "'," + req.body.partyID + "," + req.body.routineTypeID + "," + req.body.objectiveID + ",'" + req.body.HeartRatePerMinute + "')", function (err, results) {
     if (results) {
       res.send(results);
     }

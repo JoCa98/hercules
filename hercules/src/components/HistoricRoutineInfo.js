@@ -17,8 +17,6 @@ import axios from 'axios';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import PermissionsManager from "./PermissionsManager";
 
-
-
 class HistoricRoutineInfo extends Component {
     constructor() {
         super();
@@ -51,8 +49,6 @@ class HistoricRoutineInfo extends Component {
     * when the page is load
     */
     componentDidMount() {
-
-
         if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
             window.scrollTo(0, 0);
             
@@ -76,7 +72,6 @@ class HistoricRoutineInfo extends Component {
                 console.error("Un error inesperado ha ocurrido");
             }
         }
-
     }
 
     rowEvent(event) {
@@ -112,7 +107,7 @@ class HistoricRoutineInfo extends Component {
                     <td align="center">{routineHist.date}</td>
                     <td align="center">{routineHist.frecuency}</td>
                     <td align="center">{routineHist.intensity}</td>
-                    <td align="center">{routineHist.timeLapse}</td>
+                    <td align="center">{routineHist.restBetweenExercises}</td>
                     <td>{routineHist.rtDescription}</td>
                     <td>{routineHist.otDescription}</td>
                     <td align="center">{routineHist.heartRatePerMinute}</td>
@@ -149,7 +144,7 @@ class HistoricRoutineInfo extends Component {
                                     <th scope="col" className="align-middle">Fecha</th>
                                     <th scope="col" className="align-middle">Frecuencia</th>
                                     <th scope="col" className="align-middle">Intensidad</th>
-                                    <th scope="col" className="align-middle">Lapso de descanso</th>
+                                    <th scope="col" className="align-middle">Descanso entre ejercicios</th>
                                     <th scope="col" className="align-middle">Tipo de rutina</th>
                                     <th scope="col" className="align-middle">Objetivo</th>
                                     <th scope="col" className="align-middle">Frecuencia Cardíaca</th>

@@ -41,15 +41,15 @@ class UserHome extends Component {
     * Method that can be sent to load the routine info
     * when loading the page for the first time
     */
-    componentDidMount() {
+    componentDidMount() {            
         if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
-            window.scrollTo(0, 0);
+            window.scrollTo(0, 0);            
             axios.get("http://localhost:9000/RoutineRoute/getRoutineInfo", {
                 params: {
                     routineID: sessionStorage.getItem("routineID"),
                 }
             }).then(response => {
-                if (response) {
+                if (response) {                    
                     console.log(response.data[0]);
                     this.setState({
                         routine: response.data[0]
@@ -58,7 +58,6 @@ class UserHome extends Component {
             })
         }
     }
-
 
     render() {
         return (
@@ -136,20 +135,20 @@ class UserHome extends Component {
                                         <div className="col-12">
                                             <div className="row">
                                                 <div className="col-6">
-                                                    <p className="cssPText">Densidad:</p>
+                                                    <p className="cssPText">Descanso entre serie:</p>
                                                 </div>
                                                 <div className="col-6">
-                                                    <input type="text" fontSize="18px" name="textDensity" className="form-control" disabled="disabled" value={this.state.routine[0].density} />
+                                                    <input type="text" fontSize="18px" name="textRestBetweenSerie" className="form-control" disabled="disabled" value={this.state.routine[0].restBetweenSerie} />
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="col-12">
                                             <div className="row">
                                                 <div className="col-6">
-                                                    <p className="cssPText">Tiempo de descanso:</p>
+                                                    <p className="cssPText">Descanso entre ejercicios:</p>
                                                 </div>
                                                 <div className="col-6">
-                                                    <input type="text" fontSize="18px" name="textRestTime" className="form-control" disabled="disabled" value={this.state.routine[0].timeLapse} />
+                                                    <input type="text" fontSize="18px" name="textrestBetweenExercises" className="form-control" disabled="disabled" value={this.state.routine[0].restBetweenExercises} />
                                                 </div>
                                             </div>
                                         </div>

@@ -172,7 +172,6 @@ class ActCodeForm extends Component {
   };
 
   componentDidMount() {
-    alert(this.state.activationCode);
     this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
     window.scrollTo(0, 0);
   }
