@@ -215,7 +215,7 @@ class RoutineCarouselReadOnly extends Component {
                     <td align="center">{exercise.series}</td>
                     <td align="center">{exercise.repetitions}</td>
                     <td align="center">{exercise.minutes}</td>
-                    <td align="center">{exercise.intensityPercentage}</td>
+                    <td align="center">{exercise.intensity}</td>
                     <td align="center">{exercise.heartRate}</td>
                 </tr>
             )

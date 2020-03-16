@@ -126,7 +126,7 @@ router.get("/getRoutineID", (req, res) => {
 });
 
 router.post("/addRoutine", (req, res) => {
-  connection.query("CALL proc_addRoutine(" + req.body.Frecuency + "," + req.body.Intensity + "," + req.body.restBetweenExercises +
+  connection.query("CALL proc_addRoutine(" + req.body.Frecuency + ",'" + req.body.Intensity + "'," + req.body.restBetweenExercises +
   "," + req.body.restBetweenSerie + ",'" + req.body.date + "'," + req.body.partyID + "," + req.body.routineTypeID + "," + req.body.objectiveID + ",'" + req.body.HeartRatePerMinute + "')", function (err, results) {
     if (results) {
       res.send(results);
@@ -139,7 +139,7 @@ router.post("/addRoutine", (req, res) => {
 
 router.post("/addExercise", (req, res) => {
   connection.query("CALL proc_addExercise(" + req.body.routineID + "," + req.body.exerciseID + "," + req.body.series +
-  "," + req.body.repetitions + "," + req.body.charge + "," + req.body.minutes + "," + req.body.intensityPercentage + ",'" 
+  "," + req.body.repetitions + "," + req.body.charge + "," + req.body.minutes + ",'" + req.body.intensityPercentage + "','" 
   + req.body.heartRate + "'," + req.body.routineDay + ")", function (err, results) {
     if (results) {
       res.send(results);
