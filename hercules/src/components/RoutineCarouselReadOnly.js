@@ -44,10 +44,10 @@ class RoutineCarouselReadOnly extends Component {
             exerciseType: [{}],
             exercise: [{}],
             typeID: 1,
-            id:sessionStorage.getItem("routineID"),
+            id: sessionStorage.getItem("routineID"),
             lastTypeID: "",
             days: 0,
-            day : 1
+            day: 1
         };
 
         this.exerciseTypeSelect = this.exerciseTypeSelect.bind(this);
@@ -74,19 +74,21 @@ class RoutineCarouselReadOnly extends Component {
             this.setState({ lastTypeID: response.data[0] });
         })
 
-        axios.get(`http://localhost:9000/RoutineRoute/getNumberOfDays`,{
+        axios.get(`http://localhost:9000/RoutineRoute/getNumberOfDays`, {
             params: {
                 routineID: this.state.id,
             }
         }).then(response => {
             var day = response.data[0];
             this.state.days = day[0].days;
-            this.setState({days: day[0].days});
+            this.setState({ days: day[0].days });
             this.addDayButton();
         });
-        
+
+        document.getElementById("heatingTable").style.display = "initial";
+        document.getElementById("exerciseTable").style.display = "none";
         this.getExerciseData();
-      
+
     }
 
     /**
@@ -96,14 +98,16 @@ class RoutineCarouselReadOnly extends Component {
         if (this.state.typeID == this.state.lastTypeID.exerciseTypeID) {
             this.state.typeID = 1;
             this.setState({ typeID: 1 });
+            document.getElementById("heatingTable").style.display = "initial";
+            document.getElementById("exerciseTable").style.display = "none";
         } else {
             const value = parseInt(this.state.typeID) + 1;
             this.state.typeID = value;
             this.setState({ typeID: value });
-
+            document.getElementById("heatingTable").style.display = "none";
+            document.getElementById("exerciseTable").style.display = "initial";
         }
         this.getExerciseData();
-
     }
 
     /**
@@ -113,10 +117,14 @@ class RoutineCarouselReadOnly extends Component {
         if (this.state.typeID == 1) {
             this.state.typeID = this.state.lastTypeID.exerciseTypeID;
             this.setState({ typeID: this.state.lastTypeID.exerciseTypeID });
+            document.getElementById("heatingTable").style.display = "initial";
+            document.getElementById("exerciseTable").style.display = "none";
         } else {
             const value = parseInt(this.state.typeID) - 1;
             this.state.typeID = value;
             this.setState({ typeID: value });
+            document.getElementById("heatingTable").style.display = "none";
+            document.getElementById("exerciseTable").style.display = "initial";
         }
         this.getExerciseData();
     }
@@ -125,36 +133,43 @@ class RoutineCarouselReadOnly extends Component {
      * Method that add day buttons
      */
     addDayButton() {
-        for(var i = 1; i <= this.state.days; i++){
-          var div = document.getElementById("btn");
-           var btn = document.createElement("button");
-           var value = i;
+        for (var i = 1; i <= this.state.days; i++) {
+            var div = document.getElementById("btn");
+            var btn = document.createElement("button");
+            var value = i;
             btn.value = value;
-            btn.textContent =value;
-            btn.id= value;
+            btn.textContent = value;
+            btn.id = value;
             btn.onclick = this.changeRoutineDay;
             btn.className = "buttonDaysSizeUser mr-1 mb-1";
-            if(i == 1){
-            btn.style.backgroundColor = "#ffffff";
-            btn.style.border = "2px solid #41ade7";
-            btn.style.color = "#0c0c0c";
+            if (i == 1) {
+                btn.style.backgroundColor = "#ffffff";
+                btn.style.border = "2px solid #41ade7";
+                btn.style.color = "#0c0c0c";
             }
             div.appendChild(btn);
-            
+
         }
     }
 
-    
+
     /**
     * Method that change the state when an option are selected in the dropdown
     */
     exerciseTypeSelect(event) {
         this.state.typeID = event.target.value;
         this.setState({ typeID: event.target.value });
+        if (event.target.value == 1) {
+            document.getElementById("heatingTable").style.display = "initial";
+            document.getElementById("exerciseTable").style.display = "none";
+        } else {
+            document.getElementById("heatingTable").style.display = "none";
+            document.getElementById("exerciseTable").style.display = "intial";
+        }
         this.getExerciseData();
     }
 
-    
+
     /**
     * Method that get the exercises per type from the database
     */
@@ -176,7 +191,7 @@ class RoutineCarouselReadOnly extends Component {
      * @param {object} event 
      */
     changeRoutineDay(event) {
-        if (this.state.day != event.target.value){
+        if (this.state.day != event.target.value) {
             this.setState({
                 day: event.target.value
             })
@@ -193,34 +208,43 @@ class RoutineCarouselReadOnly extends Component {
      * Method that changes the color of the day buttons
      * @param {integer} day 
      */
-    changeButtonsColors(day){
-        for(var i = 1; i <= this.state.days; i++ ){
-            if(i != day){
+    changeButtonsColors(day) {
+        for (var i = 1; i <= this.state.days; i++) {
+            if (i != day) {
                 document.getElementById(i).style.backgroundColor = "#41ade7";
                 document.getElementById(i).style.color = "#ffffff";
             }
-           }
+        }
     }
 
     render() {
-        
+
         /**
         * The exercise.map is for create a table with the exercises information
         */
         const exerciseVisual = this.state.exercise.map((exercise, i) => {
-            return (
-                <tr  key={i}>
-                    <td>{exercise.description}</td>
-                    <td align="center">{exercise.charge}</td>
-                    <td align="center">{exercise.series}</td>
-                    <td align="center">{exercise.repetitions}</td>
-                    <td align="center">{exercise.minutes}</td>
-                    <td align="center">{exercise.intensity}</td>
-                    <td align="center">{exercise.heartRate}</td>
-                </tr>
-            )
+            if (this.state.typeID == 1) {
+                return (
+                    <tr key={i}>
+                        <td>{exercise.description}</td>
+                        <td align="center">{exercise.minutes}</td>
+                        <td align="center">{exercise.intensity}</td>
+                        <td align="center">{exercise.heartRate}</td>
+                    </tr>
+                )
+            } else {
+                return (
+                    <tr key={i}>
+                        <td>{exercise.description}</td>
+                        <td align="center">{exercise.charge}</td>
+                        <td align="center">{exercise.series}</td>
+                        <td align="center">{exercise.repetitions}</td>
+                        <td align="center">{exercise.minutes}</td>
+                    </tr>
+                )
+            }
         })
-        
+
         /**
         * The exerciseType.map is for create the options to the dropdown
         */
@@ -232,51 +256,68 @@ class RoutineCarouselReadOnly extends Component {
         return (
             <div className="container">
                 <div className="row mt-4" >
-                    <div className="col-12" id="btn" >                    
+                    <div className="col-12" id="btn" >
                     </div>
                 </div>
-            <div className="container card">
-                <div className="row mt-4">
-                    <div className="col-12">
-                        <div className="row">
-                       
-                            <div className="col-3" align="center">
-                                <img src={leftArrowImage} className="arrows pointer" onClick={this.leftArrow} responsive />
+                <div className="container card">
+                    <div className="row mt-4">
+                        <div className="col-12">
+                            <div className="row">
+
+                                <div className="col-3" align="center">
+                                    <img src={leftArrowImage} className="arrows pointer" onClick={this.leftArrow} responsive />
+                                </div>
+                                <div className="col-6 " align="center">
+                                    <select fontSize="18px" name="exerciseTypeDropDown" className="form-control" float="center" onChange={this.exerciseTypeSelect} value={this.state.typeID}>
+                                        {exerciseList}
+                                    </select>
+                                </div>
+                                <div className="col-3 " align="center">
+                                    <img src={rightArrowImage} className="arrows pointer" onClick={this.rigthArrow} responsive />
+                                </div>
                             </div>
-                            <div className="col-6 " align="center">
-                                <select fontSize="18px" name="exerciseTypeDropDown" className="form-control" float="center" onChange={this.exerciseTypeSelect} value={this.state.typeID}>
-                                    {exerciseList}
-                                </select>
+                        </div>
+                    </div>
+                    <div className="row mt-4">
+                        <div className="col-12">
+                            <div className="table-responsive text-center">
+                                <table id="heatingTable" className="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Ejercicio</th>
+                                            <th scope="col">Minutos</th>
+                                            <th scope="col">Intensidad</th>
+                                            <th scope="col">Frecuencia Cardiaca</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {exerciseVisual}
+                                    </tbody>
+                                </table>
                             </div>
-                            <div className="col-3 " align="center">
-                                <img src={rightArrowImage} className="arrows pointer"  onClick={this.rigthArrow} responsive />
+                        </div>
+                    </div>
+                    <div className="row mt-4">
+                        <div className="col-12">
+                            <div className="table-responsive text-center">
+                                <table id="exerciseTable" className="table table-hover" display="none">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Ejercicio</th>
+                                            <th scope="col">Carga/Peso</th>
+                                            <th scope="col">Series</th>
+                                            <th scope="col">Repeticiones</th>
+                                            <th scope="col">Minutos</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {exerciseVisual}
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className="row mt-4">
-                    <div className="col-12">
-                        <div className="table-responsive">
-                            <table className="table table-sm table-hover">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Ejercicio</th>
-                                        <th scope="col">Carga/Peso</th>
-                                        <th scope="col">Series</th>
-                                        <th scope="col">Repeticiones</th>
-                                        <th scope="col">Minutos</th>
-                                        <th scope="col">Intensidad</th>
-                                        <th scope="col">Frecuencia Cardiaca</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {exerciseVisual}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
             </div>
         )
     }
