@@ -310,7 +310,7 @@ class RoutineCarouselReadOnly extends Component {
                                     <thead>
                                         <tr>
                                             <th scope="col">Ejercicio</th>
-                                            <th scope="col">Carga/Peso</th>
+                                            <th scope="col">Carga/Peso(lb)</th>
                                             <th scope="col">Series</th>
                                             <th scope="col">Repeticiones</th>
                                             <th scope="col">Minutos</th>
