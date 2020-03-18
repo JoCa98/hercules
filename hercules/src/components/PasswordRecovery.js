@@ -69,8 +69,7 @@ class PasswordRecovery extends Component {
     * Method that updates the current user password with a new one.
     */
     updatePassword(event) {
-        var tempPassword = this.state.randomPassword.generatePassword();
-        alert(tempPassword);
+        var tempPassword = this.state.randomPassword.generatePassword();        
         fetch("http://localhost:9000/User/updatePassword", {
             method: "post",
             body: JSON.stringify({
@@ -113,6 +112,31 @@ class PasswordRecovery extends Component {
             })
             .catch(err => console.error(err));
     }
+
+    /**
+     * This method takes care of show a modal with useful information
+     */
+    modalTrigger(event, mdTittle, mdChildren) {
+        this.setState({
+            show: !this.state.show,
+            modalTittle: mdTittle,
+            modalChildren: mdChildren
+        });
+        event.preventDefault();
+    };
+
+      /**
+     * This method close the modal  
+     */
+    closeModal(event) {
+        this.setState({
+            show: !this.state.show
+        });
+        if (this.state.isExit) {            
+            this.props.history.push(`/`);
+        }
+        event.preventDefault();
+    };
 
     /**
     * Method that changes the value of the state variable using the object that triggers the event.
