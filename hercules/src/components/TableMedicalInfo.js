@@ -268,7 +268,7 @@ class TableMedicalInfo extends Component {
                                 <thead>
                                     <tr>
                                         <th scope="col" className="align-middle">Fecha</th>
-                                        <th scope="col" className="align-middle">Peso (kg)</th>
+                                        <th scope="col" className="align-middle">Peso(kg)</th>
                                         <th scope="col" className="align-middle">Talla (cm)</th>                                        
                                         <th scope="col" className="align-middle">IMC (kg/m²)</th>                                        
                                         <th scope="col" className="align-middle">Cintura (cm)</th>

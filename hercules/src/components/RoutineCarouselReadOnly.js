@@ -117,14 +117,20 @@ class RoutineCarouselReadOnly extends Component {
         if (this.state.typeID == 1) {
             this.state.typeID = this.state.lastTypeID.exerciseTypeID;
             this.setState({ typeID: this.state.lastTypeID.exerciseTypeID });
-            document.getElementById("heatingTable").style.display = "initial";
-            document.getElementById("exerciseTable").style.display = "none";
+            document.getElementById("heatingTable").style.display = "none";
+            document.getElementById("exerciseTable").style.display = "initial";
         } else {
             const value = parseInt(this.state.typeID) - 1;
             this.state.typeID = value;
             this.setState({ typeID: value });
-            document.getElementById("heatingTable").style.display = "none";
+            if(value == 1){
+                document.getElementById("heatingTable").style.display = "initial";
+                document.getElementById("exerciseTable").style.display = "none";
+            }else{
+                document.getElementById("heatingTable").style.display = "none";
             document.getElementById("exerciseTable").style.display = "initial";
+            }
+            
         }
         this.getExerciseData();
     }
@@ -304,7 +310,7 @@ class RoutineCarouselReadOnly extends Component {
                                     <thead>
                                         <tr>
                                             <th scope="col">Ejercicio</th>
-                                            <th scope="col">Carga/Peso</th>
+                                            <th scope="col">Carga/Peso(lb)</th>
                                             <th scope="col">Series</th>
                                             <th scope="col">Repeticiones</th>
                                             <th scope="col">Minutos</th>
