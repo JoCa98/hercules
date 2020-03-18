@@ -1089,7 +1089,7 @@ class AddRoutine extends Component {
                                                         <input type="number" fontSize="18px" id="minutesInput" className="form-control" disabled></input>
                                                     </div>
                                                     <div className="form-group">
-                                                        <p id="pWeight">Carga/Peso</p>
+                                                        <p id="pWeight">Carga/Peso(lb)</p>
                                                         <input type="number" fontSize="18px" id="weightInput" className="form-control" disabled></input>
                                                         <p id="pIntensity" display="none">Intensidad</p>
                                                         <input type="text" fontSize="18px" id="intensityInput" className="form-control" disabled display="none" placeholder="000-000"></input>
