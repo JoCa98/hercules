@@ -319,7 +319,7 @@ class RoutineCarouselWrite extends Component {
                     <div className="col-6">
                         <form>
                             <div className="form-group">
-                                <p>Carga/Peso</p>
+                                <p>Carga/Peso(lb)</p>
                                 <input type="number" id="weightInput" className="form-control" disabled></input>
                             </div>
                             <div className="form-group">

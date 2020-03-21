@@ -6,6 +6,7 @@ import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import Modal from 'react-bootstrap/Modal';
 import PermissionsManager from "./PermissionsManager";
 import ModalComponent from './ModalComponent';
+import validations from './validations';
 
 
 class AddRoutine extends Component {
@@ -28,7 +29,7 @@ class AddRoutine extends Component {
          * Property that stores the input frecuency of the routine
          * 
          * Intesity:
-         * @type {integer}
+         * @type {String}
          * Property that stores the input instensity of the routine
          * 
          * restBetweenSerie:
@@ -116,7 +117,7 @@ class AddRoutine extends Component {
             routineType: [{}],
             objective: [{}],
             Frecuency: 0,
-            Intensity: 0,
+            Intensity: "",
             restBetweenSerie: 0,
             restBetweenExercises: 0,
             HeartRatePerMinute: "",
@@ -141,7 +142,8 @@ class AddRoutine extends Component {
             show: false,
             modalTittle: "",
             modalChildren: "",
-            isExit: false
+            isExit: false,
+            validations: new validations()
         }
 
         this.inputNumberValidator = this.inputNumberValidator.bind(this);
@@ -168,6 +170,7 @@ class AddRoutine extends Component {
         this.reorganizeList = this.reorganizeList.bind(this);
         this.modalTrigger = this.modalTrigger.bind(this);
         this.closeModal = this.closeModal.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
 
     }
 
@@ -242,7 +245,6 @@ class AddRoutine extends Component {
      */
     hideModal = (e) => {
         this.setState({ showModal: false });
-        alert("false");
         e.preventDefault();
     };
 
@@ -331,9 +333,7 @@ class AddRoutine extends Component {
             document.getElementById("intensityInput").style.display = "initial";
             document.getElementById("pIntensity").style.display = "initial";
             document.getElementById("pHeartRate").style.display = "initial";
-            document.getElementById("lHeartRate").style.display = "initial";
-            document.getElementById("heartRateInput1").style.display = "initial";
-            document.getElementById("heartRateInput2").style.display = "initial";
+            document.getElementById("heartRateInput").style.display = "initial";
         } else {
             document.getElementById("weightInput").style.display = "initial";
             document.getElementById("seriesInput").style.display = "initial";
@@ -344,9 +344,7 @@ class AddRoutine extends Component {
             document.getElementById("intensityInput").style.display = "none";
             document.getElementById("pIntensity").style.display = "none";
             document.getElementById("pHeartRate").style.display = "none";
-            document.getElementById("lHeartRate").style.display = "none";
-            document.getElementById("heartRateInput1").style.display = "none";
-            document.getElementById("heartRateInput2").style.display = "none";
+            document.getElementById("heartRateInput").style.display = "none";
         }
     }
 
@@ -356,8 +354,7 @@ class AddRoutine extends Component {
     */
     enabledInputs() {
         if (this.state.typeID == 1) {
-            document.getElementById("heartRateInput1").disabled = false;
-            document.getElementById("heartRateInput2").disabled = false;
+            document.getElementById("heartRateInput").disabled = false;
             document.getElementById("minutesInput").disabled = false;
             document.getElementById("intensityInput").disabled = false;
         } else {
@@ -378,8 +375,7 @@ class AddRoutine extends Component {
         document.getElementById("minutesInput").value = "";
         document.getElementById("intensityInput").value = "";
         document.getElementById("weightInput").value = "";
-        document.getElementById("heartRateInput1").value = "";
-        document.getElementById("heartRateInput2").value = "";
+        document.getElementById("heartRateInput").value = "";
     }
 
     /**
@@ -389,8 +385,7 @@ class AddRoutine extends Component {
         document.getElementById("weightInput").disabled = true;
         document.getElementById("seriesInput").disabled = true;
         document.getElementById("repetitionsInput").disabled = true;
-        document.getElementById("heartRateInput1").disabled = true;
-        document.getElementById("heartRateInput2").disabled = true;
+        document.getElementById("heartRateInput").disabled = true;
         document.getElementById("minutesInput").disabled = true;
         document.getElementById("intensityInput").disabled = true;
     }
@@ -411,17 +406,14 @@ class AddRoutine extends Component {
         this.setState({ exerciseID: id });
         this.setState({ name: name });
         this.enabledInputs();
+        this.emptyInputs();
         if (this.state.list.length != 0) {
             this.state.list.map((ex, i) => {
                 if (ex.exerciseID == id && ex.day == this.state.routineDay) {
                     this.setState({ exist: true, index: i });
                     if (this.state.typeID == 1) {
                         this.cardioExercise();
-                        if (ex.heartRate != null) {
-                            var textHR = ex.heartRate.split('-');
-                            document.getElementById("heartRateInput1").value = textHR[0];
-                            document.getElementById("heartRateInput2").value = textHR[1];
-                        }
+                        document.getElementById("heartRateInput").value = ex.heartRate;
                         document.getElementById("intensityInput").value = ex.intensityPercentage;
                         document.getElementById("minutesInput").value = ex.minutes;
 
@@ -442,7 +434,7 @@ class AddRoutine extends Component {
                     document.getElementById("delete").style.display = "none";
                 }
             })
-        }else{
+        } else {
             this.setState({ exist: false });
             document.getElementById("add").style.display = "initial";
             document.getElementById("edit").style.display = "none";
@@ -456,19 +448,41 @@ class AddRoutine extends Component {
      */
     editExercise(e) {
         if (this.state.exist) {
+            this.enabledInputs();
             if (this.state.typeID == 1) {
-                this.enabledInputs();
-                this.state.list[this.state.index].intensityPercentage = document.getElementById("intensityInput").value;
-                this.state.list[this.state.index].heartRate = document.getElementById("heartRateInput1").value + '-' + document.getElementById("heartRateInput2").value;
-                this.state.list[this.state.index].minutes = document.getElementById("minutesInput").value;
+                if (document.getElementById("minutesInput").value.length === 0 && document.getElementById("intensityInput").value.length === 0
+                    && (document.getElementById("heartRateInput").value.length === 0)) {
+                    this.modalTrigger(e, 'Campos obligatorios', 'Debe llenar al menos un dato del ejercicio');
+                } else {
+                    if ((document.getElementById("heartRateInput").value.length !== 0 && !this.state.validations.validateRange(document.getElementById("heartRateInput").value.trim()))) {
+                        this.modalTrigger(e, 'Formato Incorrecto', 'La frecuencia cardiaca debe ser un rango');
+                        e.preventDefault();
+                    } else {
+                        if (document.getElementById("intensityInput").value.length !== 0 && !this.state.validations.validateIntensity(document.getElementById("intensityInput").value.trim())) {
+                            this.modalTrigger(e, 'Formato incorrecto', 'La intensidad del ejercicio debe ser un rango');
+                        } else {
+                            this.state.list[this.state.index].intensityPercentage = document.getElementById("intensityInput").value;
+                            this.state.list[this.state.index].heartRate = document.getElementById("heartRateInput").value;
+                            this.state.list[this.state.index].minutes = document.getElementById("minutesInput").value;
+                            this.modalTrigger(e, 'Ejercicios', 'Se ha editado con éxito el ejercicio');
+                        }
+                    }
+                }
             } else {
-                this.state.list[this.state.index].repetitions = document.getElementById("repetitionsInput").value;
-                this.state.list[this.state.index].series = document.getElementById("seriesInput").value;
-                this.state.list[this.state.index].minutes = document.getElementById("minutesInput").value;
-                this.state.list[this.state.index].charge = document.getElementById("weightInput").value;
+                if (document.getElementById("weightInput").value.length == 0 && document.getElementById("seriesInput").value.length === 0
+                    && document.getElementById("repetitionsInput").value.length == 0 && document.getElementById("minutesInput").value.length === 0) {
+                    this.modalTrigger(e, 'Campos obligatorios', 'Debe llenar al menos un dato del ejercicio');
+
+                } else {
+                    this.state.list[this.state.index].repetitions = document.getElementById("repetitionsInput").value;
+                    this.state.list[this.state.index].series = document.getElementById("seriesInput").value;
+                    this.state.list[this.state.index].minutes = document.getElementById("minutesInput").value;
+                    this.state.list[this.state.index].charge = document.getElementById("weightInput").value;
+                    this.modalTrigger(e, 'Ejercicios', 'Se ha editado con éxito el ejercicio');
+                }
+
             }
 
-            this.modalTrigger(e, 'Ejercicios', 'Se ha editado con éxito el ejercicio');
         } else {
             this.modalTrigger(e, 'Ejercicios', 'El ejercicio no se encuentra registrado');
         }
@@ -499,71 +513,76 @@ class AddRoutine extends Component {
         e.preventDefault();
     }
 
+
+
     /**
     * Method to add an exercise in the list to add
     * @param {object} e 
     */
     addExercise(e) {
-
         if (document.getElementById("weightInput").value.length == 0 && document.getElementById("seriesInput").value.length === 0
             && document.getElementById("repetitionsInput").value.length == 0 && document.getElementById("minutesInput").value.length === 0
-            && document.getElementById("intensityInput").value.length === 0 && (document.getElementById("heartRateInput1").value.length === 0
-                && document.getElementById("heartRateInput2").value.length === 0)) {
+            && document.getElementById("intensityInput").value.length === 0 && (document.getElementById("heartRateInput").value.length === 0)) {
             this.modalTrigger(e, 'Campos obligatorios', 'Debe llenar al menos un dato del ejercicio');
         } else {
-            if ((document.getElementById("heartRateInput1").value.length !== 0 && document.getElementById("heartRateInput2").value.length === 0)
-                || (document.getElementById("heartRateInput1").value.length === 0 && document.getElementById("heartRateInput2").value.length !== 0)) {
-                this.modalTrigger(e, 'Campos obligatorios', 'Debe agregar ambas datos para la frecuencia cardíaca');
+            if ((document.getElementById("heartRateInput").value.length !== 0 && !this.state.validations.validateRange(document.getElementById("heartRateInput").value.trim()))) {
+                this.modalTrigger(e, 'Formato Incorrecto', 'La frecuencia cardiaca debe ser un rango');
                 e.preventDefault();
             } else {
-                var weight = document.getElementById("weightInput").value;
-                var minutes = document.getElementById("minutesInput").value;
-                var repetitions = document.getElementById("repetitionsInput").value;
-                var series = document.getElementById("seriesInput").value;
-                var intensityPercentage = document.getElementById("intensityInput").value;
-                var heartRate = document.getElementById("heartRateInput1").value + "-" + document.getElementById("heartRateInput2").value;
-
-                if (weight == "") {
-                    weight = null;
-                }
-                if (minutes == "") {
-                    minutes = null;
-                }
-                if (repetitions == "") {
-                    repetitions = null;
-                }
-                if (series == "") {
-                    series = null;
-                }
-                if (intensityPercentage == "") {
-                    intensityPercentage = null;
-                }
-                if (heartRate == "" || heartRate == "-") {
-                    heartRate = "";
-                }
-                var obj = {
-                    exerciseID: this.state.exerciseID,
-                    minutes: minutes,
-                    charge: weight,
-                    repetitions: repetitions,
-                    series: series,
-                    intensityPercentage: intensityPercentage,
-                    heartRate: heartRate,
-                    name: this.state.name,
-                    day: this.state.routineDay
-                }
-
-                if (this.state.exist) {
-                    this.modalTrigger(e, 'Ejercicios', 'El ejercicio ya estaba agregado anteriormente');
+                if (document.getElementById("intensityInput").value.length !== 0 && !this.state.validations.validateRange(document.getElementById("intensityInput").value.trim())) {
+                    this.modalTrigger(e, 'Formato incorreco', 'La intensidad del ejercicio debe ser un rango');
                 } else {
-                    this.state.list.push(obj);
-                    this.modalTrigger(e, 'Ejercicios', 'El ejercicio ha sido agregado con éxito');
+
+                    var weight = document.getElementById("weightInput").value;
+                    var minutes = document.getElementById("minutesInput").value;
+                    var repetitions = document.getElementById("repetitionsInput").value;
+                    var series = document.getElementById("seriesInput").value;
+                    var intensityPercentage = document.getElementById("intensityInput").value;
+                    var heartRate = document.getElementById("heartRateInput").value;
+
+                    if (weight == "") {
+                        weight = null;
+                    }
+                    if (minutes == "") {
+                        minutes = null;
+                    }
+                    if (repetitions == "") {
+                        repetitions = null;
+                    }
+                    if (series == "") {
+                        series = null;
+                    }
+                    if (intensityPercentage == "") {
+                        intensityPercentage = null;
+                    }
+                    if (heartRate == "" || heartRate == "-") {
+                        heartRate = "";
+                    }
+                    var obj = {
+                        exerciseID: this.state.exerciseID,
+                        minutes: minutes,
+                        charge: weight,
+                        repetitions: repetitions,
+                        series: series,
+                        intensityPercentage: intensityPercentage,
+                        heartRate: heartRate,
+                        name: this.state.name,
+                        day: this.state.routineDay
+                    }
+
+                    if (this.state.exist) {
+                        this.modalTrigger(e, 'Ejercicios', 'El ejercicio ya estaba agregado anteriormente');
+                    } else {
+                        this.state.list.push(obj);
+                        this.modalTrigger(e, 'Ejercicios', 'El ejercicio ha sido agregado con éxito');
+                    }
+
                 }
             }
+            this.emptyInputs();
+            this.disabledInputs();
+            e.preventDefault();
         }
-        this.emptyInputs();
-        this.disabledInputs();
-        e.preventDefault();
     }
 
     /**
@@ -573,22 +592,24 @@ class AddRoutine extends Component {
     inputNumberValidator(event) {
         const re = /^[0-9\b]+$/;
         const { name, value } = event.target;
-        if (name === "HeartRatePerMinute1" || name === "HeartRatePerMinute2") {
-            if (document.getElementById("HeartRatePerMinute1").value.length != 0 &&
-                document.getElementById("HeartRatePerMinute2").value.length != 0) {
-                this.setState({
-                    ["HeartRatePerMinute"]: document.getElementById("HeartRatePerMinute1").value + '-' + document.getElementById("HeartRatePerMinute2").value
-                });
-            }
-        } else {
-            if (value === "" || re.test(value)) {
-                this.setState({
-                    [name]: value
-                });
-            }
+        if (value === "" || re.test(value)) {
+            this.setState({
+                [name]: value
+            });
         }
     }
 
+
+
+    /**
+    * This method set the prop attributes
+    */
+    handleInputChange(event) {
+        const { name, value } = event.target;
+        this.setState({
+            [name]: value
+        });
+    }
 
     /**
      * Method to get the value of the selected routine type
@@ -613,81 +634,92 @@ class AddRoutine extends Component {
      */
     handleSubmit(e) {
         var id;
-            axios.post("http://localhost:9000/RoutineRoute/addRoutine", {
-                Frecuency: this.state.Frecuency,
-                Intensity: this.state.Intensity,
-                restBetweenExercises: this.state.restBetweenExercises,
-                restBetweenSerie: this.state.restBetweenSerie,
-                date: this.state.date,
-                partyID: this.state.partyID,
-                routineTypeID: this.state.routineTypeID,
-                objectiveID: this.state.objectiveID,
-                HeartRatePerMinute: this.state.HeartRatePerMinute
+        axios.post("http://localhost:9000/RoutineRoute/addRoutine", {
+            Frecuency: this.state.Frecuency,
+            Intensity: this.state.Intensity,
+            restBetweenExercises: this.state.restBetweenExercises,
+            restBetweenSerie: this.state.restBetweenSerie,
+            date: this.state.date,
+            partyID: this.state.partyID,
+            routineTypeID: this.state.routineTypeID,
+            objectiveID: this.state.objectiveID,
+            HeartRatePerMinute: this.state.HeartRatePerMinute
+        })
+            .then(response => {
+                id = response.data[0];
+                this.submitExercise(id[0].id, e);
             })
-                .then(response => {
-                    id = response.data[0];
-                    this.submitExercise(id[0].id,e);
-                })
 
-                .catch(err => console.error(err));
+            .catch(err => console.error(err));
 
-            e.preventDefault();
-        } 
-    
+        e.preventDefault();
+    }
+
 
     /**
      * Method that add a list of exercises to a routine in the database
      * @param {integer} id 
      */
-    submitExercise(id,e) {
-            this.state.list.map((ex) => {
-                fetch("http://localhost:9000/RoutineRoute/addExercise", {
-                    method: "post",
-                    body: JSON.stringify({
-                        routineID: id,
-                        exerciseID: ex.exerciseID,
-                        series: ex.series,
-                        repetitions: ex.repetitions,
-                        charge: ex.charge,
-                        minutes: ex.minutes,
-                        intensityPercentage: ex.intensityPercentage,
-                        heartRate: ex.heartRate,
-                        routineDay: ex.day
-                    }),
-                    headers: {
-                        Accept: "application/json",
-                        "Content-Type": "application/json"
-                    }
-                })
-                    .then(res => res.json())
-                    .then(data => {
-                        this.setState({
-                            isExit: true
-                        });
-                        this.modalTrigger(e, 'Ingreso de registro', 'Se ha ingresado exitosamente la rutina');
-                    })
-                    .catch(err => console.error(err));
+    submitExercise(id, e) {
+        this.state.list.map((ex) => {
+            fetch("http://localhost:9000/RoutineRoute/addExercise", {
+                method: "post",
+                body: JSON.stringify({
+                    routineID: id,
+                    exerciseID: ex.exerciseID,
+                    series: ex.series,
+                    repetitions: ex.repetitions,
+                    charge: ex.charge,
+                    minutes: ex.minutes,
+                    intensityPercentage: ex.intensityPercentage,
+                    heartRate: ex.heartRate,
+                    routineDay: ex.day
+                }),
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                }
             })
+                .then(res => res.json())
+                .then(data => {
+                    this.setState({
+                        isExit: true
+                    });
+                    this.hideModal(e);
+                    this.props.history.push(`/HistoricRoutineInfo`);
+
+                })
+                .catch(err => console.error(err));
+        })
     }
 
     /**
      * Method that verifies if some input is empty
      */
     empty(event) {
-        if (this.state.Frecuency.toString().trim().length == 0 || this.state.restBetweenSerie.toString().trim().length  == 0 || this.state.Intensity.toString().trim().length  == 0 || this.state.restBetweenExercises.toString().trim().length  == 0 
-            || this.state.objectiveID.toString().trim().length  == 0 || this.state.routineTypeID.toString().trim().length  == 0 || this.state.HeartRatePerMinute.trim().length  == 0) {
-                this.modalTrigger(event,'Campos obligatorios','Debe agregar los datos de la preescripción física');
+        if (this.state.Frecuency.toString().trim().length == 0 || this.state.restBetweenSerie.toString().trim().length == 0 || this.state.Intensity.toString().trim().length == 0 || this.state.restBetweenExercises.toString().trim().length == 0
+            || this.state.objectiveID.toString().trim().length == 0 || this.state.routineTypeID.toString().trim().length == 0 || this.state.HeartRatePerMinute.trim().length == 0) {
+            this.modalTrigger(event, 'Campos obligatorios', 'Debe agregar los datos de la preescripción física');
         } else {
-            this.arrayEmpty(event);
+             if (!this.state.validations.validateRange(this.state.Intensity.trim())) {
+                this.modalTrigger(event, 'Formato Incorrecto', 'Intensidad debe ser un rango 000-000');
+                }else{
+                    if (!this.state.validations.validateRange(this.state.HeartRatePerMinute.trim())) {
+                    this.modalTrigger(event, 'Formato Incorrecto', 'Frecuencia Cardiaca debe ser un rango 000-000');
+                    }else{
+                        this.arrayEmpty(event);
+            }
         }
+        
     }
+}
 
     /**
      * Method that verifies if the list to add is empty
      */
     arrayEmpty(event) {
         if (this.state.list.length == 0) {
-           this.modalTrigger(event,'Ejercicios','Debe agregar al menos un ejercicio en la rutina');
+            this.modalTrigger(event, 'Ejercicios', 'Debe agregar al menos un ejercicio en la rutina');
         } else {
             this.reorganizeList(event);
         }
@@ -724,7 +756,7 @@ class AddRoutine extends Component {
      * @param {object} e 
      */
     addDayButton(e) {
-        if (this.state.routineDay < 6) {
+        if (this.state.daysCounter < 6) {
             var div = document.getElementById("btn");
             var btn = document.createElement("button");
             var value = (this.state.daysCounter + 1);
@@ -772,14 +804,14 @@ class AddRoutine extends Component {
      * @param {integer} day 
      */
     changeButtonsColors(day) {
-        if (day != 1) {
-            for (var i = 1; i <= this.state.daysCounter; i++) {
-                if (i != day) {
-                    document.getElementById(i).style.backgroundColor = "#41ade7";
-                    document.getElementById(i).style.color = "#ffffff";
-                }
+
+        for (var i = 1; i <= this.state.daysCounter; i++) {
+            if (i != day) {
+                document.getElementById(i).style.backgroundColor = "#41ade7";
+                document.getElementById(i).style.color = "#ffffff";
             }
         }
+
     }
 
     /**
@@ -857,7 +889,7 @@ class AddRoutine extends Component {
             obj.list.map((exercise) => {
                 nlist.push(<p>{exercise.name}</p>)
             })
-            nlist.push(<p>Total de ejercicios: {obj.list.length}</p>)
+            nlist.push(<p> <b>Total de ejercicios del día: {obj.list.length}</b> </p>)
         });
 
         this.setState({
@@ -971,7 +1003,7 @@ class AddRoutine extends Component {
                                                     <p>Intensidad<font color="red">*</font></p>
                                                 </div>
                                                 <div className="col-5">
-                                                    <input type="number" fontSize="18px" name="Intensity" onKeyPress={this.onKeyEvent} className="form-control" onChange={this.inputNumberValidator} placeholder="%" />
+                                                    <input type="text" fontSize="18px" name="Intensity" onKeyPress={this.onKeyEvent} className="form-control" onChange={this.handleInputChange} placeholder="000-000" />
                                                 </div>
                                             </div>
                                         </div>
@@ -981,7 +1013,7 @@ class AddRoutine extends Component {
                                                     <p>Descanso entre serie<font color="red">*</font></p>
                                                 </div>
                                                 <div className="col-5">
-                                                    <input type="number" fontSize="18px" name="restBetweenSerie" onKeyPress={this.onKeyEvent} className="form-control" onChange={this.inputNumberValidator} placeholder="" />
+                                                    <input type="number" fontSize="18px" name="restBetweenSerie" onKeyPress={this.onKeyEvent} className="form-control" onChange={this.inputNumberValidator} placeholder="Segundos" />
                                                 </div>
                                             </div>
                                         </div>
@@ -998,24 +1030,18 @@ class AddRoutine extends Component {
                                     </div>
                                 </div>
                                 <div className="col-12 col-md-4">
-                                    <div className="row">
-                                        <div className="col-11 offset-1">
-                                            <p>Frecuencia cardíaca<font color="red">*</font></p>
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col-4 offset-1">
-                                            <input type="number" fontSize="18px" min="0" max="300" id="HeartRatePerMinute1" name="HeartRatePerMinute1" className="form-control" onChange={this.inputNumberValidator} />
-                                        </div>
-                                        <div className="col-1">
-                                            <label>-</label>
-                                        </div>
-                                        <div className="col-4">
-                                            <input type="number" min="0" max="300" fontSize="18px" id="HeartRatePerMinute2" name="HeartRatePerMinute2" className="form-control" onChange={this.inputNumberValidator} />
-                                        </div>
+                                    <div className="col-12">
+                                        <div className="row">
+                                            <div className="col-6">
+                                                <p>Frecuencia cardíaca<font color="red">*</font></p>
+                                            </div>
+                                            <div className="col-5">
+                                                <input type="text" fontSize="18px" id="HeartRatePerMinute" name="HeartRatePerMinute" className="form-control" onChange={this.handleInputChange} placeholder="000-000" />
+                                            </div>
+                                            </div>
                                     </div>
                                 </div>
-                            </div>
+                                </div>
                             <div className="row mt-4" >
                                 <div className="col-9" id="btn" >
                                     <button className="buttonDays mr-1" value="1" id="1" onClick={this.dayButton}>Día 1</button>
@@ -1066,33 +1092,20 @@ class AddRoutine extends Component {
                                                         <p id="pWeight">Carga/Peso</p>
                                                         <input type="number" fontSize="18px" id="weightInput" className="form-control" disabled></input>
                                                         <p id="pIntensity" display="none">Intensidad</p>
-                                                        <input type="number" fontSize="18px" id="intensityInput" className="form-control" disabled display="none"></input>
+                                                        <input type="text" fontSize="18px" id="intensityInput" className="form-control" disabled display="none" placeholder="000-000"></input>
                                                     </div>
                                                     <div className="form-group">
                                                         <p id="pSeries">Series</p>
                                                         <input type="number" fontSize="18px" id="seriesInput" className="form-control" disabled></input>
+                                                    </div>
+                                                    <div className="form-group">
                                                         <p id="pHeartRate" display="none">Frecuencia Cardiaca</p>
-                                                        <div className="col-12">
-                                                            <div className="row">
-                                                                <div className="col-5">
-                                                                    <input type="number" fontSize="18px" id="heartRateInput1" className="form-control" disabled display="none"></input>
-                                                                </div>
-                                                                <div className="col-2 text-center">
-                                                                    <label align="center" id="lHeartRate" disabled display="none">-</label>
-                                                                </div>
-                                                                <div className="col-5">
-                                                                    <input type="number" fontSize="18px" id="heartRateInput2" className="form-control" disabled display="none"></input>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
+                                                        <input type="text" fontSize="18px" id="heartRateInput" className="form-control" disabled display="none" placeholder="000-000"></input>
                                                     </div>
                                                     <div className="form-group">
                                                         <p id="pRepetitions">Repeticiones</p>
                                                         <input type="number" fontSize="18px" id="repetitionsInput" className="form-control" disabled></input>
-
                                                     </div>
-
                                                     <div className="form-group" align="right">
                                                         <button align="right" id="add" className="buttonSizeGeneral" onClick={this.addExercise}>Agregar</button>
                                                         <button align="right" id="edit" className="buttonSizeGeneral mr-1" onClick={this.editExercise} >Editar</button>
@@ -1112,7 +1125,6 @@ class AddRoutine extends Component {
                                 <Modal.Body>
                                     <div id="listExercise">
                                         {this.state.modalList}
-                                        <label className="inputText">Total de ejercicios: {this.state.list.length}</label>
                                     </div>
                                 </Modal.Body>
                                 <Modal.Footer>

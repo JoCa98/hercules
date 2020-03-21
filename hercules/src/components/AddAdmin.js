@@ -269,22 +269,36 @@ class AddAdmin extends Component {
                                 </div>
                             </div>
                             <div className="row">
-                                <div className="col-6">
-                                    <div className="form-group" align="left">
-                                        <p align="justify">Primer nombre<font color="red">*</font></p>
-                                        <input type="text" name="firstName" placeholder="Ej: Kevin" className="form-control" fontSize="18px" onChange={this.handleInputChange} required></input>
-                                        <br></br>
-                                        <p align="justify">Primer Apellido<font color="red">*</font></p>
-                                        <input type="text" name="firstLastName" placeholder="Ej: Jiménez" className="form-control" fontSize="18px" onChange={this.handleInputChange} required></input>
+                                <div className="col-12">
+                                    <div className="row">
+                                        <div className="col-6">
+                                            <div className="form-group" align="left">
+                                                <p align="justify">Primer nombre<font color="red">*</font></p>
+                                                <input type="text" name="firstName" placeholder="Ej: Kevin" className="form-control" fontSize="18px" onChange={this.handleInputChange} required></input>
+                                            </div>
+                                        </div>
+                                        <div className="col-6">
+                                            <div className="form-group" align="left">
+                                                <p align="justify">Segundo nombre</p>
+                                                <input type="text" name="secondName" placeholder="Ej: José" className="form-control" fontSize="18px" onChange={this.handleInputChange}></input>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div className="col-6">
-                                    <div className="form-group" align="left">
-                                        <p align="justify">Segundo nombre</p>
-                                        <input type="text" name="secondName" placeholder="Ej: José" className="form-control" fontSize="18px" onChange={this.handleInputChange}></input>
-                                        <br></br>
-                                        <p align="justify">Segundo Apellido</p>
+                                <div className="col-12">
+                                    <div className="row">
+                                        <div className="col-6">
+                                            <div className="form-group" align="left">
+                                            <p align="justify">Primer Apellido<font color="red">*</font></p>
+                                        <input type="text" name="firstLastName" placeholder="Ej: Jiménez" className="form-control" fontSize="18px" onChange={this.handleInputChange} required></input>
+                                            </div>
+                                        </div>
+                                        <div className="col-6">
+                                            <div className="form-group" align="left">
+                                            <p align="justify">Segundo Apellido</p>
                                         <input type="text" name="secondLastName" placeholder="Ej: Molina" className="form-control" fontSize="18px" onChange={this.handleInputChange}></input>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

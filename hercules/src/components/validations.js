@@ -63,5 +63,8 @@ class validations extends Component {
     validateMetabolicAge(value){
         return new RegExp("^(\\d{1,3})$").test(value);
     }
+    validateRange(value){
+        return new RegExp("^(\\d{1,3})(\\-)(\\d{1,3})$").test(value);
+    }
 }
 export default validations;

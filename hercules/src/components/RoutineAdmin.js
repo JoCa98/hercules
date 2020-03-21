@@ -16,7 +16,6 @@ import axios from "axios";
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import PermissionsManager from "./PermissionsManager";
 
-
 class RoutineAdmin extends Component {
     constructor(props) {
         super(props);
