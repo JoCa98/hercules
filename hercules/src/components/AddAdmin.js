@@ -183,20 +183,23 @@ class AddAdmin extends Component {
     /**
     * Method that verify that the require inputs are not empty
     */
-    empty() {
+   empty() {
+    if (this.state.identificationID == "" || this.state.identificationID == null ||
+        this.state.firstName == "" || this.state.firstName == null ||
+        this.state.firstLastName == "" || this.state.firstLastName == null ||
+        this.state.email == "" || this.state.email == null ||
+        this.state.password == "" || this.state.password == null ||
+        this.state.confirmPassword == "" || this.state.confirmPassword == null) {
         if (this.state.userTypeID == "3") {
-            if (this.state.identificationID == "" || this.state.firstName == "" || this.state.firstLastName == "" || this.state.email == ""
-                || this.state.password == "" || this.state.confirmPassword == "" || this.state.medicalCod == "") {
-                return true;
-            }
-        } else {
-            if (this.state.identificationID == "" || this.state.firstName == "" || this.state.firstLastName == "" || this.state.email == ""
-                || this.state.password == "" || this.state.confirmPassword == "") {
-                return true;
+            if (this.state.medicalCod == "" || this.state.medicalCod == null) {
+                return true
             }
         }
+        return true;
+    } else {
         return false;
     }
+}
 
     /**
    * Method that allows that the password can be shown
