@@ -69,7 +69,7 @@ class PasswordRecovery extends Component {
     * Method that updates the current user password with a new one.
     */
     updatePassword(event) {
-        var tempPassword = this.state.randomPassword.generatePassword();        
+        var tempPassword = this.state.randomPassword.generatePassword();
         fetch("http://localhost:9000/User/updatePassword", {
             method: "post",
             body: JSON.stringify({
@@ -86,12 +86,12 @@ class PasswordRecovery extends Component {
             .then(data => {
                 console.log(data);
             })
-            .catch(err => console.error(err));            
+            .catch(err => console.error(err));
         this.sendTempPasswordEmail(tempPassword);
-        this.setState({ 
+        this.setState({
             isExit: true
-         }); 
-        this.modalTrigger(event,'Contraseña','Se ha enviado una contraseña temporal al correo ingresado. Ahora será redirigido a la pantalla de ingreso');                                            
+        });
+        this.modalTrigger(event, 'Contraseña', 'Se ha enviado una contraseña temporal al correo ingresado. Ahora será redirigido a la pantalla de ingreso');
     }
 
     /**
@@ -125,14 +125,14 @@ class PasswordRecovery extends Component {
         event.preventDefault();
     };
 
-      /**
-     * This method close the modal  
-     */
+    /**
+   * This method close the modal  
+   */
     closeModal(event) {
         this.setState({
             show: !this.state.show
         });
-        if (this.state.isExit) {            
+        if (this.state.isExit) {
             this.props.history.push(`/`);
         }
         event.preventDefault();
@@ -164,31 +164,30 @@ class PasswordRecovery extends Component {
         return (
             <div className="container">
                 <div className="row mt-4">
-                    <div className="col-6 offset-3 p-5 card">
-                        <form>
-                            <h1 className="text-left colorBlue">Recuperación de Contraseña</h1>
-                            <br />
-                            <div class="form-group">
-                                <p align="justify">Ingrese el correo del usuario para recibir
-                                 una contraseña<br /> nueva temporal</p>
-                                <input type="text" fontSize="18px" name="email" className="form-control" onChange={this.handleInputChange}></input>
+                    <div className="col-12 col-lg-6 offset-lg-3 card p-5">
+
+                        <h1 className="text-left colorBlue">Recuperación de Contraseña</h1>
+                        <br />
+                        <div class="form-group">
+                            <p align="justify">Ingrese el correo del usuario para recibir una contraseña nueva temporal</p>
+                            <input type="text" fontSize="18px" name="email" className="form-control" onChange={this.handleInputChange}></input>
+                        </div>
+                        <div className="row ">
+                            <div className="col-12 col-sm-4  text-left mt-4">
+                                <button type="button" name="cancel" className="buttonSizeGeneral w-100" onClick={this.backButton}>Cancelar</button>
                             </div>
-                            <div className="row mt-4">
-                                <div className="col-6 text-left">
-                                    <button type="button" name="cancel" className="buttonSizeGeneral" onClick={this.backButton}>Cancelar</button>
-                                </div>
-                                <div className="col-6 text-right">
-                                    <button type="button" name="sendTempPassword" className="buttonSizeGeneral" onClick={this.updatePassword}>Enviar</button>
-                                </div>
+                            <div className="col-12 col-sm-4 offset-sm-4  text-right mt-4">
+                                <button type="button" name="sendTempPassword" className="buttonSizeGeneral w-100" onClick={this.updatePassword}>Enviar</button>
                             </div>
-                            <div className="row">
-                                <div className="col-md-1">
-                                    <ModalComponent tittle={this.state.modalTittle} show={this.state.show} onClose={this.closeModal} >
-                                        <br />{this.state.modalChildren}
-                                    </ModalComponent>
-                                </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-md-1">
+                                <ModalComponent tittle={this.state.modalTittle} show={this.state.show} onClose={this.closeModal} >
+                                    <br />{this.state.modalChildren}
+                                </ModalComponent>
                             </div>
-                        </form>
+                        </div>
+
                     </div>
                 </div>
             </div>
