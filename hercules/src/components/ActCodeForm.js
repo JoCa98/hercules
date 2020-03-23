@@ -276,19 +276,19 @@ class ActCodeForm extends Component {
     return (
       <div className="container">
         <div className="row mt-4 ">
-          <div className="col-6 offset-3 card p-5">
+          <div className="col-12 col-lg-6 offset-lg-3 card p-5">
             <form className="activationCodeForm" >
               <h1 className="text-left colorBlue">Activación de cuenta</h1>
               <div className="form-group">
                 <p align="left">Ingrese el código de activación enviado a su correo</p>
                 <input type="text" name="actCode" className="form-control" fontSize="18px" onChange={this.handleInputChange} />
               </div>
-              <div className="row mt-4">
-                <div className="col-4">
-                  <button type="button" align="left" name="resendButton" className="cssCodeButtonResend" onClick={this.resendCode}> Reenviar código </button>
+              <div className="row">
+                <div className="col-12 col-sm-4 text-left mt-2">
+                  <button type="button" name="resendButton" className="cssCodeButtonResend w-100" onClick={this.resendCode}> Reenviar código </button>
                 </div>
-                <div className="col-4 offset-4">
-                  <button type="button" align="right" name="confirmButton" className="cssCodeButtonConfirm" onClick={this.handleSubmit}> Confirmar </button>
+                <div className="col-12 col-sm-4 offset-sm-4 text-right mt-2">
+                  <button type="button" align="right" name="confirmButton" className="cssCodeButtonConfirm w-100" onClick={this.handleSubmit}> Confirmar </button>
                 </div>
               </div>
               <div className="row">

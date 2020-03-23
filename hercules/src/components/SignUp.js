@@ -582,7 +582,7 @@ class SignUp extends Component {
             })
             .catch(err => console.error(err));
     }
-    
+
     /**
     * Method that redirect the user to the previous page.
     * 
@@ -872,11 +872,11 @@ class SignUp extends Component {
                     </div>
                     <div className="col-12">
                         <div className="row">
-                            <div className="col-3">
-                                <button align="left" className="buttonSizeGeneral" onClick={this.backButton}>Cancelar</button>
+                            <div className="col-12 col-sm-3 col-md-2 text-left mt-4">
+                                <button className="buttonSizeGeneral w-100" onClick={this.backButton}>Cancelar</button>
                             </div>
-                            <div className="col-3 offset-6">
-                                <button align="right" className="buttonSizeGeneral" onClick={this.goActCodeForm}>Guardar</button>
+                            <div className="col-12 col-sm-3 offset-sm-6 col-md-2 offset-md-8  text-right mt-4" >
+                                <button className="buttonSizeGeneral w-100" onClick={this.goActCodeForm}>Guardar</button>
                             </div>
                         </div>
                     </div>

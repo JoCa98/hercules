@@ -168,7 +168,7 @@ class MedicalForm extends Component {
         });
         if (this.state.isExit == 1) {
             this.props.history.push(`/HistoricMedicalInfo`);
-        }else if(this.state.isExit == 2){
+        } else if (this.state.isExit == 2) {
             this.handleSubmit(event);
         }
         event.preventDefault();
@@ -266,9 +266,7 @@ class MedicalForm extends Component {
         document.getElementById("cardiovascularRisk").value = this.state.medicalInfo[0].cardiovascularRisk;
         document.getElementById("recommendations").value = this.state.medicalInfo[0].recommendations;
         document.getElementById("upToDate").value = this.state.medicalInfo[0].upToDate;
-        var textBloodPressure = this.state.medicalInfo[0].bloodPressure.split('-');
-        document.getElementById("bloodPressure1").value = textBloodPressure[0];
-        document.getElementById("bloodPressure2").value = textBloodPressure[1];
+        document.getElementById("bloodPressure").value = this.state.medicalInfo[0].bloodPressure;
 
         this.setState({ pathologies: this.state.medicalInfo[0].pathologies });
         this.setState({ surgeries: this.state.medicalInfo[0].surgeries });
@@ -340,22 +338,14 @@ class MedicalForm extends Component {
     */
     handleInputChange(event) {
         const { name, value } = event.target;
-        if (name === "bloodPressure1" || name === "bloodPressure2") {
-            if (document.getElementById("bloodPressure1").value.length != 0 &&
-                document.getElementById("bloodPressure2").value.length != 0) {
-                this.setState({
-                    bloodPressure: document.getElementById("bloodPressure1").value + '-' + document.getElementById("bloodPressure2").value
-                });
-            }
-        } else {
-            this.setState({
-                [name]: value
-            });
-        }
+        this.setState({
+            [name]: value
+        });
 
         if (this.state.pathologies != "" || this.state.allergies != "" || this.state.surgeries != ""
             || this.state.neurologicalInfo != "" || this.state.pulmonaryCardioInfo != "" || this.state.recommendations != "") {
-            this.checkEmptySpaces();
+    
+                this.checkEmptySpaces();
         }
 
     }
@@ -376,8 +366,8 @@ class MedicalForm extends Component {
         var size = (this.state.size * this.state.size);
         var imc = (this.state.weight / size);
         var round = imc.toFixed(2);
-        this.setState({ IMC: round, isExit: 2});
-        this.modalTrigger(event,"Cálculo IMC", "El IMC es de "+ round);
+        this.setState({ IMC: round, isExit: 2 });
+        this.modalTrigger(event, "Cálculo IMC", "El IMC es de " + round);
     }
 
     /**
@@ -392,8 +382,8 @@ class MedicalForm extends Component {
             || this.state.aerobicThreshold == 0
             || this.state.SpO2 == 0
             || this.state.waist == 0
-            || this.state.hip  == 0
-            || this.state.bloodPressure == 0
+            || this.state.hip == 0
+            || this.state.bloodPressure == ""
             || this.state.cardiovascularRisk == 0
             || this.state.upToDate == 0) {
             this.modalTrigger(event, 'Campos obligatorios', 'Todos los campos obligatorios  deben estar llenos y no pueden ser cero');
@@ -420,7 +410,9 @@ class MedicalForm extends Component {
         } else if (this.state.recommendations.trim().length != 0) {
             if (!this.state.validations.validateTextField(this.state.recommendations.trim())) {
                 this.modalTrigger(event, 'Formato incorrecto', 'El campo de recomendaciones no puede contener números');
-            }
+            }            
+        } else if ((document.getElementById("bloodPressure").value.length != 0 && !this.state.validations.validateRange(document.getElementById("bloodPressure").value.trim()))) {
+            this.modalTrigger(event, 'Formato Incorrecto', 'La presión arterial debe ser un rango');
         } else if (!this.state.validations.validatePercent(this.state.heartRate.toString().trim())
             || !this.state.validations.validatePercent(this.state.aerobicThreshold.toString().trim())
             || !this.state.validations.validatePercent(this.state.SpO2.toString().trim())
@@ -430,10 +422,10 @@ class MedicalForm extends Component {
             || !this.state.validations.validateNumericField(this.state.waist.toString().trim())
             || !this.state.validations.validateNumericField(this.state.hip.toString().trim())) {
             this.modalTrigger(event, 'Formato incorrecto', 'Los campos de  frecuencia cardiaca, umbral aeróbico, oxígeno, peso, talla, cadera, cintura deben ser números');
-        }else{
+        } else {
             this.calcIMC(event);
         }
-      
+
     }
 
     /**
@@ -577,7 +569,7 @@ class MedicalForm extends Component {
                                                                 <div className="col-2">
                                                                     <div className="controls">
                                                                         <label fontSize="18px">No
-                                                                 <input type="radio" name="smoking" id="smokingNo" value="0" checked/>
+                                                                 <input type="radio" name="smoking" id="smokingNo" value="0" checked />
                                                                         </label>
                                                                     </div>
                                                                 </div>
@@ -600,7 +592,7 @@ class MedicalForm extends Component {
                                                                 <div className="col-2">
                                                                     <div className="controls">
                                                                         <label fontSize="18px"> No
-                                                        <input type="radio" name="traumas" id="traumasNo" value="0" checked/>
+                                                        <input type="radio" name="traumas" id="traumasNo" value="0" checked />
                                                                         </label>
                                                                     </div>
                                                                 </div>
@@ -700,13 +692,7 @@ class MedicalForm extends Component {
                                                         </div>
                                                         <div className="row">
                                                             <div className="col-5">
-                                                                <input type="number" id="bloodPressure1" className="form-control" name="bloodPressure1" required onChange={this.handleInputChange} />
-                                                            </div>
-
-                                                            <label>-</label>
-
-                                                            <div className="col-5">
-                                                                <input type="number" id="bloodPressure2" className="form-control" align="right" name="bloodPressure2" required onChange={this.handleInputChange} />
+                                                                <input type="text" id="bloodPressure" className="form-control" name="bloodPressure" required onChange={this.handleInputChange} placeholder="000-000" />
                                                             </div>
                                                         </div>
                                                     </div>
