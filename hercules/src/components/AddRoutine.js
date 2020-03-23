@@ -735,7 +735,7 @@ class AddRoutine extends Component {
     /**
      * Method delete the last day button
      */
-    deleteDayButton() {
+    deleteDayButton(e) {
         if (this.state.daysCounter > 1) {
             var div = document.getElementById("btn");
             var button = document.getElementById(this.state.daysCounter);
@@ -748,7 +748,11 @@ class AddRoutine extends Component {
             document.getElementById(day).style.backgroundColor = "#ffffff";
             document.getElementById(day).style.border = "2px solid #41ade7";
             document.getElementById(day).style.color = "#0c0c0c";
+            
+        }else{
+            this.modalTrigger(e, 'Eliminar día', 'No puede eliminar el día 1');
         }
+        e.preventDefault();
     }
 
     /**
@@ -819,6 +823,7 @@ class AddRoutine extends Component {
      * @param {object} e 
      */
     reorganizeList(e) {
+      
         var list1 = [];
         var list2 = [];
         var list3 = [];
@@ -827,32 +832,28 @@ class AddRoutine extends Component {
         var list6 = [];
         var newList = [];
         var obj = {};
-
+        
         for (var i = 0; i < this.state.list.length; i++) {
             obj = {
-                name: this.state.list[i].name
+                name:  this.state.list[i].name
             };
-            switch (this.state.list[i].day) {
-                case 1:
+          
+            if ( this.state.list[i].day == 1) {
+              
                     list1.push(obj);
-                    break;
-                case 2:
-                    list2.push(obj);
-                    break;
-                case 3:
-                    list3.push(obj);
-                    break;
-                case 4:
-                    list4.push(obj);
-                    break;
-                case 5:
-                    list5.push(obj);
-                    break;
-                case 6:
-                    list6.push(obj);
-                    break;
+            }else if( this.state.list[i].day == 2){
+                list2.push(obj);
+            }else if ( this.state.list[i].day == 3){
+                list3.push(obj);
+            }else if( this.state.list[i].day == 4){
+                list4.push(obj);
+            }else if( this.state.list[i].day == 5){
+                list5.push(obj);
+            }else if( this.state.list[i].day == 6){
+                list6.push(obj);
             }
-        }
+            }
+        
 
         if (list1.length != 0) {
             if (list2.length != 0) {
@@ -885,7 +886,7 @@ class AddRoutine extends Component {
 
         let nlist = [];
         newList.map((obj) => {
-            nlist.push(<b>Día {obj.id}</b>);
+            nlist.push(<p><b>Día {obj.id}</b></p>);
             obj.list.map((exercise) => {
                 nlist.push(<p>{exercise.name}</p>)
             })
@@ -1030,9 +1031,10 @@ class AddRoutine extends Component {
                                     </div>
                                 </div>
                                 <div className="col-12 col-md-4">
+                                <div className="row">
                                     <div className="col-12">
                                         <div className="row">
-                                            <div className="col-6">
+                                            <div className="col-7">
                                                 <p>Frecuencia cardíaca<font color="red">*</font></p>
                                             </div>
                                             <div className="col-5">
@@ -1040,6 +1042,7 @@ class AddRoutine extends Component {
                                             </div>
                                             </div>
                                     </div>
+                                </div>
                                 </div>
                                 </div>
                             <div className="row mt-4" >
