@@ -42,7 +42,7 @@ class ConsultUser extends Component {
         this.redirectRoutines = this.redirectRoutines.bind(this);
         this.backButton = this.backButton.bind(this);
         this.changeUserStatus = this.changeUserStatus.bind(this);
-        this.modalTrigger = this.modalTrigger.bind(this);        
+        this.modalTrigger = this.modalTrigger.bind(this);
     }
 
     componentDidMount() {
@@ -55,7 +55,6 @@ class ConsultUser extends Component {
                 this.hideAdminBtns();
             }
         }
-
     }
 
 
@@ -80,43 +79,40 @@ class ConsultUser extends Component {
         document.getElementById("ChangeUserStatus").style.display = 'none';
     }
 
-     /**
-    * method that activate or deactivate a user 
-    */
+    /**
+   * method that activate or deactivate a user 
+   */
     changeUserStatus(event) {
-        if (window.confirm("¿Está seguro que desea cambiar el estado del usuario?") === true) {
-            var accountState;
-            if (document.getElementById("status").textContent === "Inactivo") {
-                accountState = 1;
-            } else {
-                accountState = 0;
-            }
-            fetch("http://localhost:9000/User/ChangeUserStatus", {
-                method: "post",
-                body: JSON.stringify({
-                    email: this.state.userInfo[0].email,
-                    status: accountState
-                }),
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json"
-                }
-            })
-                .then(res => res.json())
-                .then(data => {
-                    console.log(data);
-                })
-                .catch(err => console.error(err));
-                this.modalTrigger(event,'Estado','El estado del usuario fue cambiado con éxito');                                
-            if (accountState === 0) {
-                document.getElementById('status').textContent = "Inactivo";
-                document.getElementById('ChangeUserStatus').textContent = "Activar";
-            } else {
-                document.getElementById('status').textContent = "Activo";
-                document.getElementById('ChangeUserStatus').textContent = "Desactivar";
-            }
+        var accountState;
+        if (document.getElementById("status").textContent === "Inactivo") {
+            accountState = 1;
+        } else {
+            accountState = 0;
         }
-
+        fetch("http://localhost:9000/User/ChangeUserStatus", {
+            method: "post",
+            body: JSON.stringify({
+                email: this.state.userInfo[0].email,
+                status: accountState
+            }),
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+            })
+            .catch(err => console.error(err));
+        this.modalTrigger(event, 'Estado', 'El estado del usuario fue cambiado con éxito');
+        if (accountState === 0) {
+            document.getElementById('status').textContent = "Inactivo";
+            document.getElementById('ChangeUserStatus').textContent = "Activar";
+        } else {
+            document.getElementById('status').textContent = "Activo";
+            document.getElementById('ChangeUserStatus').textContent = "Desactivar";
+        }
     }
 
     /**
