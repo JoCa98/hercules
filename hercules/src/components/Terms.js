@@ -30,7 +30,7 @@ class Terms extends Component {
 
         this.state = {
             accept: 0,
-            permissionsManager : new PermissionsManager()
+            permissionsManager: new PermissionsManager()
         }
 
         this.redirect = this.redirect.bind(this);
@@ -41,7 +41,7 @@ class Terms extends Component {
     */
     componentDidMount() {
         this.state.permissionsManager.validatePermission(this.props.location.pathname, this);
-        window.scrollTo(0,0);
+        window.scrollTo(0, 0);
     }
     /**
     * Method that redirect the user to the next page if they agreed with the terms of usage.
@@ -71,10 +71,6 @@ class Terms extends Component {
                                 </p>
                                 <p>En ocasiones, el presente sitio web podría recolectar datos de transmisión de la conexión del usuario que ingresa al sitio. Por ejemplo, datos como el tipo de dispositivo que se usó para ingresar al portal, esta información se utiliza para adaptar el contenido al dispositivo.
                                     En todo caso, la información que se recolecta es con el fin de darle una mejor experiencia al usuario.</p>
-                            </div>
-                        </div>
-                        <div className="row mt-4">
-                            <div className="col-10 offset-1 text-justify">
                                 <h2>Normas para el uso del gimnasio</h2>
                                 <p>1. Ser estudiante activo o funcionario/a del Recinto de Grecia, Sede de Occidente.</p>
                                 <p>2. Estar debidamente inscrito en el Servicio de Deportes y Recreación, según los requerimientos solicitados.</p>
@@ -89,12 +85,17 @@ class Terms extends Component {
                                 <p>11. Este espacio es para su bienestar, es responsabilidad de la comunidad universitaria, cuidarlo y respetar todas las normas indicadas.</p>
                             </div>
                         </div>
-                        <div className="row mt-4">
-                            <div className="col-3 offset-1">
-                                <button align="left" className="buttonSizeGeneral" onClick={this.backButton}>Volver</button>
+                        <div className="row">
+                            <div className="col-10 offset-1 col-md-2 offset-md-1 col-sm-4 offset-sm-1 text-left mt-2">
+                                <div className="form-group">
+                                    <button className="buttonSizeGeneral w-100" onClick={this.backButton}>Volver</button>
+                                </div>
                             </div>
-                            <div className="col-3 offset-5">
-                                <button align="right" className="buttonSizeGeneral" onClick={this.redirect}>Aceptar</button>
+                            <div className="col-10 offset-1 col-md-2 offset-md-6 col-sm-4 offset-sm-2 text-right mt-2" >
+                                <div className="form-group">
+                                    <button className="buttonSizeGeneral w-100" onClick={this.redirect}>Aceptar</button>
+                                </div>
+
                             </div>
                         </div>
                     </div>
