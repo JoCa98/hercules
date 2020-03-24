@@ -244,10 +244,10 @@ class HomeAdmin extends Component {
                         <table className="table table-sm table-hover" id="myTable">
                             <thead>
                                 <tr>
-                                    <th scope="col">Cédula</th>
-                                    <th scope="col">Nombre</th>
-                                    <th scope="col">Carnet</th>
-                                    <th scope="col">Estado</th>
+                                    <th scope="col" className="text-center">Cédula</th>
+                                    <th scope="col" className="text-center">Nombre</th>
+                                    <th scope="col" className="text-center">Carnet</th>
+                                    <th scope="col" className="text-center">Estado</th>
                                 </tr>
                             </thead>
                             <tbody>
