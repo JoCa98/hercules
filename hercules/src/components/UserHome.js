@@ -41,15 +41,15 @@ class UserHome extends Component {
     * Method that can be sent to load the routine info
     * when loading the page for the first time
     */
-    componentDidMount() {            
+    componentDidMount() {
         if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
-            window.scrollTo(0, 0);            
+            window.scrollTo(0, 0);
             axios.get("http://localhost:9000/RoutineRoute/getRoutineInfo", {
                 params: {
                     routineID: sessionStorage.getItem("routineID"),
                 }
             }).then(response => {
-                if (response) {                    
+                if (response) {
                     console.log(response.data[0]);
                     this.setState({
                         routine: response.data[0]
@@ -69,98 +69,92 @@ class UserHome extends Component {
                 </div>
                 <div className="row mt-2">
                     <div className="col-12 card p-5">
-                        <form className="userHomeForm">
-                            <h1 className="text-left colorBlue mb-4">Rutina actual</h1>
-                            <div className="row">
-                                <div className="col-12 col-md-4">
-                                    <div className="row">
-                                        <div className="col-12">
-                                            <div className="row">
-                                                <div className="col-6">
-                                                    <p className="cssPText">Tipo de rutina: </p>
-                                                </div>
-                                                <div className="col-6">
-                                                    <input fontSize="18px" type="text" name="textRutineType" className="form-control" disabled="disabled" value={this.state.routine[0].rtDescription} />
-                                                </div>
+                        <h1 className="text-left colorBlue mb-4">Rutina actual</h1>
+                        <div className="row">
+                            <div className="col-12 col-md-4">
+                                <div className="row">
+                                    <div className="col-12">
+                                        <div className="row">
+                                            <div className="col-6">
+                                                <p className="cssPText">Tipo de rutina: </p>
                                             </div>
-                                        </div>
-                                        <div className="col-12">
-                                            <div className="row">
-                                                <div className="col-6">
-                                                    <p className="cssPText">Objetivo:</p>
-                                                </div>
-                                                <div className="col-6">
-                                                    <input type="text" fontSize="18px" name="textObjective" className="form-control" disabled="disabled" value={this.state.routine[0].otDescription} />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-12">
-                                            <div className="row">
-                                                <div className="col-6">
-                                                    <p className="cssPText">Frecuencia Cardíaca:</p>
-                                                </div>
-                                                <div className="col-6">
-                                                    <input type="text" fontSize="18px" name="textHeartRatePerMinute" className="form-control" disabled="disabled" value={this.state.routine[0].heartRatePerMinute} />
-                                                </div>
+                                            <div className="col-6">
+                                                <input fontSize="18px" type="text" name="textRutineType" className="form-control" disabled="disabled" value={this.state.routine[0].rtDescription} />
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div className="col-12 col-md-4">
-                                    <div className="row">
-                                        <div className="col-12">
-                                            <div className="row">
-                                                <div className="col-6">
-                                                    <p className="cssPText">Frecuencia:</p>
-                                                </div>
-                                                <div className="col-6">
-                                                    <input type="text" fontSize="18px" name="textFrecuency" className="form-control" disabled="disabled" value={this.state.routine[0].frecuency} />
-                                                </div>
+                                    <div className="col-12">
+                                        <div className="row">
+                                            <div className="col-6">
+                                                <p className="cssPText">Objetivo:</p>
                                             </div>
-                                        </div>
-                                        <div className="col-12">
-                                            <div className="row">
-                                                <div className="col-6">
-                                                    <p className="cssPText">Intensidad:</p>
-                                                </div>
-                                                <div className="col-6">
-                                                    <input type="text" fontSize="18px" name="textIntensity" className="form-control" disabled="disabled" value={this.state.routine[0].intensity} />
-                                                </div>
+                                            <div className="col-6">
+                                                <input type="text" fontSize="18px" name="textObjective" className="form-control" disabled="disabled" value={this.state.routine[0].otDescription} />
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div className="col-12 col-md-4">
-                                    <div className="row">
-                                        <div className="col-12">
-                                            <div className="row">
-                                                <div className="col-6">
-                                                    <p className="cssPText">Descanso entre serie:</p>
-                                                </div>
-                                                <div className="col-6">
-                                                    <input type="text" fontSize="18px" name="textRestBetweenSerie" className="form-control" disabled="disabled" value={this.state.routine[0].restBetweenSerie} />
-                                                </div>
+                                    <div className="col-12">
+                                        <div className="row">
+                                            <div className="col-6">
+                                                <p className="cssPText">Frecuencia Cardíaca:</p>
                                             </div>
-                                        </div>
-                                        <div className="col-12">
-                                            <div className="row">
-                                                <div className="col-6">
-                                                    <p className="cssPText">Descanso entre ejercicios:</p>
-                                                </div>
-                                                <div className="col-6">
-                                                    <input type="text" fontSize="18px" name="textrestBetweenExercises" className="form-control" disabled="disabled" value={this.state.routine[0].restBetweenExercises} />
-                                                </div>
+                                            <div className="col-6">
+                                                <input type="text" fontSize="18px" name="textHeartRatePerMinute" className="form-control" disabled="disabled" value={this.state.routine[0].heartRatePerMinute} />
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div className="row">
-                                <div className="col-12">
-                                    <Carousel />
+                            <div className="col-12 col-md-4">
+                                <div className="row">
+                                    <div className="col-12">
+                                        <div className="row">
+                                            <div className="col-6">
+                                                <p className="cssPText">Frecuencia:</p>
+                                            </div>
+                                            <div className="col-6">
+                                                <input type="text" fontSize="18px" name="textFrecuency" className="form-control" disabled="disabled" value={this.state.routine[0].frecuency} />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-12">
+                                        <div className="row">
+                                            <div className="col-6">
+                                                <p className="cssPText">Intensidad:</p>
+                                            </div>
+                                            <div className="col-6">
+                                                <input type="text" fontSize="18px" name="textIntensity" className="form-control" disabled="disabled" value={this.state.routine[0].intensity} />
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </form>
+                            <div className="col-12 col-md-4">
+                                <div className="row">
+                                    <div className="col-12">
+                                        <div className="row">
+                                            <div className="col-6">
+                                                <p className="cssPText">Descanso entre serie:</p>
+                                            </div>
+                                            <div className="col-6">
+                                                <input type="text" fontSize="18px" name="textRestBetweenSerie" className="form-control" disabled="disabled" value={this.state.routine[0].restBetweenSerie} />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-12">
+                                        <div className="row">
+                                            <div className="col-6">
+                                                <p className="cssPText">Descanso entre ejercicios:</p>
+                                            </div>
+                                            <div className="col-6">
+                                                <input type="text" fontSize="18px" name="textrestBetweenExercises" className="form-control" disabled="disabled" value={this.state.routine[0].restBetweenExercises} />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <Carousel />
                     </div>
                 </div>
             </div >

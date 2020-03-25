@@ -123,14 +123,14 @@ class RoutineCarouselReadOnly extends Component {
             const value = parseInt(this.state.typeID) - 1;
             this.state.typeID = value;
             this.setState({ typeID: value });
-            if(value == 1){
+            if (value == 1) {
                 document.getElementById("heatingTable").style.display = "initial";
                 document.getElementById("exerciseTable").style.display = "none";
-            }else{
+            } else {
                 document.getElementById("heatingTable").style.display = "none";
-            document.getElementById("exerciseTable").style.display = "initial";
+                document.getElementById("exerciseTable").style.display = "initial";
             }
-            
+
         }
         this.getExerciseData();
     }
@@ -260,12 +260,12 @@ class RoutineCarouselReadOnly extends Component {
             )
         })
         return (
-            <div className="container">
-                <div className="row mt-4" >
-                    <div className="col-12" id="btn" >
-                    </div>
+            <div className="row">
+
+                <div className="col-12" id="btn" >
                 </div>
-                <div className="container card">
+
+                <div className="col-12 card">
                     <div className="row mt-4">
                         <div className="col-12">
                             <div className="row">
@@ -290,10 +290,10 @@ class RoutineCarouselReadOnly extends Component {
                                 <table id="heatingTable" className="table table-hover">
                                     <thead>
                                         <tr>
-                                            <th scope="col">Ejercicio</th>
-                                            <th scope="col">Minutos</th>
-                                            <th scope="col">Intensidad</th>
-                                            <th scope="col">Frecuencia Cardiaca</th>
+                                            <th scope="col" className="align-middle">Ejercicio</th>
+                                            <th scope="col" className="align-middle">Minutos</th>
+                                            <th scope="col" className="align-middle">Intensidad</th>
+                                            <th scope="col" className="align-middle">Frecuencia Cardiaca</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -303,24 +303,22 @@ class RoutineCarouselReadOnly extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="row mt-4">
-                        <div className="col-12">
-                            <div className="table-responsive text-center">
-                                <table id="exerciseTable" className="table table-hover" display="none">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Ejercicio</th>
-                                            <th scope="col">Carga/Peso(lb)</th>
-                                            <th scope="col">Series</th>
-                                            <th scope="col">Repeticiones</th>
-                                            <th scope="col">Minutos</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {exerciseVisual}
-                                    </tbody>
-                                </table>
-                            </div>
+                    <div className="col-12">
+                        <div className="table-responsive text-center">
+                            <table id="exerciseTable" className="table table-hover" display="none">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" className="align-middle">Ejercicio</th>
+                                        <th scope="col" className="align-middle">Carga/Peso(lb)</th>
+                                        <th scope="col" className="align-middle">Series</th>
+                                        <th scope="col" className="align-middle">Repeticiones</th>
+                                        <th scope="col" className="align-middle">Minutos</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {exerciseVisual}
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>

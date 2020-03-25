@@ -137,17 +137,17 @@ class HistoricRoutineInfo extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="col-9 offset-1 mt-4">
+                    <div className="col-10 offset-1 mt-4">
                         <table className="table table-sm table-hover" id="routineTable">
                             <thead>
                                 <tr>
-                                    <th scope="col" className="align-middle">Fecha</th>
-                                    <th scope="col" className="align-middle">Frecuencia</th>
-                                    <th scope="col" className="align-middle">Intensidad</th>
-                                    <th scope="col" className="align-middle">Descanso entre ejercicios</th>
-                                    <th scope="col" className="align-middle">Tipo de rutina</th>
-                                    <th scope="col" className="align-middle">Objetivo</th>
-                                    <th scope="col" className="align-middle">Frecuencia Cardíaca</th>
+                                    <th scope="col" className="text-center align-middle">Fecha</th>
+                                    <th scope="col" className="text-center align-middle">Frecuencia</th>
+                                    <th scope="col" className="text-center align-middle">Intensidad</th>
+                                    <th scope="col" className="text-center align-middle">Descanso entre ejercicios</th>
+                                    <th scope="col" className="text-center align-middle">Tipo de rutina</th>
+                                    <th scope="col" className="text-center align-middle">Objetivo</th>
+                                    <th scope="col" className="text-center align-middle">Frecuencia Cardíaca</th>
                                 </tr>
                             </thead>
                             <tbody>
