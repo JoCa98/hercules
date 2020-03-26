@@ -93,15 +93,15 @@ class LogIn extends Component {
                                 }
                             } else {
                                 sessionStorage.clear();
-                                this.modalTrigger(event, 'Usuario', 'Este usuario no está activo');  
+                                this.modalTrigger(event, 'LogIn', 'Contraseña y/o correo ingresados no son correctos o este usuario no está activo');
                             }
                         });
                     } else {
-                        this.modalTrigger(event, 'Contraseña', 'Contraseña y/o correo ingresados no son correctos');
+                        this.modalTrigger(event, 'LogIn', 'Contraseña y/o correo ingresados no son correctos o este usuario no está activo');
                     }
                 });
             } else {
-                this.modalTrigger(event, 'Contraseña', 'Contraseña y/o correo ingresados no son correctos');
+                this.modalTrigger(event, 'LogIn', 'Contraseña y/o correo ingresados no son correctos o este usuario no está activo');
             }
         });
 
