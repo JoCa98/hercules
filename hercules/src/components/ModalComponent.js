@@ -15,9 +15,18 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 class ModalComponent extends Component {
+    constructor(props) {
+        super(props);
+        this.onKeyEvent = this.onKeyEvent.bind(this);
+    }
+
+    onKeyEvent(e) {
+        if (e.key == "Enter") {
+           document.getElementById("acptBtn").clicked = true;
+        }
+    }
 
     render() {
-
 
         // The gray background
         const backdropStyle = {
@@ -59,7 +68,7 @@ class ModalComponent extends Component {
                     </div>
 
                     <div className="modal-footer">
-                        <button className="buttonSizeGeneral mt-3" onClick={this.props.onClose}>Aceptar</button>
+                        <button className="buttonSizeGeneral mt-3" id="acptBtn" onKeyPress={this.onKeyEvent} autoFocus="true" onClick={this.props.onClose}>Aceptar</button>
                     </div>
 
                 </div>
