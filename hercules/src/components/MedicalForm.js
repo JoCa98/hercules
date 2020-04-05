@@ -612,7 +612,7 @@ class MedicalForm extends Component {
                                                 <div className="row">
                                                     <div className="col-3 mt-4">
                                                         <div className="row">
-                                                            <div className="col-7">
+                                                            <div className="col-9">
                                                                 <div className="control-group">
                                                                     <label className="control-label" font-size="18px" htmlFor="weight">Peso (kg)<font color="red">*</font></label>
                                                                     <div className="controls">
@@ -622,7 +622,7 @@ class MedicalForm extends Component {
                                                             </div>
                                                         </div>
                                                         <div className="row">
-                                                            <div className="col-7">
+                                                            <div className="col-9">
                                                                 <div className="control-group">
                                                                     <label className="control-label" font-size="18px" htmlFor="size">Talla (m)<font color="red">*</font></label>
                                                                     <div className="controls">
@@ -632,7 +632,7 @@ class MedicalForm extends Component {
                                                             </div>
                                                         </div>
                                                         <div className="row">
-                                                            <div className="col-7">
+                                                            <div className="col-9">
                                                                 <div className="control-group">
                                                                     <label className="control-label" htmlFor="heartRate" font-size="18px">FC<font color="red">*</font></label>
                                                                     <div className="controls">
@@ -642,7 +642,7 @@ class MedicalForm extends Component {
                                                             </div>
                                                         </div>
                                                         <div className="row">
-                                                            <div className="col-7">
+                                                            <div className="col-9">
                                                                 <div className="control-group">
                                                                     <label className="control-label" htmlFor="aerobicThreshold" font-size="18px">Umbral aeróbico<font color="red">*</font></label>
                                                                     <div className="controls">
@@ -656,7 +656,7 @@ class MedicalForm extends Component {
                                                     <div className="col-4 mt-4">
 
                                                         <div className="row">
-                                                            <div className="col-5">
+                                                            <div className="col-7">
                                                                 <div className="control-group">
                                                                     <label className="control-label" htmlFor="SpO2" fontSize="18px">Sp02<font color="red">*</font></label>
                                                                     <div className="controls">
@@ -666,7 +666,7 @@ class MedicalForm extends Component {
                                                             </div>
                                                         </div>
                                                         <div className="row">
-                                                            <div className="col-5">
+                                                            <div className="col-7">
                                                                 <div className="control-group">
                                                                     <label className="control-label" htmlFor="waist" fontSize="18px">Cintura (cm)<font color="red">*</font></label>
                                                                     <div className="controls">
@@ -676,7 +676,7 @@ class MedicalForm extends Component {
                                                             </div>
                                                         </div>
                                                         <div className="row">
-                                                            <div className="col-5">
+                                                            <div className="col-7">
                                                                 <div className="control-group">
                                                                     <label className="control-label" htmlFor="hip" fontSize="18px">Cadera (cm)<font color="red">*</font></label>
                                                                     <div className="controls">
@@ -686,12 +686,12 @@ class MedicalForm extends Component {
                                                             </div>
                                                         </div>
                                                         <div className="row">
-                                                            <div className="col-5">
+                                                            <div className="col-7">
                                                                 <label className="control-label" htmlFor="bloodPressure" fontSize="18px">Presión Arterial<font color="red">*</font></label>
                                                             </div>
                                                         </div>
                                                         <div className="row">
-                                                            <div className="col-5">
+                                                            <div className="col-7">
                                                                 <input type="text" id="bloodPressure" className="form-control" name="bloodPressure" required onChange={this.handleInputChange} placeholder="000-000" />
                                                             </div>
                                                         </div>
