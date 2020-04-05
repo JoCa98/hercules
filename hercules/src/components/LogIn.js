@@ -170,7 +170,7 @@ class LogIn extends Component {
                             <br></br>
                             <a href="javascript:void(0);" onClick={this.goPasswordRecovery}>Recuperar contraseña</a>
                             <br></br>
-                            <a href="javascript:void(0);" onClick={this.goSignUp}>Registrarse</a>
+                            <a href="javascript:void(0);" onClick={this.goSignUp} >Registrarse</a>
                             <br></br>
 
                         </div>

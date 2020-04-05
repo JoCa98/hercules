@@ -901,6 +901,7 @@ class AddRoutine extends Component {
     }
 
 
+
     render() {
         /**
          * Create options with the routine's types
@@ -1132,7 +1133,7 @@ class AddRoutine extends Component {
                                 </Modal.Body>
                                 <Modal.Footer>
                                     <button className="buttonSizeGeneral" onClick={this.hideModal}>Volver</button>
-                                    <button className="buttonSizeGeneral" onClick={this.handleSubmit}>Aceptar</button>
+                                    <button className="buttonSizeGeneral"  onClick={this.handleSubmit}>Aceptar</button>
                                 </Modal.Footer>
                             </Modal>
 
@@ -1141,7 +1142,7 @@ class AddRoutine extends Component {
                                     <button align="right" className="buttonSizeGeneral" onClick={this.backButton}>Volver</button>
                                 </div>
                                 <div className=" mt-4 col-2">
-                                    <button align="left" name="saveButton" className="buttonSizeGeneral" onClick={this.empty}> Guardar </button>
+                                    <button align="left" name="saveButton" className="buttonSizeGeneral" onClick={this.empty} > Guardar </button>
                                 </div>
                             </div>
                             <div className="row">
