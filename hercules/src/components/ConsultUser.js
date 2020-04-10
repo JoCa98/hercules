@@ -102,9 +102,9 @@ class ConsultUser extends Component {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data);
+                
             })
-            .catch(err => console.error(err));
+            .catch(err => console.error("Un error inesperado a ocurrido"));
         this.modalTrigger(event, 'Estado', 'El estado del usuario fue cambiado con éxito');
         if (accountState === 0) {
             document.getElementById('status').textContent = "Inactivo";

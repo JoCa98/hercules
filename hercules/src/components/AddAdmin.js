@@ -109,7 +109,7 @@ class AddAdmin extends Component {
                         });
                         this.modalTrigger(event, 'Administrador agregado', this.state.firstName + ' ' + this.state.firstLastName);
                     })
-                    .catch(err => console.error(err));
+                    .catch(err => console.error("Un error inesperado a ocurrido"));
             }
         });
         event.preventDefault();
@@ -160,7 +160,7 @@ class AddAdmin extends Component {
                 this.setState({ userTypeList });
             });
         } catch (err) {
-            console.error("No se encuentran los admnUsrTp");
+            console.error("Un error inesperado a ocurrido");
         }
     }
 

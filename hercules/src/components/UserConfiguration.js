@@ -522,9 +522,9 @@ class UserConfiguration extends Component {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data);
+                
             })
-            .catch(err => console.error(err));
+            .catch(err => console.error("Un error inesperado a ocurrido"));
         this.modalTrigger(event, 'Datos personales', 'Los datos de usuario fueron actualizados con éxito');
     }
 
@@ -547,9 +547,9 @@ class UserConfiguration extends Component {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data);
+                
             })
-            .catch(err => console.error(err));
+            .catch(err => console.error("Un error inesperado a ocurrido"));
         this.modalTrigger(event, 'Contraseña', 'La contraseña fue cambiada con éxito');
     }
 
@@ -574,9 +574,9 @@ class UserConfiguration extends Component {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data);
+                
             })
-            .catch(err => console.error(err));
+            .catch(err => console.error("Un error inesperado a ocurrido"));
         this.modalTrigger(event, 'Contacto de emergencia', 'Los datos del contacto de emergencia fueron actualizados con éxito');
     }
     

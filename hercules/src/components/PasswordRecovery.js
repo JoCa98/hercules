@@ -84,9 +84,9 @@ class PasswordRecovery extends Component {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data);
+                
             })
-            .catch(err => console.error(err));
+            .catch(err => console.error("Un error inesperado a ocurrido"));
         this.sendTempPasswordEmail(tempPassword);
         this.setState({
             isExit: true
@@ -108,9 +108,9 @@ class PasswordRecovery extends Component {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data);
+                
             })
-            .catch(err => console.error(err));
+            .catch(err => console.error("Un error inesperado a ocurrido"));
     }
 
     /**

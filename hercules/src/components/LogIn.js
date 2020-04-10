@@ -72,7 +72,7 @@ class LogIn extends Component {
                                             }
                                         }).then(response => {
                                             if (response) {
-                                                console.log(response.data[0]);
+                                                
                                                 res = response.data[0];
                                                 if (res[0] != null) {
                                                     sessionStorage.setItem("routineID", res[0].routineID);

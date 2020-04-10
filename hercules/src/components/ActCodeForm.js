@@ -223,7 +223,7 @@ class ActCodeForm extends Component {
             isExit: true
           });
         })
-        .catch(err => console.error(err));
+        .catch(err => console.error("Un error inesperado a ocurrido"));
       this.sendNotificationEmail();
       this.modalTrigger(event, 'Registro exitoso', 'El registro fue completado con éxito. Permanecerá inactivo y no podrá ingresar al sistema hasta que el encargado (a) del gimnasio lo active. Se le ha enviado un correo con más detalles. Ahora será redirigido a la pantalla de ingreso');
       sessionStorage.clear();
@@ -246,9 +246,9 @@ class ActCodeForm extends Component {
     })
       .then(res => res.json())
       .then(data => {
-        console.log(data);
+        
       })
-      .catch(err => console.error(err));
+      .catch(err => console.error("Un error inesperado a ocurrido"));
     this.modalTrigger(event, 'Reenvio', 'Se reenvió el código de activación, por favor revise su correo institucional');
   }
 
@@ -267,9 +267,9 @@ class ActCodeForm extends Component {
     })
       .then(res => res.json())
       .then(data => {
-        console.log(data);
+        
       })
-      .catch(err => console.error(err));
+      .catch(err => console.error("Un error inesperado a ocurrido"));
   }
 
   render() {

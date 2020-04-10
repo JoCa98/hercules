@@ -117,7 +117,7 @@ class AddPhysicalInfo extends Component {
                         isExit: true
                     });
                 })
-                .catch(err => console.error(err));
+                .catch(err => console.error("Un error inesperado a ocurrido"));
 
                 this.modalTrigger(event, 'Ingreso de registro', 'Se ingresó correctamente el registro de composición corporal');
         }

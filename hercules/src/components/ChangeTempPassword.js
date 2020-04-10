@@ -94,9 +94,9 @@ class ChangeTempPassword extends Component {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data);
+                
             })
-            .catch(err => console.error(err));
+            .catch(err => console.error("Un error inesperado a ocurrido"));
         sessionStorage.setItem('password', newPassword);
         this.setState({
             isExit: true

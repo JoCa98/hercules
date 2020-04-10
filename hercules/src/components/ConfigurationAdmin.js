@@ -77,7 +77,7 @@ class ConfigurationAdmin extends Component {
                      }); 
                     this.modalTrigger(event,'Contraseña','La contraseña fue cambiada con éxito');                                                                        
                 })
-                .catch(err => console.error(err));
+                .catch(err => console.error("Un error inesperado a ocurrido"));
         }
         event.preventDefault();
     }

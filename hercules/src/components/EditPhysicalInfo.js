@@ -155,7 +155,7 @@ class EditPhysicalInfo extends Component {
                         this.setState({
                             isExit: true
                         });
-                    }).catch(err => console.error(err + 'hola'));
+                    }).catch(err => console.error("Un error inesperado a ocurrido"));
 
                 this.modalTrigger(event, 'Actualización de registro', 'Se actualizó correctamente el registro de composición corporal');
             }
@@ -171,7 +171,6 @@ class EditPhysicalInfo extends Component {
     }
 
     handleInputChange(event) {
-        console.log(this.state);
         const { name, value } = event.target;
         this.setState({
             [name]: value,

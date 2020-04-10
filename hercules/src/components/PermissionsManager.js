@@ -186,7 +186,6 @@ class PermissionManager extends Component {
                     || sessionStorage.getItem('dateLastMedicRegistry') !== 'undefined') &&
                 new Date(sessionStorage.getItem('dateLastMedicRegistry')) === Date(new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate())) {
 
-                console.log("Prueba exitosa");
                 this.redirectUser(page)
                 return false;
             }

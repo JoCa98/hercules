@@ -650,7 +650,7 @@ class AddRoutine extends Component {
                 this.submitExercise(id[0].id, e);
             })
 
-            .catch(err => console.error(err));
+            .catch(err => console.error("Un error inesperado a ocurrido"));
 
         e.preventDefault();
     }
@@ -689,7 +689,7 @@ class AddRoutine extends Component {
                     this.props.history.push(`/HistoricRoutineInfo`);
 
                 })
-                .catch(err => console.error(err));
+                .catch(err => console.error("Un error inesperado a ocurrido"));
         })
     }
 
