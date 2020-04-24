@@ -20,6 +20,15 @@ import ModalComponent from './ModalComponent';
 class ConfigurationAdmin extends Component {
     constructor(props) {
         super(props);
+        /**      
+      * partyID:
+      * @type {integer}
+      * Property that indicates the partyID of a specific user
+      * 
+      * hash:
+      * @type {String}
+      * Property that will contain the encrypted password
+      */
 
         this.state = {
             permissionsManager: new PermissionsManager(),
@@ -53,9 +62,9 @@ class ConfigurationAdmin extends Component {
     changePassword = event => {
 
         if (this.state.password == "" || this.state.confirmPassword == "") {
-            this.modalTrigger(event,'Campos obligatorios','Los campos de texto con un * no se pueden dejar en blanco');                
+            this.modalTrigger(event, 'Campos obligatorios', 'Los campos de texto con un * no se pueden dejar en blanco');
         } else if (this.state.password != this.state.confirmPassword) {
-            this.modalTrigger(event,'Contraseña','Los campos de contraseña no coinciden');                                                                                    
+            this.modalTrigger(event, 'Contraseña', 'Los campos de contraseña no coinciden');
         } if (!this.state.validations.validatePasswordField(this.state.password) || !this.state.validations.validatePasswordField(this.state.confirmPassword)) {
             this.modalTrigger(event, 'Contraseña', 'La contraseña debe contar con una extensión mínima de 8 caracteres y estar compuesta al menos por números y letras');
         } else {
@@ -72,16 +81,19 @@ class ConfigurationAdmin extends Component {
             })
                 .then(res => res.json())
                 .then(data => {
-                    this.setState({ 
+                    this.setState({
                         isExit: true
-                     }); 
-                    this.modalTrigger(event,'Contraseña','La contraseña fue cambiada con éxito');                                                                        
+                    });
+                    this.modalTrigger(event, 'Contraseña', 'La contraseña fue cambiada con éxito');
                 })
                 .catch(err => console.error(err));
         }
         event.preventDefault();
     }
 
+    /**
+   * This method set the prop attributes
+   */
     handleInputChange(event) {
         const { name, value } = event.target;
         this.setState({
@@ -103,29 +115,29 @@ class ConfigurationAdmin extends Component {
         }
     }
 
-  /**
-     * This method takes care of show a modal with useful information
-     */
-    modalTrigger(event,mdTittle,mdChildren) {
-        this.setState({ 
+    /**
+       * This method takes care of show a modal with useful information
+       */
+    modalTrigger(event, mdTittle, mdChildren) {
+        this.setState({
             show: !this.state.show,
             modalTittle: mdTittle,
             modalChildren: mdChildren
-        });     
-        event.preventDefault();      
+        });
+        event.preventDefault();
     };
 
     /**
      * This method close the modal  
      */
     closeModal(event) {
-        this.setState({ 
+        this.setState({
             show: !this.state.show
-        });  
-        if(this.state.isExit){
+        });
+        if (this.state.isExit) {
             this.props.history.push(`/HomeAdmin`);
-        }    
-        event.preventDefault();      
+        }
+        event.preventDefault();
     };
 
     /**
@@ -187,12 +199,12 @@ class ConfigurationAdmin extends Component {
                             </div>
                         </div>
                         <div className="row">
-                                <div className="col-md-1">
-                                    <ModalComponent tittle={this.state.modalTittle} show={this.state.show} onClose={this.closeModal} >
-                                        <br />{this.state.modalChildren}
-                                    </ModalComponent>
-                                </div>
+                            <div className="col-md-1">
+                                <ModalComponent tittle={this.state.modalTittle} show={this.state.show} onClose={this.closeModal} >
+                                    <br />{this.state.modalChildren}
+                                </ModalComponent>
                             </div>
+                        </div>
                     </div>
                 </div>
             </div>

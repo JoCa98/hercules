@@ -46,27 +46,27 @@ class HistoricMedicalInfo extends Component {
         this.closeModal = this.closeModal.bind(this);
     }
 
-        /**
-   * This method takes care of show a modal with useful information
-   */
-  modalTrigger(event, mdTittle, mdChildren) {
-    this.setState({
-        show: !this.state.show,
-        modalTittle: mdTittle,
-        modalChildren: mdChildren
-    });
-    event.preventDefault();
-};
+    /**
+    * This method takes care of show a modal with useful information
+    */
+    modalTrigger(event, mdTittle, mdChildren) {
+        this.setState({
+            show: !this.state.show,
+            modalTittle: mdTittle,
+            modalChildren: mdChildren
+        });
+        event.preventDefault();
+    };
 
-/**
-* This method close the modal  
-*/
-closeModal(event) {
-    this.setState({
-        show: !this.state.show
-    });
-    event.preventDefault();
-};
+    /**
+    * This method close the modal  
+    */
+    closeModal(event) {
+        this.setState({
+            show: !this.state.show
+        });
+        event.preventDefault();
+    };
 
     /**
     * Method that can redirect to the page of AddMedicalForm
@@ -75,16 +75,15 @@ closeModal(event) {
     redirect(event) {
         if (sessionStorage.getItem('dateLastMedicRegistry') !== 'undefined' &&
             sessionStorage.getItem('dateLastMedicRegistry') !== null &&
-            new Date(sessionStorage.getItem('dateLastMedicRegistry')).toString() 
-            === new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).toString() ) {
+            new Date(sessionStorage.getItem('dateLastMedicRegistry')).toString()
+            === new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).toString()) {
             this.modalTrigger(event, 'Restricciones', 'Solo se puede agregar un registro por día');
-            } else {
+        } else {
             sessionStorage.setItem("update", false);
             this.props.history.push(`/MedicalForm`);
 
         }
     }
-
 
     /**
     * Get the information from the database 
@@ -194,12 +193,12 @@ closeModal(event) {
                             </div>
                         </div>
                         <div className="row">
-                        <div className="col-md-1">
-                            <ModalComponent tittle={this.state.modalTittle} show={this.state.show} onClose={this.closeModal} >
-                                <br />{this.state.modalChildren}
-                            </ModalComponent>
+                            <div className="col-md-1">
+                                <ModalComponent tittle={this.state.modalTittle} show={this.state.show} onClose={this.closeModal} >
+                                    <br />{this.state.modalChildren}
+                                </ModalComponent>
+                            </div>
                         </div>
-                    </div>
                     </div>
                 </div>
             </div>

@@ -22,6 +22,19 @@ import PermissionsManager from "./PermissionsManager";
 class AddAdmin extends Component {
     constructor(props) {
         super(props);
+        /**
+        *userTypeList:
+        * @type {Array}
+        * Property that stores the list of type of users that comes from the database
+        * 
+        * userTypeID:
+        * @type {integer}
+        * Property that indicates the type of user and his behavior in the web site
+        * 
+        * hash:
+        * @type {String}
+        * Property that will contain the encrypted password
+        */
 
         this.state = {
             permissionsManager: new PermissionsManager(),
@@ -183,23 +196,23 @@ class AddAdmin extends Component {
     /**
     * Method that verify that the require inputs are not empty
     */
-   empty() {
-    if (this.state.identificationID == "" || this.state.identificationID == null ||
-        this.state.firstName == "" || this.state.firstName == null ||
-        this.state.firstLastName == "" || this.state.firstLastName == null ||
-        this.state.email == "" || this.state.email == null ||
-        this.state.password == "" || this.state.password == null ||
-        this.state.confirmPassword == "" || this.state.confirmPassword == null) {
-        if (this.state.userTypeID == "3") {
-            if (this.state.medicalCod == "" || this.state.medicalCod == null) {
-                return true
+    empty() {
+        if (this.state.identificationID == "" || this.state.identificationID == null ||
+            this.state.firstName == "" || this.state.firstName == null ||
+            this.state.firstLastName == "" || this.state.firstLastName == null ||
+            this.state.email == "" || this.state.email == null ||
+            this.state.password == "" || this.state.password == null ||
+            this.state.confirmPassword == "" || this.state.confirmPassword == null) {
+            if (this.state.userTypeID == "3") {
+                if (this.state.medicalCod == "" || this.state.medicalCod == null) {
+                    return true
+                }
             }
+            return true;
+        } else {
+            return false;
         }
-        return true;
-    } else {
-        return false;
     }
-}
 
     /**
    * Method that allows that the password can be shown
@@ -289,14 +302,14 @@ class AddAdmin extends Component {
                                     <div className="row">
                                         <div className="col-6">
                                             <div className="form-group" align="left">
-                                            <p align="justify">Primer Apellido<font color="red">*</font></p>
-                                        <input type="text" name="firstLastName" placeholder="Ej: Jiménez" className="form-control" fontSize="18px" onChange={this.handleInputChange} required></input>
+                                                <p align="justify">Primer Apellido<font color="red">*</font></p>
+                                                <input type="text" name="firstLastName" placeholder="Ej: Jiménez" className="form-control" fontSize="18px" onChange={this.handleInputChange} required></input>
                                             </div>
                                         </div>
                                         <div className="col-6">
                                             <div className="form-group" align="left">
-                                            <p align="justify">Segundo Apellido</p>
-                                        <input type="text" name="secondLastName" placeholder="Ej: Molina" className="form-control" fontSize="18px" onChange={this.handleInputChange}></input>
+                                                <p align="justify">Segundo Apellido</p>
+                                                <input type="text" name="secondLastName" placeholder="Ej: Molina" className="form-control" fontSize="18px" onChange={this.handleInputChange}></input>
                                             </div>
                                         </div>
                                     </div>

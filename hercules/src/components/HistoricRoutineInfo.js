@@ -24,6 +24,7 @@ class HistoricRoutineInfo extends Component {
         * userName
         * @type {String}
         * Property that contains the name of the user
+        *
         * partyID
         * @type {Integer}
         * Property that contains the id of the user
@@ -51,7 +52,7 @@ class HistoricRoutineInfo extends Component {
     componentDidMount() {
         if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
             window.scrollTo(0, 0);
-            
+
             try {
                 axios.get(`http://localhost:9000/User/getUserName`,
                     {
@@ -74,6 +75,13 @@ class HistoricRoutineInfo extends Component {
         }
     }
 
+    /**
+    * Method that uses the value of the id of the row that was selected in the table.
+    * Redirects to the RoutineAdmin page
+    * 
+    * Receive an object that contains the element that called the method
+    *  @param {Object} 
+    */
     rowEvent(event) {
         try {
             var id = document.getElementById("routineTable").rows[event.target.parentNode.rowIndex].cells[0].innerHTML;
