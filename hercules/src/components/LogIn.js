@@ -72,7 +72,7 @@ class LogIn extends Component {
                                             }
                                         }).then(response => {
                                             if (response) {
-                                                console.log(response.data[0]);
+                                                
                                                 res = response.data[0];
                                                 if (res[0] != null) {
                                                     sessionStorage.setItem("routineID", res[0].routineID);
@@ -170,7 +170,7 @@ class LogIn extends Component {
                             <br></br>
                             <a href="javascript:void(0);" onClick={this.goPasswordRecovery}>Recuperar contraseña</a>
                             <br></br>
-                            <a href="javascript:void(0);" onClick={this.goSignUp}>Registrarse</a>
+                            <a href="javascript:void(0);" onClick={this.goSignUp} >Registrarse</a>
                             <br></br>
 
                         </div>

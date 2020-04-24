@@ -50,7 +50,7 @@ class UserHome extends Component {
                 }
             }).then(response => {
                 if (response) {
-                    console.log(response.data[0]);
+                    
                     this.setState({
                         routine: response.data[0]
                     });

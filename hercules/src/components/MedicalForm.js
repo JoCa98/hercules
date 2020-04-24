@@ -200,7 +200,6 @@ class MedicalForm extends Component {
                         }
                     }).then(response => {
                         if (response) {
-                            console.log(response.data[0]);
                             this.setState({ medicalInfo: response.data[0] });
                             this.loadData();
                         }
@@ -310,7 +309,7 @@ class MedicalForm extends Component {
                     this.modalTrigger(event, 'Actualización de registro', 'Se actualizó de manera correcta el registro médico');
 
                 })
-                .catch(err => console.error(err));
+                .catch(err => console.error("Un error inesperado a ocurrido"));
             event.preventDefault();
         } else {
             fetch("http://localhost:9000/MedicalInfo/addMedicalInfo", {
@@ -328,7 +327,7 @@ class MedicalForm extends Component {
                     });
                     this.modalTrigger(event, 'Ingreso de registro', 'Se ingresó de manera correcta el registro médico');
                 })
-                .catch(err => console.error(err));
+                .catch(err => console.error("Un error inesperado a ocurrido"));
             event.preventDefault();
         }
     }

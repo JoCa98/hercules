@@ -567,7 +567,6 @@ class SignUp extends Component {
     * 
     */
     sendEmail() {
-        console.log(this.state.activationCode);
         fetch("http://localhost:9000/User/sendEmail", {
             method: "post",
             body: JSON.stringify({ email: this.state.email, activationCode: this.state.activationCode }),
@@ -578,9 +577,9 @@ class SignUp extends Component {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data);
+                
             })
-            .catch(err => console.error(err));
+            .catch(err => console.error("Un error inesperado a ocurrido"));
     }
 
     /**

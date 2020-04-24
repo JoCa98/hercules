@@ -650,7 +650,7 @@ class AddRoutine extends Component {
                 this.submitExercise(id[0].id, e);
             })
 
-            .catch(err => console.error(err));
+            .catch(err => console.error("Un error inesperado a ocurrido"));
 
         e.preventDefault();
     }
@@ -689,7 +689,7 @@ class AddRoutine extends Component {
                     this.props.history.push(`/HistoricRoutineInfo`);
 
                 })
-                .catch(err => console.error(err));
+                .catch(err => console.error("Un error inesperado a ocurrido"));
         })
     }
 
@@ -899,6 +899,7 @@ class AddRoutine extends Component {
 
         this.showModal(e);
     }
+
 
 
     render() {
@@ -1132,7 +1133,7 @@ class AddRoutine extends Component {
                                 </Modal.Body>
                                 <Modal.Footer>
                                     <button className="buttonSizeGeneral" onClick={this.hideModal}>Volver</button>
-                                    <button className="buttonSizeGeneral" onClick={this.handleSubmit}>Aceptar</button>
+                                    <button className="buttonSizeGeneral"  onClick={this.handleSubmit}>Aceptar</button>
                                 </Modal.Footer>
                             </Modal>
 
@@ -1141,7 +1142,7 @@ class AddRoutine extends Component {
                                     <button align="right" className="buttonSizeGeneral" onClick={this.backButton}>Volver</button>
                                 </div>
                                 <div className=" mt-4 col-2">
-                                    <button align="left" name="saveButton" className="buttonSizeGeneral" onClick={this.empty}> Guardar </button>
+                                    <button align="left" name="saveButton" className="buttonSizeGeneral" onClick={this.empty} > Guardar </button>
                                 </div>
                             </div>
                             <div className="row">
