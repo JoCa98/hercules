@@ -15,6 +15,7 @@ class NavbarUserHome extends Component {
         this.homeAdmin = this.homeAdmin.bind(this);
         this.addAdmin = this.addAdmin.bind(this);
         this.adminConfig = this.adminConfig.bind(this);
+        this.configuration = this.configuration.bind(this);
     }
     componentDidMount() {
         if (sessionStorage.getItem('partyID') === undefined
@@ -26,6 +27,7 @@ class NavbarUserHome extends Component {
             document.getElementById('homeAdmin').style.display = 'none';
             document.getElementById('addAdmin').style.display = 'none';
             document.getElementById('adminConfig').style.display = 'none';
+            document.getElementById('configuration').style.display = 'none';
 
             document.getElementById('logOut').style.display = 'none';
 
@@ -41,6 +43,7 @@ class NavbarUserHome extends Component {
                 document.getElementById('homeAdmin').style.display = 'none';
                 document.getElementById('addAdmin').style.display = 'none';
                 document.getElementById('adminConfig').style.display = 'none';
+                document.getElementById('configuration').style.display = 'none';
 
             } else if (sessionStorage.getItem('userTypeID') === "3") {
 
@@ -52,6 +55,7 @@ class NavbarUserHome extends Component {
                 document.getElementById('homeAdmin').style.display = 'block';
                 document.getElementById('addAdmin').style.display = 'none';
                 document.getElementById('adminConfig').style.display = 'block';
+                document.getElementById('configuration').style.display = 'none';
 
             } else if (sessionStorage.getItem('userTypeID') === "4") {
                 document.getElementById('rutine').style.display = 'none';
@@ -62,6 +66,7 @@ class NavbarUserHome extends Component {
                 document.getElementById('homeAdmin').style.display = 'block';
                 document.getElementById('addAdmin').style.display = 'block';
                 document.getElementById('adminConfig').style.display = 'block';
+                document.getElementById('configuration').style.display = 'block';
 
             } else if (sessionStorage.getItem('userTypeID') === "5") {
                 document.getElementById('rutine').style.display = 'none';
@@ -71,6 +76,7 @@ class NavbarUserHome extends Component {
                 document.getElementById('homeAdmin').style.display = 'none';
                 document.getElementById('addAdmin').style.display = 'none';
                 document.getElementById('adminConfig').style.display = 'none';
+                document.getElementById('configuration').style.display = 'none';
             }
             document.getElementById('logOut').style.display = 'block';
         }
@@ -112,6 +118,10 @@ class NavbarUserHome extends Component {
         this.props.history.push(`/ConfigurationAdmin`);
     }
 
+    configuration() {
+        this.props.history.push(`/Configuration`);
+    }
+
     render() {
         return (
             <nav className="navbar navbar-expand-md navbarColor justify-content-end">
@@ -140,8 +150,11 @@ class NavbarUserHome extends Component {
                         <li id="addAdmin" className="nav-item">
                             <button className="btn buttonNavbar" onClick={this.addAdmin}>Agregar administrador</button>
                         </li>
+                        <li id="configuration" className="nav-item">
+                            <button className="btn buttonNavbar" onClick={this.configuration}>Configuración</button>
+                        </li>
                         <li id="adminConfig" className="nav-item">
-                            <button className="btn buttonNavbar" onClick={this.adminConfig} >Perfil</button>
+                            <button className="btn buttonNavbar" onClick={this.adminConfig}>Perfil</button>
                         </li>
 
                         <li id="logOut" className="nav-item">

@@ -5,6 +5,7 @@ import './App.css';
 import ActCodeForm from './components/ActCodeForm';
 import PasswordRecovery from './components/PasswordRecovery';
 import AddAdmin from './components/AddAdmin';
+import Configuration from './components/Configuration';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import HomeAdmin from './components/HomeAdmin';
@@ -58,6 +59,7 @@ function App() {
           <Route exact path="/HistoricPhysicalInfoAdmin" component={HistoricPhysicalInfoAdmin} />
           <Route exact path="/HistoricRoutineInfo" component={HistoricRoutineInfo} />
           <Route exact path="/ConfigurationAdmin" component={ConfigurationAdmin} />
+          <Route exact path="/Configuration" component={Configuration} />
 
           {/** User Side */}
           <Route exact path="/UserHome" component={UserHome} />
