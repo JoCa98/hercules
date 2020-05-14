@@ -160,7 +160,8 @@ class SignUp extends Component {
             lastName: "",
             secondLastName: "",
             carnet: "",
-            career: "",
+            careers: [{}],
+            career: 0,
             birthDate: (new Date().getFullYear() - 17) + "-" + ("0" + (new Date().getMonth() + 1)).slice(-2) + "-" + ("0" + new Date().getDate()).slice(-2),
             genderID: "1",
             userTypeID: "1",
@@ -212,6 +213,7 @@ class SignUp extends Component {
         //this.handleSubmit = this.handleSubmit.bind(this);
         this.modalTrigger = this.modalTrigger.bind(this);
         this.closeModal = this.closeModal.bind(this);
+        this.getCareer = this.getCareer.bind(this);
     }
 
     /**
@@ -226,6 +228,9 @@ class SignUp extends Component {
             var initProvinceID = 2;
             var initCantonID = 30;
             var initDistrictID = 242;
+            axios.get(`http://localhost:9000/User/getCareer`).then(response => {
+                this.setState({careers: response.data});
+            });
             axios.get(`http://localhost:9000/User/getRelationType`).then(response => {
                 this.setState({ relations: response.data });
             });
@@ -264,12 +269,23 @@ class SignUp extends Component {
     }
 
     /**
+     * Method to get the selected career
+     * @param {*} event 
+     */
+    getCareer(event){
+       this.setState({
+           career: event.target.value
+       });
+    }
+
+    /**
     * Method that gets and sets the list of cantons by the selected province. 
     */
     getCantonsByProvince(event) {
         this.setState({ provinceID: event.target.value });
         document.getElementById('provinceID').value = event.target.value
-        axios.get(`http://localhost:9000/User/getCantons`, { params: { pID: event.target.value } }).then(response => {
+        axios.get(`http://localhost:9000/User/getCantons`, { 
+            params: { pID: event.target.value } }).then(response => {
             this.setState({ cantons: response.data[0] });
             var cantonValue;
             this.state.cantonList = this.state.cantons.map((cantons, i) => {
@@ -510,8 +526,6 @@ class SignUp extends Component {
                         this.modalTrigger(event, 'Carné', 'El carné debe estar compuesto por 1 letra inicial y 5 dígitos');
                     } else if (this.state.userTypeID == 1 && carnetValid == 1) {
                         this.modalTrigger(event, 'Carné', 'El carné ingresado ya corresponde a otro usuario registrado');
-                    } else if (this.state.userTypeID == 1 && !this.state.validations.validateTextField(this.state.career.trim())) {
-                        this.modalTrigger(event, 'Números', 'El dato de la carrera solo debe de contener letras');
                     } else if (!this.state.validations.validateEmailField(this.state.email)) {
                         this.modalTrigger(event, 'Email', 'Debe utilizar su cuenta de correo institucional');
                     } else if (emailValid == 1) {
@@ -641,6 +655,14 @@ class SignUp extends Component {
         this.loadCantons();
         this.loadDistricts();
 
+        /**
+         * Create options with the career's types
+         */
+        const careerList = this.state.careers.map((types, i) => {
+            return (
+                <option value={types.careerID} key={i}>{types.description}</option>
+            )
+        })
         return (
             <div className="container">
                 <div className="row mt-4 card p-5" >
@@ -742,7 +764,9 @@ class SignUp extends Component {
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left" id="divStudent2">
                                             <p title="Campo obligatorio">Carrera<font color="red">*</font></p>
-                                            <input fontSize="18px" type="text" placeholder="Ej: Informática Empresarial" name="career" value={this.state.career} onChange={this.handleInputChange} className="form-control InputText"></input>
+                                            <select name="career" value={this.state.career} onChange={this.getCareer}>
+                                                {careerList}
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
