@@ -51,15 +51,27 @@ class Configuration extends Component {
         */
     handleSubmit = event => {
 
-        axios.get(`http://localhost:9000/User/isEmailValid`, { params: { email: this.state.email } }).then(response => {
-            var isEmailValid = JSON.parse(JSON.stringify(response.data))[0]['isEmailValid'].data[0];
-
-            if (this.empty()) {
-                this.modalTrigger(event, 'Campos obligatorios', 'Los campos de texto con un * no se pueden dejar en blanco');
-            } else if (!this.state.validations.validateTextField(this.state.careerName.trim())) {
-                this.modalTrigger(event, 'Nombre de la carrera', 'El nombre de la carrera solo pueden estar compuesto por letras');
+        if (this.empty()) {
+            this.modalTrigger(event, 'Campos obligatorios', 'Los campos de texto con un * no se pueden dejar en blanco');
+        } else if (!this.state.validations.validateTextField(this.state.careerName.trim())) {
+            this.modalTrigger(event, 'Nombre de la carrera', 'El nombre de la carrera solo pueden estar compuesto por letras');
+        }
+        
+        fetch(`http://localhost:9000/Configuration/AddCareer`, {
+            method: "post",
+            body: JSON.stringify({
+                name: this.state.careerName
+            }),
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
             }
-        });
+        })
+        .then(response => {
+          //  this.modalTrigger(event,'Ingreso Carrera','Se ha agregado correctamente la carrera');
+        })
+
+        .catch(err => console.error("Un error inesperado a ocurrido"));
         event.preventDefault();
     }
 
