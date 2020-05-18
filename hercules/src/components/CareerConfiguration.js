@@ -33,9 +33,7 @@ class Configuration extends Component {
         this.handleInputChange = this.handleInputChange.bind(this);
         this.empty = this.empty.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.careerConfiguration = this.careerConfiguration.bind(this);
-        this.excerciseConfiguration = this.excerciseConfiguration.bind(this);
-        this.accountConfiguration = this.accountConfiguration.bind(this);
+        this.backButton = this.backButton.bind(this);
         this.getAdminUserType = this.getAdminUserType.bind(this);
         this.modalTrigger = this.modalTrigger.bind(this);
         this.closeModal = this.closeModal.bind(this);
@@ -128,16 +126,8 @@ class Configuration extends Component {
     /**
 * Method that redirect to the previous page
 */
-    careerConfiguration() {
-        this.props.history.push(`/CareerConfiguration`);
-    }
-
-    excerciseConfiguration() {
-        this.props.history.push(`/HomeAdmin`);
-    }
-
-    accountConfiguration() {
-        this.props.history.push(`/HomeAdmin`);
+    backButton() {
+        this.props.history.push(`/Configuration`);
     }
 
     render() {
@@ -168,15 +158,22 @@ class Configuration extends Component {
                 <div className="row mt-2">
                     <div className="col-10 offset-1 card p-5">
                         <form className="form-horizontal">
-                            <h1 className="text-left colorBlue">Configuración</h1>
+                            <h1 className="text-left colorBlue">Agregar carrera</h1>
                             <br />
                             <div className="row">
                                 <div className="col-12">
                                     <div className="form-group" align="center">
-                                         <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.careerConfiguration}>Configuración carreras</button>
-                                         <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.excerciseConfiguration}>Configuración ejercicios</button>
-                                         <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.accountConfiguration}>Configuración cuentas</button>
+                                        <p align="justify">Nombre de la carrera<font color="red">*</font></p>
+                                        <input type="text" name="careerName" placeholder="Ej: Informática empresarial" className="form-control" fontSize="18px" onChange={this.handleInputChange} required></input>
                                     </div>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className=" mt-3 col-md-3">
+                                    <button align="left" className="buttonSizeGeneral" onClick={this.backButton}>Volver</button>
+                                </div>
+                                <div className=" mt-3 col-md-3 offset-6" align="right">
+                                    <button align="rigth" className="buttonSizeGeneral" onClick={this.handleSubmit}>Guardar</button>
                                 </div>
                             </div>
                             <div className="row">
