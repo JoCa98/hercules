@@ -14,3 +14,5 @@ router.post('/AddCareer',(req,res) => {
           }
     });
 });
+
+module.exports = router;

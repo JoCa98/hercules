@@ -68,7 +68,10 @@ class Configuration extends Component {
             }
         })
         .then(response => {
-          //  this.modalTrigger(event,'Ingreso Carrera','Se ha agregado correctamente la carrera');
+            this.setState({
+                isExit: true
+            });
+            this.modalTrigger(event,'Ingreso Carrera','Se ha agregado correctamente la carrera');
         })
 
         .catch(err => console.error("Un error inesperado a ocurrido"));
