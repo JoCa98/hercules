@@ -229,7 +229,8 @@ class SignUp extends Component {
             var initCantonID = 30;
             var initDistrictID = 242;
             axios.get(`http://localhost:9000/User/getCareer`).then(response => {
-                this.setState({careers: response.data});
+                this.setState({careers: response.data[0]});
+                console.log(response.data[0]);
             });
             axios.get(`http://localhost:9000/User/getRelationType`).then(response => {
                 this.setState({ relations: response.data });
@@ -660,7 +661,7 @@ class SignUp extends Component {
          */
         const careerList = this.state.careers.map((types, i) => {
             return (
-                <option value={types.careerID} key={i}>{types.description}</option>
+                <option value={types.careerID} key={i}>{types.name}</option>
             )
         })
         return (
@@ -764,7 +765,7 @@ class SignUp extends Component {
                                     <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left" id="divStudent2">
                                             <p title="Campo obligatorio">Carrera<font color="red">*</font></p>
-                                            <select name="career" value={this.state.career} onChange={this.getCareer}>
+                                            <select name="career" fontSize="18px" value={this.state.career} className="form-control" onChange={this.getCareer}>
                                                 {careerList}
                                             </select>
                                         </div>

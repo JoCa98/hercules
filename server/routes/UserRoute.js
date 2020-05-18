@@ -331,8 +331,8 @@ router.get('/getUserName', (req, res) => {
 
 });
 
-router.get('/getCareer', (res) => {
-  connection.query("", function (err, results){
+router.get('/getCareer', (req,res) => {
+  connection.query(" CALL proc_getCareer", function (err, results){
     if (results){
       res.send(results);
     }
