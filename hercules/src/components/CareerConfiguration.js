@@ -55,7 +55,7 @@ class Configuration extends Component {
             this.modalTrigger(event, 'Campos obligatorios', 'Los campos de texto con un * no se pueden dejar en blanco');
         } else if (!this.state.validations.validateTextField(this.state.careerName.trim())) {
             this.modalTrigger(event, 'Nombre de la carrera', 'El nombre de la carrera solo pueden estar compuesto por letras');
-        }
+        } else {
         
         fetch(`http://localhost:9000/Configuration/AddCareer`, {
             method: "post",
@@ -75,6 +75,7 @@ class Configuration extends Component {
         })
 
         .catch(err => console.error("Un error inesperado a ocurrido"));
+    }
         event.preventDefault();
     }
 
@@ -167,7 +168,8 @@ class Configuration extends Component {
                 <div className="row mt-4">
                     <Breadcrumb>
                         <Breadcrumb.Item href="#/HomeAdmin">Inicio</Breadcrumb.Item>
-                        <Breadcrumb.Item>Configuración</Breadcrumb.Item>
+                        <Breadcrumb.Item href='#/Configuration'>Configuración</Breadcrumb.Item>
+                        <Breadcrumb.Item>Configuración de Carrera</Breadcrumb.Item>
                     </Breadcrumb>
                 </div>
                 <div className="row mt-2">
