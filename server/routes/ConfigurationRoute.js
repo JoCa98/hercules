@@ -15,8 +15,9 @@ router.post('/AddCareer',(req,res) => {
     });
 });
 
+//Ejercicios
 router.post('/AddExcercise',(req,res) => {
-  connection.query("CALL proc_addNewExercise('" + req.body.exerciseDescription + "','" + req.body.imagePath + "','" + req.body.exerciseLink + "','" + req.body.exerciseTypeID + "');", function(err, results) {
+  connection.query("CALL proc_addNewExercise('" + req.body.exerciseDescription + "','" + req.body.imagePath + "','" + req.body.exerciseLink + "'," + req.body.exerciseTypeID + ");", function(err, results) {
       if (results) {
           res.send(results);
         }
@@ -27,7 +28,7 @@ router.post('/AddExcercise',(req,res) => {
 });
 
 router.post('/EditExcercise',(req,res) => {
-  connection.query("CALL proc_updateExercise('" + req.body.exerciseID + "','" + req.body.exerciseDescription + "','" + req.body.exerciseLink + "','" + req.body.exerciseTypeID + "');", function(err, results) {
+  connection.query("CALL proc_updateExercise('" + req.body.exerciseID + "','" + req.body.exerciseDescription + "','" + req.body.exerciseLink + "'," + req.body.exerciseTypeID + ");", function(err, results) {
       if (results) {
           res.send(results);
         }
@@ -37,4 +38,47 @@ router.post('/EditExcercise',(req,res) => {
   });
 });
 
-module.exports = router;
+router.post('/DeactiveExercise',(req,res) =>{
+  connection.query("CALL proc_changeExerciseStatus(" + req.body.exerciseID + ");", function(err,results){
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+  });
+});
+
+//Cuentas
+router.get('/isMasterEmail', (req, res) => {
+  connection.query("Select fun_verifyMasterAdmin('" + req.query.email + "') AS masterEmail", function (err, results) {
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+  });
+});
+
+router.get('/AdminAccounts', (req, res) => {
+  connection.query("CALL proc_getAllGymAdmin()", function (err,results){
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+ });
+});
+
+router.get('/MedicalAccounts', (req, res) => {
+  connection.query("CALL proc_getAllMedicalAdmin()", function (err,results){
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+ });
+});
