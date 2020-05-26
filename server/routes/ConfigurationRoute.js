@@ -17,7 +17,7 @@ router.post('/AddCareer',(req,res) => {
 
 //Ejercicios
 router.post('/AddExcercise',(req,res) => {
-  connection.query("CALL proc_addNewExercise('" + req.body.exerciseDescription + "','" + req.body.imagePath + "','" + req.body.exerciseLink + "'," + req.body.exerciseTypeID + ");", function(err, results) {
+  connection.query("CALL proc_addNewExercise('" + req.body.exerciseDescription + "','" + req.body.exerciseLink + "'," + req.body.exerciseTypeID + ");", function(err, results) {
       if (results) {
           res.send(results);
         }
@@ -38,8 +38,8 @@ router.post('/EditExcercise',(req,res) => {
   });
 });
 
-router.post('/DeactiveExercise',(req,res) =>{
-  connection.query("CALL proc_changeExerciseStatus(" + req.body.exerciseID + ");", function(err,results){
+router.post('/ExerciseStatus',(req,res) =>{
+  connection.query("CALL proc_changeExerciseStatus(" + req.body.exerciseID + "," + req.body.status + ");", function(err,results){
     if (results) {
       res.send(results);
     }
