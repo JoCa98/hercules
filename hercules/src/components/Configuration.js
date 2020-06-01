@@ -133,7 +133,7 @@ class Configuration extends Component {
     }
 
     excerciseConfiguration() {
-        this.props.history.push(`/HomeAdmin`);
+        this.props.history.push(`/ExercisesList`);
     }
 
     accountConfiguration() {

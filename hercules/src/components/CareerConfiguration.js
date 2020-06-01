@@ -57,7 +57,7 @@ class Configuration extends Component {
             this.modalTrigger(event, 'Nombre de la carrera', 'El nombre de la carrera solo pueden estar compuesto por letras');
         } else {
         
-        fetch(`http://localhost:9000/Configuration/AddCareer`, {
+        fetch(`http://localhost:9000/ConfigurationRoute/AddCareer`, {
             method: "post",
             body: JSON.stringify({
                 name: this.state.careerName

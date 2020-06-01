@@ -34,7 +34,7 @@ app.use('/AdminRoute', AdminRoute);
 app.use('/RoutineRoute', RoutineRoute);
 app.use('/PhysicalInfo', PhysicalInfoRoute);
 app.use('/User', UserRoute);
-app.use('/Configuration',ConfigurationRoute);
+app.use('/ConfigurationRoute',ConfigurationRoute);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
