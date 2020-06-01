@@ -82,3 +82,25 @@ router.get('/MedicalAccounts', (req, res) => {
     }
  });
 });
+
+router.get('/InactiveMedics', (req, res) => {
+  connection.query("CALL proc_getInactiveMedics()", function (err,results){
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+ });
+});
+
+router.get('/ChangeMedicStatus', (req, res) => {
+  connection.query("CALL proc_changeMedicStatus('"+ req.query.email +"'," + req.query.status + ")", function (err,results){
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+ });
+});
