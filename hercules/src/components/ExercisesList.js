@@ -58,20 +58,27 @@ class ExercisesList extends Component {
     /**
     * Method that performs the search corresponding to the type of search and using the values entered
     */
+
     searchEvent() {
-        if (this.state.searchType == 0) {
-            this.getExerciseListOrderType();
-
-        } else if (this.state.searchType == 1) {
-            this.getexerciseListByName();
-
-        } else if (this.state.searchType == 2) {
-            if (this.state.searchInput == '') {
-                this.getExerciseListOrderType();
-
-            } else {
-                this.getexerciseListByIdentification();
+        if (this.state.searchType == 0 && this.state.searchInput != '') {
+            //this.getExerciseListByName();
+            try {
+                axios.get(`http://localhost:9000/ConfigurationRoute/getExerciseName`,
+                { params: {name: this.state.searchInput} }).then(response => {
+                    const exerciseList = response.data[0];
+                    this.setState({ exerciseList });
+                });
+            } catch (err) {
+                console.error("Un error inesperado ha ocurrido");
             }
+
+        } else if (this.state.searchType > 0 && this.state.searchInput != '') {
+            this.getExerciseListByNameAndType();
+
+        } else if (this.state.searchType > 0 && this.state.searchInput == '') {
+            this.getExerciseListByType();
+        } else {
+            this.getExerciseListOrderType();
         }
     }
 
@@ -94,6 +101,44 @@ class ExercisesList extends Component {
     getExerciseListOrderType() {
         try {
             axios.get(`http://localhost:9000/ConfigurationRoute/getExercisesListOrderType`).then(response => {
+                const exerciseList = response.data[0];
+                this.setState({ exerciseList });
+            });
+        } catch (err) {
+            console.error("Un error inesperado ha ocurrido");
+        }
+    }
+
+    getExerciseListByType() {
+        try {
+            axios.get(`http://localhost:9000/ConfigurationRoute/getExercisesByType`,
+            { params: { type: this.state.searchType } }).then(response => {
+                const exerciseList = response.data[0];
+                this.setState({ exerciseList });
+            });
+        } catch (err) {
+            console.error("Un error inesperado ha ocurrido");
+        }
+    }
+
+
+    getExerciseListByNameAndType() {
+        try {
+            axios.get(`http://localhost:9000/ConfigurationRoute/getExercisesByNameAndType`,
+            { params: { type: this.state.searchType ,name: this.state.searchInput} }).then(response => {
+                const exerciseList = response.data[0];
+                this.setState({ exerciseList });
+            });
+        } catch (err) {
+            console.error("Un error inesperado ha ocurrido");
+        }
+    }
+
+    getExerciseListByName() {
+        console.log("nombre: "+ this.state.searchInput);
+        try {
+            axios.get(`http://localhost:9000/ConfigurationRoute/getExerciseName`,
+            { params: {name: this.state.searchInput} }).then(response => {
                 const exerciseList = response.data[0];
                 this.setState({ exerciseList });
             });

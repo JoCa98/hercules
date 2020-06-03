@@ -62,7 +62,7 @@ router.get('/getExerciseType', (req, res) => {
  * @param {Response}
 */
 router.get('/getExerciseName', (req, res) => {
-  connection.query("CALL proc_getExerciseName();", function (err, results) {
+  connection.query("CALL proc_getExerciseName('" + req.query.name + "');", function (err, results) {
     if (results) {
       res.send(results);
     }
@@ -81,7 +81,7 @@ router.get('/getExerciseName', (req, res) => {
  * @param {Response}
 */
 router.get('/getExercisesByType', (req, res) => {
-  connection.query("CALL proc_getExercisesByType();", function (err, results) {
+  connection.query("CALL proc_getExercisesByType(" + req.query.type + ");", function (err, results) {
     if (results) {
       res.send(results);
     }
@@ -101,7 +101,7 @@ router.get('/getExercisesByType', (req, res) => {
  * @param {Response}
 */
 router.get('/getExercisesByNameAndType', (req, res) => {
-  connection.query("CALL proc_getExercisesByNameAndType();", function (err, results) {
+  connection.query("CALL proc_getExercisesByNameAndType(" + req.query.type + ",'" + req.query.name + "');", function (err, results) {
     if (results) {
       res.send(results);
     }
