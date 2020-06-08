@@ -14,6 +14,7 @@ var AdminRoute = require('./routes/AdminRoute');
 var PhysicalInfoRoute = require('./routes/PhysicalInfoRoute');
 var UserRoute = require('./routes/UserRoute');
 var ConfigurationRoute = require('./routes/ConfigurationRoute');
+var ReportsRoute = require('./routes/ReportsRoute');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -35,6 +36,8 @@ app.use('/RoutineRoute', RoutineRoute);
 app.use('/PhysicalInfo', PhysicalInfoRoute);
 app.use('/User', UserRoute);
 app.use('/ConfigurationRoute',ConfigurationRoute);
+app.use('/ReportsRoute', ReportsRoute);
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
