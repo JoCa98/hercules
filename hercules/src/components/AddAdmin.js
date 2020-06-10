@@ -239,15 +239,12 @@ class AddAdmin extends Component {
         const selectUserType = this.state.userTypeList.map((userTypeList, i) => {
             if (i == 0) {
                 return (
-
                     <option defaultValue={userTypeList.userTypeID}
                         value={userTypeList.userTypeID}>{userTypeList.description}</option>
-
                 )
             } else {
                 return (
                     <option value={userTypeList.userTypeID}>{userTypeList.description}</option>
-
                 )
             }
 
