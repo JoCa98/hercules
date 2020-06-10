@@ -33,6 +33,7 @@ import Hash from './components/Hash';
 import UserHomeWithOut from './components/UserHomeWithOut';
 import Terms from './components/Terms';
 import ChangeTempPassword from './components/ChangeTempPassword';
+import AccountConfiguration from './components/AccountConfiguration';
 
 
 function App() {
@@ -64,6 +65,7 @@ function App() {
           <Route exact path="/Configuration" component={Configuration} />
           <Route exact path="/CareerConfiguration" component={CareerConfiguration} />
           <Route exact path="/ExercisesList" component={ExercisesList} />
+          <Route exact path="/AccountConfiguration" component={AccountConfiguration} />
 
           {/** User Side */}
           <Route exact path="/UserHome" component={UserHome} />
