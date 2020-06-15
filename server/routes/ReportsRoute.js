@@ -6,7 +6,7 @@ router.use(cors());
 
 
 router.get('/userStatusReport', (req, res) => {
-    connection.query("CALL proc_userStatusReport(" + status + ");", function (err, results) {
+    connection.query("CALL proc_userStatusReport(" + req.query.selectedStatus + ");", function (err, results) {
       if (results) {
         res.send(results);
       }
