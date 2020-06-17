@@ -11,6 +11,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import HomeAdmin from './components/HomeAdmin';
 import ExercisesList from './components/ExercisesList';
+import ConsultExercise from './components/ConsultExercise';
 import HistoricPhysicalUserInfo from './components/HistoricPhysicalUserInfo';
 import HistoricRoutineInfo from './components/HistoricRoutineInfo';
 import NavbarUserHome from './components/NavbarUserHome';
@@ -65,6 +66,7 @@ function App() {
           <Route exact path="/Configuration" component={Configuration} />
           <Route exact path="/CareerConfiguration" component={CareerConfiguration} />
           <Route exact path="/ExercisesList" component={ExercisesList} />
+          <Route exact path="/ConsultExercise" component={ConsultExercise} />
           <Route exact path="/AccountConfiguration" component={AccountConfiguration} />
 
           {/** User Side */}

@@ -1,4 +1,12 @@
-
+/**
+ * @fileoverview ExercisesList page, this page shows all exercises
+ * @version 1.0
+ *
+ * @author  Jermy Calvo <jermy.calvo@ucrso.info>
+ * History
+ * v1.0 – Initial Release
+ * ----
+ */
 import React, { Component } from 'react';
 import axios from "axios";
 import Breadcrumb from 'react-bootstrap/Breadcrumb'
@@ -61,16 +69,7 @@ class ExercisesList extends Component {
 
     searchEvent() {
         if (this.state.searchType == 0 && this.state.searchInput != '') {
-            //this.getExerciseListByName();
-            try {
-                axios.get(`http://localhost:9000/ConfigurationRoute/getExerciseName`,
-                { params: {name: this.state.searchInput} }).then(response => {
-                    const exerciseList = response.data[0];
-                    this.setState({ exerciseList });
-                });
-            } catch (err) {
-                console.error("Un error inesperado ha ocurrido");
-            }
+            this.getExerciseListByName();
 
         } else if (this.state.searchType > 0 && this.state.searchInput != '') {
             this.getExerciseListByNameAndType();
@@ -187,10 +186,8 @@ class ExercisesList extends Component {
     */
     rowEvent(event) {
         try {
-            sessionStorage.setItem("userPartyID", this.state.exerciseListID[event.target.parentNode.rowIndex - 1]);
-            sessionStorage.removeItem("routineID");
-            sessionStorage.removeItem('dateLastPhysicalRegistry');
-
+            sessionStorage.setItem("exerciseID", this.state.exerciseListID[event.target.parentNode.rowIndex - 1]);
+            this.props.history.push("/ConsultExercise");
         } catch (err) {
             console.error("Un error inesperado ha ocurrido");
         }
@@ -201,7 +198,7 @@ class ExercisesList extends Component {
     }
     redirect(event) {
 
-        this.props.history.push(`/AddPhysicalInfo`);
+        this.props.history.push(`/ConsultExercise`);
     }
 
     render() {
@@ -225,6 +222,7 @@ class ExercisesList extends Component {
                 <option value={exerciseTypes.exerciseTypeID} key={i}>{exerciseTypes.description}</option>
             )
         })
+
         var breadcrumb = '';
         if (sessionStorage.getItem('userTypeID') !== '5') {
             breadcrumb = <div className="row mt-4"><Breadcrumb><Breadcrumb.Item >Inicio</Breadcrumb.Item></Breadcrumb></div>;

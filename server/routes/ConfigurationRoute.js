@@ -135,7 +135,18 @@ router.post('/EditExcercise',(req,res) => {
   });
 });
 
-router.post('/ExerciseStatus',(req,res) =>{
+router.get('/getExerciseByID',(req,res) => {
+  connection.query("CALL proc_getExerciseByID(" + req.query.exerciseID + ");", function(err, results) {
+      if (results) {
+          res.send(results);
+        }
+        else {
+          console.log(err);
+        }
+  });
+});
+
+router.post('/changeExerciseStatus',(req,res) =>{
   connection.query("CALL proc_changeExerciseStatus(" + req.body.exerciseID + "," + req.body.status + ");", function(err,results){
     if (results) {
       res.send(results);
