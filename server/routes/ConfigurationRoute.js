@@ -169,6 +169,7 @@ router.get('/isMasterEmail', (req, res) => {
   });
 });
 
+//All users
 router.get('/AdminAccounts', (req, res) => {
   connection.query("CALL proc_getAllGymAdmin()", function (err,results){
     if (results) {
@@ -191,6 +192,19 @@ router.get('/MedicalAccounts', (req, res) => {
  });
 });
 
+//Specific state users
+
+router.get('/ActiveMedics', (req, res) => {
+  connection.query("CALL proc_getActiveMedics()", function (err,results){
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+ });
+});
+
 router.get('/InactiveMedics', (req, res) => {
   connection.query("CALL proc_getInactiveMedics()", function (err,results){
     if (results) {
@@ -202,6 +216,29 @@ router.get('/InactiveMedics', (req, res) => {
  });
 });
 
+router.get('/ActiveGymAdmins', (req, res) => {
+  connection.query("CALL proc_getActiveGymAdmin()", function (err,results){
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+ });
+});
+
+router.get('/InactiveActiveGymAdmins', (req, res) => {
+  connection.query("CALL proc_getInactiveGymAdmins()", function (err,results){
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+ });
+});
+
+//Change status
 router.get('/ChangeMedicStatus', (req, res) => {
   connection.query("CALL proc_changeMedicStatus('"+ req.query.email +"'," + req.query.status + ")", function (err,results){
     if (results) {

@@ -20,48 +20,52 @@ class AccountConfiguration extends Component {
 
         this.state = {
             permissionsManager: new PermissionsManager(),
-            validations: new validations(),
-            //
-            adminsList: [],
-            medicsList: [],
-            //
-            userTypeID: "3",
-            show: false,
-            isExit: false
+            userList: [],
+            userListID: [],
+            searchType: 0,
+            searchInput: ''
         };
 
-        this.adminsList = this.adminsList.bind(this);
-        this.activeMedicsList = this.activeMedicsList.bind(this);
-        this.inactiveMedicsList = this.inactiveMedicsList.bind(this);
-        this.activateMedic = this.activateMedic.bind(this);
-        this.deactivateMedic = this.deactivateMedic.bind(this);
-        this.eliminateGymAdmin = this.eliminateGymAdmin.bind(this);
+        this.handleInput = this.handleInput.bind(this);
+        this.searchEvent = this.searchEvent.bind(this);
+        this.rowEvent = this.rowEvent.bind(this);
+
+        this.getActiveMedicsList = this.getActiveMedicsList.bind(this);
+        this.getInactiveMedicsList = this.getInactiveMedicsList.bind(this);
+        this.getActiveAdminsList = this.getActiveAdminsList.bind(this);
+        this.getInactiveAdminsList = this.getInactiveAdminsList.bind(this);
+        this.searchEvent = this.searchEvent.bind(this);
+
+        this.gymPersonal = this.gymPersonal.bind(this);
+        this.medicalPersonal = this.medicalPersonal.bind(this);
 
     }
 
     componentDidMount() {
         /* if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {*/
         window.scrollTo(0, 0);
+        this.getActiveMedicsList();
         /*}*/
     }
-    
-    getAdminsList() {
-        try {
-            axios.get(`http://localhost:9000/ConfigurationRoute/AdminAccounts`).then(response => {
-                const adminsList = response.data[0];
-                this.setState({ adminsList });
-            });
-        } catch (err) {
-            console.error("Un error inesperado ha ocurrido");
+
+    searchEvent() {
+        if (this.state.searchType == 0 && this.state.searchStatus == 0) {
+            this.getActiveMedicsList();
+        } else if (this.state.searchType == 0 && this.state.searchStatus == 1) {
+            this.getInactiveMedicsList();
+        } else if (this.state.searchType == 1 && this.state.searchStatus == 0) {
+            this.getActiveAdminsList();
+        } else {
+            this.getInactiveAdminsList()
+            
         }
     }
 
-    //Este trae todos los medicos, activos o no **
     getActiveMedicsList() {
         try {
-            axios.get(`http://localhost:9000/ConfigurationRoute/MedicalAccounts`).then(response => {
-                const medicsList = response.data[0];
-                this.setState({ medicsList });
+            axios.get(`http://localhost:9000/ConfigurationRoute/ActiveMedics`).then(response => {
+                const userList = response.data[0];
+                this.setState({ userList });
             });
         } catch (err) {
             console.error("Un error inesperado ha ocurrido");
@@ -71,59 +75,71 @@ class AccountConfiguration extends Component {
     getInactiveMedicsList() {
         try {
             axios.get(`http://localhost:9000/ConfigurationRoute/InactiveMedics`).then(response => {
-                const medicsList = response.data[0];
-                this.setState({ medicsList });
+                const userList = response.data[0];
+                this.setState({ userList });
             });
         } catch (err) {
             console.error("Un error inesperado ha ocurrido");
         }
     }
 
-    activateMedicMethod() {
+    getActiveAdminsList() {
         try {
-            axios.get(`http://localhost:9000/ConfigurationRoute/ChangeMedicStatus`,
-            { params: { email: this.state.searchInput ,status: 1} }).then(response => {
+            axios.get(`http://localhost:9000/ConfigurationRoute/ActiveGymAdmins`).then(response => {
+                const userList = response.data[0];
+                this.setState({ userList });
             });
         } catch (err) {
             console.error("Un error inesperado ha ocurrido");
         }
     }
 
-    deactivateMedicMethod() {
+    getInactiveAdminsList() {
         try {
-            axios.get(`http://localhost:9000/ConfigurationRoute/ChangeMedicStatus`,
-            { params: { email: this.state.searchInput ,status: 0} }).then(response => {
+            axios.get(`http://localhost:9000/ConfigurationRoute/InactiveActiveGymAdmins`).then(response => {
+                const userList = response.data[0];
+                this.setState({ userList });
             });
         } catch (err) {
             console.error("Un error inesperado ha ocurrido");
         }
     }
 
-    eliminateGymAdminMethod() {
+    onKeyEvent(e) {
+        if (e.key == "Enter") {
+            this.searchEvent();
+        }
+    }
+
+    rowEvent(event) {
         try {
-            axios.get(`http://localhost:9000/ConfigurationRoute/DeleteAdmin`,
-            { params: { email: this.state.deleteInput} }).then(response => {
-            });
+            sessionStorage.setItem("userPartyID", this.state.userListID[event.target.parentNode.rowIndex - 1]);
+            this.props.history.push("/ConsultAdmin");
         } catch (err) {
             console.error("Un error inesperado ha ocurrido");
         }
+    }
+
+    handleInput(e) {
+        const { value, name } = e.target;
+        this.setState({
+            [name]: value
+        })
     }
 
     /**
     * Method that redirect to the requested page
     */
-    adminsList() {
-        this.props.history.push(`/AdminsList`);
+    gymPersonal() {
+        this.props.history.push(`/GymPersonal`);
     }
 
-    activeMedicsList() {
-        this.props.history.push(`/activeMedicsList`);
+    medicalPersonal() {
+        this.props.history.push(`/MedicalPersonal`);
     }
 
-    inactiveMedicsList() {
-        this.props.history.push(`/inactiveMedicsList`);
-    }
 
+    /*
     activateMedic() {
         this.props.history.push(`/activateMedic`);
     }
@@ -135,11 +151,40 @@ class AccountConfiguration extends Component {
     eliminateGymAdmin() {
         this.props.history.push(`/eliminateGymAdmin`);
     }
+    */
 
+    /*
+    <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.activateMedic}>Activar medico</button>
+    <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.deactivateMedic}>Desactivar medico</button>
+    <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.eliminateGymAdmin}>Eliminar administador del gimnasio</button>
+    */
 
-    render() {
-        return (
-            <div className="container">
+   render() {
+    /**
+    *The userList.map is used to create the rows of the table and to structure the html,
+    *this is stored in a constant that is used in the code of the page
+    */
+    const userListVisual = this.state.userList.map((userList, i) => {
+        this.state.userListID.push(userList.partyID);
+        if (sessionStorage.getItem('userTypeID') === '5') {
+            return (
+                <tr key={i}>
+                    <td>{userList.email}</td>
+                    <td>{userList.status}</td>
+                </tr>
+            )
+        } else {
+            return (
+                <tr className="pointer" onClick={this.rowEvent} key={i}>
+                    <td>{userList.email}</td>
+                    <td>{userList.status}</td>
+                </tr>
+            )
+        }
+    })
+
+    return (
+        <div className="container">
                 <div className="row mt-4">
                     <Breadcrumb>
                         <Breadcrumb.Item href="#/HomeAdmin">Inicio</Breadcrumb.Item>
@@ -147,35 +192,58 @@ class AccountConfiguration extends Component {
                         <Breadcrumb.Item>Configuración de cuentas</Breadcrumb.Item>
                     </Breadcrumb>
                 </div>
-                <div className="row mt-2">
-                    <div className="col-10 offset-1 card p-5">
-                        <form className="form-horizontal">
-                            <h1 className="text-left colorBlue">Configuración de cuentas</h1>
-                            <br />
-                            <div className="row">
-                                <div className="col-12">
-                                    <div className="form-group" align="center">
-                                         <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.adminsList}>Ver administadores del gimnasio</button>
-                                         <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.activeMedicsList}>Ver medicos activos</button>
-                                         <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.inactiveMedicsList}>Ver medicos inactivos</button>
-                                         <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.activateMedic}>Activar medico</button>
-                                         <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.deactivateMedic}>Desactivar medico</button>
-                                         <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.eliminateGymAdmin}>Eliminar administador del gimnasio</button>
-                                    </div>
-                                </div>
+            <div className="row card mt-2 p-5">
+                <div className="col-12">
+                    <h1 className="text-left colorBlue">Configuración de cuentas</h1>
+                        <div className="row">
+                            <div className="col-3 offset-1">
+                                <select fontSize="18px" className="form-control"
+                                    name="searchType"
+                                    onChange={this.handleInput}>
+                                    <option value="0">Personal salud</option>
+                                    <option value="1">Personal gimnasio</option>
+                                </select>
                             </div>
-                            <div className="row">
-                                <div className="col-md-1">
-                                    <ModalComponent tittle={this.state.modalTittle} show={this.state.show} onClose={this.closeModal} >
-                                        <br />{this.state.modalChildren}
-                                    </ModalComponent>
-                                </div>
+                            <div className="col-2">
+                                <select fontSize="18px" className="form-control"
+                                    name="searchStatus"
+                                    onChange={this.handleInput}>
+                                    <option value="0">Activos</option>
+                                    <option value="1">Inactivos</option>
+                                </select>
                             </div>
-                        </form>
+                        <div className="col-3">
+                            <input fontSize="18px"
+                                type="text"
+                                name="searchInput"
+                                onChange={this.handleInput}
+                                onKeyPress={this.onKeyEvent}
+                                className="w-100 inputText"
+                                placeholder="Buscar">
+                            </input>
+                        </div>
+                        <div className="col-1">
+                            <button className="buttonSizeGeneral" onClick={this.searchEvent}>Buscar</button>
+                        </div>
                     </div>
                 </div>
+                <div className="col-10 offset-1 mt-4">
+                    <table className="table table-sm table-hover" id="myTable">
+                        <thead>
+                            <tr>
+                                <th scope="col">Email</th>
+                                <th scope="col">Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {userListVisual}
+                        </tbody>
+                    </table>
+                </div>
             </div>
+        </div>
         )
     }
 }
 export default AccountConfiguration;
+
