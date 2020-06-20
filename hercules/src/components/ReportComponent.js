@@ -15,12 +15,18 @@ class ReportComponent extends Component {
             reportNumber: sessionStorage.getItem("report"),
             list: [{}],
             optionList: [{}],
-            status: 1,
+            variable: 1,
             name: "",
             breadcrumb:""
         }
         this.typeOfReport = this.typeOfReport.bind(this);
-        this.statusReport = this.statusReport.bind(this);
+        this.report = this.report.bind(this);
+        this.rutineDropDown = this.rutineDropDown.bind(this);
+        this.typeDropDown = this.typeDropDown.bind(this);
+        this.conditonDropDown = this.conditionDropDown.bind(this);
+        this.dateDropDown = this.dateDropDown.bind(this);
+        this.careerDropDown = this.careerDropDown.bind(this);
+        this.genreDropDown = this.genreDropDown.bind(this);
         this.statusDropDown = this.statusDropDown.bind(this);
         this.optionSelect = this.optionSelect.bind(this);
     }
@@ -34,8 +40,64 @@ class ReportComponent extends Component {
         if (this.state.reportNumber == 1) {
             this.setState({ name: "Reporte por estado de usuarios", breadcrumb:"Reporte por estado" });
             this.statusDropDown();
+        }else if (this.state.reportNumber == 2){
+            this.setState({ name: "Reporte por género de usuarios", breadcrumb:"Reporte por género" });
+            this.genreDropDown();
+        }else if (this.state.reportNumber == 3){
+            this.setState({ name: "Reporte por carrera de los usuarios", breadcrumb:"Reporte por carrera" });
+            this.careerDropDown();
+        }else if (this.state.reportNumber == 4){
+            this.setState({ name: "Reporte por año de ingreso de los usuarios", breadcrumb:"Reporte por año de ingreso" });
+            this.dateDropDown();
+        }else if (this.state.reportNumber == 5){
+            this.setState({ name: "Reporte por condición de riesgo de los usuarios", breadcrumb:"Reporte por condición de riesgo" });
+            this.conditionDropDown();
+        }else if (this.state.reportNumber == 6){
+            this.setState({ name: "Reporte por tipo de los usuarios", breadcrumb:"Reporte por tipo de usuario" });
+            this.typeDropDown();
+        }else if (this.state.reportNumber == 7){
+            this.setState({ name: "Reporte por tipo de rutina", breadcrumb:"Reporte por tipo de rutina" });
+            this.rutineDropDown();
         }
+    }
 
+    rutineDropDown(){
+        axios.get("http://localhost:9000/RoutineRoute/getRoutineType").then(response => {
+            var routine = response.data;
+                this.setState({ optionList:routine });
+            });
+    }
+
+    typeDropDown(){
+        this.setState({
+            optionList: [{ description: "Estudiante", value: 1 }, { description: "Funcionario", value: 2 }]
+        });
+    }
+
+    conditionDropDown(){
+        this.setState({
+            optionList: [{ description: "1", value: 1 }, { description: "2", value: 2 }, { description: "3", value: 3 }]
+        });
+    }
+
+    dateDropDown(){
+        axios.get(`http://localhost:9000/ReportsRoute/signUpDates`).then(response => {
+            var dates = response.data[0];
+              this.setState({optionList: dates});
+            });
+    }
+
+    careerDropDown(){
+        axios.get(`http://localhost:9000/User/getCareer`).then(response => {
+            var career = response.data[0];
+              this.setState({optionList: career});
+            });
+    }
+
+    genreDropDown(){
+        this.setState({
+            optionList: [{ description: "Femenino", value: 1 }, { description: "Masculino", value: 2 }]
+        });
     }
 
     statusDropDown() {
@@ -45,22 +107,33 @@ class ReportComponent extends Component {
     }
 
     optionSelect(event) {
-        if (this.state.reportNumber == 1) {
-            this.setState({ status: event.target.value });
-            
-        }
+        this.setState({ variable: event.target.value });   
     }
 
-    statusReport() {
+    report() {
         try {
+            if(this.state.reportNumber == 1){
             axios.get(`http://localhost:9000/ReportsRoute/userStatusReport`,
                 {
-                    params: { selectedStatus: this.state.status}
+                    params: { selectedStatus: this.state.variable}
                 }).then(response => {
                     const list = response.data[0];
                     this.setState({ list });
                     document.getElementById("total").style.display = "block";
                 });
+            }else if(this.state.reportNumber == 2){
+                //género de los usuarios
+            }else if(this.state.reportNumber == 3){
+                //carrera
+            }else if(this.state.reportNumber == 4){
+                //año de ingreso
+            }else if(this.state.reportNumber == 5){
+                //condición de riesgo
+            }else if(this.state.reportNumber == 6){
+                //tipo de usuarios
+            }else if(this.state.reportNumber == 7){
+                //tipo de rutina
+            }
         } catch (err) {
             console.error("Un error inesperado ha ocurrido");
         }
@@ -95,6 +168,21 @@ class ReportComponent extends Component {
     render() {
 
         const statusList = this.state.optionList.map((option, i) => {
+            if(this.state.reportNumber == 3){
+                return (
+                    <option value={option.careerID} key={i}>{option.name}</option>
+                )
+            }
+            if(this.state.reportNumber == 4){
+                return (
+                    <option value={option.value} key={i}>{option.value}</option>
+                )
+            }
+            if(this.state.reportNumber == 7){
+                return (
+                    <option value={option.routineTypeID} key={i}>{option.description}</option>
+                )
+            }
             return (
                 <option value={option.value} key={i}>{option.description} </option>
             )
@@ -133,7 +221,7 @@ class ReportComponent extends Component {
                             </select>
                         </div>
                         <div className="col-4 mt-2">
-                            <button className="buttonSizeGeneral" onClick={this.statusReport}>Buscar</button>
+                            <button className="buttonSizeGeneral" onClick={this.report}>Buscar</button>
                         </div>
                         <div className="col-2 text-center">
                                 <img src={downloadImage} onClick={this.downloadCSV} className="imageHistoricPage pointer" />

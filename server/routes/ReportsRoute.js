@@ -16,5 +16,15 @@ router.get('/userStatusReport', (req, res) => {
     });
   });
 
+  router.get('/signUpDates', (req, res) => {
+    connection.query("CALL proc_getSignUpYears();", function (err, results) {
+      if (results) {
+        res.send(results);
+      }
+      else {
+        console.log(err);
+      }
+    });
+  });
 
 module.exports = router;

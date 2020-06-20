@@ -32,12 +32,30 @@ class Reports extends Component {
                         <table className="table table-sm table-hover" id="reports">
                             <thead>
                                 <tr>
-                                    <th scope="col" className="align-middle">Reporte</th>
+                                    <th scope="col" className="align-middle">Reporte por:</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr className="pointer"  onClick={this.rowEvent} key="1">
                                     <td >Estado de los usuarios</td>
+                                </tr>
+                                <tr className="pointer"  onClick={this.rowEvent} key="2">
+                                    <td >Género de los usuarios</td>
+                                </tr>
+                                <tr className="pointer"  onClick={this.rowEvent} key="3">
+                                    <td >Carrera de los usuarios</td>
+                                </tr>
+                                <tr className="pointer"  onClick={this.rowEvent} key="4">
+                                    <td >Año de ingreso al sistema de los usuarios</td>
+                                </tr>
+                                <tr className="pointer"  onClick={this.rowEvent} key="5">
+                                    <td >Condición de riesgo de los usuarios</td>
+                                </tr>
+                                <tr className="pointer"  onClick={this.rowEvent} key="6">
+                                    <td >Tipo de los usuarios</td>
+                                </tr>
+                                <tr className="pointer"  onClick={this.rowEvent} key="7">
+                                    <td >Tipo de rutina de los usuarios</td>
                                 </tr>
                             </tbody>
                         </table>
