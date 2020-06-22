@@ -480,10 +480,10 @@ class SignUp extends Component {
     selectFemale() {
         if (document.getElementById('cbFemale').checked == true) {
             document.getElementById('cbMale').checked = false;
-            this.state.genderID = 2;
+            this.state.genderID = 1;
         } else {
             document.getElementById('cbMale').checked = true;
-            this.state.genderID = 1;
+            this.state.genderID = 2;
         }
     }
 

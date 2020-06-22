@@ -16,6 +16,17 @@ router.get('/userStatusReport', (req, res) => {
     });
   });
 
+  router.get('/userGenderReport', (req, res) => {
+    connection.query("CALL proc_genderReport(" + req.query.selectedGender + ");", function (err, results) {
+      if (results) {
+        res.send(results);
+      }
+      else {
+        console.log(err);
+      }
+    });
+  });
+
   router.get('/signUpDates', (req, res) => {
     connection.query("CALL proc_getSignUpYears();", function (err, results) {
       if (results) {

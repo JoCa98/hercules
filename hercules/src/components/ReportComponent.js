@@ -26,7 +26,7 @@ class ReportComponent extends Component {
         this.conditonDropDown = this.conditionDropDown.bind(this);
         this.dateDropDown = this.dateDropDown.bind(this);
         this.careerDropDown = this.careerDropDown.bind(this);
-        this.genreDropDown = this.genreDropDown.bind(this);
+        this.genderDropDown = this.genderDropDown.bind(this);
         this.statusDropDown = this.statusDropDown.bind(this);
         this.optionSelect = this.optionSelect.bind(this);
     }
@@ -42,7 +42,7 @@ class ReportComponent extends Component {
             this.statusDropDown();
         }else if (this.state.reportNumber == 2){
             this.setState({ name: "Reporte por género de usuarios", breadcrumb:"Reporte por género" });
-            this.genreDropDown();
+            this.genderDropDown();
         }else if (this.state.reportNumber == 3){
             this.setState({ name: "Reporte por carrera de los usuarios", breadcrumb:"Reporte por carrera" });
             this.careerDropDown();
@@ -94,7 +94,7 @@ class ReportComponent extends Component {
             });
     }
 
-    genreDropDown(){
+    genderDropDown(){
         this.setState({
             optionList: [{ description: "Femenino", value: 1 }, { description: "Masculino", value: 2 }]
         });
@@ -123,6 +123,14 @@ class ReportComponent extends Component {
                 });
             }else if(this.state.reportNumber == 2){
                 //género de los usuarios
+                axios.get(`http://localhost:9000/ReportsRoute/userGenderReport`,
+                {
+                    params: { selectedGender: this.state.variable}
+                }).then(response => {
+                    const list = response.data[0];
+                    this.setState({ list });
+                    document.getElementById("total").style.display = "block";
+                });
             }else if(this.state.reportNumber == 3){
                 //carrera
             }else if(this.state.reportNumber == 4){
@@ -162,8 +170,6 @@ class ReportComponent extends Component {
         console.error("Un error inesperado ha ocurrido");
     }
 }
-
-
 
     render() {
 
