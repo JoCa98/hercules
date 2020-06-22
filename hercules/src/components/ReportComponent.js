@@ -133,14 +133,54 @@ class ReportComponent extends Component {
                 });
             }else if(this.state.reportNumber == 3){
                 //carrera
+                axios.get(`http://localhost:9000/ReportsRoute/userCareerReport`,
+                {
+                    params: { }
+                }).then(response => {
+                    const list = response.data[0];
+                    this.setState({ list });
+                    document.getElementById("total").style.display = "block";
+                });
             }else if(this.state.reportNumber == 4){
                 //año de ingreso
+                axios.get(`http://localhost:9000/ReportsRoute/userYearReport`,
+                {
+                    params: { }
+                }).then(response => {
+                    const list = response.data[0];
+                    this.setState({ list });
+                    document.getElementById("total").style.display = "block";
+                });
             }else if(this.state.reportNumber == 5){
                 //condición de riesgo
+                axios.get(`http://localhost:9000/ReportsRoute/userRiskReport`,
+                {
+                    params: { }
+                }).then(response => {
+                    const list = response.data[0];
+                    this.setState({ list });
+                    document.getElementById("total").style.display = "block";
+                });
             }else if(this.state.reportNumber == 6){
                 //tipo de usuarios
+                axios.get(`http://localhost:9000/ReportsRoute/userTypeReport`,
+                {
+                    params: { }
+                }).then(response => {
+                    const list = response.data[0];
+                    this.setState({ list });
+                    document.getElementById("total").style.display = "block";
+                });
             }else if(this.state.reportNumber == 7){
                 //tipo de rutina
+                axios.get(`http://localhost:9000/ReportsRoute/userRoutineTypeReport`,
+                {
+                    params: { }
+                }).then(response => {
+                    const list = response.data[0];
+                    this.setState({ list });
+                    document.getElementById("total").style.display = "block";
+                });
             }
         } catch (err) {
             console.error("Un error inesperado ha ocurrido");

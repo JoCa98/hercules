@@ -4,7 +4,7 @@ const router = express.Router();
 var cors = require("cors");
 router.use(cors());
 
-
+//Reporte por estado de usuarios
 router.get('/userStatusReport', (req, res) => {
     connection.query("CALL proc_userStatusReport(" + req.query.selectedStatus + ");", function (err, results) {
       if (results) {
@@ -16,8 +16,69 @@ router.get('/userStatusReport', (req, res) => {
     });
   });
 
+  //Reporte por género de los usuarios
   router.get('/userGenderReport', (req, res) => {
     connection.query("CALL proc_genderReport(" + req.query.selectedGender + ");", function (err, results) {
+      if (results) {
+        res.send(results);
+      }
+      else {
+        console.log(err);
+      }
+    });
+  });
+
+  //Reporte por carrera de los usuarios
+  router.get('/userCareerReport', (req, res) => {
+    connection.query("CALL ();", function (err, results) {
+      if (results) {
+        res.send(results);
+      }
+      else {
+        console.log(err);
+      }
+    });
+  });
+
+  //Reporte por año de ingreso de los usuarios
+  router.get('/userYearReport', (req, res) => {
+    connection.query("CALL ();", function (err, results) {
+      if (results) {
+        res.send(results);
+      }
+      else {
+        console.log(err);
+      }
+    });
+  });
+
+  //Reporte por condición de riesgo
+  router.get('/userRiskReport', (req, res) => {
+    connection.query("CALL ();", function (err, results) {
+      if (results) {
+        res.send(results);
+      }
+      else {
+        console.log(err);
+      }
+    });
+  });
+
+  //Reporte por tipo de usuario
+  router.get('/userTypeReport', (req, res) => {
+    connection.query("CALL ();", function (err, results) {
+      if (results) {
+        res.send(results);
+      }
+      else {
+        console.log(err);
+      }
+    });
+  });
+
+  //Reporte por tipo de rutina
+  router.get('/userRoutineTypeReport', (req, res) => {
+    connection.query("CALL ();", function (err, results) {
       if (results) {
         res.send(results);
       }
