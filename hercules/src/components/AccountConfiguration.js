@@ -23,6 +23,7 @@ class AccountConfiguration extends Component {
             userList: [],
             userListID: [],
             searchType: 0,
+            searchStatus: 2,
             searchInput: ''
         };
 
@@ -36,28 +37,25 @@ class AccountConfiguration extends Component {
         this.getInactiveAdminsList = this.getInactiveAdminsList.bind(this);
         this.searchEvent = this.searchEvent.bind(this);
 
-        this.gymPersonal = this.gymPersonal.bind(this);
-        this.medicalPersonal = this.medicalPersonal.bind(this);
-
+        this.backButton = this.backButton.bind(this);
     }
 
     componentDidMount() {
-        /* if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {*/
-        window.scrollTo(0, 0);
-        this.getActiveMedicsList();
-        /*}*/
+        if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
+            window.scrollTo(0, 0);
+            this.getActiveMedicsList();
+        }
     }
 
     searchEvent() {
-        if (this.state.searchType == 0 && this.state.searchStatus == 0) {
+        if (this.state.searchType == 0 && this.state.searchStatus == 2) {
             this.getActiveMedicsList();
-        } else if (this.state.searchType == 0 && this.state.searchStatus == 1) {
-            this.getInactiveMedicsList();
-        } else if (this.state.searchType == 1 && this.state.searchStatus == 0) {
+        } else if (this.state.searchType == 1 && this.state.searchStatus == 2) {
             this.getActiveAdminsList();
+        } else if (this.state.searchType == 0 && this.state.searchStatus == 3) {
+            this.getInactiveMedicsList();
         } else {
             this.getInactiveAdminsList()
-            
         }
     }
 
@@ -114,7 +112,12 @@ class AccountConfiguration extends Component {
     rowEvent(event) {
         try {
             sessionStorage.setItem("userPartyID", this.state.userListID[event.target.parentNode.rowIndex - 1]);
-            this.props.history.push("/ConsultAdmin");
+            if (this.state.searchType == 0) {
+                this.props.history.push("/ConsultMedicPersonal");
+            } else {
+                this.props.history.push("/ConsultAdmin");
+            }
+
         } catch (err) {
             console.error("Un error inesperado ha ocurrido");
         }
@@ -127,64 +130,36 @@ class AccountConfiguration extends Component {
         })
     }
 
-    /**
-    * Method that redirect to the requested page
-    */
-    gymPersonal() {
-        this.props.history.push(`/GymPersonal`);
+    backButton() {
+        this.props.history.push(`/Configuration`);
     }
 
-    medicalPersonal() {
-        this.props.history.push(`/MedicalPersonal`);
-    }
+    render() {
+        /**
+        *The userList.map is used to create the rows of the table and to structure the html,
+        *this is stored in a constant that is used in the code of the page
+        */
+        const userListVisual = this.state.userList.map((userList, i) => {
+            this.state.userListID.push(userList.partyID);
+            if (sessionStorage.getItem('userTypeID') === '5') {
+                return (
+                    <tr key={i}>
+                        <td>{userList.email}</td>
+                        <td>{userList.status}</td>
+                    </tr>
+                )
+            } else {
+                return (
+                    <tr className="pointer" onClick={this.rowEvent} key={i}>
+                        <td>{userList.email}</td>
+                        <td>{userList.status}</td>
+                    </tr>
+                )
+            }
+        })
 
-
-    /*
-    activateMedic() {
-        this.props.history.push(`/activateMedic`);
-    }
-
-    deactivateMedic() {
-        this.props.history.push(`/deactivateMedic`);
-    }
-
-    eliminateGymAdmin() {
-        this.props.history.push(`/eliminateGymAdmin`);
-    }
-    */
-
-    /*
-    <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.activateMedic}>Activar medico</button>
-    <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.deactivateMedic}>Desactivar medico</button>
-    <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.eliminateGymAdmin}>Eliminar administador del gimnasio</button>
-    */
-
-   render() {
-    /**
-    *The userList.map is used to create the rows of the table and to structure the html,
-    *this is stored in a constant that is used in the code of the page
-    */
-    const userListVisual = this.state.userList.map((userList, i) => {
-        this.state.userListID.push(userList.partyID);
-        if (sessionStorage.getItem('userTypeID') === '5') {
-            return (
-                <tr key={i}>
-                    <td>{userList.email}</td>
-                    <td>{userList.status}</td>
-                </tr>
-            )
-        } else {
-            return (
-                <tr className="pointer" onClick={this.rowEvent} key={i}>
-                    <td>{userList.email}</td>
-                    <td>{userList.status}</td>
-                </tr>
-            )
-        }
-    })
-
-    return (
-        <div className="container">
+        return (
+            <div className="container">
                 <div className="row mt-4">
                     <Breadcrumb>
                         <Breadcrumb.Item href="#/HomeAdmin">Inicio</Breadcrumb.Item>
@@ -192,9 +167,9 @@ class AccountConfiguration extends Component {
                         <Breadcrumb.Item>Configuración de cuentas</Breadcrumb.Item>
                     </Breadcrumb>
                 </div>
-            <div className="row card mt-2 p-5">
-                <div className="col-12">
-                    <h1 className="text-left colorBlue">Configuración de cuentas</h1>
+                <div className="row card mt-2 p-5">
+                    <div className="col-12">
+                        <h1 className="text-left colorBlue">Configuración de cuentas</h1>
                         <div className="row">
                             <div className="col-3 offset-1">
                                 <select fontSize="18px" className="form-control"
@@ -208,42 +183,46 @@ class AccountConfiguration extends Component {
                                 <select fontSize="18px" className="form-control"
                                     name="searchStatus"
                                     onChange={this.handleInput}>
-                                    <option value="0">Activos</option>
-                                    <option value="1">Inactivos</option>
+                                    <option value="2">Activos</option>
+                                    <option value="3">Inactivos</option>
                                 </select>
                             </div>
-                        <div className="col-3">
-                            <input fontSize="18px"
-                                type="text"
-                                name="searchInput"
-                                onChange={this.handleInput}
-                                onKeyPress={this.onKeyEvent}
-                                className="w-100 inputText"
-                                placeholder="Buscar">
-                            </input>
+                            <div className="col-3">
+                                <input fontSize="18px"
+                                    type="text"
+                                    name="searchInput"
+                                    onChange={this.handleInput}
+                                    onKeyPress={this.onKeyEvent}
+                                    className="w-100 inputText"
+                                    placeholder="Buscar">
+                                </input>
+                            </div>
+                            <div className="col-1">
+                                <button className="buttonSizeGeneral" onClick={this.searchEvent}>Buscar</button>
+                            </div>
                         </div>
-                        <div className="col-1">
-                            <button className="buttonSizeGeneral" onClick={this.searchEvent}>Buscar</button>
+                    </div>
+                    <div className="col-10 offset-1 mt-4">
+                        <table className="table table-sm table-hover" id="myTable">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {userListVisual}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div className="row">
+                        <div className="mt-3 offset-1 col-md-3">
+                            <button align="left" className="buttonSizeGeneral" onClick={this.backButton}>Volver</button>
                         </div>
                     </div>
                 </div>
-                <div className="col-10 offset-1 mt-4">
-                    <table className="table table-sm table-hover" id="myTable">
-                        <thead>
-                            <tr>
-                                <th scope="col">Email</th>
-                                <th scope="col">Estado</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {userListVisual}
-                        </tbody>
-                    </table>
-                </div>
             </div>
-        </div>
         )
     }
 }
 export default AccountConfiguration;
-

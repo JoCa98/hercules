@@ -37,6 +37,8 @@ import ChangeTempPassword from './components/ChangeTempPassword';
 import AccountConfiguration from './components/AccountConfiguration';
 import Reports from  './components/Reports';
 import ReportComponent from  './components/ReportComponent';
+import ConsultAdmin from './components/ConsultAdmin';
+import ConsultMedicPersonal from './components/ConsultMedicPersonal';
 
 
 function App() {
@@ -72,6 +74,8 @@ function App() {
           <Route exact path="/AccountConfiguration" component={AccountConfiguration} />
           <Route exact path="/Reports" component={Reports} />
           <Route exact path="/Report" component={ReportComponent} />
+          <Route exact path="/ConsultAdmin" component={ConsultAdmin} />
+          <Route exact path="/ConsultMedicPersonal" component={ConsultMedicPersonal} />
 
           {/** User Side */}
           <Route exact path="/UserHome" component={UserHome} />
