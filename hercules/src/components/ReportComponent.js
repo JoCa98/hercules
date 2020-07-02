@@ -34,6 +34,7 @@ class ReportComponent extends Component {
     componentDidMount() {
         document.getElementById("total").style.display = "none";
         this.typeOfReport();
+       
     }
 
     typeOfReport() {
@@ -64,8 +65,12 @@ class ReportComponent extends Component {
     rutineDropDown(){
         axios.get("http://localhost:9000/RoutineRoute/getRoutineType").then(response => {
             var routine = response.data;
-                this.setState({ optionList:routine });
+            if(routine.lenght = 1){
+                this.setState({variable: routine[0].value});
+            }
+              this.setState({optionList: routine});
             });
+                
     }
 
     typeDropDown(){
@@ -75,14 +80,21 @@ class ReportComponent extends Component {
     }
 
     conditionDropDown(){
-        this.setState({
-            optionList: [{ description: "1", value: 1 }, { description: "2", value: 2 }, { description: "3", value: 3 }]
-        });
+        axios.get(`http://localhost:9000/MedicalInfo/getRiskCondition`).then(response => {
+            var risk = response.data[0];  
+            if(risk.lenght = 1){
+                this.setState({variable: risk[0].value});
+            }
+              this.setState({optionList: risk});
+            });
     }
 
     dateDropDown(){
         axios.get(`http://localhost:9000/ReportsRoute/signUpDates`).then(response => {
-            var dates = response.data[0];
+            var dates = response.data[0];  
+            if(dates.lenght = 1){
+                this.setState({variable: dates[0].value});
+            }
               this.setState({optionList: dates});
             });
     }
@@ -90,8 +102,12 @@ class ReportComponent extends Component {
     careerDropDown(){
         axios.get(`http://localhost:9000/User/getCareer`).then(response => {
             var career = response.data[0];
+            if(career.lenght = 1){
+                this.setState({variable: career[0].careerID});
+            }
               this.setState({optionList: career});
-            });
+
+        });
     }
 
     genderDropDown(){
@@ -135,7 +151,7 @@ class ReportComponent extends Component {
                 //carrera
                 axios.get(`http://localhost:9000/ReportsRoute/userCareerReport`,
                 {
-                    params: { }
+                    params: { selectedCareer: this.state.variable}
                 }).then(response => {
                     const list = response.data[0];
                     this.setState({ list });
@@ -145,7 +161,7 @@ class ReportComponent extends Component {
                 //año de ingreso
                 axios.get(`http://localhost:9000/ReportsRoute/userYearReport`,
                 {
-                    params: { }
+                    params: { selectedYear: this.state.variable }
                 }).then(response => {
                     const list = response.data[0];
                     this.setState({ list });
@@ -155,7 +171,7 @@ class ReportComponent extends Component {
                 //condición de riesgo
                 axios.get(`http://localhost:9000/ReportsRoute/userRiskReport`,
                 {
-                    params: { }
+                    params: { selectedRisk: this.state.variable }
                 }).then(response => {
                     const list = response.data[0];
                     this.setState({ list });
@@ -165,7 +181,7 @@ class ReportComponent extends Component {
                 //tipo de usuarios
                 axios.get(`http://localhost:9000/ReportsRoute/userTypeReport`,
                 {
-                    params: { }
+                    params: { selectedType : this.state.variable }
                 }).then(response => {
                     const list = response.data[0];
                     this.setState({ list });
@@ -175,7 +191,7 @@ class ReportComponent extends Component {
                 //tipo de rutina
                 axios.get(`http://localhost:9000/ReportsRoute/userRoutineTypeReport`,
                 {
-                    params: { }
+                    params: { selectedRoutine: this.state.variable}
                 }).then(response => {
                     const list = response.data[0];
                     this.setState({ list });
@@ -211,9 +227,11 @@ class ReportComponent extends Component {
     }
 }
 
+
+
     render() {
 
-        const statusList = this.state.optionList.map((option, i) => {
+        const dropDownList = this.state.optionList.map((option, i) => {
             if(this.state.reportNumber == 3){
                 return (
                     <option value={option.careerID} key={i}>{option.name}</option>
@@ -224,6 +242,12 @@ class ReportComponent extends Component {
                     <option value={option.value} key={i}>{option.value}</option>
                 )
             }
+            if(this.state.reportNumber == 5){
+                return (
+                    <option value={option.riskConditionID} key={i}>{option.description}</option>
+                )
+            }
+            
             if(this.state.reportNumber == 7){
                 return (
                     <option value={option.routineTypeID} key={i}>{option.description}</option>
@@ -232,7 +256,9 @@ class ReportComponent extends Component {
             return (
                 <option value={option.value} key={i}>{option.description} </option>
             )
+          
         })
+
         const total = this.state.list[0].Total;
 
         const report = this.state.list.map((result, i) => {
@@ -242,6 +268,7 @@ class ReportComponent extends Component {
                     <td>{result.carnet}</td>
                     <td>{result.fullName}</td>
                     <td>{result.email}</td>
+                    <td>{result.startDate}</td>
                 </tr>
             )
         })
@@ -262,8 +289,8 @@ class ReportComponent extends Component {
                     </div>
                     <div className="row">
                         <div className="col-3 mt-2">
-                            <select name="optionDropDown" align="left" className="form-control" onChange={this.optionSelect}>
-                                {statusList}
+                            <select name="optionDropDown" id="DD" align="left" className="form-control" onChange={this.optionSelect}>
+                                {dropDownList}
                             </select>
                         </div>
                         <div className="col-4 mt-2">
@@ -284,6 +311,7 @@ class ReportComponent extends Component {
                                             <th scope="col" className="align-middle">Carnet</th>
                                             <th scope="col" className="align-middle">Nombre</th>
                                             <th scope="col" className="align-middle">Correo electrónico</th>
+                                            <th scope="col" className="align-middle">Fecha de ingreso</th>
                                         </tr>
                                     </thead>
                                     <tbody>

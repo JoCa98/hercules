@@ -30,7 +30,7 @@ router.get('/userStatusReport', (req, res) => {
 
   //Reporte por carrera de los usuarios
   router.get('/userCareerReport', (req, res) => {
-    connection.query("CALL ();", function (err, results) {
+    connection.query("CALL proc_careerReport(" + req.query.selectedCareer + ");", function (err, results) {
       if (results) {
         res.send(results);
       }
@@ -42,7 +42,7 @@ router.get('/userStatusReport', (req, res) => {
 
   //Reporte por año de ingreso de los usuarios
   router.get('/userYearReport', (req, res) => {
-    connection.query("CALL ();", function (err, results) {
+    connection.query("CALL proc_startDateReport(" + req.query.selectedYear + ");", function (err, results) {
       if (results) {
         res.send(results);
       }
@@ -54,7 +54,7 @@ router.get('/userStatusReport', (req, res) => {
 
   //Reporte por condición de riesgo
   router.get('/userRiskReport', (req, res) => {
-    connection.query("CALL ();", function (err, results) {
+    connection.query("CALL proc_riskConditionReport(" + req.query.selectedRisk + ");", function (err, results) {
       if (results) {
         res.send(results);
       }
@@ -66,7 +66,7 @@ router.get('/userStatusReport', (req, res) => {
 
   //Reporte por tipo de usuario
   router.get('/userTypeReport', (req, res) => {
-    connection.query("CALL ();", function (err, results) {
+    connection.query("CALL proc_userType(" + req.query.selectedType + ");", function (err, results) {
       if (results) {
         res.send(results);
       }
@@ -78,7 +78,7 @@ router.get('/userStatusReport', (req, res) => {
 
   //Reporte por tipo de rutina
   router.get('/userRoutineTypeReport', (req, res) => {
-    connection.query("CALL ();", function (err, results) {
+    connection.query("CALL proc_routineTypeReport(" + req.query.selectedRoutine + ");", function (err, results) {
       if (results) {
         res.send(results);
       }

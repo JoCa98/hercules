@@ -81,4 +81,15 @@ router.post('/updateMedicalRegister', (req,res) => {
   });
 });
 
+router.get('/getRiskCondition',(req,res) =>{
+  connection.query("CALL proc_getRiskCondition()",function(err,result){
+    if (err) {
+      return res.send(err)
+    }
+    else {
+      return res.send(result)
+    }
+  });
+});
+
 module.exports = router;

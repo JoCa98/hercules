@@ -189,7 +189,7 @@ class TableMedicalInfo extends Component {
                     <tr className="pointer" onClick={this.rowEvent} key={i}>
                         <td>{medicalInfo.date}</td>
                         <td>{medicalInfo.recommendations}</td>
-                        <td>{medicalInfo.cardiovascularRisk}</td>
+                        <td>{medicalInfo.riskConditionID}</td>
                         <td>{medicalInfo.upToDate}</td>
                     </tr>
                 )
@@ -198,7 +198,7 @@ class TableMedicalInfo extends Component {
                     <tr key={i}>
                         <td>{medicalInfo.date}</td>
                         <td>{medicalInfo.recommendations}</td>
-                        <td>{medicalInfo.cardiovascularRisk}</td>
+                        <td>{medicalInfo.riskConditionID}</td>
                         <td>{medicalInfo.upToDate}</td>
                     </tr>
                 )}

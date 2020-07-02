@@ -120,6 +120,7 @@ class MedicalForm extends Component {
             IMC: 0,
             waist: 0,
             hip: 0,
+            riskList :[{}],
             cardiovascularRisk: 1,
             recommendations: "",
             medicalInfo: [{}],
@@ -190,6 +191,11 @@ class MedicalForm extends Component {
                     }).then(response => {
                         const userName = response.data[0];
                         this.setState({ userName });
+                    });
+                axios.get(`http://localhost:9000/MedicalInfo/getRiskCondition`).then(
+                    response =>{
+                        const riskList = response.data[0];
+                        this.setState({riskList});
                     });
 
                 if (sessionStorage.getItem("update") == "true") {
@@ -262,7 +268,7 @@ class MedicalForm extends Component {
         document.getElementById("hip").value = this.state.medicalInfo[0].hip;
         document.getElementById("neurologicalInfo").value = this.state.medicalInfo[0].neurologicalInfo;
         document.getElementById("pulmonaryCardioInfo").value = this.state.medicalInfo[0].pulmonaryCardioInfo;
-        document.getElementById("cardiovascularRisk").value = this.state.medicalInfo[0].cardiovascularRisk;
+        document.getElementById("cardiovascularRisk").value = this.state.medicalInfo[0].riskConditionID;
         document.getElementById("recommendations").value = this.state.medicalInfo[0].recommendations;
         document.getElementById("upToDate").value = this.state.medicalInfo[0].upToDate;
         document.getElementById("bloodPressure").value = this.state.medicalInfo[0].bloodPressure;
@@ -281,7 +287,7 @@ class MedicalForm extends Component {
         this.setState({ IMC: this.state.medicalInfo[0].IMC });
         this.setState({ waist: this.state.medicalInfo[0].waist });
         this.setState({ hip: this.state.medicalInfo[0].hip });
-        this.setState({ cardiovascularRisk: this.state.medicalInfo[0].cardiovascularRisk });
+        this.setState({ cardiovascularRisk: this.state.medicalInfo[0].riskConditionID });
         this.setState({ recommendations: this.state.medicalInfo[0].recommendations });
         this.setState({ upToDate: this.state.medicalInfo[0].upToDate });
     }
@@ -479,6 +485,13 @@ class MedicalForm extends Component {
     }
 
     render() {
+
+        const list = this.state.riskList.map((risk,i) =>{
+            return(
+                <option value={risk.riskConditionID}>{risk.description}</option>
+            )
+        });
+
         const name = this.state.userName.map((userName, i) => {
             return (
                 <label className="form-label" key={i}>Usuario: {userName.fullName}</label>
@@ -727,9 +740,7 @@ class MedicalForm extends Component {
                                                         </div>
                                                         <div className="controls">
                                                             <select name="cardiovascularRisk" id="cardiovascularRisk" font-size="18px" className="form-control" align="left" onChange={this.cardioVascularSelect} >
-                                                                <option value={1} default >1</option>
-                                                                <option value={2}>2</option>
-                                                                <option value={3}>3</option>
+                                                              {list}
                                                             </select>
                                                         </div>
 
