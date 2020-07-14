@@ -86,7 +86,7 @@ class LogIn extends Component {
                                         })
 
                                     } else if (sessionStorage.getItem('userTypeID') == 3 || sessionStorage.getItem('userTypeID') == 4
-                                        || sessionStorage.getItem('userTypeID') == 5) {
+                                        || sessionStorage.getItem('userTypeID') == 5 || sessionStorage.getItem('userTypeID') == 6 ) {
                                         this.props.history.push(`/HomeAdmin`);
                                         window.location.reload();
                                     }

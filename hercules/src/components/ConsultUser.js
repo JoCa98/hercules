@@ -51,7 +51,7 @@ class ConsultUser extends Component {
 
             this.getUserBasicInfo();
 
-            if (sessionStorage.getItem('userTypeID') != 4) {
+            if (sessionStorage.getItem('userTypeID') != 4 && sessionStorage.getItem('userTypeID') != 6) {
                 this.hideAdminBtns();
             }
         }

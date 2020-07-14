@@ -22,6 +22,7 @@ class PermissionManager extends Component {
         this.redirectUser = this.redirectUser.bind(this);
         this.generalPagesSpecialPermission = this.generalPagesSpecialPermission.bind(this);
         this.adminUserSpecialPermission = this.adminUserSpecialPermission.bind(this);
+        this.superAdminConfigurations = this.superAdminConfigurations.bind(this);
 
     }
 
@@ -74,7 +75,7 @@ class PermissionManager extends Component {
             return false;
 
         } else if (this.userHome(pageName)
-            && (sessionStorage.getItem("userTypeID") === '1' || sessionStorage.getItem("userTypeID") === '2')) {                
+            && (sessionStorage.getItem("userTypeID") === '1' || sessionStorage.getItem("userTypeID") === '2')) {
             if ((sessionStorage.getItem("routineID") !== null
                 && sessionStorage.getItem("routineID") !== 'undefined')) {
 
@@ -95,21 +96,23 @@ class PermissionManager extends Component {
             //Página de home admin
         } else if (this.homeAdmin(pageName) && !(sessionStorage.getItem('userTypeID') === '3'
             | sessionStorage.getItem('userTypeID') === '4'
-            | sessionStorage.getItem('userTypeID') === '5')) {
+            | sessionStorage.getItem('userTypeID') === '5'
+            | sessionStorage.getItem('userTypeID') === '6')) {
 
             this.redirectUser(page);
             return false;
 
             //Páginas de acceso general para admin y medicos
         } else if (this.generalPages(pageName) && !(sessionStorage.getItem('userTypeID') === '3'
-            || sessionStorage.getItem('userTypeID') === '4')) {
+            || sessionStorage.getItem('userTypeID') === '4'
+            || sessionStorage.getItem('userTypeID') === '6')) {
 
             this.redirectUser(page);
             return false;
 
 
         } else if (this.generalPages(pageName) && (sessionStorage.getItem('userTypeID') === '3'
-            | sessionStorage.getItem('userTypeID') === '4')) {
+            || sessionStorage.getItem('userTypeID') === '4' | sessionStorage.getItem('userTypeID') === '6')) {
 
             if (this.generalPagesSpecialPermission(pageName) &&
                 (sessionStorage.getItem("userPartyID") === null
@@ -121,12 +124,12 @@ class PermissionManager extends Component {
             }
 
             //Páginas de administrador 
-        } else if (this.admin(pageName) && !(sessionStorage.getItem('userTypeID') === '4')) {
+        } else if (this.admin(pageName) && (!sessionStorage.getItem('userTypeID') === '4') && !sessionStorage.getItem('userTypeID') === '6') {
 
             this.redirectUser(page);
             return false;
 
-        } else if (this.admin(pageName) && sessionStorage.getItem('userTypeID') === '4') {
+        } else if (this.admin(pageName) && (sessionStorage.getItem('userTypeID') === '4') || sessionStorage.getItem('userTypeID') === '6') {
 
             if (this.adminUserSpecialPermission(pageName) &&
                 (sessionStorage.getItem("userPartyID") === null
@@ -181,12 +184,24 @@ class PermissionManager extends Component {
             } else if (this.addMedicalForm(pageName) &&
                 sessionStorage.getItem('update') === "false" &&
                 (sessionStorage.getItem('dateLastMedicRegistry') !== null
-                || sessionStorage.getItem('dateLastMedicRegistry') !== 'null'
+                    || sessionStorage.getItem('dateLastMedicRegistry') !== 'null'
                     || sessionStorage.getItem('dateLastMedicRegistry') !== ""
                     || sessionStorage.getItem('dateLastMedicRegistry') !== 'undefined') &&
                 new Date(sessionStorage.getItem('dateLastMedicRegistry')) === Date(new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate())) {
 
                 this.redirectUser(page)
+                return false;
+            }
+        } else if (this.superAdminConfigurations(pageName) && !(sessionStorage.getItem('userTypeID') === '6')) {
+            this.redirectUser(page);
+            return false;
+        } else if (this.superAdminConfigurations(pageName) && (sessionStorage.getItem('userTypeID') === '6')) {
+            if (this.superAdminConfigurations(pageName) &&
+                (sessionStorage.getItem("userPartyID") === null
+                    || sessionStorage.getItem("userPartyID") === ""
+                    || sessionStorage.getItem("userPartyID") === 'undefined')) {
+
+                this.redirectUser(page);
                 return false;
             }
         }
@@ -197,7 +212,7 @@ class PermissionManager extends Component {
         if (sessionStorage.getItem('userTypeID') === '1' || sessionStorage.getItem('userTypeID') === '2') {
             page.props.history.push(`/UserHome`);
         } else if (sessionStorage.getItem('userTypeID') === '3' || sessionStorage.getItem('userTypeID') === '4'
-            | sessionStorage.getItem('userTypeID') === '5') {
+            | sessionStorage.getItem('userTypeID') === '5' | sessionStorage.getItem('userTypeID') === '6') {
             page.props.history.push(`/HomeAdmin`);
         } else {
             page.props.history.push(`/`);
@@ -267,6 +282,10 @@ class PermissionManager extends Component {
 
     adminUserSpecialPermission(pageName) {
         return new RegExp("^((\/AddPhysicalInfo)|(\/EditPhysicalInfo)|(\/AddRoutine)|(\/HistoricPhysicalInfoAdmin)|(\/HistoricRoutineInfo))$").test(pageName);
+    }
+
+    superAdminConfigurations(pageName) {
+        return new RegExp("^((\/Configuration)|(\/CareerConfiguration)|(\/AccountConfiguration)|(\/ConsultExercise)|(\/ExercisesList)|(\/ConsultAdmin)|(\/ConsultMedicPersonal))$").test(pageName);
     }
 
 }
