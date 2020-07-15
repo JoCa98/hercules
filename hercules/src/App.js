@@ -38,6 +38,7 @@ import AccountConfiguration from './components/AccountConfiguration';
 import Reports from  './components/Reports';
 import ReportComponent from  './components/ReportComponent';
 import ConsultAdmin from './components/ConsultAdmin';
+import AddExercise from './components/AddExercise';
 import ConsultMedicPersonal from './components/ConsultMedicPersonal';
 
 
@@ -70,6 +71,7 @@ function App() {
           <Route exact path="/Configuration" component={Configuration} />
           <Route exact path="/CareerConfiguration" component={CareerConfiguration} />
           <Route exact path="/ExercisesList" component={ExercisesList} />
+          <Route exact path="/AddExercise" component={AddExercise} />
           <Route exact path="/ConsultExercise" component={ConsultExercise} />
           <Route exact path="/AccountConfiguration" component={AccountConfiguration} />
           <Route exact path="/Reports" component={Reports} />

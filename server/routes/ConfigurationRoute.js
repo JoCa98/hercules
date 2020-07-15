@@ -113,8 +113,9 @@ router.get('/getExercisesByNameAndType', (req, res) => {
 
 /////////
 
-router.post('/AddExcercise',(req,res) => {
-  connection.query("CALL proc_addNewExercise('" + req.body.exerciseDescription + "','" + req.body.exerciseLink + "'," + req.body.exerciseTypeID + ");", function(err, results) {
+router.post('/AddNewExcercise',function(req,res)  {
+  connection.query("CALL proc_addNewExercise('" + req.body.name + "','" 
+  + req.body.link + "'," + req.body.typeID +","+ req.body.status+ ");", function(err, results) {
       if (results) {
           res.send(results);
         }
@@ -124,8 +125,9 @@ router.post('/AddExcercise',(req,res) => {
   });
 });
 
-router.post('/EditExcercise',(req,res) => {
-  connection.query("CALL proc_updateExercise('" + req.body.exerciseID + "','" + req.body.exerciseDescription + "','" + req.body.exerciseLink + "'," + req.body.exerciseTypeID + ");", function(err, results) {
+router.post('/EditExcercise',function(req,res)  {
+  connection.query("CALL proc_updateExercise(" + req.body.exerciseID + ",'" + req.body.name + "','" 
+  + req.body.link + "'," + req.body.typeID +","+ req.body.status+ ");", function(err, results) {
       if (results) {
           res.send(results);
         }

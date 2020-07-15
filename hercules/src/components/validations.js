@@ -16,6 +16,7 @@ class validations extends Component {
         this.validateViceralFat = this.validateViceralFat.bind(this);
         this.validateDCI = this.validateDCI.bind(this);
         this.validateMetabolicAge = this.validateMetabolicAge.bind(this);    
+        this.validateURLField = this.validateURLField.bind(this);
     }
 
     validateTextField(value) {
@@ -30,6 +31,9 @@ class validations extends Component {
     }
     validatePasswordField(value) {
         return new RegExp("^(?=.*\\d).{8,16}$").test(value);
+    }
+    validateURLField(value){
+        return new RegExp("[(http(s)?):\\/\\/(www\\.)?a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)").test(value);
     }
 
     validatePhoneNumberField(value){
