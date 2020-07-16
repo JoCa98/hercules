@@ -30,6 +30,7 @@ class AccountConfiguration extends Component {
         this.handleInput = this.handleInput.bind(this);
         this.searchEvent = this.searchEvent.bind(this);
         this.rowEvent = this.rowEvent.bind(this);
+        this.search = this.search.bind(this);
 
         this.getActiveMedicsList = this.getActiveMedicsList.bind(this);
         this.getInactiveMedicsList = this.getInactiveMedicsList.bind(this);
@@ -57,7 +58,32 @@ class AccountConfiguration extends Component {
         } else {
             this.getInactiveAdminsList()
         }
+        if(this.state.searchInput != ''){
+           this.search(); 
+        }
     }
+
+    search() {
+        var input, filter, table, tr, td, i, txtValue;
+        input =  this.state.searchInput;
+        filter = input.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+      
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+          //Select column to filter with this index ..("td")[1] <<<
+          td = tr[i].getElementsByTagName("td")[1];
+          if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+              tr[i].style.display = "";
+            } else {
+              tr[i].style.display = "none";
+            }
+          }
+        }
+      }
 
     getActiveMedicsList() {
         try {
@@ -151,6 +177,7 @@ class AccountConfiguration extends Component {
             } else {
                 return (
                     <tr className="pointer" onClick={this.rowEvent} key={i}>
+                        <td>{userList.partyID}</td>
                         <td>{userList.email}</td>
                         <td>{userList.status}</td>
                     </tr>
@@ -202,10 +229,11 @@ class AccountConfiguration extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="col-10 offset-1 mt-4">
+                    <div className="col-10 offset-1 mt-4" > 
                         <table className="table table-sm table-hover" id="myTable">
                             <thead>
-                                <tr>
+                                <tr class="header">
+                                    <th scope="col">Id</th>
                                     <th scope="col">Email</th>
                                     <th scope="col">Estado</th>
                                 </tr>

@@ -40,6 +40,11 @@ import ReportComponent from  './components/ReportComponent';
 import ConsultAdmin from './components/ConsultAdmin';
 import AddExercise from './components/AddExercise';
 import ConsultMedicPersonal from './components/ConsultMedicPersonal';
+import AddCareer from './components/AddCareer';
+import CareerUpdate from './components/CareerUpdate';
+import CareersToDeleteList from './components/CareersToDeleteList';
+import CareerDelete from './components/CareerDelete';
+
 
 
 function App() {
@@ -78,6 +83,10 @@ function App() {
           <Route exact path="/Report" component={ReportComponent} />
           <Route exact path="/ConsultAdmin" component={ConsultAdmin} />
           <Route exact path="/ConsultMedicPersonal" component={ConsultMedicPersonal} />
+          <Route exact path="/AddCareer" component={AddCareer} />
+          <Route exact path="/CareerUpdate" component={CareerUpdate} />
+          <Route exact path="/CareerDeleteList" component={CareersToDeleteList} />
+          <Route exact path="/CareerDelete" component={CareerDelete} />
 
           {/** User Side */}
           <Route exact path="/UserHome" component={UserHome} />
