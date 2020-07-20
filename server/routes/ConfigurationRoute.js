@@ -4,15 +4,70 @@ const router = express.Router();
 var cors = require("cors");
 router.use(cors());
 
-router.post('/AddCareer',(req,res) => {
-    connection.query("CALL proc_AddCareer('" + req.body.name + "');", function(err, results) {
-        if (results) {
-            res.send(results);
-          }
-          else {
-            console.log(err);
-          }
-    });
+router.post('/AddCareer', (req, res) => {
+  connection.query("CALL proc_addCareer('" + req.body.name + "');", function (err, results) {
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+  });
+});
+
+router.post('/DeleteCareer', (req, res) => {
+  connection.query("CALL proc_deleteCareer(" + req.query.careerID + ");", function (err, results) {
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+  });
+});
+
+router.get('/GetCareersWithoutStudents', (req, res) => {
+  connection.query("CALL proc_getCareersWithoutStudents()", function (err, results) {
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+  });
+});
+
+router.post('/UpdateCareerName', (req, res) => {
+  connection.query("CALL proc_updateCareerName(" + req.body.careerID + ",'" + req.body.name + "');", function (err, results) {
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+  });
+});
+
+router.get('/GetCareers', (req, res) => {
+  connection.query("CALL proc_getCareers();", function (err, results) {
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+  });
+});
+
+router.get('/GetCareerByID', (req, res) => {
+  connection.query("CALL proc_getCareerByID(" + req.query.careerID + ");", function (err, results) {
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+  });
 });
 
 
@@ -111,43 +166,43 @@ router.get('/getExercisesByNameAndType', (req, res) => {
   });
 });
 
-/////////
-
-router.post('/AddExcercise',(req,res) => {
-  connection.query("CALL proc_addNewExercise('" + req.body.exerciseDescription + "','" + req.body.exerciseLink + "'," + req.body.exerciseTypeID + ");", function(err, results) {
+router.post('/AddNewExcercise', function (req, res) {
+  connection.query("CALL proc_addNewExercise('" + req.body.name + "','"
+    + req.body.link + "'," + req.body.typeID + "," + req.body.status + ");", function (err, results) {
       if (results) {
-          res.send(results);
-        }
-        else {
-          console.log(err);
-        }
+        res.send(results);
+      }
+      else {
+        console.log(err);
+      }
+    });
+});
+
+router.post('/EditExcercise', function (req, res) {
+  connection.query("CALL proc_updateExercise(" + req.body.exerciseID + ",'" + req.body.name + "','"
+    + req.body.link + "'," + req.body.typeID + "," + req.body.status + ");", function (err, results) {
+      if (results) {
+        res.send(results);
+      }
+      else {
+        console.log(err);
+      }
+    });
+});
+
+router.get('/getExerciseByID', (req, res) => {
+  connection.query("CALL proc_getExerciseByID(" + req.query.exerciseID + ");", function (err, results) {
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
   });
 });
 
-router.post('/EditExcercise',(req,res) => {
-  connection.query("CALL proc_updateExercise('" + req.body.exerciseID + "','" + req.body.exerciseDescription + "','" + req.body.exerciseLink + "'," + req.body.exerciseTypeID + ");", function(err, results) {
-      if (results) {
-          res.send(results);
-        }
-        else {
-          console.log(err);
-        }
-  });
-});
-
-router.get('/getExerciseByID',(req,res) => {
-  connection.query("CALL proc_getExerciseByID(" + req.query.exerciseID + ");", function(err, results) {
-      if (results) {
-          res.send(results);
-        }
-        else {
-          console.log(err);
-        }
-  });
-});
-
-router.post('/changeExerciseStatus',(req,res) =>{
-  connection.query("CALL proc_changeExerciseStatus(" + req.body.exerciseID + "," + req.body.status + ");", function(err,results){
+router.post('/changeExerciseStatus', (req, res) => {
+  connection.query("CALL proc_changeExerciseStatus(" + req.body.exerciseID + "," + req.body.status + ");", function (err, results) {
     if (results) {
       res.send(results);
     }
@@ -171,94 +226,94 @@ router.get('/isMasterEmail', (req, res) => {
 
 //All users
 router.get('/AdminAccounts', (req, res) => {
-  connection.query("CALL proc_getAllGymAdmin()", function (err,results){
+  connection.query("CALL proc_getAllGymAdmin()", function (err, results) {
     if (results) {
       res.send(results);
     }
     else {
       console.log(err);
     }
- });
+  });
 });
 
 router.get('/MedicalAccounts', (req, res) => {
-  connection.query("CALL proc_getAllMedicalAdmin()", function (err,results){
+  connection.query("CALL proc_getAllMedicalAdmin()", function (err, results) {
     if (results) {
       res.send(results);
     }
     else {
       console.log(err);
     }
- });
+  });
 });
 
 //Specific state users
 
 router.get('/ActiveMedics', (req, res) => {
-  connection.query("CALL proc_getActiveMedics()", function (err,results){
+  connection.query("CALL proc_getActiveMedics()", function (err, results) {
     if (results) {
       res.send(results);
     }
     else {
       console.log(err);
     }
- });
+  });
 });
 
 router.get('/InactiveMedics', (req, res) => {
-  connection.query("CALL proc_getInactiveMedics()", function (err,results){
+  connection.query("CALL proc_getInactiveMedics()", function (err, results) {
     if (results) {
       res.send(results);
     }
     else {
       console.log(err);
     }
- });
+  });
 });
 
 router.get('/ActiveGymAdmins', (req, res) => {
-  connection.query("CALL proc_getActiveGymAdmin()", function (err,results){
+  connection.query("CALL proc_getActiveGymAdmin()", function (err, results) {
     if (results) {
       res.send(results);
     }
     else {
       console.log(err);
     }
- });
+  });
 });
 
 router.get('/InactiveActiveGymAdmins', (req, res) => {
-  connection.query("CALL proc_getInactiveGymAdmins()", function (err,results){
+  connection.query("CALL proc_getInactiveGymAdmins()", function (err, results) {
     if (results) {
       res.send(results);
     }
     else {
       console.log(err);
     }
- });
+  });
 });
 
 //Change status
 router.get('/ChangeMedicStatus', (req, res) => {
-  connection.query("CALL proc_changeMedicStatus('"+ req.query.email +"'," + req.query.status + ")", function (err,results){
+  connection.query("CALL proc_changeMedicStatus('" + req.query.email + "'," + req.query.status + ")", function (err, results) {
     if (results) {
       res.send(results);
     }
     else {
       console.log(err);
     }
- });
+  });
 });
 
 router.get('/DeleteAdmin', (req, res) => {
-  connection.query("CALL proc_deleteAdmin('"+ req.query.email +"')", function (err,results){
+  connection.query("CALL proc_deleteAdmin('" + req.query.email + "')", function (err, results) {
     if (results) {
       res.send(results);
     }
     else {
       console.log(err);
     }
- });
+  });
 });
 
 module.exports = router;

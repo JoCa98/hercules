@@ -38,7 +38,13 @@ import AccountConfiguration from './components/AccountConfiguration';
 import Reports from  './components/Reports';
 import ReportComponent from  './components/ReportComponent';
 import ConsultAdmin from './components/ConsultAdmin';
+import AddExercise from './components/AddExercise';
 import ConsultMedicPersonal from './components/ConsultMedicPersonal';
+import AddCareer from './components/AddCareer';
+import CareerUpdate from './components/CareerUpdate';
+import CareersToDeleteList from './components/CareersToDeleteList';
+import CareerDelete from './components/CareerDelete';
+
 
 
 function App() {
@@ -70,12 +76,17 @@ function App() {
           <Route exact path="/Configuration" component={Configuration} />
           <Route exact path="/CareerConfiguration" component={CareerConfiguration} />
           <Route exact path="/ExercisesList" component={ExercisesList} />
+          <Route exact path="/AddExercise" component={AddExercise} />
           <Route exact path="/ConsultExercise" component={ConsultExercise} />
           <Route exact path="/AccountConfiguration" component={AccountConfiguration} />
           <Route exact path="/Reports" component={Reports} />
           <Route exact path="/Report" component={ReportComponent} />
           <Route exact path="/ConsultAdmin" component={ConsultAdmin} />
           <Route exact path="/ConsultMedicPersonal" component={ConsultMedicPersonal} />
+          <Route exact path="/AddCareer" component={AddCareer} />
+          <Route exact path="/CareerUpdate" component={CareerUpdate} />
+          <Route exact path="/CareerDeleteList" component={CareersToDeleteList} />
+          <Route exact path="/CareerDelete" component={CareerDelete} />
 
           {/** User Side */}
           <Route exact path="/UserHome" component={UserHome} />

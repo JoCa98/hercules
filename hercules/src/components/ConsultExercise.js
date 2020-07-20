@@ -32,10 +32,12 @@ class ConsultExercise extends Component {
             exerciseInfo: [{}],
             show: false,
             modalTittle: "",
-            modalChildren: ""
+            modalChildren: "",
+            status:0,
         };
         this.getExerciseInfo = this.getExerciseInfo.bind(this);
         this.backButton = this.backButton.bind(this);
+        this.editExercise = this.editExercise.bind(this);
         this.changeExerciseStatus = this.changeExerciseStatus.bind(this);
         this.modalTrigger = this.modalTrigger.bind(this);
     }
@@ -61,13 +63,15 @@ class ConsultExercise extends Component {
         event.preventDefault();
     };
 
-    /**
-   * method that activate or deactivate a user 
-   */
+   
     editExercise(event) {
-
-
+        sessionStorage.setItem('name', this.state.exerciseInfo[0].description);
+        sessionStorage.setItem('link', this.state.exerciseInfo[0].link);
+        sessionStorage.setItem('type', this.state.exerciseInfo[0].typeID);
+        sessionStorage.setItem('status', this.state.status);
+        this.props.history.push(`/AddExercise`);
     }
+
     modalTrigger(event, mdTittle, mdChildren) {
         this.setState({
             show: !this.state.show,
@@ -80,8 +84,10 @@ class ConsultExercise extends Component {
         var accountState;
         if (document.getElementById("status").textContent === "Inactivo") {
             accountState = 1;
+            this.state.status=1;
         } else {
             accountState = 0;
+            this.state.status=0;
         }
         fetch("http://localhost:9000/ConfigurationRoute/changeExerciseStatus", {
             method: "post",
@@ -123,8 +129,10 @@ class ConsultExercise extends Component {
                     this.setState({ exerciseInfo });
                     if (exerciseInfo[0].status === "Inactivo") {
                         document.getElementById('changeExerciseStatus').textContent = "Activar";
+                        this.state.status=0;
                     } else {
                         document.getElementById('changeExerciseStatus').textContent = "Desactivar";
+                        this.state.status=1;
                     }
                 });
 

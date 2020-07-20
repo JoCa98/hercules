@@ -198,7 +198,7 @@ class ExercisesList extends Component {
     }
     redirect(event) {
 
-        this.props.history.push(`/ConsultExercise`);
+        this.props.history.push(`/AddExercise`);
     }
 
     render() {
@@ -225,7 +225,10 @@ class ExercisesList extends Component {
 
         var breadcrumb = '';
         if (sessionStorage.getItem('userTypeID') !== '5') {
-            breadcrumb = <div className="row mt-4"><Breadcrumb><Breadcrumb.Item >Inicio</Breadcrumb.Item></Breadcrumb></div>;
+            breadcrumb = <div className="row mt-4"><Breadcrumb>
+            <Breadcrumb.Item href="#/HomeAdmin">Inicio</Breadcrumb.Item>
+                        <Breadcrumb.Item >Lista de Ejercicios</Breadcrumb.Item>
+                        </Breadcrumb></div>;
         }
 
         return (
