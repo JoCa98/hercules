@@ -29,6 +29,7 @@ class ReportComponent extends Component {
         this.genderDropDown = this.genderDropDown.bind(this);
         this.statusDropDown = this.statusDropDown.bind(this);
         this.optionSelect = this.optionSelect.bind(this);
+        this.downloadCSV = this.downloadCSV.bind(this);
     }
 
     componentDidMount() {
@@ -208,23 +209,27 @@ class ReportComponent extends Component {
     * and format it to csv to download  
     */
    downloadCSV() {
-    try {
-        axios.get(`http://localhost:9000/PhysicalInfo/getPhysicalInfoByIDSpanish`,
-            { params: { partyID: this.state.partyID } }).then(response => {
 
-                const { parse } = require('json2csv');
 
-                const fields = ['Fecha', 'Peso', 'PorcentajeDeGrasaCorporal', 'PorcentajeDeAguaCorporal',
-                    'MasaMuscular', 'ValoracionFisica', 'MasaOsea', 'DCI', 'EdadMetabolica', 'GrasaVisceral'];
-                const opts = { fields };
+        const { parse } = require('json2csv');
+        var fields=[];
 
-                const csv = parse(response.data[0], opts);
-                var fileDownload = require('js-file-download');
-                fileDownload(csv, this.state.userName[0].fullName + ' - Composición física.csv');
-            });
-    } catch (err) {
-        console.error("Un error inesperado ha ocurrido");
-    }
+        if(this.state.reportNumber == 5){
+            fields =  ['Carnet', 'Nombre', 'Email','Identificacion','FechaIngreso','Estado','Genero','Carrera','RiesgoCardiovascular'];
+        }else if(this.state.reportNumber == 6){
+            fields =  ['Carnet', 'Nombre', 'Email','Identificacion','FechaIngreso','Estado','Genero','Carrera','TipoUsuario'];
+        }else if(this.state.reportNumber == 7){
+            fields =  ['Carnet', 'Nombre', 'Email','Identificacion','FechaIngreso','Estado','Genero','Carrera','TipoRutina'];
+        }else{
+            fields =  ['Carnet', 'Nombre', 'Email','Identificacion','FechaIngreso','Estado','Genero','Carrera'];
+            
+        }
+
+        const opts = { fields };
+
+        const csv = parse(this.state.list[0], opts);
+        var fileDownload = require('js-file-download');
+        fileDownload(csv,this.state.name + '.csv');
 }
 
 
@@ -264,11 +269,11 @@ class ReportComponent extends Component {
         const report = this.state.list.map((result, i) => {
             return (
                 <tr key={i}>
-                    <td>{result.identificationID}</td>
-                    <td>{result.carnet}</td>
-                    <td>{result.fullName}</td>
-                    <td>{result.email}</td>
-                    <td>{result.startDate}</td>
+                    <td>{result.Identificacion}</td>
+                    <td>{result.Carnet}</td>
+                    <td>{result.Nombre}</td>
+                    <td>{result.Email}</td>
+                    <td>{result.FechaIngreso}</td>
                 </tr>
             )
         })

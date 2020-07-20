@@ -66,7 +66,7 @@ class TableMedicalInfo extends Component {
             })
             value = sessionStorage.getItem('partyID');
             
-        }else if(sessionStorage.getItem('userTypeID') == 3 || sessionStorage.getItem('userTypeID') == 4){
+        }else if(sessionStorage.getItem('userTypeID') == 3 || sessionStorage.getItem('userTypeID') == 4 || sessionStorage.getItem('userTypeID') == 6){
             this.setState({
                 partyID: sessionStorage.getItem('userPartyID')
             })

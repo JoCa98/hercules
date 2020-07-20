@@ -66,7 +66,7 @@ router.get('/userStatusReport', (req, res) => {
 
   //Reporte por tipo de usuario
   router.get('/userTypeReport', (req, res) => {
-    connection.query("CALL proc_userType(" + req.query.selectedType + ");", function (err, results) {
+    connection.query("CALL proc_userTypeReport(" + req.query.selectedType + ");", function (err, results) {
       if (results) {
         res.send(results);
       }
@@ -90,6 +90,18 @@ router.get('/userStatusReport', (req, res) => {
 
   router.get('/signUpDates', (req, res) => {
     connection.query("CALL proc_getSignUpYears();", function (err, results) {
+      if (results) {
+        res.send(results);
+      }
+      else {
+        console.log(err);
+      }
+    });
+  });
+
+  //Reporte General Usuarios
+  router.get('/usersGeneralReport', (req, res) => {
+    connection.query("SELECT * FROM view_generalreport;", function (err, results) {
       if (results) {
         res.send(results);
       }

@@ -24,7 +24,7 @@ class TablePhysicalInfo extends Component {
                 partyID: sessionStorage.getItem('partyID')
             })
             value = sessionStorage.getItem('partyID');
-        } else if (sessionStorage.getItem('userTypeID') == 3 || sessionStorage.getItem('userTypeID') == 4) {
+        } else if (sessionStorage.getItem('userTypeID') == 3 || sessionStorage.getItem('userTypeID') == 4 || sessionStorage.getItem('userTypeID') == 6 ) {
             this.setState({
                 partyID: sessionStorage.getItem('userPartyID')
             })
@@ -58,7 +58,7 @@ class TablePhysicalInfo extends Component {
 
     render() {
         const physicalInfoListVisual = this.state.physicalInfo.map((physicalInfo, i) => {
-            if (i == 0 && sessionStorage.getItem('userTypeID') == 4) {
+            if (i == 0 && (sessionStorage.getItem('userTypeID') == 4 ||sessionStorage.getItem('userTypeID') == 6)) {
                 sessionStorage.setItem('dateLastPhysicalRegistry', physicalInfo.regDate);
                 return (
                     <tr className="pointer" onClick={this.rowEvent} key={i}>

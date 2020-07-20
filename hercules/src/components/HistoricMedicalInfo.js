@@ -96,12 +96,12 @@ class HistoricMedicalInfo extends Component {
 
                     const { parse } = require('json2csv');
 
-                    const fields = ['Fecha', 'CodigoMedico', 'Patologicos', 'Alergias',
-                        'Quirurgicos', 'Traumaticos', 'PresionArterial', 'SpO2',
-                        'Neurologico', 'Cardiopulmonar', 'UmbraAerobico',
-                        'FrecuenciaCardiaca', 'Peso', 'Talla', 'IMC',
-                        'Cintura', 'Cadera', 'Recomendaciones',
-                        'RiesgoCardiovascular', 'ValidoHasta'];
+                    const fields = ["Fecha", "CodigoMedico", "Patologicos", "Alergias",
+                        "Quirurgicos", "Traumaticos", "PresionArterial", "SpO2",
+                        "Neurologico", "Cardiopulmonar", "UmbralAerobico",
+                        "FrecuenciaCardiaca", "Peso", "Talla", "IMC",
+                        "Cintura", "Cadera", "Recomendaciones",
+                        "RiesgoCardiovascular", "ValidoHasta"];
                     const opts = { fields };
 
                     const csv = parse(response.data[0], opts);

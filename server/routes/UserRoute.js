@@ -332,7 +332,7 @@ router.get('/getUserName', (req, res) => {
 });
 
 router.get('/getCareer', (req,res) => {
-  connection.query(" CALL proc_getCareer", function (err, results){
+  connection.query("CALL proc_getCareer()", function (err, results){
     if (results){
       res.send(results);
     }

@@ -1,17 +1,36 @@
 import React, { Component } from 'react';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import PermissionsManager from "./PermissionsManager";
+import axios from 'axios';
 
 class Reports extends Component {
     constructor(props) {
         super(props);
         this.rowEvent = this.rowEvent.bind(this);
+        this.downloadCSV = this.downloadCSV.bind(this);
     }
 
     rowEvent(event) {
         const id = event.target.parentNode.rowIndex;
         sessionStorage.setItem("report", id);
         this.props.history.push(`/Report`);
+    }
+
+    downloadCSV() {
+        try {
+            axios.get(`http://localhost:9000/ReportsRoute/usersGeneralReport`,).then(response => {
+                const { parse } = require('json2csv');
+                const fields = ['Identificacion', 'Carnet', 'Nombre', 'Email', 'FechaIngreso', 'Estado', 'Genero', 'Carrera', 'TipoUsuario'];
+
+                const opts = { fields };
+
+                const csv = parse(response.data[0], opts);
+                var fileDownload = require('js-file-download');
+                fileDownload(csv, 'Reporte general de usuarios.csv');
+            });
+        } catch (err) {
+            console.error("Un error inesperado ha ocurrido");
+        }
     }
 
     render() {
@@ -56,6 +75,9 @@ class Reports extends Component {
                                 </tr>
                                 <tr className="pointer"  onClick={this.rowEvent} key="7">
                                     <td >Tipo de rutina de los usuarios</td>
+                                </tr>
+                                <tr className="pointer" onClick={this.downloadCSV} key="8">
+                                    <td>Reporte general de usuarios</td>
                                 </tr>
                             </tbody>
                         </table>
