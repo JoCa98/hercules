@@ -44,7 +44,9 @@ import AddCareer from './components/AddCareer';
 import CareerUpdate from './components/CareerUpdate';
 import CareersToDeleteList from './components/CareersToDeleteList';
 import CareerDelete from './components/CareerDelete';
-
+import AddRiskCondition from './components/AddRiskCondition';
+import RiskConditionsToDeleteList from './components/RiskConditionsToDeleteList';
+import RiskConditionDelete from './components/RiskConditionDelete';
 
 
 function App() {
@@ -87,6 +89,10 @@ function App() {
           <Route exact path="/CareerUpdate" component={CareerUpdate} />
           <Route exact path="/CareerDeleteList" component={CareersToDeleteList} />
           <Route exact path="/CareerDelete" component={CareerDelete} />
+          <Route exact path="/AddRiskCondition" component={AddRiskCondition} />
+          <Route exact path="/RiskConditionsDeleteList" component={RiskConditionsToDeleteList} />
+          <Route exact path="/RiskConditionDelete" component={RiskConditionDelete} />
+
 
           {/** User Side */}
           <Route exact path="/UserHome" component={UserHome} />

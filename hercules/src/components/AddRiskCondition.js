@@ -5,7 +5,7 @@ import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import ModalComponent from './ModalComponent';
 import PermissionsManager from "./PermissionsManager";
 
-class AddCareer extends Component {
+class AddRiskCondition extends Component {
     constructor(props) {
         super(props);
         /**
@@ -22,7 +22,7 @@ class AddCareer extends Component {
             permissionsManager: new PermissionsManager(),
             validations: new validations(),
             userTypeID: "3",
-            careerName: null,
+            conditionDescription: null,
             userTypeList: [],
             show: false,
             modalTittle: "",
@@ -52,13 +52,11 @@ class AddCareer extends Component {
     handleSubmit = event => {
         if (this.empty()) {
             this.modalTrigger(event, 'Campos obligatorios', 'Los campos de texto con un * no se pueden dejar en blanco');
-        } else if (!this.state.validations.validateTextField(this.state.careerName.trim())) {
-            this.modalTrigger(event, 'Nombre de la carrera', 'El nombre de la carrera solo pueden estar compuesto por letras');
         } else {
-            fetch(`http://localhost:9000/ConfigurationRoute/AddCareer`, {
+            fetch(`http://localhost:9000/ConfigurationRoute/AddRiskCondition`, {
                 method: "post",
                 body: JSON.stringify({
-                    name: this.state.careerName
+                    description: this.state.conditionDescription
                 }),
                 headers: {
                     Accept: "application/json",
@@ -69,7 +67,7 @@ class AddCareer extends Component {
                     this.setState({
                         isExit: true
                     });
-                    this.modalTrigger(event, 'Ingreso Carrera', 'Se ha agregado correctamente la carrera');
+                    this.modalTrigger(event, 'Ingreso condicion', 'Se ha agregado correctamente la condicion de riesgo');
                 })
                 .catch(err => console.error("Un error inesperado a ocurrido"));
         }
@@ -129,7 +127,7 @@ class AddCareer extends Component {
     * Method that verify that the require inputs are not empty
     */
     empty() {
-        if (this.state.careerName == "" || this.state.careerName == null) {
+        if (this.state.conditionDescription == "" || this.state.conditionDescription == null) {
             return true;
         } else {
             return false;
@@ -140,7 +138,7 @@ class AddCareer extends Component {
     * Method that redirect to the previous page
     */
     backButton() {
-        this.props.history.push(`/CareerConfiguration`);
+        this.props.history.push(`/Configuration`);
     }
 
     render() {
@@ -150,21 +148,20 @@ class AddCareer extends Component {
                     <Breadcrumb>
                         <Breadcrumb.Item href="#/HomeAdmin">Inicio</Breadcrumb.Item>
                         <Breadcrumb.Item href='#/Configuration'>Configuración</Breadcrumb.Item>
-                        <Breadcrumb.Item href='#/CareerConfiguration'>Configuración de Carrera</Breadcrumb.Item>
-                        <Breadcrumb.Item>Agregar Carrera</Breadcrumb.Item>
+                        <Breadcrumb.Item>Agregar condicion de riesgo</Breadcrumb.Item>
                     </Breadcrumb>
                 </div>
                 <div className="row mt-2">
                     <div className="col-10 offset-1 card p-5">
                         <form className="form-horizontal">
                             <div className="row p-3">
-                                <h1 className="text-left colorBlue">Agregar carrera</h1>
+                                <h1 className="text-left colorBlue">Agregar condicion</h1>
                             </div>
                             <div className="row">
                                 <div className="col-12">
                                     <div className="form-group" align="center">
-                                        <p align="justify">Nombre de la carrera<font color="red">*</font></p>
-                                        <input type="text" name="careerName" placeholder="Ej: Informática empresarial" className="form-control" fontSize="18px" onChange={this.handleInputChange} required></input>
+                                        <p align="justify">Ingrese la descripcion de la condicion<font color="red">*</font></p>
+                                        <input type="text" name="conditionDescription" placeholder="Ej: Diabetes" className="form-control" fontSize="18px" onChange={this.handleInputChange} required></input>
                                     </div>
                                 </div>
                             </div>
@@ -190,4 +187,4 @@ class AddCareer extends Component {
         )
     }
 }
-export default AddCareer;
+export default AddRiskCondition;

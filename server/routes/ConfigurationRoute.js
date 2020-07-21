@@ -4,6 +4,7 @@ const router = express.Router();
 var cors = require("cors");
 router.use(cors());
 
+//Careers
 router.post('/AddCareer', (req, res) => {
   connection.query("CALL proc_addCareer('" + req.body.name + "');", function (err, results) {
     if (results) {
@@ -16,7 +17,7 @@ router.post('/AddCareer', (req, res) => {
 });
 
 router.post('/DeleteCareer', (req, res) => {
-  connection.query("CALL proc_deleteCareer(" + req.query.careerID + ");", function (err, results) {
+  connection.query("CALL proc_deleteCareer(" + req.body.careerID + ");", function (err, results) {
     if (results) {
       res.send(results);
     }
@@ -248,7 +249,6 @@ router.get('/MedicalAccounts', (req, res) => {
 });
 
 //Specific state users
-
 router.get('/ActiveMedics', (req, res) => {
   connection.query("CALL proc_getActiveMedics()", function (err, results) {
     if (results) {
@@ -307,6 +307,40 @@ router.get('/ChangeMedicStatus', (req, res) => {
 
 router.get('/DeleteAdmin', (req, res) => {
   connection.query("CALL proc_deleteAdmin('" + req.query.email + "')", function (err, results) {
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+  });
+});
+
+//Risk conditons
+router.post('/AddRiskCondition', (req, res) => {
+  connection.query("CALL proc_addRiskCondition('" + req.body.description + "');", function (err, results) {
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+  });
+});
+
+router.post('/DeleteRiskCondition', (req, res) => {
+  connection.query("CALL proc_deleteRiskCondition(" + req.body.riskConditionID + ");", function (err, results) {
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+  });
+});
+
+router.get('/GetRiskConditionsWithoutStudents', (req, res) => {
+  connection.query("CALL proc_getRiskConditionsWithoutStudents()", function (err, results) {
     if (results) {
       res.send(results);
     }

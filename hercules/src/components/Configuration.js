@@ -29,14 +29,16 @@ class Configuration extends Component {
         this.careerConfiguration = this.careerConfiguration.bind(this);
         this.excerciseConfiguration = this.excerciseConfiguration.bind(this);
         this.accountConfiguration = this.accountConfiguration.bind(this);
+        this.addRiskConditon = this.addRiskConditon.bind(this);
+        this.riskConditonToDelete = this.riskConditonToDelete.bind(this);
 
     }
 
     componentDidMount() {
-        /* if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {*/
+        if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
         window.scrollTo(0, 0);
         //this.getAdminUserType();
-        /*}*/
+        }
     }
 
     /**
@@ -52,6 +54,14 @@ class Configuration extends Component {
 
     accountConfiguration() {
         this.props.history.push(`/AccountConfiguration`);
+    }
+
+    addRiskConditon() {
+        this.props.history.push(`/AddRiskCondition`);
+    }
+
+    riskConditonToDelete() {
+        this.props.history.push(`/RiskConditionsDeleteList`);
     }
 
     render() {
@@ -74,6 +84,8 @@ class Configuration extends Component {
                                          <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.careerConfiguration}>Configuración carreras</button>
                                          <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.excerciseConfiguration}>Configuración ejercicios</button>
                                          <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.accountConfiguration}>Configuración cuentas</button>
+                                         <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue col-6 float-left" onClick={this.addRiskConditon}>Agregar condiciones de riesgo</button>
+                                         <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue col-6 float-right" onClick={this.riskConditonToDelete}>Eliminar condiciones de riesgo</button>
                                     </div>
                                 </div>
                             </div>
