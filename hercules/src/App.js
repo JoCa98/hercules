@@ -47,6 +47,8 @@ import CareerDelete from './components/CareerDelete';
 import AddRiskCondition from './components/AddRiskCondition';
 import RiskConditionsToDeleteList from './components/RiskConditionsToDeleteList';
 import RiskConditionDelete from './components/RiskConditionDelete';
+import AddRoutineType from './components/AddRoutineType';
+import AddExerciseType from './components/AddExerciseType';
 
 
 function App() {
@@ -92,6 +94,8 @@ function App() {
           <Route exact path="/AddRiskCondition" component={AddRiskCondition} />
           <Route exact path="/RiskConditionsDeleteList" component={RiskConditionsToDeleteList} />
           <Route exact path="/RiskConditionDelete" component={RiskConditionDelete} />
+          <Route exact path="/AddRoutineType" component={AddRoutineType} />
+          <Route exact path="/AddExerciseType" component={AddExerciseType} />
 
 
           {/** User Side */}

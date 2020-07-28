@@ -350,5 +350,28 @@ router.get('/GetRiskConditionsWithoutStudents', (req, res) => {
   });
 });
 
+//Add new types
+router.post('/AddRoutineType', (req, res) => {
+  connection.query("CALL proc_addRoutineType('" + req.body.description + "');", function (err, results) {
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+  });
+});
+
+router.post('/AddExerciseType', (req, res) => {
+  connection.query("CALL proc_addExerciseType('" + req.body.description + "');", function (err, results) {
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+  });
+});
+
 module.exports = router;
 

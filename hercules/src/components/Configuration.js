@@ -31,6 +31,9 @@ class Configuration extends Component {
         this.accountConfiguration = this.accountConfiguration.bind(this);
         this.addRiskConditon = this.addRiskConditon.bind(this);
         this.riskConditonToDelete = this.riskConditonToDelete.bind(this);
+        this.addRoutineType = this.addRoutineType.bind(this);
+        this.addExerciseType = this.addExerciseType.bind(this);
+        this.pending = this.pending.bind(this);
 
     }
 
@@ -64,6 +67,18 @@ class Configuration extends Component {
         this.props.history.push(`/RiskConditionsDeleteList`);
     }
 
+    addRoutineType() {
+        this.props.history.push(`/AddRoutineType`);
+    }
+
+    addExerciseType() {
+        this.props.history.push(`/AddExerciseType`);
+    }
+
+    pending() {
+        this.props.history.push(`/Pendiente`);
+    }
+
     render() {
         return (
             <div className="container">
@@ -86,6 +101,10 @@ class Configuration extends Component {
                                          <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.accountConfiguration}>Configuración cuentas</button>
                                          <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue col-6 float-left" onClick={this.addRiskConditon}>Agregar condiciones de riesgo</button>
                                          <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue col-6 float-right" onClick={this.riskConditonToDelete}>Eliminar condiciones de riesgo</button>
+                                         <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue col-6 float-left" onClick={this.addRoutineType}>Agregar tipo de rutina</button>
+                                         <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue col-6 float-right" onClick={this.pending}>Eliminar tipo de rutina</button>
+                                         <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue col-6 float-left" onClick={this.addExerciseType}>Agregar tipo de ejercicio</button>
+                                         <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue col-6 float-right" onClick={this.pending}>Eliminar tipo de ejercicio</button>
                                     </div>
                                 </div>
                             </div>
