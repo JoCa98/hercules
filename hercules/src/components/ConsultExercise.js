@@ -33,7 +33,7 @@ class ConsultExercise extends Component {
             show: false,
             modalTittle: "",
             modalChildren: "",
-            status:0,
+            status: 0,
         };
         this.getExerciseInfo = this.getExerciseInfo.bind(this);
         this.backButton = this.backButton.bind(this);
@@ -63,7 +63,7 @@ class ConsultExercise extends Component {
         event.preventDefault();
     };
 
-   
+
     editExercise(event) {
         sessionStorage.setItem('name', this.state.exerciseInfo[0].description);
         sessionStorage.setItem('link', this.state.exerciseInfo[0].link);
@@ -84,10 +84,10 @@ class ConsultExercise extends Component {
         var accountState;
         if (document.getElementById("status").textContent === "Inactivo") {
             accountState = 1;
-            this.state.status=1;
+            this.state.status = 1;
         } else {
             accountState = 0;
-            this.state.status=0;
+            this.state.status = 0;
         }
         fetch("http://localhost:9000/ConfigurationRoute/changeExerciseStatus", {
             method: "post",
@@ -129,10 +129,10 @@ class ConsultExercise extends Component {
                     this.setState({ exerciseInfo });
                     if (exerciseInfo[0].status === "Inactivo") {
                         document.getElementById('changeExerciseStatus').textContent = "Activar";
-                        this.state.status=0;
+                        this.state.status = 0;
                     } else {
                         document.getElementById('changeExerciseStatus').textContent = "Desactivar";
-                        this.state.status=1;
+                        this.state.status = 1;
                     }
                 });
 
@@ -154,7 +154,9 @@ class ConsultExercise extends Component {
             <div className="container">
                 <div className="row mt-4">
                     <Breadcrumb>
-                        <Breadcrumb.Item href="#/ExerciseList">Inicio</Breadcrumb.Item>
+                        <Breadcrumb.Item href="#/HomeAdmin">Inicio</Breadcrumb.Item>
+                        <Breadcrumb.Item href="#/Configuration">Configuración</Breadcrumb.Item>
+                        <Breadcrumb.Item href="#/ExerciseList">Lista de ejercicios</Breadcrumb.Item>
                         <Breadcrumb.Item>Consulta de ejercicio</Breadcrumb.Item>
                     </Breadcrumb>
                 </div>

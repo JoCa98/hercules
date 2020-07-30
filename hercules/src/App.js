@@ -11,6 +11,9 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import HomeAdmin from './components/HomeAdmin';
 import ExercisesList from './components/ExercisesList';
+import TipsAdmin from './components/TipsAdmin';
+import AddTip from './components/AddTip';
+import ConsultTips from './components/ConsultTips';
 import ConsultExercise from './components/ConsultExercise';
 import HistoricPhysicalUserInfo from './components/HistoricPhysicalUserInfo';
 import HistoricRoutineInfo from './components/HistoricRoutineInfo';
@@ -35,8 +38,8 @@ import UserHomeWithOut from './components/UserHomeWithOut';
 import Terms from './components/Terms';
 import ChangeTempPassword from './components/ChangeTempPassword';
 import AccountConfiguration from './components/AccountConfiguration';
-import Reports from  './components/Reports';
-import ReportComponent from  './components/ReportComponent';
+import Reports from './components/Reports';
+import ReportComponent from './components/ReportComponent';
 import ConsultAdmin from './components/ConsultAdmin';
 import AddExercise from './components/AddExercise';
 import ConsultMedicPersonal from './components/ConsultMedicPersonal';
@@ -80,6 +83,9 @@ function App() {
           <Route exact path="/Configuration" component={Configuration} />
           <Route exact path="/CareerConfiguration" component={CareerConfiguration} />
           <Route exact path="/ExercisesList" component={ExercisesList} />
+          <Route exact path="/TipsAdmin" component={TipsAdmin} />
+          <Route exact path="/ConsultTips" component={ConsultTips} />
+          <Route exact path="/AddTip" component={AddTip} />
           <Route exact path="/AddExercise" component={AddExercise} />
           <Route exact path="/ConsultExercise" component={ConsultExercise} />
           <Route exact path="/AccountConfiguration" component={AccountConfiguration} />

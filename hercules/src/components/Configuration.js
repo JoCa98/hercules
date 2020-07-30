@@ -28,6 +28,7 @@ class Configuration extends Component {
 
         this.careerConfiguration = this.careerConfiguration.bind(this);
         this.excerciseConfiguration = this.excerciseConfiguration.bind(this);
+        this.tipsConfiguration = this.tipsConfiguration.bind(this);
         this.accountConfiguration = this.accountConfiguration.bind(this);
         this.addRiskConditon = this.addRiskConditon.bind(this);
         this.riskConditonToDelete = this.riskConditonToDelete.bind(this);
@@ -39,8 +40,8 @@ class Configuration extends Component {
 
     componentDidMount() {
         if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
-        window.scrollTo(0, 0);
-        //this.getAdminUserType();
+            window.scrollTo(0, 0);
+            //this.getAdminUserType();
         }
     }
 
@@ -53,6 +54,9 @@ class Configuration extends Component {
 
     excerciseConfiguration() {
         this.props.history.push(`/ExercisesList`);
+    }
+    tipsConfiguration() {
+        this.props.history.push(`/TipsAdmin`);
     }
 
     accountConfiguration() {
@@ -96,15 +100,16 @@ class Configuration extends Component {
                             <div className="row">
                                 <div className="col-12">
                                     <div className="form-group" align="center">
-                                         <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.careerConfiguration}>Configuración carreras</button>
-                                         <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.excerciseConfiguration}>Configuración ejercicios</button>
-                                         <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.accountConfiguration}>Configuración cuentas</button>
-                                         <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue col-6 float-left" onClick={this.addRiskConditon}>Agregar condiciones de riesgo</button>
-                                         <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue col-6 float-right" onClick={this.riskConditonToDelete}>Eliminar condiciones de riesgo</button>
-                                         <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue col-6 float-left" onClick={this.addRoutineType}>Agregar tipo de rutina</button>
-                                         <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue col-6 float-right" onClick={this.pending}>Eliminar tipo de rutina</button>
-                                         <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue col-6 float-left" onClick={this.addExerciseType}>Agregar tipo de ejercicio</button>
-                                         <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue col-6 float-right" onClick={this.pending}>Eliminar tipo de ejercicio</button>
+                                        <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.careerConfiguration}>Configuración carreras</button>
+                                        <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.excerciseConfiguration}>Configuración ejercicios</button>
+                                        <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.tipsConfiguration}>Configuración consejos</button>
+                                        <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.accountConfiguration}>Configuración cuentas</button>
+                                        <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue col-6 float-left" onClick={this.addRiskConditon}>Agregar condiciones de riesgo</button>
+                                        <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue col-6 float-right" onClick={this.riskConditonToDelete}>Eliminar condiciones de riesgo</button>
+                                        <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue col-6 float-left" onClick={this.addRoutineType}>Agregar tipo de rutina</button>
+                                        <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue col-6 float-right" onClick={this.pending}>Eliminar tipo de rutina</button>
+                                        <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue col-6 float-left" onClick={this.addExerciseType}>Agregar tipo de ejercicio</button>
+                                        <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue col-6 float-right" onClick={this.pending}>Eliminar tipo de ejercicio</button>
                                     </div>
                                 </div>
                             </div>

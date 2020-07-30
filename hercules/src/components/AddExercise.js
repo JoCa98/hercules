@@ -225,7 +225,6 @@ class AddExercise extends Component {
         } else {
             this.selectDisable();
         }
-
     }
 
     selectEnable() {
@@ -249,6 +248,7 @@ class AddExercise extends Component {
                 <div className="row mt-4">
                     <Breadcrumb>
                         <Breadcrumb.Item href="#/HomeAdmin">Inicio</Breadcrumb.Item>
+                        <Breadcrumb.Item href="#/Configuration">Configuración</Breadcrumb.Item>
                         <Breadcrumb.Item href="#/ExercisesList">Lista de ejercicios</Breadcrumb.Item>
                         <Breadcrumb.Item id="breadcrumb"> Agregar ejercicio</Breadcrumb.Item>
                     </Breadcrumb>

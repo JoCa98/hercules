@@ -111,10 +111,10 @@ class ExercisesList extends Component {
     getExerciseListByType() {
         try {
             axios.get(`http://localhost:9000/ConfigurationRoute/getExercisesByType`,
-            { params: { type: this.state.searchType } }).then(response => {
-                const exerciseList = response.data[0];
-                this.setState({ exerciseList });
-            });
+                { params: { type: this.state.searchType } }).then(response => {
+                    const exerciseList = response.data[0];
+                    this.setState({ exerciseList });
+                });
         } catch (err) {
             console.error("Un error inesperado ha ocurrido");
         }
@@ -124,23 +124,23 @@ class ExercisesList extends Component {
     getExerciseListByNameAndType() {
         try {
             axios.get(`http://localhost:9000/ConfigurationRoute/getExercisesByNameAndType`,
-            { params: { type: this.state.searchType ,name: this.state.searchInput} }).then(response => {
-                const exerciseList = response.data[0];
-                this.setState({ exerciseList });
-            });
+                { params: { type: this.state.searchType, name: this.state.searchInput } }).then(response => {
+                    const exerciseList = response.data[0];
+                    this.setState({ exerciseList });
+                });
         } catch (err) {
             console.error("Un error inesperado ha ocurrido");
         }
     }
 
     getExerciseListByName() {
-        console.log("nombre: "+ this.state.searchInput);
+        console.log("nombre: " + this.state.searchInput);
         try {
             axios.get(`http://localhost:9000/ConfigurationRoute/getExerciseName`,
-            { params: {name: this.state.searchInput} }).then(response => {
-                const exerciseList = response.data[0];
-                this.setState({ exerciseList });
-            });
+                { params: { name: this.state.searchInput } }).then(response => {
+                    const exerciseList = response.data[0];
+                    this.setState({ exerciseList });
+                });
         } catch (err) {
             console.error("Un error inesperado ha ocurrido");
         }
@@ -212,7 +212,7 @@ class ExercisesList extends Component {
                 <tr className="pointer" onClick={this.rowEvent} key={i}>
                     <td>{exerciseList.description}</td>
                     <td>{exerciseList.type}</td>
-                    <td>{exerciseList.link}</td>
+                    <td>{exerciseList.status}</td>
                 </tr>
             )
         })
@@ -226,9 +226,10 @@ class ExercisesList extends Component {
         var breadcrumb = '';
         if (sessionStorage.getItem('userTypeID') !== '5') {
             breadcrumb = <div className="row mt-4"><Breadcrumb>
-            <Breadcrumb.Item href="#/HomeAdmin">Inicio</Breadcrumb.Item>
-                        <Breadcrumb.Item >Lista de Ejercicios</Breadcrumb.Item>
-                        </Breadcrumb></div>;
+                <Breadcrumb.Item href="#/HomeAdmin">Inicio</Breadcrumb.Item>
+                <Breadcrumb.Item href="#/Configuration">Configuración</Breadcrumb.Item>
+                <Breadcrumb.Item >Lista de Ejercicios</Breadcrumb.Item>
+            </Breadcrumb></div>;
         }
 
         return (
@@ -270,13 +271,13 @@ class ExercisesList extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="col-9 offset-1 mt-4">
-                        <table className="table table-sm table-hover" id="myTable">
+                    <div className="col-9 offset-1 mt-4 ">
+                        <table className="table table-sm table-hover " id="myTable">
                             <thead>
                                 <tr>
                                     <th scope="col">Nombre</th>
                                     <th scope="col">Tipo</th>
-                                    <th scope="col">Link video</th>
+                                    <th scope="col">Estado</th>
                                 </tr>
                             </thead>
                             <tbody>

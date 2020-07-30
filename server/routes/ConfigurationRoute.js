@@ -213,6 +213,64 @@ router.post('/changeExerciseStatus', (req, res) => {
   });
 });
 
+//Tips
+router.post('/AddNewTip', function (req, res) {
+  connection.query("CALL proc_addTip('" + req.body.description + "','"
+    + req.body.link + "');", function (err, results) {
+      if (results) {
+        res.send(results);
+      }
+      else {
+        console.log(err);
+      }
+    });
+});
+
+router.post('/DeleteTip', function (req, res) {
+  connection.query("CALL proc_deleteTip(" + req.body.tipID + ");", function (err, results) {
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+  });
+});
+
+router.post('/EditTip', function (req, res) {
+  connection.query("CALL proc_updateTip(" + req.body.tipID + ",'" + req.body.description + "','"
+    + req.body.link + "');", function (err, results) {
+      if (results) {
+        res.send(results);
+      }
+      else {
+        console.log(err);
+      }
+    });
+});
+
+router.get('/getTipID', (req, res) => {
+  connection.query("CALL proc_getTipID(" + req.query.tipID + ");", function (err, results) {
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+  });
+});
+
+router.get('/getAllTips', (req, res) => {
+  connection.query("CALL proc_getAllTips();", function (err, results) {
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+  });
+});
+
 //Cuentas
 router.get('/isMasterEmail', (req, res) => {
   connection.query("Select fun_verifyMasterAdmin('" + req.query.email + "') AS masterEmail", function (err, results) {
