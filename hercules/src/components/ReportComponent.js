@@ -12,6 +12,7 @@ class ReportComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            permissionsManager: new PermissionsManager(),
             reportNumber: sessionStorage.getItem("report"),
             list: [{}],
             optionList: [{}],
@@ -33,9 +34,11 @@ class ReportComponent extends Component {
     }
 
     componentDidMount() {
-        document.getElementById("total").style.display = "none";
-        this.typeOfReport();
-       
+        if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
+            window.scrollTo(0, 0);
+            document.getElementById("total").style.display = "none";
+            this.typeOfReport();
+        }
     }
 
     typeOfReport() {
@@ -67,11 +70,10 @@ class ReportComponent extends Component {
         axios.get("http://localhost:9000/RoutineRoute/getRoutineType").then(response => {
             var routine = response.data;
             if(routine.lenght = 1){
-                this.setState({variable: routine[0].value});
+                this.setState({variable: routine[0].routineTypeID});
             }
               this.setState({optionList: routine});
             });
-                
     }
 
     typeDropDown(){

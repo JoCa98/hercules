@@ -6,9 +6,19 @@ import axios from 'axios';
 class Reports extends Component {
     constructor(props) {
         super(props);
+        this.state={
+            permissionsManager: new PermissionsManager()
+        }
         this.rowEvent = this.rowEvent.bind(this);
         this.downloadCSV = this.downloadCSV.bind(this);
     }
+
+    componentDidMount() {
+        if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
+            window.scrollTo(0, 0);
+        }
+    }
+
 
     rowEvent(event) {
         const id = event.target.parentNode.rowIndex;

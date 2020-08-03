@@ -124,7 +124,7 @@ class PermissionManager extends Component {
             }
 
             //Páginas de administrador 
-        } else if (this.admin(pageName) && (!sessionStorage.getItem('userTypeID') === '4') && !sessionStorage.getItem('userTypeID') === '6') {
+        } else if (this.admin(pageName) && !(sessionStorage.getItem('userTypeID') === '4' | sessionStorage.getItem('userTypeID') === '6')) {
 
             this.redirectUser(page);
             return false;
@@ -233,7 +233,7 @@ class PermissionManager extends Component {
     }
 
     admin(pageName) {
-        return new RegExp("^((\/AddAdmin)|(\/AddPhysicalInfo)|(\/EditPhysicalInfo)|(\/AddRoutine)|(\/RoutineAdmin)|(\/HistoricPhysicalInfoAdmin)|(\/HistoricRoutineInfo))$").test(pageName);
+        return new RegExp("^((\/AddAdmin)|(\/AddPhysicalInfo)|(\/EditPhysicalInfo)|(\/AddRoutine)|(\/RoutineAdmin)|(\/HistoricPhysicalInfoAdmin)|(\/HistoricRoutineInfo)|(\/Reports)|(\/Report))$").test(pageName);
     }
 
     homeAdmin(pageName) {
