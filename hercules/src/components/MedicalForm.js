@@ -391,7 +391,7 @@ class MedicalForm extends Component {
             || this.state.bloodPressure == ""
             || this.state.cardiovascularRisk == 0
             || this.state.upToDate == 0) {
-            this.modalTrigger(event, 'Campos obligatorios', 'Todos los campos obligatorios  deben estar llenos y no pueden ser cero');
+            this.modalTrigger(event, 'Campos obligatorios', 'Los campos de texto con un * no se pueden dejar en blanco y no deben ser 0');
         } else if (this.state.pathologies.trim().length != 0) {
             if (!this.state.validations.validateTextField(this.state.pathologies.trim())) {
                 this.modalTrigger(event, 'Formato incorrecto', 'El campo de patologías no puede contener números');

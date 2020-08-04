@@ -91,7 +91,7 @@ class PasswordRecovery extends Component {
         this.setState({
             isExit: true
         });
-        this.modalTrigger(event, 'Contraseña', 'Se ha enviado una contraseña temporal al correo ingresado. Ahora será redirigido a la pantalla de ingreso');
+        this.modalTrigger(event, 'Contraseña', 'Se ha enviado una contraseña temporal al correo ingresado, si el correo no es entregado puede ser debido a que la dirección de correo electrónico no existe o fue ingresado de manera errónea. Ahora será redirigido a la pantalla de ingreso.');
     }
 
     /**

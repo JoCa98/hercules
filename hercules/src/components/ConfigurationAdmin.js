@@ -158,14 +158,13 @@ class ConfigurationAdmin extends Component {
                 </div>
                 <div className="row mt-2">
                     <div className="col-12 card">
-                        <br />
                         <div className="row">
                             <div className="col-12">
-                                <h1 className="text-left colorBlue mb-4">Configuraciones</h1>
+                                <h1 className="text-left colorBlue mt-4">Configuraciones</h1>
                             </div>
                         </div>
                         <div className="row">
-                            <div className="col-10 offset-1 mb-4 card p-5">
+                            <div className="col-10 offset-1 mb-4 p-5">
                                 <div className="row">
                                     <div className="col-12 offset-2">
                                         <h2 className="text-left">Cambio de contraseña</h2>

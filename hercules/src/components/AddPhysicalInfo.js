@@ -81,7 +81,7 @@ class AddPhysicalInfo extends Component {
             this.state.DCI.trim().length === 0 || this.state.metabolicAge.trim().length === 0 ||
             this.state.totalBodyFat.trim().length === 0 || this.state.muscleMass.trim().length === 0 ||
             this.state.physicalAssesment.trim().length === 0) {
-            this.modalTrigger(event, 'Campos obligatorios', 'Todos los campos deben de estar llenos');
+            this.modalTrigger(event, 'Campos obligatorios', 'Los campos de texto con un * no se pueden dejar en blanco');
 
         } else if (!this.state.validations.validateKg(this.state.weight.trim())) {
             this.modalTrigger(event, 'Formato incorrecto', 'El peso debe estar formado por un máximo de 3 números, puede contener punto decimal y dos decimales máximo');

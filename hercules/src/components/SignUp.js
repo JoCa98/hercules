@@ -509,7 +509,7 @@ class SignUp extends Component {
                         || this.state.emergencyContactPhoneNumber.toString().trim().length == 0
                         || (this.state.userTypeID == 1 && (this.state.carnet.trim().length == 0 || this.state.career.trim().length == 0))
                     ) {
-                        this.modalTrigger(event, 'Campos obligatorios', 'Todos los campos obligatorios  deben estar llenos');
+                        this.modalTrigger(event, 'Campos obligatorios', 'Los campos de texto con un * no se pueden dejar en blanco');
                     } else if (!this.state.validations.validateTextField(this.state.firstName.trim())
                         || (this.state.secondName != null && (this.state.secondName.trim().length != 0) && (!this.state.validations.validateTextField(this.state.secondName.trim())))
                         || !this.state.validations.validateTextField(this.state.lastName.trim())
