@@ -177,7 +177,9 @@ class ConsultExercise extends Component {
                                         </div>
                                         <div className="form-group" align="left">
                                             <label fontSize="18px">Link del vídeo:&nbsp;&nbsp;</label>
-                                            <label fontSize="18px" id="link">{this.state.exerciseInfo[0].link}</label>
+                                            <a href={this.state.exerciseInfo[0].link}>
+                                                <label fontSize="18px" id="link">{this.state.exerciseInfo[0].link}</label>
+                                            </a>
                                         </div>
                                         <div className="form-group" align="left">
                                             <label fontSize="18px">Estado:&nbsp;&nbsp;</label>

@@ -160,7 +160,10 @@ class ConsultTips extends Component {
                                         </div>
                                         <div className="form-group" align="left">
                                             <label fontSize="18px">Link:&nbsp;&nbsp;</label>
-                                            <label fontSize="18px" id="link">{this.state.tipInfo[0].link}</label>
+
+                                            <a href={this.state.tipInfo[0].link}>
+                                                <label fontSize="18px" id="link">{this.state.tipInfo[0].link}</label>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
