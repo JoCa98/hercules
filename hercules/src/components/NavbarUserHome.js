@@ -17,6 +17,8 @@ class NavbarUserHome extends Component {
         this.adminConfig = this.adminConfig.bind(this);
         this.configuration = this.configuration.bind(this);
         this.reports = this.reports.bind(this);
+        this.riskCondition = this.riskCondition.bind(this);
+
     }
     componentDidMount() {
         if (sessionStorage.getItem('partyID') === undefined
@@ -57,6 +59,7 @@ class NavbarUserHome extends Component {
 
                 document.getElementById('homeAdmin').style.display = 'block';
                 document.getElementById('addAdmin').style.display = 'none';
+                document.getElementById('riskCondition').style.display = 'block';
                 document.getElementById('adminConfig').style.display = 'block';
                 document.getElementById('configuration').style.display = 'none';
                 document.getElementById('reports').style.display = 'none';
@@ -95,6 +98,7 @@ class NavbarUserHome extends Component {
                 document.getElementById('adminConfig').style.display = 'block';
                 document.getElementById('configuration').style.display = 'block';
                 document.getElementById('reports').style.display = 'block';
+                document.getElementById('riskCondition').style.display = 'none';
             }
             document.getElementById('logOut').style.display = 'block';
         }
@@ -144,6 +148,10 @@ class NavbarUserHome extends Component {
         this.props.history.push(`/Reports`);
     }
 
+    riskCondition(){
+        this.props.history.push(`/RiskCondition`);
+    }
+
     render() {
         return (
             <nav className="navbar navbar-expand-md navbarColor justify-content-end">
@@ -180,6 +188,10 @@ class NavbarUserHome extends Component {
                         </li>
                         <li id="adminConfig" className="nav-item">
                             <button className="btn buttonNavbar" onClick={this.adminConfig}>Perfil</button>
+                        </li>
+
+                        <li id="riskCondition" className="nav-item">
+                            <button className="btn buttonNavbar" onClick={this.riskCondition}>Condiciones de riesgo</button>
                         </li>
 
                         <li id="logOut" className="nav-item">

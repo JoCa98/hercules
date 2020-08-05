@@ -177,7 +177,6 @@ class AccountConfiguration extends Component {
             } else {
                 return (
                     <tr className="pointer" onClick={this.rowEvent} key={i}>
-                        <td>{userList.partyID}</td>
                         <td>{userList.email}</td>
                         <td>{userList.status}</td>
                     </tr>
@@ -233,7 +232,6 @@ class AccountConfiguration extends Component {
                         <table className="table table-sm table-hover" id="myTable">
                             <thead>
                                 <tr class="header">
-                                    <th scope="col">Id</th>
                                     <th scope="col">Email</th>
                                     <th scope="col">Estado</th>
                                 </tr>

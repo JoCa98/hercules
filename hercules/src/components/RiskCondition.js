@@ -5,7 +5,7 @@ import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import ModalComponent from './ModalComponent';
 import PermissionsManager from "./PermissionsManager";
 
-class Configuration extends Component {
+class RiskCondition extends Component {
     constructor(props) {
         super(props);
         /**
@@ -26,10 +26,6 @@ class Configuration extends Component {
             isExit: false
         };
 
-        this.careerConfiguration = this.careerConfiguration.bind(this);
-        this.excerciseConfiguration = this.excerciseConfiguration.bind(this);
-        this.tipsConfiguration = this.tipsConfiguration.bind(this);
-        this.accountConfiguration = this.accountConfiguration.bind(this);
         this.addRiskConditon = this.addRiskConditon.bind(this);
         this.riskConditonToDelete = this.riskConditonToDelete.bind(this);
 
@@ -45,21 +41,6 @@ class Configuration extends Component {
     /**
     * Method that redirect to the requested page
     */
-    careerConfiguration() {
-        this.props.history.push(`/CareerConfiguration`);
-    }
-
-    excerciseConfiguration() {
-        this.props.history.push(`/ExercisesList`);
-    }
-    tipsConfiguration() {
-        this.props.history.push(`/TipsAdmin`);
-    }
-
-    accountConfiguration() {
-        this.props.history.push(`/AccountConfiguration`);
-    }
-
     addRiskConditon() {
         this.props.history.push(`/AddRiskCondition`);
     }
@@ -74,23 +55,19 @@ class Configuration extends Component {
                 <div className="row mt-4">
                     <Breadcrumb>
                         <Breadcrumb.Item href="#/HomeAdmin">Inicio</Breadcrumb.Item>
-                        <Breadcrumb.Item>Configuración</Breadcrumb.Item>
+                        <Breadcrumb.Item>Condiciones de riesgo</Breadcrumb.Item>
                     </Breadcrumb>
                 </div>
                 <div className="row mt-2">
                     <div className="col-10 offset-1 card p-5">
                         <form className="form-horizontal">
-                            <h1 className="text-left colorBlue">Configuración</h1>
+                            <h1 className="text-left colorBlue">Configuración condiciones de riesgo</h1>
                             <br />
                             <div className="row">
                                 <div className="col-12">
                                     <div className="form-group" align="center">
-                                        <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.careerConfiguration}>Configuración carreras</button>
-                                        <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.excerciseConfiguration}>Configuración ejercicios</button>
-                                        <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.tipsConfiguration}>Configuración consejos</button>
-                                        <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.accountConfiguration}>Configuración cuentas</button>
-                                        <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue col-6 float-left" onClick={this.addRiskConditon}>Agregar condiciones de riesgo</button>
-                                        <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue col-6 float-right" onClick={this.riskConditonToDelete}>Eliminar condiciones de riesgo</button>
+                                        <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.addRiskConditon}>Agregar condiciones de riesgo</button>
+                                        <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.riskConditonToDelete}>Eliminar condiciones de riesgo</button>
                                     </div>
                                 </div>
                             </div>
@@ -108,4 +85,4 @@ class Configuration extends Component {
         )
     }
 }
-export default Configuration;
+export default RiskCondition;

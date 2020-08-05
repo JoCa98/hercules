@@ -113,12 +113,12 @@ class ConsultMedicalPersonal extends Component {
                         <Breadcrumb.Item href="#/HomeAdmin">Inicio</Breadcrumb.Item>
                         <Breadcrumb.Item href="#/Configuration">Configuración</Breadcrumb.Item>
                         <Breadcrumb.Item href="#/AccountConfiguration">Configuración de cuentas</Breadcrumb.Item>
-                        <Breadcrumb.Item>Consultar personal medico</Breadcrumb.Item>
+                        <Breadcrumb.Item>Consultar personal médico</Breadcrumb.Item>
                     </Breadcrumb>
                 </div>
                 <div className="row mt-2 card p-5" >
                     <div className="col-12">
-                        <h1 className="text-left">Consulta de personal medico</h1>
+                        <h1 className="text-left">Consulta de personal médico</h1>
                         <div className="row">
                             <div className="col-8">
                                 <h2 className="text-left">Datos del usuario</h2>

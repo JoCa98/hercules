@@ -47,6 +47,8 @@ class ExercisesList extends Component {
         this.onKeyEvent = this.onKeyEvent.bind(this);
         this.backButton = this.backButton.bind(this);
         this.redirect = this.redirect.bind(this);
+        this.addRoutineType = this.addRoutineType.bind(this);
+        this.addExerciseType = this.addExerciseType.bind(this);
 
     }
 
@@ -196,9 +198,17 @@ class ExercisesList extends Component {
     backButton() {
         this.props.history.push(`/Configuration`);
     }
-    redirect(event) {
 
+    redirect(event) {
         this.props.history.push(`/AddExercise`);
+    }
+
+    addRoutineType() {
+        this.props.history.push(`/AddRoutineType`);
+    }
+
+    addExerciseType() {
+        this.props.history.push(`/AddExerciseType`);
     }
 
     render() {
@@ -238,12 +248,20 @@ class ExercisesList extends Component {
                 <div className="row card mt-2 p-5">
                     <div className="col-12">
                         <div className="row p-3">
-                            <div className="col-8">
+                            <div className="col-6">
                                 <h1 className="text-left colorBlue">Lista de ejercicios</h1>
                             </div>
-                            <div className="col-4  text-center">
+                            <div className="col-2 text-center">
                                 <img src={plusImage} onClick={this.redirect} className="imageHistoricPage pointer" />
-                                <h4 className="colorBlue pointer" onClick={this.redirect}>Agregar nuevo</h4>
+                                <h4 className="colorBlue pointer" onClick={this.redirect}>Agregar ejercicio</h4>
+                            </div>
+                            <div className="col-2 text-center">
+                                <img src={plusImage} onClick={this.addRoutineType} className="imageHistoricPage pointer" />
+                                <h4 className="colorBlue pointer" onClick={this.addRoutineType}>Agregar tipo rutina</h4>
+                            </div>
+                            <div className="col-2 text-center">
+                                <img src={plusImage} onClick={this.addExerciseType} className="imageHistoricPage pointer" />
+                                <h4 className="colorBlue pointer" onClick={this.addExerciseType}>Agregar tipo ejercicio</h4>
                             </div>
                         </div>
                         <div className="row">
