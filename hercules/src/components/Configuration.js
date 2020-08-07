@@ -30,8 +30,6 @@ class Configuration extends Component {
         this.excerciseConfiguration = this.excerciseConfiguration.bind(this);
         this.tipsConfiguration = this.tipsConfiguration.bind(this);
         this.accountConfiguration = this.accountConfiguration.bind(this);
-        this.addRiskConditon = this.addRiskConditon.bind(this);
-        this.riskConditonToDelete = this.riskConditonToDelete.bind(this);
 
     }
 
@@ -60,14 +58,6 @@ class Configuration extends Component {
         this.props.history.push(`/AccountConfiguration`);
     }
 
-    addRiskConditon() {
-        this.props.history.push(`/AddRiskCondition`);
-    }
-
-    riskConditonToDelete() {
-        this.props.history.push(`/RiskConditionsDeleteList`);
-    }
-
     render() {
         return (
             <div className="container">
@@ -89,8 +79,6 @@ class Configuration extends Component {
                                         <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.excerciseConfiguration}>Configuración ejercicios</button>
                                         <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.tipsConfiguration}>Configuración consejos</button>
                                         <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.accountConfiguration}>Configuración cuentas</button>
-                                        <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue col-6 float-left" onClick={this.addRiskConditon}>Agregar condiciones de riesgo</button>
-                                        <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue col-6 float-right" onClick={this.riskConditonToDelete}>Eliminar condiciones de riesgo</button>
                                     </div>
                                 </div>
                             </div>
