@@ -78,14 +78,12 @@ class CareersToDeleteList extends Component {
             if (sessionStorage.getItem('userTypeID') === '5') {
                 return (
                     <tr key={i}>
-                        <td>{careerList.careerID}</td>
                         <td>{careerList.name}</td>
                     </tr>
                 )
             } else {
                 return (
                     <tr className="pointer" onClick={this.rowEvent} key={i}>
-                        <td>{careerList.careerID}</td>
                         <td>{careerList.name}</td>
                     </tr>
                 )
@@ -112,7 +110,6 @@ class CareersToDeleteList extends Component {
                                 <table className="table table-sm table-hover" id="myTable">
                                     <thead>
                                         <tr class="header">
-                                            <th scope="col">Id</th>
                                             <th scope="col">Nombre</th>
                                         </tr>
                                     </thead>

@@ -27,7 +27,9 @@ class AddCareer extends Component {
             show: false,
             modalTittle: "",
             modalChildren: "",
-            isExit: false
+            isExit: false,
+            careerList: [],
+            careerListID: []
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -37,12 +39,27 @@ class AddCareer extends Component {
         this.getAdminUserType = this.getAdminUserType.bind(this);
         this.modalTrigger = this.modalTrigger.bind(this);
         this.closeModal = this.closeModal.bind(this);
+        this.getCareerList = this.getCareerList.bind(this);
+        this.rowEvent = this.rowEvent.bind(this);
+
     }
 
     componentDidMount() {
         if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
-        window.scrollTo(0, 0);
-        this.getAdminUserType();
+            window.scrollTo(0, 0);
+            this.getAdminUserType();
+            this.getCareerList();
+        }
+    }
+
+    getCareerList() {
+        try {
+            axios.get(`http://localhost:9000/ConfigurationRoute/GetCareers`).then(response => {
+                const careerList = response.data[0];
+                this.setState({ careerList });
+            });
+        } catch (err) {
+            console.error("Un error inesperado ha ocurrido");
         }
     }
 
@@ -96,7 +113,7 @@ class AddCareer extends Component {
             show: !this.state.show
         });
         if (this.state.isExit) {
-            this.props.history.push(`/HomeAdmin`);
+            document.location.reload(true);
         }
         event.preventDefault();
     };
@@ -143,7 +160,34 @@ class AddCareer extends Component {
         this.props.history.push(`/CareerConfiguration`);
     }
 
+    rowEvent(event) {
+        try {
+            sessionStorage.setItem("careerID", this.state.careerListID[event.target.parentNode.rowIndex - 1]);
+            this.props.history.push("/CareerUpdate");
+        } catch (err) {
+            console.error("Un error inesperado ha ocurrido");
+        }
+    }
+
     render() {
+
+        const careerListVisual = this.state.careerList.map((careerList, i) => {
+            this.state.careerListID.push(careerList.careerID);
+            if (sessionStorage.getItem('userTypeID') === '5') {
+                return (
+                    <tr key={i}>
+                        <td>{careerList.name}</td>
+                    </tr>
+                )
+            } else {
+                return (
+                    <tr className="pointer" onClick={this.rowEvent} key={i}>
+                        <td>{careerList.name}</td>
+                    </tr>
+                )
+            }
+        })
+
         return (
             <div className="container">
                 <div className="row mt-4">
@@ -157,6 +201,7 @@ class AddCareer extends Component {
                 <div className="row mt-2">
                     <div className="col-10 offset-1 card p-5">
                         <form className="form-horizontal">
+                            <h1 className="text-left colorBlue">Ejemplo tablas</h1>
                             <div className="row p-3">
                                 <h1 className="text-left colorBlue">Agregar carrera</h1>
                             </div>
@@ -175,6 +220,66 @@ class AddCareer extends Component {
                                 <div className=" mt-3 col-md-3 offset-6" align="right">
                                     <button align="rigth" className="buttonSizeGeneral" onClick={this.handleSubmit}>Guardar</button>
                                 </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-12 mt-4" >
+                                    <h1 className="text-left colorBlue">Carreras agregadas</h1>
+                                    <table className="table table-sm table-hover" id="myTable">
+                                        <thead>
+                                            <tr class="header">
+                                                <th scope="col">Nombre</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {careerListVisual}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <h1 className="text-left colorBlue">Ejemplo pestañas</h1>
+                            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Agregar carreras</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Ver carreras</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Eliminar carreras</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="pills-tabContent">
+                                <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                                    <div className="row p-3">
+                                        <h1 className="text-left colorBlue">Agregar carrera</h1>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-12">
+                                            <div className="form-group" align="center">
+                                                <p align="justify">Nombre de la carrera<font color="red">*</font></p>
+                                                <input type="text" name="careerName" placeholder="Ej: Informática empresarial" className="form-control" fontSize="18px" onChange={this.handleInputChange} required></input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                                    <div className="row">
+                                        <div className="col-12 mt-4" >
+                                            <h1 className="text-left colorBlue">Ver carreras</h1>
+                                            <table className="table table-sm table-hover" id="myTable">
+                                                <thead>
+                                                    <tr class="header">
+                                                        <th scope="col">Nombre</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {careerListVisual}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">...</div>
                             </div>
                             <div className="row">
                                 <div className="col-md-1">

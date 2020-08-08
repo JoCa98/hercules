@@ -31,6 +31,7 @@ class CareerDelete extends Component {
         this.editCareer = this.editCareer.bind(this);
         this.deleteCareer = this.deleteCareer.bind(this);
         this.modalTrigger = this.modalTrigger.bind(this);
+        this.closeModal = this.closeModal.bind(this);
 
     }
 
@@ -40,7 +41,6 @@ class CareerDelete extends Component {
             this.getCareerInfo();
         }
     }
-
 
     /**
      * This method takes care of show a modal with useful information
@@ -54,16 +54,15 @@ class CareerDelete extends Component {
         event.preventDefault();
     };
 
-    modalTrigger(event, mdTittle, mdChildren) {
+    closeModal(event) {
         this.setState({
-            show: !this.state.show,
-            modalTittle: mdTittle,
-            modalChildren: mdChildren
+            show: !this.state.show
         });
+        if (this.state.isExit) {
+            this.backButton();
+        }
         event.preventDefault();
     };
-
-
 
     /**
     * Method that can get the basic information of a specifc career 
@@ -100,7 +99,8 @@ class CareerDelete extends Component {
                 "Content-Type": "application/json"
             }
         })
-            .then(response => {
+            .then(res => res.json())
+            .then(data => {
                 this.setState({
                     isExit: true
                 });
@@ -135,13 +135,10 @@ class CareerDelete extends Component {
                             <div className="col-8">
                                 <div className="row">
                                     <div className="col-12">
-                                        <div className="form-group" align="left">
-                                            <h3 fontSize="18px">Nombre:&nbsp;{this.state.careerInfo[0].name}</h3>
-                                        </div>
+                                        <h2 className="text-left">Nombre:&nbsp;{this.state.careerInfo[0].name}</h2>
                                     </div>
                                 </div>
                             </div>
-
                             <div className="col-4">
                                 <h2 className="text-left">Acciones</h2>
                                 <div className="form-group" align="left">
@@ -150,7 +147,6 @@ class CareerDelete extends Component {
                                     <br></br>
                                     <br></br>
                                     <button className="circularButton w-100" id="deleteCareer" name="deleteCareer" onClick={this.deleteCareer}>Eliminar</button>
-
                                 </div>
                             </div>
                         </div>
@@ -161,12 +157,11 @@ class CareerDelete extends Component {
                         </div>
                         <div className="row">
                             <div className="col-md-1">
-                                <ModalComponent tittle={this.state.modalTittle} show={this.state.show} onClose={this.modalTrigger} >
+                                <ModalComponent tittle={this.state.modalTittle} show={this.state.show} onClose={this.closeModal} >
                                     <br />{this.state.modalChildren}
                                 </ModalComponent>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>

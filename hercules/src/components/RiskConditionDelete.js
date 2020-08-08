@@ -27,6 +27,7 @@ class RiskConditionDelete extends Component {
         this.backButton = this.backButton.bind(this);
         this.deleteRiskCondition = this.deleteRiskCondition.bind(this);
         this.modalTrigger = this.modalTrigger.bind(this);
+        this.closeModal = this.closeModal.bind(this);
 
     }
 
@@ -48,12 +49,13 @@ class RiskConditionDelete extends Component {
         event.preventDefault();
     };
 
-    modalTrigger(event, mdTittle, mdChildren) {
+    closeModal(event) {
         this.setState({
-            show: !this.state.show,
-            modalTittle: mdTittle,
-            modalChildren: mdChildren
+            show: !this.state.show
         });
+        if (this.state.isExit) {
+            this.backButton();
+        }
         event.preventDefault();
     };
 
