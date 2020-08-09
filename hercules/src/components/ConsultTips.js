@@ -169,12 +169,8 @@ class ConsultTips extends Component {
                                 </div>
                             </div>
 
-                            <div className="col-4">
-                                <h2 className="text-left">Otros datos</h2>
+                            <div className="col-4">                               
                                 <div className="form-group" align="left">
-                                    <br></br>
-                                    <br></br>
-                                    <br></br>
                                     <button className="circularButton w-100" id="Edit" name="Edit" onClick={this.editTip}>Editar</button>
                                     <br></br>
                                     <br></br>

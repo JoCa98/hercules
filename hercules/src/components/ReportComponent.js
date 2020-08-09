@@ -229,7 +229,8 @@ class ReportComponent extends Component {
 
         const opts = { fields };
 
-        const csv = parse(this.state.list[0], opts);
+        const csv = parse(this.state.list[0], {opts, encoding: "ISO-8859-1",excelStrings: true, withBOM: true});
+        console.log(csv)
         var fileDownload = require('js-file-download');
         fileDownload(csv,this.state.name + '.csv');
 }
