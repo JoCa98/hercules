@@ -245,7 +245,7 @@ class PermissionManager extends Component {
     }
 
     medic(pageName) {
-        return new RegExp("^(\/AddMedicalForm)$").test(pageName);
+        return new RegExp("^((\/AddMedicalForm)|(\/RiskCondition)|(\/AddRiskCondition)|(\/RiskConditionsDeleteList)|(\/RiskConditionDelete))$").test(pageName);
     }
 
     signUp(pageName) {
@@ -285,7 +285,7 @@ class PermissionManager extends Component {
     }
 
     superAdminConfigurations(pageName) {
-        return new RegExp("^((\/Configuration)|(\/CareerConfiguration)|(\/AccountConfiguration)|(\/ConsultExercise)|(\/ExercisesList)|(\/ConsultAdmin)|(\/ConsultMedicPersonal))$").test(pageName);
+        return new RegExp("^((\/Configuration)|(\/CareerConfiguration)|(\/AccountConfiguration)|(\/ConsultExercise)|(\/ExercisesList)|(\/ConsultAdmin)|(\/ConsultMedicPersonal)|(\/AddRoutineType)|(\/AddExerciseType))$").test(pageName);
     }
 
 }

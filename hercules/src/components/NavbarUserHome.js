@@ -32,6 +32,8 @@ class NavbarUserHome extends Component {
             document.getElementById('adminConfig').style.display = 'none';
             document.getElementById('configuration').style.display = 'none';
             document.getElementById('reports').style.display = 'none';
+            document.getElementById('riskCondition').style.display = 'none';
+
 
             document.getElementById('logOut').style.display = 'none';
 
@@ -49,6 +51,8 @@ class NavbarUserHome extends Component {
                 document.getElementById('adminConfig').style.display = 'none';
                 document.getElementById('configuration').style.display = 'none';
                 document.getElementById('reports').style.display = 'none';
+                document.getElementById('riskCondition').style.display = 'none';
+
 
             } else if (sessionStorage.getItem('userTypeID') === "3") {
 
@@ -70,6 +74,8 @@ class NavbarUserHome extends Component {
                 document.getElementById('physicalInfo').style.display = 'none';
                 document.getElementById('userProfile').style.display = 'none';
                 document.getElementById('configuration').style.display = 'none';
+                document.getElementById('riskCondition').style.display = 'none';
+
 
                 document.getElementById('homeAdmin').style.display = 'block';
                 document.getElementById('addAdmin').style.display = 'block';
@@ -86,19 +92,22 @@ class NavbarUserHome extends Component {
                 document.getElementById('adminConfig').style.display = 'none';
                 document.getElementById('reports').style.display = 'none';
                 document.getElementById('configuration').style.display = 'none';
+                document.getElementById('riskCondition').style.display = 'none';
+
 
             } else if (sessionStorage.getItem('userTypeID') === "6") {
                 document.getElementById('rutine').style.display = 'none';
                 document.getElementById('medicalInfo').style.display = 'none';
                 document.getElementById('physicalInfo').style.display = 'none';
                 document.getElementById('userProfile').style.display = 'none';
+                document.getElementById('riskCondition').style.display = 'none';
+
 
                 document.getElementById('homeAdmin').style.display = 'block';
                 document.getElementById('addAdmin').style.display = 'block';
                 document.getElementById('adminConfig').style.display = 'block';
                 document.getElementById('configuration').style.display = 'block';
                 document.getElementById('reports').style.display = 'block';
-                document.getElementById('riskCondition').style.display = 'none';
             }
             document.getElementById('logOut').style.display = 'block';
         }
