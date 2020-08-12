@@ -1,3 +1,12 @@
+/**
+ * @fileoverview AddRiskCondition page, this page allows to add risk condition.
+ * @version 1.0
+ *
+ * @author Victor Bolaños <victor.bolanos@ucrso.info>
+ * History
+ * v1.0 – Initial Release
+ * ----
+ */
 import React, { Component } from 'react';
 import axios from 'axios';
 import validations from './validations';

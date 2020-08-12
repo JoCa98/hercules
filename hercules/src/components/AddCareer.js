@@ -1,3 +1,12 @@
+/**
+ * @fileoverview AddCareer page, this page allows to add a career.
+ * @version 1.0
+ *
+ * @author Victor Bolaños <victor.bolanos@ucrso.info>
+ * History
+ * v1.0 – Initial Release
+ * ----
+ */
 import React, { Component } from 'react';
 import axios from 'axios';
 import validations from './validations';
@@ -9,13 +18,18 @@ class AddCareer extends Component {
     constructor(props) {
         super(props);
         /**
-        *userTypeList:
+        * userTypeList:
         * @type {Array}
         * Property that stores the list of type of users that comes from the database
         * 
         * userTypeID:
         * @type {integer}
-        * Property that indicates the type of user and his behavior in the web site
+        * Property that indicates the type of user and his behavior in the web site.
+        * 
+        * careerList
+        * @type {Array}
+        * Property that stores the list of careers that comes from the database.
+        * 
         */
 
         this.state = {
@@ -32,18 +46,20 @@ class AddCareer extends Component {
             careerListID: []
         };
 
-        this.handleInputChange = this.handleInputChange.bind(this);
-        this.empty = this.empty.bind(this);
+        this.getCareerList = this.getCareerList.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.backButton = this.backButton.bind(this);
-        this.getAdminUserType = this.getAdminUserType.bind(this);
         this.modalTrigger = this.modalTrigger.bind(this);
         this.closeModal = this.closeModal.bind(this);
-        this.getCareerList = this.getCareerList.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
+        this.getAdminUserType = this.getAdminUserType.bind(this);
+        this.empty = this.empty.bind(this);
+        this.backButton = this.backButton.bind(this);
         this.rowEvent = this.rowEvent.bind(this);
-
     }
 
+    /**
+     * Initiates the page.
+     */
     componentDidMount() {
         if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
             window.scrollTo(0, 0);
@@ -52,6 +68,9 @@ class AddCareer extends Component {
         }
     }
 
+    /**
+     * Gets the career list from the database.
+     */
     getCareerList() {
         try {
             axios.get(`http://localhost:9000/ConfigurationRoute/GetCareers`).then(response => {
@@ -64,8 +83,8 @@ class AddCareer extends Component {
     }
 
     /**
-        * Method that submit all the information in the form to the database
-        */
+     * Method that submit all the information in the form to the database.
+     */
     handleSubmit = event => {
         if (this.empty()) {
             this.modalTrigger(event, 'Campos obligatorios', 'Los campos de texto con un * no se pueden dejar en blanco');
@@ -94,7 +113,7 @@ class AddCareer extends Component {
     }
 
     /**
-     * This method takes care of show a modal with useful information
+     * This method takes care of show a modal with useful information.
      */
     modalTrigger(event, mdTittle, mdChildren) {
         this.setState({
@@ -106,7 +125,7 @@ class AddCareer extends Component {
     };
 
     /**
-     * This method close the modal  
+     * This method close the modal.
      */
     closeModal(event) {
         this.setState({
@@ -119,8 +138,8 @@ class AddCareer extends Component {
     };
 
     /**
-    * This method set the prop attributes
-    */
+     * Changes the value of the given component where the method is called, to match the input.
+     */
     handleInputChange(event) {
         const { name, value } = event.target;
         this.setState({
@@ -129,8 +148,8 @@ class AddCareer extends Component {
     }
 
     /**
-    * This method load the information in the dropdownlist
-    */
+     * This method get the type of user.
+     */
     getAdminUserType() {
         try {
             axios.get(`http://localhost:9000/AdminRoute/getAdminUserType`).then(response => {
@@ -143,8 +162,8 @@ class AddCareer extends Component {
     }
 
     /**
-    * Method that verify that the require inputs are not empty
-    */
+     * Method that verify that the require inputs are not empty.
+     */
     empty() {
         if (this.state.careerName == "" || this.state.careerName == null) {
             return true;
@@ -154,12 +173,15 @@ class AddCareer extends Component {
     }
 
     /**
-    * Method that redirect to the previous page
-    */
+     * Go to previous page.
+     */
     backButton() {
         this.props.history.push(`/CareerConfiguration`);
     }
 
+    /**
+     * Redirects to the appropiate page for the given career.
+     */
     rowEvent(event) {
         try {
             sessionStorage.setItem("careerID", this.state.careerListID[event.target.parentNode.rowIndex - 1]);
@@ -170,7 +192,10 @@ class AddCareer extends Component {
     }
 
     render() {
-
+        /**
+        * The careerList.map is used to create the rows of the table and to structure the html,
+        * this is stored in a constant that is used in the code of the page
+        */
         const careerListVisual = this.state.careerList.map((careerList, i) => {
             this.state.careerListID.push(careerList.careerID);
             if (sessionStorage.getItem('userTypeID') === '5') {
@@ -201,7 +226,6 @@ class AddCareer extends Component {
                 <div className="row mt-2">
                     <div className="col-10 offset-1 card p-5">
                         <form className="form-horizontal">
-                            <h1 className="text-left colorBlue">Ejemplo tablas</h1>
                             <div className="row p-3">
                                 <h1 className="text-left colorBlue">Agregar carrera</h1>
                             </div>
@@ -219,73 +243,6 @@ class AddCareer extends Component {
                                 </div>
                                 <div className=" mt-3 col-md-3 offset-6" align="right">
                                     <button align="rigth" className="buttonSizeGeneral" onClick={this.handleSubmit}>Guardar</button>
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="col-12 mt-4" >
-                                    <h1 className="text-left colorBlue">Carreras agregadas</h1>
-                                    <table className="table table-sm table-hover" id="myTable">
-                                        <thead>
-                                            <tr class="header">
-                                                <th scope="col">Nombre</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {careerListVisual}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <h1 className="text-left colorBlue">Ejemplo pestañas</h1>
-                            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Agregar carreras</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Ver carreras</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Eliminar carreras</a>
-                                </li>
-                            </ul>
-                            <div class="tab-content" id="pills-tabContent">
-                                <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-                                    <div className="row p-3">
-                                        <h1 className="text-left colorBlue">Agregar carrera</h1>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col-12">
-                                            <div className="form-group" align="center">
-                                                <p align="justify">Nombre de la carrera<font color="red">*</font></p>
-                                                <input type="text" name="careerName" placeholder="Ej: Informática empresarial" className="form-control" fontSize="18px" onChange={this.handleInputChange} required></input>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-                                    <div className="row">
-                                        <div className="col-12 mt-4" >
-                                            <h1 className="text-left colorBlue">Ver carreras</h1>
-                                            <table className="table table-sm table-hover" id="myTable">
-                                                <thead>
-                                                    <tr class="header">
-                                                        <th scope="col">Nombre</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {careerListVisual}
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">...</div>
-                            </div>
-                            <div className="row">
-                                <div className="col-md-1">
-                                    <ModalComponent tittle={this.state.modalTittle} show={this.state.show} onClose={this.closeModal} >
-                                        <br />{this.state.modalChildren}
-                                    </ModalComponent>
                                 </div>
                             </div>
                         </form>

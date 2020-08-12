@@ -1,3 +1,12 @@
+/**
+ * @fileoverview CareerUpdate page, this page allows to update a career.
+ * @version 1.0
+ *
+ * @author Victor Bolaños <victor.bolanos@ucrso.info>
+ * History
+ * v1.0 – Initial Release
+ * ----
+ */
 import React, { Component } from 'react';
 import axios from 'axios';
 import validations from './validations';
@@ -97,14 +106,14 @@ class CareerUpdate extends Component {
             show: !this.state.show
         });
         if (this.state.isExit) {
-            this.props.history.push(`/HomeAdmin`);
+            this.props.history.push(`/CareerConfiguration`);
         }
         event.preventDefault();
     };
 
     /**
-* This method set the prop attributes
-*/
+    * This method set the prop attributes
+    */
     handleInputChange(event) {
         const { name, value } = event.target;
         this.setState({
@@ -120,7 +129,8 @@ class CareerUpdate extends Component {
                 }).then(response => {
                     const careerInfo = response.data[0];
                     this.setState({ careerInfo });
-                });
+                    this.state.careerName = this.state.careerInfo[0].name;   
+                });  
         } catch (err) {
             console.error("Un error inesperado ha ocurrido");
         }
@@ -138,7 +148,6 @@ class CareerUpdate extends Component {
         sessionStorage.removeItem("careerID");
         this.props.history.push(`/CareerConfiguration`);
     }
-
 
     render() {
         return (
@@ -176,7 +185,7 @@ class CareerUpdate extends Component {
                         </div>
                         <div className="row">
                             <div className="col-md-1">
-                                <ModalComponent tittle={this.state.modalTittle} show={this.state.show} onClose={this.modalTrigger} >
+                                <ModalComponent tittle={this.state.modalTittle} show={this.state.show} onClose={this.closeModal} >
                                     <br />{this.state.modalChildren}
                                 </ModalComponent>
                             </div>

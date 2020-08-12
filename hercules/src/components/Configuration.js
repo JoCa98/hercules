@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Career page, this page shows a menu to configure different aspects of the system.
+ * @version 1.0
+ *
+ * @author Victor Bolaños <victor.bolanos@ucrso.info>
+ * History
+ * v1.0 – Initial Release
+ * ----
+ */
 import React, { Component } from 'react';
 import axios from 'axios';
 import validations from './validations';
@@ -50,6 +59,7 @@ class Configuration extends Component {
     excerciseConfiguration() {
         this.props.history.push(`/ExercisesList`);
     }
+    
     tipsConfiguration() {
         this.props.history.push(`/TipsAdmin`);
     }

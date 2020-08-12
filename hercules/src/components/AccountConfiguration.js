@@ -1,3 +1,12 @@
+/**
+ * @fileoverview AccountConfiguration page, this page shows medical and admin accounts, according to their status.
+ * @version 1.0
+ *
+ * @author Victor Bolaños <victor.bolanos@ucrso.info>
+ * History
+ * v1.0 – Initial Release
+ * ----
+ */
 import React, { Component } from 'react';
 import axios from 'axios';
 import validations from './validations';
@@ -9,13 +18,21 @@ class AccountConfiguration extends Component {
     constructor(props) {
         super(props);
         /**
-        *userTypeList:
+        * userList:
         * @type {Array}
-        * Property that stores the list of type of users that comes from the database
+        * Property that stores the list of type of users that comes from the database.
         * 
-        * userTypeID:
+        * searchType:
         * @type {integer}
-        * Property that indicates the type of user and his behavior in the web site
+        * Property that indicates the type of user that is going to be displayed. Initial value: 0
+        * 
+        * searchStatus:
+        * @type {integer}
+        * Property that indicates the status of user that is going to be displayed. Initial value: 2
+        * 
+        * searchInput:
+        * @type {String}
+        * Property that indicates the string to search for.
         */
 
         this.state = {
@@ -27,20 +44,20 @@ class AccountConfiguration extends Component {
             searchInput: ''
         };
 
-        this.handleInput = this.handleInput.bind(this);
         this.searchEvent = this.searchEvent.bind(this);
-        this.rowEvent = this.rowEvent.bind(this);
         this.search = this.search.bind(this);
-
         this.getActiveMedicsList = this.getActiveMedicsList.bind(this);
         this.getInactiveMedicsList = this.getInactiveMedicsList.bind(this);
         this.getActiveAdminsList = this.getActiveAdminsList.bind(this);
         this.getInactiveAdminsList = this.getInactiveAdminsList.bind(this);
-        this.searchEvent = this.searchEvent.bind(this);
-
+        this.rowEvent = this.rowEvent.bind(this);
+        this.handleInput = this.handleInput.bind(this);
         this.backButton = this.backButton.bind(this);
     }
 
+    /**
+     * Initiates the page
+     */
     componentDidMount() {
         if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
             window.scrollTo(0, 0);
@@ -48,6 +65,10 @@ class AccountConfiguration extends Component {
         }
     }
 
+    /**
+     * Search the user list according to the different user types or states.
+     * Also has a search box for more accurate searchs.
+     */
     searchEvent() {
         if (this.state.searchType == 0 && this.state.searchStatus == 2) {
             this.getActiveMedicsList();
@@ -58,33 +79,39 @@ class AccountConfiguration extends Component {
         } else {
             this.getInactiveAdminsList()
         }
-        if(this.state.searchInput != ''){
-           this.search(); 
+        if (this.state.searchInput != '') {
+            this.search();
         }
     }
 
+    /**
+     * Search for the given argument in the table following the established properties.
+     */
     search() {
         var input, filter, table, tr, td, i, txtValue;
-        input =  this.state.searchInput;
+        input = this.state.searchInput;
         filter = input.toUpperCase();
         table = document.getElementById("myTable");
         tr = table.getElementsByTagName("tr");
-      
-        // Loop through all table rows, and hide those who don't match the search query
+        // Loop through all table rows, and hide those who don't match the search query.
         for (i = 0; i < tr.length; i++) {
-          //Select column to filter with this index ..("td")[1] <<<
-          td = tr[i].getElementsByTagName("td")[1];
-          if (td) {
-            txtValue = td.textContent || td.innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-              tr[i].style.display = "";
-            } else {
-              tr[i].style.display = "none";
+            //Select column to filter with this index ..("td")[1] <<<
+            //The 1 in this line ..("td")[1] is the name column.
+            td = tr[i].getElementsByTagName("td")[1];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
             }
-          }
         }
-      }
+    }
 
+    /**
+     * Gets the active medics list.
+     */
     getActiveMedicsList() {
         try {
             axios.get(`http://localhost:9000/ConfigurationRoute/ActiveMedics`).then(response => {
@@ -96,6 +123,9 @@ class AccountConfiguration extends Component {
         }
     }
 
+    /**
+     * Gets the inactive medics list.
+     */
     getInactiveMedicsList() {
         try {
             axios.get(`http://localhost:9000/ConfigurationRoute/InactiveMedics`).then(response => {
@@ -107,6 +137,9 @@ class AccountConfiguration extends Component {
         }
     }
 
+    /**
+     * Gets the active admins list.
+     */
     getActiveAdminsList() {
         try {
             axios.get(`http://localhost:9000/ConfigurationRoute/ActiveGymAdmins`).then(response => {
@@ -118,6 +151,9 @@ class AccountConfiguration extends Component {
         }
     }
 
+    /**
+     * Gets the inactive admins list.
+     */
     getInactiveAdminsList() {
         try {
             axios.get(`http://localhost:9000/ConfigurationRoute/InactiveActiveGymAdmins`).then(response => {
@@ -129,12 +165,18 @@ class AccountConfiguration extends Component {
         }
     }
 
+    /**
+     * Calls the search method when the 'Enter' key is pressed.
+     */
     onKeyEvent(e) {
         if (e.key == "Enter") {
             this.searchEvent();
         }
     }
 
+    /**
+     * Redirects to the appropiate page for the given user.
+     */
     rowEvent(event) {
         try {
             sessionStorage.setItem("userPartyID", this.state.userListID[event.target.parentNode.rowIndex - 1]);
@@ -149,6 +191,9 @@ class AccountConfiguration extends Component {
         }
     }
 
+    /**
+     * Changes the value of the given component where the method is called, to match the input.
+     */
     handleInput(e) {
         const { value, name } = e.target;
         this.setState({
@@ -156,14 +201,17 @@ class AccountConfiguration extends Component {
         })
     }
 
+    /**
+     * Go to previous page.
+     */
     backButton() {
         this.props.history.push(`/Configuration`);
     }
 
     render() {
         /**
-        *The userList.map is used to create the rows of the table and to structure the html,
-        *this is stored in a constant that is used in the code of the page
+        * The userList.map is used to create the rows of the table and to structure the html,
+        * this is stored in a constant that is used in the code of the page
         */
         const userListVisual = this.state.userList.map((userList, i) => {
             this.state.userListID.push(userList.partyID);
@@ -228,7 +276,7 @@ class AccountConfiguration extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="col-10 offset-1 mt-4" > 
+                    <div className="col-10 offset-1 mt-4" >
                         <table className="table table-sm table-hover" id="myTable">
                             <thead>
                                 <tr class="header">

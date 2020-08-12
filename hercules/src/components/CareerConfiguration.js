@@ -1,3 +1,12 @@
+/**
+ * @fileoverview CareerConfiguration page, this page allows to configure a career.
+ * @version 1.0
+ *
+ * @author Victor Bolaños <victor.bolanos@ucrso.info>
+ * History
+ * v1.0 – Initial Release
+ * ----
+ */
 import React, { Component } from 'react';
 import axios from 'axios';
 import validations from './validations';
@@ -61,7 +70,7 @@ class CareerConfiguration extends Component {
     rowEvent(event) {
         try {
             sessionStorage.setItem("careerID", this.state.careerListID[event.target.parentNode.rowIndex - 1]);
-            this.props.history.push("/CareerUpdate");
+            this.props.history.push("/ConsultCareer");
         } catch (err) {
             console.error("Un error inesperado ha ocurrido");
         }
@@ -115,16 +124,12 @@ class CareerConfiguration extends Component {
                         <form className="form-horizontal">
                             <div className="row p-3">
                                 <h1 className="text-left colorBlue">Carreras</h1>
-                                <div className="col-3 text-center offset-3">
+                                <div className="col-3 text-center offset-6">
                                     <img src={plusImage} onClick={this.redirectAddCareer} className="imageHistoricPage pointer" />
                                     <h4 className="colorBlue pointer" onClick={this.redirectAddCareer}>Agregar carrera</h4>
                                 </div>
-                                <div className="col-3 text-center">
-                                    <img src={deleteImage} onClick={this.redirectDeleteCareer} className="imageHistoricPage pointer" />
-                                    <h4 className="colorBlue pointer" onClick={this.redirectDeleteCareer}>Eliminar carrera</h4>
-                                </div>
                             </div>
-                            <div className="col-10 offset-1 mt-4" >
+                            <div className="col-12 mt-4" >
                                 <table className="table table-sm table-hover" id="myTable">
                                     <thead>
                                         <tr class="header">

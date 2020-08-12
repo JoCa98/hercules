@@ -1,10 +1,19 @@
+/**
+ * @fileoverview ConsultCareer, this page allows to consult a career.
+ * @version 1.0
+ *
+ * @author Victor Bolaños <victor.bolanos@ucrso.info>
+ * History
+ * v1.0 – Initial Release
+ * ----
+ */
 import React, { Component } from 'react';
 import axios from 'axios';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import PermissionsManager from "./PermissionsManager";
 import ModalComponent from './ModalComponent';
 
-class CareerDelete extends Component {
+class ConsultCareer extends Component {
     constructor(props) {
         super(props);
         /**
@@ -18,20 +27,23 @@ class CareerDelete extends Component {
         */
         this.state = {
             permissionsManager: new PermissionsManager(),
-            careerID: sessionStorage.getItem("careerToDeleteID"),
+            careerID: sessionStorage.getItem("careerID"),
             careerInfo: [{}],
             show: false,
             modalTittle: "",
             modalChildren: "",
             status: 0,
+            careerList: []
         };
 
-        this.getCareerInfo = this.getCareerInfo.bind(this);
         this.backButton = this.backButton.bind(this);
         this.editCareer = this.editCareer.bind(this);
         this.deleteCareer = this.deleteCareer.bind(this);
         this.modalTrigger = this.modalTrigger.bind(this);
         this.closeModal = this.closeModal.bind(this);
+        this.getCareerInfo = this.getCareerInfo.bind(this);
+        this.getCareersToDeleteList = this.getCareersToDeleteList.bind(this);
+        this.validateDeleteCareer = this.validateDeleteCareer.bind(this);
 
     }
 
@@ -39,6 +51,7 @@ class CareerDelete extends Component {
         if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
             window.scrollTo(0, 0);
             this.getCareerInfo();
+            this.getCareersToDeleteList();
         }
     }
 
@@ -82,13 +95,28 @@ class CareerDelete extends Component {
         }
     }
 
-    editCareer() {
-        sessionStorage.setItem("careerID", sessionStorage.getItem("careerToDeleteID"));
-        sessionStorage.removeItem("careerToDeleteID");
-        this.props.history.push(`/CareerUpdate`);
+    getCareersToDeleteList() {
+        try {
+            axios.get(`http://localhost:9000/ConfigurationRoute/GetCareersWithoutStudents`).then(response => {
+                const careerList = response.data[0];
+                this.setState({ careerList });
+            });
+        } catch (err) {
+            console.error("Un error inesperado ha ocurrido");
+        }
+    }
+
+    validateDeleteCareer() {
+        for (var i = 0; i < this.state.careerList.length; i++) {
+            if (this.state.careerID == this.state.careerList[i].careerID) {
+                return true;
+            }
+        }
+        return false;
     }
 
     deleteCareer(event) {
+        if(this.validateDeleteCareer()){
         fetch(`http://localhost:9000/ConfigurationRoute/DeleteCareer`, {
             method: "post",
             body: JSON.stringify({
@@ -107,13 +135,21 @@ class CareerDelete extends Component {
                 this.modalTrigger(event, 'Carrera eliminada', 'Se ha eliminado correctamente la carrera');
             })
             .catch(err => console.error("Un error inesperado a ocurrido"));
+        }else{
+            this.modalTrigger(event, 'Carrera no eliminada', 'No se puede eliminar una carrera con estudiantes asociados');
+        }
+    }
+
+    editCareer() {
+        sessionStorage.setItem("careerID", sessionStorage.getItem("careerID"));
+        this.props.history.push(`/CareerUpdate`);
     }
 
     /**
     * Method that redirect to the previous page
     */
     backButton() {
-        sessionStorage.removeItem("careerToDeleteID");
+        sessionStorage.removeItem("careerID");
         this.props.history.push(`/CareerConfiguration`);
     }
 
@@ -125,7 +161,7 @@ class CareerDelete extends Component {
                         <Breadcrumb.Item href="#/HomeAdmin">Inicio</Breadcrumb.Item>
                         <Breadcrumb.Item href='#/Configuration'>Configuración</Breadcrumb.Item>
                         <Breadcrumb.Item href='#/CareerConfiguration'>Configuración de Carrera</Breadcrumb.Item>
-                        <Breadcrumb.Item>Eliminacion de carrera</Breadcrumb.Item>
+                        <Breadcrumb.Item>Consulta de carrera</Breadcrumb.Item>
                     </Breadcrumb>
                 </div>
                 <div className="row mt-2 card p-5" >
@@ -168,4 +204,4 @@ class CareerDelete extends Component {
         )
     }
 }
-export default CareerDelete;
+export default ConsultCareer;
