@@ -104,7 +104,7 @@ class HistoricMedicalInfo extends Component {
                         "RiesgoCardiovascular", "ValidoHasta"];
                     const opts = { fields };
 
-                    const csv = parse(response.data[0], opts);
+                    const csv = parse(response.data[0], {opts, encoding: "ISO-8859-1",excelStrings: true, withBOM: true});
                     var fileDownload = require('js-file-download');
                     fileDownload(csv, this.state.userName[0].fullName + ' - Composición médica.csv');
                 });
