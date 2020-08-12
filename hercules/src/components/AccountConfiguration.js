@@ -53,6 +53,7 @@ class AccountConfiguration extends Component {
         this.rowEvent = this.rowEvent.bind(this);
         this.handleInput = this.handleInput.bind(this);
         this.backButton = this.backButton.bind(this);
+        this.onKeyEvent = this.onKeyEvent.bind(this);
     }
 
     /**
