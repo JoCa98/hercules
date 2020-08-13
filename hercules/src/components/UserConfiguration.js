@@ -1100,7 +1100,7 @@ class UserConfiguration extends Component {
                                     </div>
                                 </div>
                                 <div className="row">
-                                    <div className="col-6">
+                                    <div className="col-12 col-sm-6">
                                         <div className="form-group" align="left">
                                             <p title="Campo obligatorio">Nombre<font color="red">*</font></p>
                                             <input fontSize="18px" type="text" required name="contactName" id="contactName" className="inputText form-control" value={this.state.contactName} onChange={this.handleInputChange}></input>

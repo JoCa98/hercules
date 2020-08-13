@@ -41,6 +41,9 @@ class ReportComponent extends Component {
         }
     }
 
+    /**
+     * This method charge the state variables name and breadcrumb depending to the session variable that contains the type of the report
+     */
     typeOfReport() {
         if (this.state.reportNumber == 1) {
             this.setState({ name: "Reporte por estado de usuarios", breadcrumb:"Reporte por estado" });
@@ -66,6 +69,9 @@ class ReportComponent extends Component {
         }
     }
 
+    /**
+     * This method charge the rutine DropDown, when the report selected is by routine type
+     */
     rutineDropDown(){
         axios.get("http://localhost:9000/RoutineRoute/getRoutineType").then(response => {
             var routine = response.data;
@@ -76,12 +82,18 @@ class ReportComponent extends Component {
             });
     }
 
+    /**
+     * This method charge the user type DropDown, when the report selected is by user type
+     */
     typeDropDown(){
         this.setState({
             optionList: [{ description: "Estudiante", value: 1 }, { description: "Funcionario", value: 2 }]
         });
     }
 
+    /**
+     * This method charge the risk condition DropDown, when the report selected is by risk condition
+     */
     conditionDropDown(){
         axios.get(`http://localhost:9000/MedicalInfo/getRiskCondition`).then(response => {
             var risk = response.data[0];  
@@ -92,6 +104,9 @@ class ReportComponent extends Component {
             });
     }
 
+    /**
+     * This method charge the date DropDown, when the report selected is by start date
+     */
     dateDropDown(){
         axios.get(`http://localhost:9000/ReportsRoute/signUpDates`).then(response => {
             var dates = response.data[0];  
@@ -102,6 +117,9 @@ class ReportComponent extends Component {
             });
     }
 
+    /**
+     * This method charge the career DropDown, when the report selected is by career
+     */
     careerDropDown(){
         axios.get(`http://localhost:9000/User/getCareer`).then(response => {
             var career = response.data[0];
@@ -113,22 +131,34 @@ class ReportComponent extends Component {
         });
     }
 
+    /**
+     * This method charge the gender DropDown, when the report selected is by gender
+     */
     genderDropDown(){
         this.setState({
             optionList: [{ description: "Femenino", value: 1 }, { description: "Masculino", value: 2 }]
         });
     }
 
+    /**
+     * This method charge the status DropDown, when the report selected is by status
+     */
     statusDropDown() {
         this.setState({
             optionList: [{ description: "Activo", value: 1 }, { description: "Inactivo", value: 0 }]
         });
     }
 
+    /**
+     * This method save the selected option of the dropdown in the state variable, variable
+     */
     optionSelect(event) {
         this.setState({ variable: event.target.value });   
     }
 
+    /**
+     * This method call the API depeding to the selected report and save the results in the state variable list
+     */
     report() {
         try {
             if(this.state.reportNumber == 1){
@@ -211,8 +241,6 @@ class ReportComponent extends Component {
     * and format it to csv to download  
     */
    downloadCSV() {
-
-
         const { parse } = require('json2csv');
         var fields=[];
 
@@ -233,12 +261,11 @@ class ReportComponent extends Component {
         console.log(csv)
         var fileDownload = require('js-file-download');
         fileDownload(csv,this.state.name + '.csv');
-}
+    }
 
 
 
     render() {
-
         const dropDownList = this.state.optionList.map((option, i) => {
             if(this.state.reportNumber == 3){
                 return (

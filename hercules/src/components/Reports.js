@@ -19,13 +19,19 @@ class Reports extends Component {
         }
     }
 
-
+/**
+ * This method is for select the report's number and redirect to its page
+ * @param {*} event 
+ */
     rowEvent(event) {
         const id = event.target.parentNode.rowIndex;
         sessionStorage.setItem("report", id);
         this.props.history.push(`/Report`);
     }
 
+    /**
+     * This method is in charge to download the general report of users
+     */
     downloadCSV() {
         try {
             axios.get(`http://localhost:9000/ReportsRoute/usersGeneralReport`,).then(response => {
