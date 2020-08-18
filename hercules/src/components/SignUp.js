@@ -229,7 +229,7 @@ class SignUp extends Component {
             var initCantonID = 30;
             var initDistrictID = 242;
             axios.get(`http://localhost:9000/User/getCareer`).then(response => {
-                this.setState({careers: response.data[0]});
+                this.setState({ careers: response.data[0] });
                 console.log(response.data[0]);
             });
             axios.get(`http://localhost:9000/User/getRelationType`).then(response => {
@@ -273,10 +273,10 @@ class SignUp extends Component {
      * Method to get the selected career
      * @param {*} event 
      */
-    getCareer(event){
-       this.setState({
-           career: event.target.value
-       });
+    getCareer(event) {
+        this.setState({
+            career: event.target.value
+        });
     }
 
     /**
@@ -285,8 +285,9 @@ class SignUp extends Component {
     getCantonsByProvince(event) {
         this.setState({ provinceID: event.target.value });
         document.getElementById('provinceID').value = event.target.value
-        axios.get(`http://localhost:9000/User/getCantons`, { 
-            params: { pID: event.target.value } }).then(response => {
+        axios.get(`http://localhost:9000/User/getCantons`, {
+            params: { pID: event.target.value }
+        }).then(response => {
             this.setState({ cantons: response.data[0] });
             var cantonValue;
             this.state.cantonList = this.state.cantons.map((cantons, i) => {
@@ -507,7 +508,7 @@ class SignUp extends Component {
                         || this.state.email.trim().length == 0 || this.state.password.trim().length == 0
                         || this.state.confirmPassword.toString().trim().length == 0 || this.state.addressLine.toString().trim().length == 0
                         || this.state.emergencyContactPhoneNumber.toString().trim().length == 0
-                        || (this.state.userTypeID == 1 && (this.state.carnet.trim().length == 0 || this.state.career.trim().length == 0))
+
                     ) {
                         this.modalTrigger(event, 'Campos obligatorios', 'Los campos de texto con un * no se pueden dejar en blanco');
                     } else if (!this.state.validations.validateTextField(this.state.firstName.trim())
@@ -592,7 +593,7 @@ class SignUp extends Component {
         })
             .then(res => res.json())
             .then(data => {
-                
+
             })
             .catch(err => console.error("Un error inesperado a ocurrido"));
     }

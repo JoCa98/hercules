@@ -17,6 +17,7 @@ class NavbarUserHome extends Component {
         this.adminConfig = this.adminConfig.bind(this);
         this.configuration = this.configuration.bind(this);
         this.reports = this.reports.bind(this);
+        this.tips = this.tips.bind(this);
         this.riskCondition = this.riskCondition.bind(this);
 
     }
@@ -32,6 +33,7 @@ class NavbarUserHome extends Component {
             document.getElementById('adminConfig').style.display = 'none';
             document.getElementById('configuration').style.display = 'none';
             document.getElementById('reports').style.display = 'none';
+            document.getElementById('tips').style.display = 'none';
             document.getElementById('riskCondition').style.display = 'none';
 
 
@@ -67,6 +69,7 @@ class NavbarUserHome extends Component {
                 document.getElementById('adminConfig').style.display = 'block';
                 document.getElementById('configuration').style.display = 'none';
                 document.getElementById('reports').style.display = 'none';
+                document.getElementById('tips').style.display = 'none';
 
             } else if (sessionStorage.getItem('userTypeID') === "4") {
                 document.getElementById('rutine').style.display = 'none';
@@ -75,7 +78,7 @@ class NavbarUserHome extends Component {
                 document.getElementById('userProfile').style.display = 'none';
                 document.getElementById('configuration').style.display = 'none';
                 document.getElementById('riskCondition').style.display = 'none';
-
+                document.getElementById('tips').style.display = 'none';
 
                 document.getElementById('homeAdmin').style.display = 'block';
                 document.getElementById('addAdmin').style.display = 'block';
@@ -94,13 +97,14 @@ class NavbarUserHome extends Component {
                 document.getElementById('configuration').style.display = 'none';
                 document.getElementById('riskCondition').style.display = 'none';
 
-
+                document.getElementById('tips').style.display = 'none';
             } else if (sessionStorage.getItem('userTypeID') === "6") {
                 document.getElementById('rutine').style.display = 'none';
                 document.getElementById('medicalInfo').style.display = 'none';
                 document.getElementById('physicalInfo').style.display = 'none';
                 document.getElementById('userProfile').style.display = 'none';
                 document.getElementById('riskCondition').style.display = 'none';
+                document.getElementById('tips').style.display = 'none';
 
 
                 document.getElementById('homeAdmin').style.display = 'block';
@@ -153,11 +157,14 @@ class NavbarUserHome extends Component {
         this.props.history.push(`/Configuration`);
     }
 
-    reports(){
+    reports() {
         this.props.history.push(`/Reports`);
     }
+    tips() {
+        this.props.history.push(`/TipsList`);
+    }
 
-    riskCondition(){
+    riskCondition() {
         this.props.history.push(`/RiskCondition`);
     }
 
@@ -194,6 +201,9 @@ class NavbarUserHome extends Component {
                         </li>
                         <li id="reports" className="nav-item">
                             <button className="btn buttonNavbar" onClick={this.reports}>Reportes</button>
+                        </li>
+                        <li id="tips" className="nav-item">
+                            <button className="btn buttonNavbar" onClick={this.tips}>Reportes</button>
                         </li>
                         <li id="adminConfig" className="nav-item">
                             <button className="btn buttonNavbar" onClick={this.adminConfig}>Perfil</button>
