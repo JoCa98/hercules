@@ -17,13 +17,17 @@ class ConsultCareer extends Component {
     constructor(props) {
         super(props);
         /**
-        *exerciseInfo:
+        * careerInfo:
         * @type {Array}
-        * Property that stores the user information that comes from the database
+        * Property that stores the career information that comes from the database.
         * 
-        * exerciseID:
+        * careerList:
+        * @type {Array}
+        * Property that stores the list of careers that comes from the database.
+        * 
+        * careerID:
         * @type {integer}
-        * Property that indicates the user id
+        * Property that indicates the career id.
         */
         this.state = {
             permissionsManager: new PermissionsManager(),
@@ -47,6 +51,9 @@ class ConsultCareer extends Component {
 
     }
 
+    /**
+    * Initiates the page.
+    */
     componentDidMount() {
         if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
             window.scrollTo(0, 0);
@@ -67,6 +74,9 @@ class ConsultCareer extends Component {
         event.preventDefault();
     };
 
+    /**
+     * This method closes the modal.
+     */
     closeModal(event) {
         this.setState({
             show: !this.state.show
@@ -78,8 +88,7 @@ class ConsultCareer extends Component {
     };
 
     /**
-    * Method that can get the basic information of a specifc career 
-    * when the page is loaded.
+    * Method that can get the basic information of a specifc career when the page is loaded.
     */
     getCareerInfo() {
         try {
@@ -95,6 +104,9 @@ class ConsultCareer extends Component {
         }
     }
 
+    /**
+    * Method that can get the list of careers that can be deleted.
+    */
     getCareersToDeleteList() {
         try {
             axios.get(`http://localhost:9000/ConfigurationRoute/GetCareersWithoutStudents`).then(response => {
@@ -106,6 +118,9 @@ class ConsultCareer extends Component {
         }
     }
 
+    /**
+     * Validates if the career can be deleted.
+     */
     validateDeleteCareer() {
         for (var i = 0; i < this.state.careerList.length; i++) {
             if (this.state.careerID == this.state.careerList[i].careerID) {
@@ -115,31 +130,38 @@ class ConsultCareer extends Component {
         return false;
     }
 
+    /**
+     * Deletes the career selected, if it's valid.
+     * @param {*} event 
+     */
     deleteCareer(event) {
-        if(this.validateDeleteCareer()){
-        fetch(`http://localhost:9000/ConfigurationRoute/DeleteCareer`, {
-            method: "post",
-            body: JSON.stringify({
-                careerID: this.state.careerID
-            }),
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json"
-            }
-        })
-            .then(res => res.json())
-            .then(data => {
-                this.setState({
-                    isExit: true
-                });
-                this.modalTrigger(event, 'Carrera eliminada', 'Se ha eliminado correctamente la carrera');
+        if (this.validateDeleteCareer()) {
+            fetch(`http://localhost:9000/ConfigurationRoute/DeleteCareer`, {
+                method: "post",
+                body: JSON.stringify({
+                    careerID: this.state.careerID
+                }),
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                }
             })
-            .catch(err => console.error("Un error inesperado a ocurrido"));
-        }else{
+                .then(res => res.json())
+                .then(data => {
+                    this.setState({
+                        isExit: true
+                    });
+                    this.modalTrigger(event, 'Carrera eliminada', 'Se ha eliminado correctamente la carrera');
+                })
+                .catch(err => console.error("Un error inesperado a ocurrido"));
+        } else {
             this.modalTrigger(event, 'Carrera no eliminada', 'No se puede eliminar una carrera con estudiantes asociados');
         }
     }
 
+    /**
+     * Reddirects to a page where a career can be edited.
+     */
     editCareer() {
         sessionStorage.setItem("careerID", sessionStorage.getItem("careerID"));
         this.props.history.push(`/CareerUpdate`);

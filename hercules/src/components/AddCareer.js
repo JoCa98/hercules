@@ -113,7 +113,7 @@ class AddCareer extends Component {
     }
 
     /**
-     * This method takes care of show a modal with useful information.
+     * This method takes care of showing a modal with useful information.
      */
     modalTrigger(event, mdTittle, mdChildren) {
         this.setState({
@@ -125,7 +125,7 @@ class AddCareer extends Component {
     };
 
     /**
-     * This method close the modal.
+     * This method closes the modal.
      */
     closeModal(event) {
         this.setState({

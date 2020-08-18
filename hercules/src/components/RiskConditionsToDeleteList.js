@@ -17,13 +17,21 @@ class RiskConditionsToDeleteList extends Component {
     constructor(props) {
         super(props);
         /**
-        *userTypeList:
+        * userTypeList:
         * @type {Array}
-        * Property that stores the list of type of users that comes from the database
+        * Property that stores the list of type of users that comes from the database.
         * 
         * userTypeID:
         * @type {integer}
-        * Property that indicates the type of user and his behavior in the web site
+        * Property that indicates the type of user and his behavior in the web site.
+        * 
+        * riskConditionList:
+        * @type {Array}
+        * Property that stores the list of risk conditions that comes from the database.
+        * 
+        * riskConditionListID:
+        * @type {Array}
+        * Property that stores the list of risk conditions ids that comes from the database.
         */
 
         this.state = {
@@ -41,6 +49,9 @@ class RiskConditionsToDeleteList extends Component {
 
     }
 
+    /**
+    * Initiates the page.
+    */
     componentDidMount() {
         if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
             window.scrollTo(0, 0);
@@ -48,6 +59,9 @@ class RiskConditionsToDeleteList extends Component {
         }
     }
 
+    /**
+     * Gets the risk conditions that can be deleted.
+     */
     getRiskConditionsToDeleteList() {
         try {
             axios.get(`http://localhost:9000/ConfigurationRoute/GetRiskConditionsWithoutStudents`).then(response => {
@@ -60,9 +74,8 @@ class RiskConditionsToDeleteList extends Component {
     }
 
     /**
-    * This method load the information in the dropdownlist
+    * This method reddirects to a page and sets an id into the session to be used in the next page.
     */
-
     rowEvent(event) {
         try {
             sessionStorage.setItem("riskConditionID", this.state.riskConditionListID[event.target.parentNode.rowIndex - 1]);
@@ -73,15 +86,17 @@ class RiskConditionsToDeleteList extends Component {
     }
 
     /**
-    * Method that redirect to the previous page
+    * Method that redirect to the previous page.
     */
     backButton() {
         this.props.history.push(`/Configuration`);
     }
 
-
     render() {
-
+        /**
+        * The riskCondition.map is used to create the rows of the table and to structure the html,
+        * this is stored in a constant that is used in the code of the page
+        */
         const riskConditionListVisual = this.state.riskConditionList.map((riskConditionList, i) => {
             this.state.riskConditionListID.push(riskConditionList.riskConditionID);
             if (sessionStorage.getItem('userTypeID') === '5') {

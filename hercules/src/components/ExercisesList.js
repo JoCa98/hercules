@@ -273,7 +273,7 @@ class ExercisesList extends Component {
                                     {exerciseTypeListVisual}
                                 </select>
                             </div>
-                            <div className="col-5">
+                            <div className="col-6">
                                 <input fontSize="18px"
                                     type="text"
                                     name="searchInput"
@@ -284,24 +284,26 @@ class ExercisesList extends Component {
                                 >
                                 </input>
                             </div>
-                            <div className="col-2">
+                            <div className=" col-2">
                                 <button className="buttonSizeGeneral" onClick={this.searchEvent}>Buscar</button>
                             </div>
                         </div>
                     </div>
-                    <div className="col-9 offset-1 mt-4 ">
-                        <table className="table table-sm table-hover " id="myTable">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Nombre</th>
-                                    <th scope="col">Tipo</th>
-                                    <th scope="col">Estado</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {exerciseListVisual}
-                            </tbody>
-                        </table>
+                    <div className="col-10 offset-1 mt-4" >
+                        <div style={{ overflow: 'auto', height: '300px' }}>
+                            <table className="table table-sm table-hover " id="myTable">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Nombre</th>
+                                        <th scope="col">Tipo</th>
+                                        <th scope="col">Estado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {exerciseListVisual}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <div className="row">
                         <div className=" mt-3 col-md-3">

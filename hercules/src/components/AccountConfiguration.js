@@ -45,7 +45,7 @@ class AccountConfiguration extends Component {
         };
 
         this.searchEvent = this.searchEvent.bind(this);
-        this.search = this.search.bind(this);
+        //this.search = this.search.bind(this);
         this.getActiveMedicsList = this.getActiveMedicsList.bind(this);
         this.getInactiveMedicsList = this.getInactiveMedicsList.bind(this);
         this.getActiveAdminsList = this.getActiveAdminsList.bind(this);
@@ -80,14 +80,12 @@ class AccountConfiguration extends Component {
         } else {
             this.getInactiveAdminsList()
         }
-        if (this.state.searchInput != '') {
-            this.search();
-        }
     }
 
     /**
      * Search for the given argument in the table following the established properties.
      */
+    /* -**Needs a searchbox in case of implementation.**-
     search() {
         var input, filter, table, tr, td, i, txtValue;
         input = this.state.searchInput;
@@ -109,6 +107,7 @@ class AccountConfiguration extends Component {
             }
         }
     }
+    */
 
     /**
      * Gets the active medics list.
@@ -246,7 +245,7 @@ class AccountConfiguration extends Component {
                     <div className="col-12">
                         <h1 className="text-left colorBlue">Configuración de cuentas</h1>
                         <div className="row">
-                            <div className="col-3 offset-1">
+                            <div className="col-4 offset-1">
                                 <select fontSize="18px" className="form-control"
                                     name="searchType"
                                     onChange={this.handleInput}>
@@ -254,7 +253,7 @@ class AccountConfiguration extends Component {
                                     <option value="1">Personal gimnasio</option>
                                 </select>
                             </div>
-                            <div className="col-2">
+                            <div className="col-4">
                                 <select fontSize="18px" className="form-control"
                                     name="searchStatus"
                                     onChange={this.handleInput}>
@@ -262,17 +261,7 @@ class AccountConfiguration extends Component {
                                     <option value="3">Inactivos</option>
                                 </select>
                             </div>
-                            <div className="col-3">
-                                <input fontSize="18px"
-                                    type="text"
-                                    name="searchInput"
-                                    onChange={this.handleInput}
-                                    onKeyPress={this.onKeyEvent}
-                                    className="w-100 inputText"
-                                    placeholder="Buscar">
-                                </input>
-                            </div>
-                            <div className="col-1">
+                            <div className="col-2">
                                 <button className="buttonSizeGeneral" onClick={this.searchEvent}>Buscar</button>
                             </div>
                         </div>

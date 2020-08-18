@@ -12,6 +12,7 @@ import Footer from './components/Footer';
 import HomeAdmin from './components/HomeAdmin';
 import ExercisesList from './components/ExercisesList';
 import TipsAdmin from './components/TipsAdmin';
+import TipsList from './components/TipsList';
 import AddTip from './components/AddTip';
 import ConsultTips from './components/ConsultTips';
 import ConsultExercise from './components/ConsultExercise';
@@ -110,6 +111,7 @@ function App() {
           <Route exact path="/UserConfiguration" component={UserConfiguration} />
           <Route exact path="/HistoricPhysicalUserInfo" component={HistoricPhysicalUserInfo} />
           <Route exact path="/HistoricMedicalUserInfo" component={HistoricMedicalUserInfo} />
+          <Route exact path="/TipsList" component={TipsList} />
 
           {/** All */}
           <Route exact path="/ChangeTempPassword" component={ChangeTempPassword} />

@@ -18,10 +18,6 @@ class Configuration extends Component {
     constructor(props) {
         super(props);
         /**
-        *userTypeList:
-        * @type {Array}
-        * Property that stores the list of type of users that comes from the database
-        * 
         * userTypeID:
         * @type {integer}
         * Property that indicates the type of user and his behavior in the web site
@@ -42,6 +38,9 @@ class Configuration extends Component {
 
     }
 
+    /**
+    * Initiates the page.
+    */
     componentDidMount() {
         if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
             window.scrollTo(0, 0);
@@ -50,7 +49,7 @@ class Configuration extends Component {
     }
 
     /**
-    * Method that redirect to the requested page
+    * Methods that redirect to the requested page
     */
     careerConfiguration() {
         this.props.history.push(`/CareerConfiguration`);
@@ -59,7 +58,7 @@ class Configuration extends Component {
     excerciseConfiguration() {
         this.props.history.push(`/ExercisesList`);
     }
-    
+
     tipsConfiguration() {
         this.props.history.push(`/TipsAdmin`);
     }

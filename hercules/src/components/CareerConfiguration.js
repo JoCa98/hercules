@@ -20,13 +20,21 @@ class CareerConfiguration extends Component {
     constructor(props) {
         super(props);
         /**
-        *userTypeList:
+        * userTypeList:
         * @type {Array}
-        * Property that stores the list of type of users that comes from the database
+        * Property that stores the list of type of users that comes from the database.
         * 
         * userTypeID:
         * @type {integer}
-        * Property that indicates the type of user and his behavior in the web site
+        * Property that indicates the type of user and his behavior in the web site.
+        * 
+        * careerList:
+        * @type {Array}
+        * Property that stores the list of careers that comes from the database.
+        * 
+        * careerListID:
+        * @type {Array}
+        * Property that stores the list of careers ids that comes from the database.
         */
 
         this.state = {
@@ -45,6 +53,9 @@ class CareerConfiguration extends Component {
         this.redirectDeleteCareer = this.redirectDeleteCareer.bind(this);
     }
 
+    /**
+    * Initiates the page.
+    */
     componentDidMount() {
         if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
             window.scrollTo(0, 0);
@@ -52,6 +63,9 @@ class CareerConfiguration extends Component {
         }
     }
 
+    /**
+     * Gets the list of careers from the database.
+     */
     getCareerList() {
         try {
             axios.get(`http://localhost:9000/ConfigurationRoute/GetCareers`).then(response => {
@@ -64,9 +78,8 @@ class CareerConfiguration extends Component {
     }
 
     /**
-    * This method load the information in the dropdownlist
+    * This method reddirects to a page and sets an id into the session to be used in the next page.
     */
-
     rowEvent(event) {
         try {
             sessionStorage.setItem("careerID", this.state.careerListID[event.target.parentNode.rowIndex - 1]);
@@ -83,16 +96,25 @@ class CareerConfiguration extends Component {
         this.props.history.push(`/Configuration`);
     }
 
+    /**
+    * Method that redirect to the requested page.
+    */
     redirectAddCareer() {
         this.props.history.push(`/AddCareer`);
     }
 
+    /**
+    * Method that redirect to the requested page.
+    */
     redirectDeleteCareer() {
         this.props.history.push(`/CareerDeleteList`);
     }
 
     render() {
-
+        /**
+        * The careerList.map is used to create the rows of the table and to structure the html,
+        * this is stored in a constant that is used in the code of the page
+        */
         const careerListVisual = this.state.careerList.map((careerList, i) => {
             this.state.careerListID.push(careerList.careerID);
             if (sessionStorage.getItem('userTypeID') === '5') {
