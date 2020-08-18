@@ -20,11 +20,15 @@ class CareerUpdate extends Component {
         /**
         * careerInfo:
         * @type {Array}
-        * Property that stores the career information that comes from the database
+        * Property that stores the career information that comes from the database.
         * 
         * careerID:
         * @type {integer}
-        * Property that indicates the career id
+        * Property that indicates the career id.
+        * 
+        * careerName:
+        * @type {String}
+        * Property that indicates the name of the updated career.
         */
         this.state = {
             permissionsManager: new PermissionsManager(),
@@ -48,6 +52,9 @@ class CareerUpdate extends Component {
 
     }
 
+    /**
+    * Initiates the page.
+    */
     componentDidMount() {
         if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
             window.scrollTo(0, 0);
@@ -56,8 +63,8 @@ class CareerUpdate extends Component {
     }
 
     /**
-        * Method that submit all the information in the form to the database
-        */
+    * Method that submit all the information in the form to the database.
+    */
     handleSubmit = event => {
         if (this.empty()) {
             this.modalTrigger(event, 'Campos obligatorios', 'No puede dejar el nombre de la carrera en blanco');
@@ -87,7 +94,7 @@ class CareerUpdate extends Component {
     }
 
     /**
-     * This method takes care of show a modal with useful information
+     * This method takes care of show a modal with useful information.
      */
     modalTrigger(event, mdTittle, mdChildren) {
         this.setState({
@@ -99,7 +106,7 @@ class CareerUpdate extends Component {
     };
 
     /**
-     * This method close the modal  
+     * This method closes the modal.
      */
     closeModal(event) {
         this.setState({
@@ -112,7 +119,7 @@ class CareerUpdate extends Component {
     };
 
     /**
-    * This method set the prop attributes
+    * This method set the prop attributes.
     */
     handleInputChange(event) {
         const { name, value } = event.target;
@@ -121,6 +128,9 @@ class CareerUpdate extends Component {
         });
     }
 
+    /**
+    * Gets the career info that is stored in the database.
+    */
     getCareerInfo() {
         try {
             axios.get(`http://localhost:9000/ConfigurationRoute/GetCareerByID`,
@@ -129,13 +139,16 @@ class CareerUpdate extends Component {
                 }).then(response => {
                     const careerInfo = response.data[0];
                     this.setState({ careerInfo });
-                    this.state.careerName = this.state.careerInfo[0].name;   
-                });  
+                    this.state.careerName = this.state.careerInfo[0].name;
+                });
         } catch (err) {
             console.error("Un error inesperado ha ocurrido");
         }
     }
 
+    /**
+    * Method that verify that the require inputs are not empty.
+    */
     empty() {
         if (this.state.careerName == "" || this.state.careerName == null) {
             return true;
@@ -144,6 +157,9 @@ class CareerUpdate extends Component {
         }
     }
 
+    /**
+    * Go to previous page.
+    */
     backButton() {
         sessionStorage.removeItem("careerID");
         this.props.history.push(`/CareerConfiguration`);

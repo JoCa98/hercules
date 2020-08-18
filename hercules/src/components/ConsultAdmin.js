@@ -17,7 +17,7 @@ class ConsultAdmin extends Component {
     constructor(props) {
         super(props);
         /**
-        *userInfo:
+        * userInfo:
         * @type {Array}
         * Property that stores the user information that comes from the database
         * 
@@ -43,13 +43,21 @@ class ConsultAdmin extends Component {
 
     }
 
+    /**
+    * Initiates the page.
+    */
     componentDidMount() {
         if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
-        window.scrollTo(0, 0);
-        this.getUserBasicInfo();
+            window.scrollTo(0, 0);
+            this.getUserBasicInfo();
         }
     }
 
+    /**
+     * Method in charge of changing a user state.
+     * Also modifies the page based on the current user state.
+     * @param {*} event 
+     */
     changeUserStatus(event) {
         var accountState;
         if (document.getElementById("status").textContent === "Inactivo") {
@@ -70,7 +78,7 @@ class ConsultAdmin extends Component {
         })
             .then(res => res.json())
             .then(data => {
-                
+
             })
             .catch(err => console.error("Un error inesperado a ocurrido"));
         this.modalTrigger(event, 'Estado', 'El estado del usuario fue cambiado con éxito');
@@ -83,6 +91,9 @@ class ConsultAdmin extends Component {
         }
     }
 
+    /**
+     * Gets the user info according to the user id.
+     */
     getUserBasicInfo() {
         try {
             axios.get(`http://localhost:9000/ConfigurationRoute/AdminAccounts`,
@@ -97,22 +108,27 @@ class ConsultAdmin extends Component {
                         document.getElementById('ChangeUserStatus').textContent = "Desactivar";
                     }
                 });
-
         } catch (err) {
             console.error("Un error inesperado ha ocurrido");
         }
     }
 
+    /**
+    * Method to delete an admin.
+    */
     deleteAdminMethod() {
         try {
             axios.get(`http://localhost:9000/ConfigurationRoute/DeleteAdmin`,
-            { params: { email: this.state.searchInput} }).then(response => {
-            });
+                { params: { email: this.state.searchInput } }).then(response => {
+                });
         } catch (err) {
             console.error("Un error inesperado ha ocurrido");
         }
     }
 
+    /**
+    * This method takes care of show a modal with useful information.
+    */
     modalTrigger(event, mdTittle, mdChildren) {
         this.setState({
             show: !this.state.show,
@@ -122,16 +138,19 @@ class ConsultAdmin extends Component {
         event.preventDefault();
     };
 
+    /**
+    * Go to previous page.
+    */
     backButton() {
         sessionStorage.removeItem("userPartyID");
         this.props.history.push(`/AccountConfiguration`);
     }
 
-     render() {
+    render() {
         return (
             <div className="container">
                 <div className="row mt-4">
-                <Breadcrumb>
+                    <Breadcrumb>
                         <Breadcrumb.Item href="#/HomeAdmin">Inicio</Breadcrumb.Item>
                         <Breadcrumb.Item href="#/Configuration">Configuración</Breadcrumb.Item>
                         <Breadcrumb.Item href="#/AccountConfiguration">Configuración de cuentas</Breadcrumb.Item>

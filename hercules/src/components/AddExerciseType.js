@@ -18,13 +18,13 @@ class AddExerciseType extends Component {
     constructor(props) {
         super(props);
         /**
-        *userTypeList:
+        * userTypeList:
         * @type {Array}
-        * Property that stores the list of type of users that comes from the database
+        * Property that stores the list of type of users that comes from the database.
         * 
-        * userTypeID:
-        * @type {integer}
-        * Property that indicates the type of user and his behavior in the web site
+        * exerciseDescription:
+        * @type {String}
+        * Property that indicates the name of the type of exercise to be added.
         */
 
         this.state = {
@@ -48,16 +48,19 @@ class AddExerciseType extends Component {
         this.closeModal = this.closeModal.bind(this);
     }
 
+    /**
+    * Initiates the page.
+    */
     componentDidMount() {
         if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
-        window.scrollTo(0, 0);
-        this.getAdminUserType();
+            window.scrollTo(0, 0);
+            this.getAdminUserType();
         }
     }
 
     /**
-        * Method that submit all the information in the form to the database
-        */
+    * Method that submit all the information in the form to the database.
+    */
     handleSubmit = event => {
         if (this.empty()) {
             this.modalTrigger(event, 'Campos obligatorios', 'Los campos de texto con un * no se pueden dejar en blanco');
@@ -84,8 +87,8 @@ class AddExerciseType extends Component {
     }
 
     /**
-     * This method takes care of show a modal with useful information
-     */
+    * This method takes care of showing a modal with useful information.
+    */
     modalTrigger(event, mdTittle, mdChildren) {
         this.setState({
             show: !this.state.show,
@@ -96,7 +99,7 @@ class AddExerciseType extends Component {
     };
 
     /**
-     * This method close the modal  
+     * This method closes the modal.  
      */
     closeModal(event) {
         this.setState({
@@ -109,7 +112,7 @@ class AddExerciseType extends Component {
     };
 
     /**
-    * This method set the prop attributes
+    * This method set the prop attributes.
     */
     handleInputChange(event) {
         const { name, value } = event.target;
@@ -119,7 +122,7 @@ class AddExerciseType extends Component {
     }
 
     /**
-    * This method load the information in the dropdownlist
+    * This method loads the information in the dropdownlist.
     */
     getAdminUserType() {
         try {
@@ -133,7 +136,7 @@ class AddExerciseType extends Component {
     }
 
     /**
-    * Method that verify that the require inputs are not empty
+    * Method that verify that the require inputs are not empty.
     */
     empty() {
         if (this.state.exerciseDescription == "" || this.state.exerciseDescription == null) {
@@ -144,7 +147,7 @@ class AddExerciseType extends Component {
     }
 
     /**
-    * Method that redirect to the previous page
+    * Method that redirect to the previous page.
     */
     backButton() {
         this.props.history.push(`/Configuration`);

@@ -16,13 +16,9 @@ class RiskConditionDelete extends Component {
     constructor(props) {
         super(props);
         /**
-        *exerciseInfo:
-        * @type {Array}
-        * Property that stores the user information that comes from the database
-        * 
-        * exerciseID:
+        * riskConditionID:
         * @type {integer}
-        * Property that indicates the user id
+        * Property that indicates risk condition to be deleted.
         */
         this.state = {
             permissionsManager: new PermissionsManager(),
@@ -40,6 +36,9 @@ class RiskConditionDelete extends Component {
 
     }
 
+    /**
+    * Initiates the page.
+    */
     componentDidMount() {
         if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
             window.scrollTo(0, 0);
@@ -47,7 +46,7 @@ class RiskConditionDelete extends Component {
     }
 
     /**
-     * This method takes care of show a modal with useful information
+     * This method takes care of show a modal with useful information.
      */
     modalTrigger(event, mdTittle, mdChildren) {
         this.setState({
@@ -58,6 +57,9 @@ class RiskConditionDelete extends Component {
         event.preventDefault();
     };
 
+    /**
+     * This method close the modal.
+     */
     closeModal(event) {
         this.setState({
             show: !this.state.show
@@ -68,6 +70,10 @@ class RiskConditionDelete extends Component {
         event.preventDefault();
     };
 
+    /**
+     * Method to delete a risk condition when a event is triggered.
+     * @param {*} event 
+     */
     deleteRiskCondition(event) {
         fetch(`http://localhost:9000/ConfigurationRoute/DeleteRiskCondition`, {
             method: "post",
@@ -90,7 +96,7 @@ class RiskConditionDelete extends Component {
 
 
     /**
-    * Method that redirect to the previous page
+    * Method that redirect to the previous page.
     */
     backButton() {
         sessionStorage.removeItem("riskConditionToDelete");

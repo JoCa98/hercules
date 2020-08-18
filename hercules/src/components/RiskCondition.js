@@ -18,15 +18,10 @@ class RiskCondition extends Component {
     constructor(props) {
         super(props);
         /**
-        *userTypeList:
-        * @type {Array}
-        * Property that stores the list of type of users that comes from the database
-        * 
         * userTypeID:
         * @type {integer}
-        * Property that indicates the type of user and his behavior in the web site
+        * Property that indicates the type of user and his behavior in the web site.
         */
-
         this.state = {
             permissionsManager: new PermissionsManager(),
             validations: new validations(),
@@ -40,6 +35,9 @@ class RiskCondition extends Component {
 
     }
 
+    /**
+    * Initiates the page.
+    */
     componentDidMount() {
         if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
             window.scrollTo(0, 0);
@@ -48,12 +46,15 @@ class RiskCondition extends Component {
     }
 
     /**
-    * Method that redirect to the requested page
+    * Method that redirect to the requested page.
     */
     addRiskConditon() {
         this.props.history.push(`/AddRiskCondition`);
     }
 
+    /**
+     * Method that redirect to the requested page.
+     */
     riskConditonToDelete() {
         this.props.history.push(`/RiskConditionsDeleteList`);
     }

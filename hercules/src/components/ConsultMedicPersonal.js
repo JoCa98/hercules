@@ -17,7 +17,7 @@ class ConsultMedicalPersonal extends Component {
     constructor(props) {
         super(props);
         /**
-        *userInfo:
+        * userInfo:
         * @type {Array}
         * Property that stores the user information that comes from the database
         * 
@@ -34,7 +34,7 @@ class ConsultMedicalPersonal extends Component {
             modalTittle: "",
             modalChildren: ""
         };
-        
+
         this.getUserBasicInfo = this.getUserBasicInfo.bind(this);
         this.changeUserStatus = this.changeUserStatus.bind(this);
         this.modalTrigger = this.modalTrigger.bind(this);
@@ -42,13 +42,21 @@ class ConsultMedicalPersonal extends Component {
 
     }
 
+    /**
+    * Initiates the page.
+    */
     componentDidMount() {
         if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
-        window.scrollTo(0, 0);
-        this.getUserBasicInfo();
+            window.scrollTo(0, 0);
+            this.getUserBasicInfo();
         }
     }
 
+    /**
+     * Method in charge of changing a user state.
+     * Also modifies the page based on the current user state.
+     * @param {*} event 
+     */
     changeUserStatus(event) {
         var accountState;
         if (document.getElementById("status").textContent === "Inactivo") {
@@ -81,6 +89,9 @@ class ConsultMedicalPersonal extends Component {
         }
     }
 
+    /**
+     * Gets the user info according to the user id.
+     */
     getUserBasicInfo() {
         try {
             axios.get(`http://localhost:9000/ConfigurationRoute/MedicalAccounts`,
@@ -100,6 +111,9 @@ class ConsultMedicalPersonal extends Component {
         }
     }
 
+    /**
+    * This method takes care of show a modal with useful information.
+    */
     modalTrigger(event, mdTittle, mdChildren) {
         this.setState({
             show: !this.state.show,
@@ -109,6 +123,9 @@ class ConsultMedicalPersonal extends Component {
         event.preventDefault();
     };
 
+    /**
+    * Go to previous page.
+    */
     backButton() {
         sessionStorage.removeItem("userPartyID");
         this.props.history.push(`/AccountConfiguration`);
