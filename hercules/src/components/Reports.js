@@ -11,6 +11,8 @@ class Reports extends Component {
         }
         this.rowEvent = this.rowEvent.bind(this);
         this.downloadCSV = this.downloadCSV.bind(this);
+        this.backButton = this.backButton.bind(this);
+
     }
 
     componentDidMount() {
@@ -47,6 +49,10 @@ class Reports extends Component {
         } catch (err) {
             console.error("Un error inesperado ha ocurrido");
         }
+    }
+
+    backButton() {
+        this.props.history.push(`/HomeAdmin`);
     }
 
     render() {
@@ -96,10 +102,15 @@ class Reports extends Component {
                                     <td>Reporte general de usuarios</td>
                                 </tr>
                             </tbody>
-                        </table>
+                            </table>
+                        </div>
+                    </div>
+                <div className="row mt-4">
+                        <div className="col-12">
+                            <button align="left" className="buttonSizeGeneral" onClick={this.backButton}>Volver</button>
+                        </div>
                     </div>
                 </div>
-            </div>
             </div>
         )
     }

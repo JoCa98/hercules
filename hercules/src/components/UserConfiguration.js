@@ -1056,13 +1056,13 @@ class UserConfiguration extends Component {
                                         <div className="row">
                                             <div className="col-12 col-sm-6">
                                                 <div className="form-group" align="left">
-                                                    <p title="Campo obligatorio">Contraseña nueva<font color="red">*</font></p>
+                                                    <p title="Campo obligatorio">Contraseña nueva<font color="red">*</font> </p>
                                                     <input type="password" title="Debe contener letras y números" id="newPassword" required name="newPassword" className="inputText form-control" value={this.state.newPassword || ''} onChange={this.handleInputChange}></input>
                                                 </div>
                                             </div>
                                             <div className="col-12 col-sm-6">
                                                 <div className="form-group" align="left">
-                                                    <p title="Campo obligatorio">Confirmar contraseña nueva<font color="red">*</font></p>
+                                                    <p title="Campo obligatorio">Confirmar nueva<font color="red">*</font></p>
                                                     <input type="password" title="Vuelva a introducir la contraseña nueva" id="confirmNewPassword" required name="confirmNewPassword" className="inputText form-control" value={this.state.confirmNewPassword || ''} onChange={this.handleInputChange}></input>
                                                 </div>
                                             </div>

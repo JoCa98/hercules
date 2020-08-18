@@ -31,6 +31,8 @@ class ReportComponent extends Component {
         this.statusDropDown = this.statusDropDown.bind(this);
         this.optionSelect = this.optionSelect.bind(this);
         this.downloadCSV = this.downloadCSV.bind(this);
+        this.backButton = this.backButton.bind(this);
+
     }
 
     componentDidMount() {
@@ -263,6 +265,9 @@ class ReportComponent extends Component {
         fileDownload(csv,this.state.name + '.csv');
     }
 
+  backButton() {
+        this.props.history.push(`/Reports`);
+    }
 
 
     render() {
@@ -361,7 +366,13 @@ class ReportComponent extends Component {
                              <label type="text" disabled="disabled" id="total" display="none">Cantidad total: {total}</label>
                         </div>
                     </div>
+                    <div className="row mt-4">
+                        <div className="col-12">
+                            <button align="left" className="buttonSizeGeneral" onClick={this.backButton}>Volver</button>
+                        </div>
+                    </div>
                 </div>
+
             </div>
         );
     }
