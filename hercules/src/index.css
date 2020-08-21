@@ -269,3 +269,8 @@ overflow: auto;
 .table-wrapper-scroll-y {
 display: block;
 }
+
+.img-table-exercise{
+  width: 20px;
+height: 15px;
+}

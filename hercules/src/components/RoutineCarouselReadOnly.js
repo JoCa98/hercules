@@ -14,6 +14,8 @@ import React, { Component } from 'react';
 import leftArrowImage from '../appImage/leftArrow.svg';
 import rightArrowImage from '../appImage/rightArrow.svg';
 import axios from "axios";
+import video from '../appImage/online-video.svg';
+
 
 class RoutineCarouselReadOnly extends Component {
 
@@ -199,11 +201,13 @@ class RoutineCarouselReadOnly extends Component {
     changeRoutineDay(event) {
         if (this.state.day != event.target.value) {
             this.setState({
-                day: event.target.value
+                day: event.target.value,
+                typeID:1
             })
             event.target.style.backgroundColor = "#ffffff";
             event.target.style.border = "2px solid #41ade7";
             event.target.style.color = "#0c0c0c";
+
             this.changeButtonsColors(event.target.value);
             this.getExerciseData();
         }
@@ -232,6 +236,7 @@ class RoutineCarouselReadOnly extends Component {
             if (this.state.typeID == 1) {
                 return (
                     <tr key={i}>
+                        <td className="pointer"><a href={exercise.link}><img className="img-table-exercise" src={video}/></a></td>
                         <td>{exercise.description}</td>
                         <td align="center">{exercise.minutes}</td>
                         <td align="center">{exercise.intensity}</td>
@@ -241,6 +246,7 @@ class RoutineCarouselReadOnly extends Component {
             } else {
                 return (
                     <tr key={i}>
+                        <td className="pointer"><a href={exercise.link}><img className="img-table-exercise" src={video}/></a></td>
                         <td>{exercise.description}</td>
                         <td align="center">{exercise.charge}</td>
                         <td align="center">{exercise.series}</td>
@@ -261,7 +267,9 @@ class RoutineCarouselReadOnly extends Component {
         })
         return (
             <div className="row">
-
+                <div className="col-12">
+                    <p>Días de la rutina:</p>
+                </div>
                 <div className="col-12" id="btn" >
                 </div>
 
@@ -290,6 +298,7 @@ class RoutineCarouselReadOnly extends Component {
                                 <table id="heatingTable" className="table table-hover">
                                     <thead>
                                         <tr>
+                                            <th scope="col" className="align-middle">Enlace a video</th>
                                             <th scope="col" className="align-middle">Ejercicio</th>
                                             <th scope="col" className="align-middle">Minutos</th>
                                             <th scope="col" className="align-middle">Intensidad</th>
@@ -308,6 +317,7 @@ class RoutineCarouselReadOnly extends Component {
                             <table id="exerciseTable" className="table table-hover" display="none">
                                 <thead>
                                     <tr>
+                                    <th scope="col" className="align-middle">Enlace a video</th>
                                         <th scope="col" className="align-middle">Ejercicio</th>
                                         <th scope="col" className="align-middle">Carga/Peso(lb)</th>
                                         <th scope="col" className="align-middle">Series</th>

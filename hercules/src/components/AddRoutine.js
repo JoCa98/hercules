@@ -743,7 +743,8 @@ class AddRoutine extends Component {
             var day = this.state.daysCounter - 1;
             this.setState({
                 routineDay: day,
-                daysCounter: this.state.daysCounter - 1
+                daysCounter: this.state.daysCounter - 1,
+                typeID:1
             })
             document.getElementById(day).style.backgroundColor = "#ffffff";
             document.getElementById(day).style.border = "2px solid #41ade7";
@@ -776,7 +777,8 @@ class AddRoutine extends Component {
 
             this.setState({
                 routineDay: this.state.daysCounter + 1,
-                daysCounter: this.state.daysCounter + 1
+                daysCounter: this.state.daysCounter + 1,
+                typeID:1
             })
 
             this.changeButtonsColors(value);

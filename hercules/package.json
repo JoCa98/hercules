@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.30",
+    "@fortawesome/free-solid-svg-icons": "^5.14.0",
+    "@fortawesome/react-fontawesome": "^0.1.11",
     "axios": "^0.19.0",
     "babel-eslint": "^10.1.0",
     "bcryptjs": "^2.4.3",
@@ -20,6 +23,7 @@
     "react-bootstrap-table": "^4.3.1",
     "react-bootstrap-table-next": "^3.1.5",
     "react-dom": "^16.8.6",
+    "react-fa-icon": "^0.1.4",
     "react-router-dom": "^5.0.1",
     "react-scripts": "^3.4.2",
     "react-select": "^3.0.4"
