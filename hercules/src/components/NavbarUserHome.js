@@ -203,7 +203,7 @@ class NavbarUserHome extends Component {
                             <button className="btn buttonNavbar" onClick={this.reports}>Reportes</button>
                         </li>
                         <li id="tips" className="nav-item">
-                            <button className="btn buttonNavbar" onClick={this.tips}>Reportes</button>
+                            <button className="btn buttonNavbar" onClick={this.tips}>Consejos</button>
                         </li>
                         <li id="adminConfig" className="nav-item">
                             <button className="btn buttonNavbar" onClick={this.adminConfig}>Perfil</button>

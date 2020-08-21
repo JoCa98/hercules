@@ -141,7 +141,7 @@ class EditPhysicalInfo extends Component {
         } else if (!this.state.validations.validateViceralFat(this.state.visceralFat.toString().trim())) {
             this.modalTrigger(event, 'Formato incorrecto', 'La grasa viceral debe ser un número entre 1 y 60');
         } else {
-            if (window.confirm("¿Está seguro de actualizar los datos?") == true) {
+           
                 fetch("http://localhost:9000/PhysicalInfo/updatePhysicalInfo", {
                     method: "post",
                     body: JSON.stringify(this.state),
@@ -158,7 +158,7 @@ class EditPhysicalInfo extends Component {
                     }).catch(err => console.error("Un error inesperado a ocurrido"));
 
                 this.modalTrigger(event, 'Actualización de registro', 'Se actualizó correctamente el registro de composición corporal');
-            }
+            
         }
 
     }

@@ -744,13 +744,13 @@ class UserConfiguration extends Component {
                 } else if (identificationIDValid == 1 && (this.state.identificationID != sessionStorage.getItem('currentIdentificationID'))) {
                     this.modalTrigger(event, 'Cédula', 'La cédula ingresado ya corresponde a otro usuario registrado');
                 } else {
-                    if (window.confirm("¿Está seguro de actualizar los datos de usuario?") == true) {
+                   
                         document.getElementById('changeInfo').style.display = 'none';
                         document.getElementById('editInfo').style.display = 'block';
                         document.getElementById('cancelInfo').style.display = 'none';
                         this.updateUser(event);
                         this.enableInfoFields(false);
-                    }
+                    
                 }
             });
         });
@@ -791,14 +791,14 @@ class UserConfiguration extends Component {
         } else if (this.state.newPassword != this.state.confirmNewPassword) {
             this.modalTrigger(event, 'Contraseña', 'Los campos de nueva contraseña no coinciden');
         } else {
-            if (window.confirm("¿Está seguro de actualizar los datos de la contraseña?") == true) {
+            
                 document.getElementById('changePassword').style.display = 'none';
                 document.getElementById('editPassword').style.display = 'block';
                 document.getElementById('cancelPassword').style.display = 'none';
                 this.updatePassword(event);
                 this.setState({ password: "", newPassword: "", confirmNewPassword: "" })
                 this.enablePasswordFields(false);
-            }
+            
         }
     }
 
@@ -835,13 +835,13 @@ class UserConfiguration extends Component {
         } else if (!this.state.validations.validatePhoneNumberField(this.state.emergencyContactPhoneNumber)) {
             this.modalTrigger(event, 'Contacto de emergencia', 'El número teléfonico del contacto de emergencia debe estar compuesto por 8 dígitos');            
         } else {
-            if (window.confirm("¿Está seguro de actualizar los datos del contacto de emergencia?") == true) {
+            
                 document.getElementById('changeContact').style.display = 'none';
                 document.getElementById('editContact').style.display = 'block';
                 document.getElementById('cancelContact').style.display = 'none';
                 this.updateContact(event);
                 this.enableContactFields(false);
-            }
+           
         }
     }
 
