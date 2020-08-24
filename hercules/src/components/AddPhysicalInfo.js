@@ -166,7 +166,7 @@ class AddPhysicalInfo extends Component {
                         <div className="row">
                             <div className="col-2 mt-4 p-1">
                                 <div className="control-group">
-                                    <label className="control-label" fontSize="18px" htmlFor="inputWeight">Peso</label>
+                                    <label className="control-label" fontSize="18px" htmlFor="inputWeight">Peso<font color="red">*</font></label>
                                     <div className="controls">
                                         <input type="decimal" fontSize="18px" id="inputWeight" name="weight" placeholder="kg" size="3" value={this.state.weight} onChange={this.handleInputChange} />
                                     </div>
@@ -174,7 +174,7 @@ class AddPhysicalInfo extends Component {
                             </div>
                             <div className="col-2 mt-4 p-1">
                                 <div className="control-group">
-                                    <label className="control-label" fontSize="18px" htmlFor="inputFat">Grasa Corporal</label>
+                                    <label className="control-label" fontSize="18px" htmlFor="inputFat">Grasa Corporal<font color="red">*</font></label>
                                     <div className="controls">
                                         <input type="decimal" id="inputFat" fontSize="18px" name="totalBodyFat" size="3" placeholder="%" value={this.state.totalBodyFat} onChange={this.handleInputChange} />
                                     </div>
@@ -182,7 +182,7 @@ class AddPhysicalInfo extends Component {
                             </div>
                             <div className="col-2 mt-4 p-1">
                                 <div className="control-group">
-                                    <label className="control-label" fontSize="18px" htmlFor="inputBodyWater">Agua Corporal</label>
+                                    <label className="control-label" fontSize="18px" htmlFor="inputBodyWater">Agua Corporal<font color="red">*</font></label>
                                     <div className="controls">
                                         <input type="decimal" id="inputBodyWater" fontSize="18px" name="bodyWater" size="3" placeholder="%" value={this.state.bodyWater} onChange={this.handleInputChange} />
                                     </div>
@@ -190,7 +190,7 @@ class AddPhysicalInfo extends Component {
                             </div>
                             <div className="col-2 mt-4 p-1">
                                 <div className="control-group">
-                                    <label className="control-label" fontSize="18px" htmlFor="inputMass">Masa Muscular</label>
+                                    <label className="control-label" fontSize="18px" htmlFor="inputMass">Masa Muscular<font color="red">*</font></label>
                                     <div className="controls">
                                         <input type="decimal" id="inputMass" fontSize="18px" name="muscleMass" size="3" value={this.state.muscleMass} onChange={this.handleInputChange} />
                                     </div>
@@ -198,7 +198,7 @@ class AddPhysicalInfo extends Component {
                             </div>
                             <div className="col-2 mt-4 p-1">
                                 <div className="control-group">
-                                    <label className="control-label" fontSize="18px" htmlFor="inputPhysic">Valoración Física</label>
+                                    <label className="control-label" fontSize="18px" htmlFor="inputPhysic">Valoración Física<font color="red">*</font></label>
                                     <div className="controls">
                                         <input type="decimal" id="inputPhysic" fontSize="18px" name="physicalAssesment" size="3" value={this.state.physicalAssesment} onChange={this.handleInputChange} />
                                     </div>
@@ -208,7 +208,7 @@ class AddPhysicalInfo extends Component {
                         <div className="row">
                             <div className="col-2 mt-4 p-1">
                                 <div className="control-group">
-                                    <label className="control-label" fontSize="18px" htmlFor="inputBoneMass">Masa Ósea</label>
+                                    <label className="control-label" fontSize="18px" htmlFor="inputBoneMass">Masa Ósea<font color="red">*</font></label>
                                     <div className="controls">
                                         <input type="decimal" fontSize="18px" id="inputBoneMass" name="boneMass" size="3" value={this.state.boneMass} onChange={this.handleInputChange} />
                                     </div>
@@ -216,7 +216,7 @@ class AddPhysicalInfo extends Component {
                             </div>
                             <div className="col-2 mt-4 p-1">
                                 <div className="control-group">
-                                    <label className="control-label" fontSize="18px" htmlFor="inputDCI/BMR">DCI/BMR</label>
+                                    <label className="control-label" fontSize="18px" htmlFor="inputDCI/BMR">DCI/BMR<font color="red">*</font></label>
                                     <div className="controls">
                                         <input type="decimal" fontSize="18px" id="inputDCI/BMR" name="DCI" size="3" value={this.state.DCI} onChange={this.handleInputChange} />
                                     </div>
@@ -224,7 +224,7 @@ class AddPhysicalInfo extends Component {
                             </div>
                             <div className="col-2 mt-4 p-1">
                                 <div className="control-group">
-                                    <label className="control-label" fontSize="18px" htmlFor="inputMetAge">Edad Metabólica</label>
+                                    <label className="control-label" fontSize="18px" htmlFor="inputMetAge">Edad Metabólica<font color="red">*</font></label>
                                     <div className="controls">
                                         <input type="decimal" fontSize="18px" id="inputMetAge" name="metabolicAge" size="3" value={this.state.metabolicAge} onChange={this.handleInputChange} />
                                     </div>
@@ -232,7 +232,7 @@ class AddPhysicalInfo extends Component {
                             </div>
                             <div className="col-2 mt-4 p-1">
                                 <div className="control-group">
-                                    <label className="control-label" fontSize="18px" htmlFor="inputViceralFat">Grasa Visceral</label>
+                                    <label className="control-label" fontSize="18px" htmlFor="inputViceralFat">Grasa Visceral<font color="red">*</font></label>
                                     <div className="controls">
                                         <input type="decimal" fontSize="18px" id="inputViceralFat" name="viceralFat" size="3" placeholder="%" value={this.state.viceralFat} onChange={this.handleInputChange} />
                                     </div>
