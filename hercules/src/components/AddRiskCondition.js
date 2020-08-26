@@ -110,7 +110,7 @@ class AddRiskCondition extends Component {
             show: !this.state.show
         });
         if (this.state.isExit) {
-            this.props.history.push(`/HomeAdmin`);
+            this.props.history.push(`/RiskConditions`);
         }
         event.preventDefault();
     };
@@ -154,7 +154,7 @@ class AddRiskCondition extends Component {
     * Method that redirect to the previous page.
     */
     backButton() {
-        this.props.history.push(`/Configuration`);
+        this.props.history.push(`/RiskConditions`);
     }
 
     render() {
@@ -163,7 +163,7 @@ class AddRiskCondition extends Component {
                 <div className="row mt-4">
                     <Breadcrumb>
                         <Breadcrumb.Item href="#/HomeAdmin">Inicio</Breadcrumb.Item>
-                        <Breadcrumb.Item href='#/Configuration'>Configuración</Breadcrumb.Item>
+                        <Breadcrumb.Item href='#/RiskCondition'>Condiciones de riesgo</Breadcrumb.Item>
                         <Breadcrumb.Item>Agregar condicion de riesgo</Breadcrumb.Item>
                     </Breadcrumb>
                 </div>
@@ -177,7 +177,7 @@ class AddRiskCondition extends Component {
                                 <div className="col-12">
                                     <div className="form-group" align="center">
                                         <p align="justify">Ingrese la descripcion de la condicion<font color="red">*</font></p>
-                                        <input type="text" name="conditionDescription" placeholder="Ej: Diabetes" className="form-control" fontSize="18px" onChange={this.handleInputChange} required></input>
+                                        <input type="text" name="conditionDescription" placeholder="Ej: 4" className="form-control" fontSize="18px" onChange={this.handleInputChange} required></input>
                                     </div>
                                 </div>
                             </div>

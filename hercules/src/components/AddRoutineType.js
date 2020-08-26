@@ -27,7 +27,9 @@ class AddRoutineType extends Component {
             show: false,
             modalTittle: "",
             modalChildren: "",
-            isExit: false
+            isExit: false,
+            routineList: [],
+            routineListID: []
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -35,14 +37,16 @@ class AddRoutineType extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.backButton = this.backButton.bind(this);
         this.getAdminUserType = this.getAdminUserType.bind(this);
+        this.getRoutineTypes = this.getRoutineTypes.bind(this);
         this.modalTrigger = this.modalTrigger.bind(this);
         this.closeModal = this.closeModal.bind(this);
     }
 
     componentDidMount() {
         if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
-        window.scrollTo(0, 0);
-        this.getAdminUserType();
+            window.scrollTo(0, 0);
+            this.getAdminUserType();
+            this.getRoutineTypes();
         }
     }
 
@@ -124,6 +128,20 @@ class AddRoutineType extends Component {
     }
 
     /**
+     * Gets the routine types from the database.
+     */
+    getRoutineTypes() {
+        try {
+            axios.get(`http://localhost:9000/ConfigurationRoute/GetRoutineTypes`).then(response => {
+                const routineList = response.data[0];
+                this.setState({ routineList });
+            });
+        } catch (err) {
+            console.error("Un error inesperado ha ocurrido");
+        }
+    }
+
+    /**
     * Method that verify that the require inputs are not empty
     */
     empty() {
@@ -138,17 +156,31 @@ class AddRoutineType extends Component {
     * Method that redirect to the previous page
     */
     backButton() {
-        this.props.history.push(`/Configuration`);
+        this.props.history.push(`/ConfigurationRoutine`);
     }
 
     render() {
+        /**
+        *The routineList.map is used to create the rows of the table and to structure the html,
+        *this is stored in a constant that is used in the code of the page
+        */
+        const routineListVisual = this.state.routineList.map((routineList, i) => {
+            this.state.routineListID.push(routineList.routineTypeID);
+            return (
+                <tr className="pointer" key={i}>
+                    <td>{routineList.description}</td>
+                </tr>
+            )
+        })
+
         return (
             <div className="container">
                 <div className="row mt-4">
                     <Breadcrumb>
                         <Breadcrumb.Item href="#/HomeAdmin">Inicio</Breadcrumb.Item>
                         <Breadcrumb.Item href='#/Configuration'>Configuración</Breadcrumb.Item>
-                        <Breadcrumb.Item>Agregar tipo de rutina</Breadcrumb.Item>
+                        <Breadcrumb.Item href='#/ConfigurationRoutine'>Configuración de rutina</Breadcrumb.Item>
+                        <Breadcrumb.Item>Tipo de rutina</Breadcrumb.Item>
                     </Breadcrumb>
                 </div>
                 <div className="row mt-2">
@@ -162,6 +194,23 @@ class AddRoutineType extends Component {
                                     <div className="form-group" align="center">
                                         <p align="justify">Ingrese el tipo de rutina<font color="red">*</font></p>
                                         <input type="text" name="routineDescription" placeholder="Ej: Cardio" className="form-control" fontSize="18px" onChange={this.handleInputChange} required></input>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-12">
+                                    <h1 className="text-left colorBlue">Tipos de rutinas agregadas</h1>
+                                    <div className="col-12 mt-4" >
+                                        <table className="table table-sm table-hover" id="myTable">
+                                            <thead>
+                                                <tr class="header">
+                                                    <th scope="col">Tipo</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {routineListVisual}
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>

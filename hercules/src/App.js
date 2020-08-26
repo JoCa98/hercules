@@ -47,12 +47,12 @@ import ConsultMedicPersonal from './components/ConsultMedicPersonal';
 import AddCareer from './components/AddCareer';
 import CareerUpdate from './components/CareerUpdate';
 import ConsultCareer from './components/ConsultCareer';
-import RiskCondition from './components/RiskCondition';
+import RiskConditions from './components/RiskConditions';
 import AddRiskCondition from './components/AddRiskCondition';
-import RiskConditionsToDeleteList from './components/RiskConditionsToDeleteList';
-import RiskConditionDelete from './components/RiskConditionDelete';
+import ConsultRiskCondition from './components/ConsultRiskCondition';
 import AddRoutineType from './components/AddRoutineType';
 import AddExerciseType from './components/AddExerciseType';
+import ConfigurationRoutine from './components/ConfigurationRoutine';
 
 
 function App() {
@@ -97,12 +97,12 @@ function App() {
           <Route exact path="/AddCareer" component={AddCareer} />
           <Route exact path="/CareerUpdate" component={CareerUpdate} />
           <Route exact path="/ConsultCareer" component={ConsultCareer} />
-          <Route exact path="/RiskCondition" component={RiskCondition} />
+          <Route exact path="/RiskConditions" component={RiskConditions} />
           <Route exact path="/AddRiskCondition" component={AddRiskCondition} />
-          <Route exact path="/RiskConditionsDeleteList" component={RiskConditionsToDeleteList} />
-          <Route exact path="/RiskConditionDelete" component={RiskConditionDelete} />
+          <Route exact path="/ConsultRiskCondition" component={ConsultRiskCondition} />
           <Route exact path="/AddRoutineType" component={AddRoutineType} />
           <Route exact path="/AddExerciseType" component={AddExerciseType} />
+          <Route exact path="/ConfigurationRoutine" component={ConfigurationRoutine} />
 
 
           {/** User Side */}

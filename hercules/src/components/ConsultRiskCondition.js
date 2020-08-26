@@ -11,8 +11,9 @@ import React, { Component } from 'react';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import PermissionsManager from "./PermissionsManager";
 import ModalComponent from './ModalComponent';
+import axios from 'axios';
 
-class RiskConditionDelete extends Component {
+class ConsultRiskCondition extends Component {
     constructor(props) {
         super(props);
         /**
@@ -27,13 +28,16 @@ class RiskConditionDelete extends Component {
             modalTittle: "",
             modalChildren: "",
             status: 0,
+            riskConditionList: [],
+            riskConditionListID: []
         };
 
-        this.backButton = this.backButton.bind(this);
-        this.deleteRiskCondition = this.deleteRiskCondition.bind(this);
         this.modalTrigger = this.modalTrigger.bind(this);
         this.closeModal = this.closeModal.bind(this);
-
+        this.getRiskConditionsToDeleteList = this.getRiskConditionsToDeleteList.bind(this);
+        this.validateDeleteRiskCondition = this.validateDeleteRiskCondition.bind(this);
+        this.deleteRiskCondition = this.deleteRiskCondition.bind(this);
+        this.backButton = this.backButton.bind(this);
     }
 
     /**
@@ -42,6 +46,7 @@ class RiskConditionDelete extends Component {
     componentDidMount() {
         if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
             window.scrollTo(0, 0);
+            this.getRiskConditionsToDeleteList();
         }
     }
 
@@ -71,36 +76,65 @@ class RiskConditionDelete extends Component {
     };
 
     /**
+     * Gets the risk conditions that can be deleted.
+     */
+    getRiskConditionsToDeleteList() {
+        try {
+            axios.get(`http://localhost:9000/ConfigurationRoute/GetRiskConditionsWithoutStudents`).then(response => {
+                const riskConditionList = response.data[0];
+                this.setState({ riskConditionList });
+            });
+        } catch (err) {
+            console.error("Un error inesperado ha ocurrido");
+        }
+    }
+
+    /**
+     * Validates if the risk condition can be deleted.
+     */
+    validateDeleteRiskCondition() {
+        for (var i = 0; i < this.state.riskConditionList.length; i++) {
+            if (this.state.riskConditionID == this.state.riskConditionList[i].riskConditionID) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Method to delete a risk condition when a event is triggered.
      * @param {*} event 
      */
     deleteRiskCondition(event) {
-        fetch(`http://localhost:9000/ConfigurationRoute/DeleteRiskCondition`, {
-            method: "post",
-            body: JSON.stringify({
-                riskConditionID: this.state.riskConditionID
-            }),
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json"
-            }
-        })
-            .then(response => {
-                this.setState({
-                    isExit: true
-                });
-                this.modalTrigger(event, 'Condicion de riesgo eliminada', 'Se ha eliminado correctamente la condicion de riesgo');
+        if (this.validateDeleteRiskCondition()) {
+            fetch(`http://localhost:9000/ConfigurationRoute/DeleteRiskCondition`, {
+                method: "post",
+                body: JSON.stringify({
+                    riskConditionID: this.state.riskConditionID
+                }),
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                }
             })
-            .catch(err => console.error("Un error inesperado a ocurrido"));
+                .then(response => {
+                    this.setState({
+                        isExit: true
+                    });
+                    this.modalTrigger(event, 'Condicion de riesgo eliminada', 'Se ha eliminado correctamente la condicion de riesgo');
+                })
+                .catch(err => console.error("Un error inesperado a ocurrido"));
+        } else {
+            this.modalTrigger(event, 'Condicion de riesgo no eliminada', 'No se puede eliminar una condicion de riesgo con estudiantes asociados');
+        }
     }
-
 
     /**
     * Method that redirect to the previous page.
     */
     backButton() {
         sessionStorage.removeItem("riskConditionToDelete");
-        this.props.history.push(`/RiskConditionsDeleteList`);
+        this.props.history.push(`/RiskConditions`);
     }
 
     render() {
@@ -109,14 +143,14 @@ class RiskConditionDelete extends Component {
                 <div className="row mt-4">
                     <Breadcrumb>
                         <Breadcrumb.Item href="#/HomeAdmin">Inicio</Breadcrumb.Item>
-                        <Breadcrumb.Item href='#/Configuration'>Configuración</Breadcrumb.Item>
-                        <Breadcrumb.Item>Eliminacion de condicion de riesgo</Breadcrumb.Item>
+                        <Breadcrumb.Item href='#/RiskCondition'>Condiciones de riesgo</Breadcrumb.Item>
+                        <Breadcrumb.Item>Condicion de riesgo</Breadcrumb.Item>
                     </Breadcrumb>
                 </div>
                 <div className="row mt-2">
                     <div className="col-10 offset-1 card p-5">
                         <form className="form-horizontal">
-                            <h2 className="text-left colorBlue">¿Desea eliminar la condicion de riesgo con el ID: {sessionStorage.getItem("riskConditionToDelete")}?</h2>
+                            <h2 className="text-left colorBlue">¿Desea eliminar la condicion de riesgo con el ID: {sessionStorage.getItem("riskConditionID")}?</h2>
                             <div className="row">
                                 <div className="col-12">
                                     <div className="form-group" align="center">
@@ -144,4 +178,4 @@ class RiskConditionDelete extends Component {
         )
     }
 }
-export default RiskConditionDelete;
+export default ConsultRiskCondition;

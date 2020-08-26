@@ -147,6 +147,16 @@ router.get('/getExercisesByType', (req, res) => {
   });
 });
 
+router.get('/getExercisesType', (req, res) => {
+  connection.query("CALL proc_getExerciseType();", function (err, results) {
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+  });
+});
 
 
 /**
@@ -397,6 +407,17 @@ router.post('/DeleteRiskCondition', (req, res) => {
   });
 });
 
+router.get('/GetRiskConditions', (req, res) => {
+  connection.query("CALL proc_getRiskCondition()", function (err, results) {
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+  });
+});
+
 router.get('/GetRiskConditionsWithoutStudents', (req, res) => {
   connection.query("CALL proc_getRiskConditionsWithoutStudents()", function (err, results) {
     if (results) {
@@ -422,6 +443,18 @@ router.post('/AddRoutineType', (req, res) => {
 
 router.post('/AddExerciseType', (req, res) => {
   connection.query("CALL proc_addExerciseType('" + req.body.description + "');", function (err, results) {
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+  });
+});
+
+//Get routine types
+router.get('/GetRoutineTypes', (req, res) => {
+  connection.query("CALL proc_getRoutineTypes()", function (err, results) {
     if (results) {
       res.send(results);
     }

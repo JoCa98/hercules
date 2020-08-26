@@ -165,7 +165,7 @@ class NavbarUserHome extends Component {
     }
 
     riskCondition() {
-        this.props.history.push(`/RiskCondition`);
+        this.props.history.push(`/RiskConditions`);
     }
 
     render() {

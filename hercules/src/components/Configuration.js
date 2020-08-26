@@ -32,7 +32,7 @@ class Configuration extends Component {
         };
 
         this.careerConfiguration = this.careerConfiguration.bind(this);
-        this.excerciseConfiguration = this.excerciseConfiguration.bind(this);
+        this.routineConfiguration = this.routineConfiguration.bind(this);
         this.tipsConfiguration = this.tipsConfiguration.bind(this);
         this.accountConfiguration = this.accountConfiguration.bind(this);
 
@@ -55,8 +55,8 @@ class Configuration extends Component {
         this.props.history.push(`/CareerConfiguration`);
     }
 
-    excerciseConfiguration() {
-        this.props.history.push(`/ExercisesList`);
+    routineConfiguration() {
+        this.props.history.push(`/ConfigurationRoutine`);
     }
 
     tipsConfiguration() {
@@ -85,7 +85,7 @@ class Configuration extends Component {
                                 <div className="col-12">
                                     <div className="form-group" align="center">
                                         <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.careerConfiguration}>Configuración carreras</button>
-                                        <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.excerciseConfiguration}>Configuración ejercicios</button>
+                                        <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.routineConfiguration}>Configuración rutina</button>
                                         <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.tipsConfiguration}>Configuración consejos</button>
                                         <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.accountConfiguration}>Configuración cuentas</button>
                                     </div>

@@ -1,5 +1,5 @@
 /**
- * @fileoverview RiskCondition page, this page allows to configure risk conditions.
+ * @fileoverview Career page, this page shows a menu to configure different aspects of the system.
  * @version 1.0
  *
  * @author Victor Bolaños <victor.bolanos@ucrso.info>
@@ -14,14 +14,15 @@ import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import ModalComponent from './ModalComponent';
 import PermissionsManager from "./PermissionsManager";
 
-class RiskCondition extends Component {
+class ConfigurationRutine extends Component {
     constructor(props) {
         super(props);
         /**
         * userTypeID:
         * @type {integer}
-        * Property that indicates the type of user and his behavior in the web site.
+        * Property that indicates the type of user and his behavior in the web site
         */
+
         this.state = {
             permissionsManager: new PermissionsManager(),
             validations: new validations(),
@@ -30,8 +31,9 @@ class RiskCondition extends Component {
             isExit: false
         };
 
-        this.addRiskConditon = this.addRiskConditon.bind(this);
-        this.riskConditonToDelete = this.riskConditonToDelete.bind(this);
+        this.excerciseConfiguration = this.excerciseConfiguration.bind(this);
+        this.addRoutineType = this.addRoutineType.bind(this);
+        this.addExerciseType = this.addExerciseType.bind(this);
 
     }
 
@@ -46,17 +48,18 @@ class RiskCondition extends Component {
     }
 
     /**
-    * Method that redirect to the requested page.
+    * Methods that redirect to the requested page
     */
-    addRiskConditon() {
-        this.props.history.push(`/AddRiskCondition`);
+    excerciseConfiguration() {
+        this.props.history.push(`/ExercisesList`);
     }
 
-    /**
-     * Method that redirect to the requested page.
-     */
-    riskConditonToDelete() {
-        this.props.history.push(`/RiskConditionsDeleteList`);
+    addExerciseType() {
+        this.props.history.push(`/AddExerciseType`);
+    }
+
+    addRoutineType() {
+        this.props.history.push(`/AddRoutineType`);
     }
 
     render() {
@@ -65,19 +68,21 @@ class RiskCondition extends Component {
                 <div className="row mt-4">
                     <Breadcrumb>
                         <Breadcrumb.Item href="#/HomeAdmin">Inicio</Breadcrumb.Item>
-                        <Breadcrumb.Item>Condiciones de riesgo</Breadcrumb.Item>
+                        <Breadcrumb.Item href="#/Configuration">Configuración</Breadcrumb.Item>
+                        <Breadcrumb.Item >Configuración de rutina</Breadcrumb.Item>
                     </Breadcrumb>
                 </div>
                 <div className="row mt-2">
                     <div className="col-10 offset-1 card p-5">
                         <form className="form-horizontal">
-                            <h1 className="text-left colorBlue">Configuración condiciones de riesgo</h1>
+                            <h1 className="text-left colorBlue">Configuración de rutina</h1>
                             <br />
                             <div className="row">
                                 <div className="col-12">
                                     <div className="form-group" align="center">
-                                        <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.addRiskConditon}>Agregar condiciones de riesgo</button>
-                                        <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.riskConditonToDelete}>Eliminar condiciones de riesgo</button>
+                                        <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.excerciseConfiguration}>Ejercicios</button>
+                                        <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.addExerciseType}>Tipo de ejercicio</button>
+                                        <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.addRoutineType}>Tipo de rutina</button>
                                     </div>
                                 </div>
                             </div>
@@ -95,4 +100,4 @@ class RiskCondition extends Component {
         )
     }
 }
-export default RiskCondition;
+export default ConfigurationRutine;
