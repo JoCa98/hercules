@@ -59,7 +59,7 @@ class ConfigurationRutine extends Component {
     }
 
     addRoutineType() {
-        this.props.history.push(`/AddRoutineType`);
+        this.props.history.push(`/RoutineTypeList`);
     }
 
     render() {

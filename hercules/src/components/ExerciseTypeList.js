@@ -72,7 +72,7 @@ class ExerciseTypeList extends Component {
                         <Breadcrumb.Item href="#/HomeAdmin">Inicio</Breadcrumb.Item>
                         <Breadcrumb.Item href='#/Configuration'>Configuración</Breadcrumb.Item>
                         <Breadcrumb.Item href='#/ConfigurationRoutine'>Configuración de rutina</Breadcrumb.Item>
-                        <Breadcrumb.Item>Tipo de ejercicio</Breadcrumb.Item>
+                        <Breadcrumb.Item>Tipos de ejercicio</Breadcrumb.Item>
                     </Breadcrumb>
                 </div>
                 <div className="row card mt-2 p-5">
