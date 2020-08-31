@@ -228,6 +228,7 @@ class ExercisesList extends Component {
             breadcrumb = <div className="row mt-4"><Breadcrumb>
                 <Breadcrumb.Item href="#/HomeAdmin">Inicio</Breadcrumb.Item>
                 <Breadcrumb.Item href="#/Configuration">Configuración</Breadcrumb.Item>
+                <Breadcrumb.Item href="#/ConfigurationRoutine">Configuración de rutina</Breadcrumb.Item>
                 <Breadcrumb.Item >Lista de Ejercicios</Breadcrumb.Item>
             </Breadcrumb></div>;
         }

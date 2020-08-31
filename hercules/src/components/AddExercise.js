@@ -249,6 +249,7 @@ class AddExercise extends Component {
                     <Breadcrumb>
                         <Breadcrumb.Item href="#/HomeAdmin">Inicio</Breadcrumb.Item>
                         <Breadcrumb.Item href="#/Configuration">Configuración</Breadcrumb.Item>
+                        <Breadcrumb.Item href="#/ConfigurationRoutine">Configuración de rutina</Breadcrumb.Item>
                         <Breadcrumb.Item href="#/ExercisesList">Lista de ejercicios</Breadcrumb.Item>
                         <Breadcrumb.Item id="breadcrumb"> Agregar ejercicio</Breadcrumb.Item>
                     </Breadcrumb>

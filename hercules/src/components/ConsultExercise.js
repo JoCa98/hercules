@@ -156,6 +156,7 @@ class ConsultExercise extends Component {
                     <Breadcrumb>
                         <Breadcrumb.Item href="#/HomeAdmin">Inicio</Breadcrumb.Item>
                         <Breadcrumb.Item href="#/Configuration">Configuración</Breadcrumb.Item>
+                        <Breadcrumb.Item href="#/ConfigurationRoutine">Configuración de rutina</Breadcrumb.Item>
                         <Breadcrumb.Item href="#/ExerciseList">Lista de ejercicios</Breadcrumb.Item>
                         <Breadcrumb.Item>Consulta de ejercicio</Breadcrumb.Item>
                     </Breadcrumb>
