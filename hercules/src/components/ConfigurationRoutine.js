@@ -55,7 +55,7 @@ class ConfigurationRutine extends Component {
     }
 
     addExerciseType() {
-        this.props.history.push(`/AddExerciseType`);
+        this.props.history.push(`/ExerciseTypeList`);
     }
 
     addRoutineType() {

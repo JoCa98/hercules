@@ -36,9 +36,7 @@ class AddExerciseType extends Component {
             show: false,
             modalTittle: "",
             modalChildren: "",
-            isExit: false,
-            exerciseList: [],
-            exerciseListID: []
+            isExit: false
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -46,7 +44,6 @@ class AddExerciseType extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.backButton = this.backButton.bind(this);
         this.getAdminUserType = this.getAdminUserType.bind(this);
-        this.getExercisesType = this.getExercisesType.bind(this);
         this.modalTrigger = this.modalTrigger.bind(this);
         this.closeModal = this.closeModal.bind(this);
     }
@@ -58,7 +55,6 @@ class AddExerciseType extends Component {
         if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
             window.scrollTo(0, 0);
             this.getAdminUserType();
-            this.getExercisesType();
         }
     }
 
@@ -110,7 +106,7 @@ class AddExerciseType extends Component {
             show: !this.state.show
         });
         if (this.state.isExit) {
-            this.props.history.push(`/HomeAdmin`);
+            this.props.history.push(`/ExerciseTypeList`);
         }
         event.preventDefault();
     };
@@ -139,19 +135,7 @@ class AddExerciseType extends Component {
         }
     }
 
-    /**
-     * Gets the exercise types from the database.
-     */
-    getExercisesType() {
-        try {
-            axios.get(`http://localhost:9000/ConfigurationRoute/getExercisesType`).then(response => {
-                const exerciseList = response.data[0];
-                this.setState({ exerciseList });
-            });
-        } catch (err) {
-            console.error("Un error inesperado ha ocurrido");
-        }
-    }
+
 
     /**
     * Method that verify that the require inputs are not empty.
@@ -168,22 +152,11 @@ class AddExerciseType extends Component {
     * Method that redirect to the previous page.
     */
     backButton() {
-        this.props.history.push(`/ConfigurationRoutine`);
+        this.props.history.push(`/ExerciseTypeList`);
     }
 
     render() {
-        /**
-        *The exerciseList.map is used to create the rows of the table and to structure the html,
-        *this is stored in a constant that is used in the code of the page
-        */
-        const exerciseListVisual = this.state.exerciseList.map((exerciseList, i) => {
-            this.state.exerciseListID.push(exerciseList.exerciseID);
-            return (
-                <tr className="pointer" key={i}>
-                    <td>{exerciseList.description}</td>
-                </tr>
-            )
-        })
+   
 
         return (
             <div className="container">
@@ -192,7 +165,8 @@ class AddExerciseType extends Component {
                         <Breadcrumb.Item href="#/HomeAdmin">Inicio</Breadcrumb.Item>
                         <Breadcrumb.Item href='#/Configuration'>Configuración</Breadcrumb.Item>
                         <Breadcrumb.Item href='#/ConfigurationRoutine'>Configuración de rutina</Breadcrumb.Item>
-                        <Breadcrumb.Item>Tipo de ejercicio</Breadcrumb.Item>
+                        <Breadcrumb.Item href='#/ExerciseTypeList'>Lista tipos de ejercicios</Breadcrumb.Item>
+                        <Breadcrumb.Item>Agregar tipo de ejercicio</Breadcrumb.Item>
                     </Breadcrumb>
                 </div>
                 <div className="row mt-2">
@@ -206,23 +180,6 @@ class AddExerciseType extends Component {
                                     <div className="form-group" align="center">
                                         <p align="justify">Ingrese el tipo de ejercicio<font color="red">*</font></p>
                                         <input type="text" name="exerciseDescription" placeholder="Ej: Espalda" className="form-control" fontSize="18px" onChange={this.handleInputChange} required></input>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="col-12">
-                                <h1 className="text-left colorBlue">Tipos de ejercicios agregados</h1>
-                                    <div className="col-12 mt-4" >
-                                        <table className="table table-sm table-hover" id="myTable">
-                                            <thead>
-                                                <tr class="header">
-                                                    <th scope="col">Tipo</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {exerciseListVisual}
-                                            </tbody>
-                                        </table>
                                     </div>
                                 </div>
                             </div>

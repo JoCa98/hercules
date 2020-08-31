@@ -52,6 +52,7 @@ import AddRiskCondition from './components/AddRiskCondition';
 import ConsultRiskCondition from './components/ConsultRiskCondition';
 import AddRoutineType from './components/AddRoutineType';
 import AddExerciseType from './components/AddExerciseType';
+import ExerciseTypeList from './components/ExerciseTypeList';
 import ConfigurationRoutine from './components/ConfigurationRoutine';
 
 
@@ -101,6 +102,7 @@ function App() {
           <Route exact path="/AddRiskCondition" component={AddRiskCondition} />
           <Route exact path="/ConsultRiskCondition" component={ConsultRiskCondition} />
           <Route exact path="/AddRoutineType" component={AddRoutineType} />
+          <Route exact path="/ExerciseTypeList" component={ExerciseTypeList} />
           <Route exact path="/AddExerciseType" component={AddExerciseType} />
           <Route exact path="/ConfigurationRoutine" component={ConfigurationRoutine} />
 
