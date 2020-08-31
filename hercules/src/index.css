@@ -274,3 +274,7 @@ display: block;
   width: 20px;
 height: 15px;
 }
+
+#linkCol{
+    width: 20%;
+} 
