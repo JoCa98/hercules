@@ -117,7 +117,7 @@ class TipsList extends Component {
     */
 
     backButton() {
-        this.props.history.push(`/Configuration`);
+        this.props.history.push(`/UserHome`);
     }
 
     render() {
