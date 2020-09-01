@@ -12,8 +12,12 @@ import axios from 'axios';
 import validations from './validations';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import ModalComponent from './ModalComponent';
+import Modal from 'react-bootstrap/Modal';
 import PermissionsManager from "./PermissionsManager";
 import plusImage from '../appImage/plusImage.svg';
+import ModalHeader from 'react-bootstrap/ModalHeader';
+import ModalTitle from 'react-bootstrap/ModalTitle';
+import ModalBody from 'react-bootstrap/ModalBody';
 
 class RiskConditions extends Component {
     constructor(props) {
@@ -30,14 +34,20 @@ class RiskConditions extends Component {
             show: false,
             isExit: false,
             riskConditionList: [],
-            riskConditionListID: []
+            riskConditionListToDelete: [],
+            showModal : false,
+            deleteID : 0
         };
 
         this.addRiskConditon = this.addRiskConditon.bind(this);
-        this.riskConditonToDelete = this.riskConditonToDelete.bind(this);
         this.getRiskConditions = this.getRiskConditions.bind(this);
         this.rowEvent = this.rowEvent.bind(this);
         this.backButton = this.backButton.bind(this);
+        this.validateDeleteRiskCondition = this.validateDeleteRiskCondition.bind(this);
+        this.deleteRiskCondition = this.deleteRiskCondition.bind(this);
+        this.getRiskConditionsToDeleteList = this.getRiskConditionsToDeleteList.bind(this);
+        this.modalTrigger = this.modalTrigger.bind(this);
+        this.closeModal = this.closeModal.bind(this);
 
     }
 
@@ -48,6 +58,7 @@ class RiskConditions extends Component {
         if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
             window.scrollTo(0, 0);
             this.getRiskConditions();
+            this.getRiskConditionsToDeleteList();
         }
     }
 
@@ -58,12 +69,20 @@ class RiskConditions extends Component {
         this.props.history.push(`/AddRiskCondition`);
     }
 
-    /**
-     * Method that redirect to the requested page.
+        /**
+     * Gets the risk conditions that can be deleted.
      */
-    riskConditonToDelete() {
-        this.props.history.push(`/RiskConditionsDeleteList`);
+    getRiskConditionsToDeleteList() {
+        try {
+            axios.get(`http://localhost:9000/ConfigurationRoute/GetRiskConditionsWithoutStudents`).then(response => {
+                const riskConditionListToDelete = response.data[0];
+                this.setState({ riskConditionListToDelete });
+            });
+        } catch (err) {
+            console.error("Un error inesperado ha ocurrido");
+        }
     }
+
 
     /**
      * Gets the risk conditions that can be deleted.
@@ -84,8 +103,11 @@ class RiskConditions extends Component {
     */
     rowEvent(event) {
         try {
-            sessionStorage.setItem("riskConditionID", this.state.riskConditionListID[event.target.parentNode.rowIndex - 1]);
-            this.props.history.push("/ConsultRiskCondition");
+           this.setState({
+               deleteID: this.state.riskConditionList[event.target.parentNode.rowIndex-1].riskConditionID
+            });
+            this.showModal(event);
+
         } catch (err) {
             console.error("Un error inesperado ha ocurrido");
         }
@@ -100,12 +122,90 @@ class RiskConditions extends Component {
     }
 
     /**
-     *                                 
-    <div className="form-group" align="center">
-    <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.addRiskConditon}>Agregar condiciones de riesgo</button>
-    <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.riskConditonToDelete}>Eliminar condiciones de riesgo</button>
-    </div>
+     * Method that put the state of show in true
      */
+    showModal = (e) => {
+        this.setState({ showModal: true });
+        e.preventDefault();
+    };
+
+    
+    /**
+     * Method that put the state of show in false
+     */
+    hideModal = (e) => {
+        this.setState({ showModal: false });
+        e.preventDefault();
+    };
+
+     /**
+     * This method takes care of show a modal with useful information.
+     */
+    modalTrigger(event, mdTittle, mdChildren) {
+        this.setState({
+            show: !this.state.show,
+            modalTittle: mdTittle,
+            modalChildren: mdChildren
+        });
+        event.preventDefault();
+    };
+
+    /**
+     * This method close the modal.
+     */
+    closeModal(event) {
+        this.setState({
+            show: !this.state.show
+        });
+        if (this.state.isExit) {
+            this.props.history.push("/RiskConditions");
+        }
+        event.preventDefault();
+    };
+
+        /**
+     * Validates if the risk condition can be deleted.
+     */
+    validateDeleteRiskCondition() {
+        for (var i = 0; i < this.state.riskConditionListToDelete.length; i++) {
+            if (this.state.deleteID == this.state.riskConditionListToDelete[i].riskConditionID) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Method to delete a risk condition when a event is triggered.
+     * @param {*} event 
+     */
+    deleteRiskCondition(event) {
+        this.hideModal(event);
+        console.log(this.state.riskConditionListToDelete);
+        if (this.validateDeleteRiskCondition()) {
+           
+            fetch(`http://localhost:9000/ConfigurationRoute/DeleteRiskCondition`, {
+                method: "post",
+                body: JSON.stringify({
+                    riskConditionID: this.state.deleteID
+                }),
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                }
+            })
+                .then(response => {
+                    this.setState({
+                        isExit: true
+                    });
+                    this.modalTrigger(event, 'Condición de riesgo eliminada', 'Se ha eliminado correctamente la condición de riesgo');
+                })
+                .catch(err => console.error("Un error inesperado a ocurrido"));
+        } else {
+            this.modalTrigger(event, 'Condición de riesgo no eliminada', 'No se puede eliminar una condición de riesgo con estudiantes asociados');
+        }
+    }
+
 
     render() {
         /**
@@ -113,8 +213,7 @@ class RiskConditions extends Component {
         * this is stored in a constant that is used in the code of the page
         */
         const riskConditionListVisual = this.state.riskConditionList.map((riskConditionList, i) => {
-            this.state.riskConditionListID.push(riskConditionList.riskConditionID);
-            if (sessionStorage.getItem('userTypeID') === '5') {
+            if (sessionStorage.getItem('userTypeID') != '3') {
                 return (
                     <tr key={i}>
                         <td>{riskConditionList.description}</td>
@@ -144,7 +243,7 @@ class RiskConditions extends Component {
                                 <h1 className="text-left colorBlue">Condiciones de riesgo</h1>
                                 <div className="col-3 text-center offset-2">
                                     <img src={plusImage} onClick={this.addRiskConditon} className="imageHistoricPage pointer" />
-                                    <h4 className="colorBlue pointer" onClick={this.addRiskConditon}>Agregar condicion</h4>
+                                    <h4 className="colorBlue pointer" onClick={this.addRiskConditon}>Agregar condición de riesgo</h4>
                                 </div>
                             </div>
                             <div className="row">
@@ -153,7 +252,7 @@ class RiskConditions extends Component {
                                         <table className="table table-sm table-hover" id="myTable">
                                             <thead>
                                                 <tr class="header">
-                                                    <th scope="col">Tipo</th>
+                                                    <th scope="col">Condiciones de riesgo</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -163,6 +262,19 @@ class RiskConditions extends Component {
                                     </div>
                                 </div>
                             </div>
+                            <Modal show={this.state.showModal} handleClose={this.hideModal}>
+                                <ModalHeader closeButton onClick={this.hideModal}>
+                                    <ModalTitle>Eliminar condición de riesgo</ModalTitle>
+                                </ModalHeader>
+                                <ModalBody>
+                                    <p>¿Desea eliminar esta condición de riesgo?</p>
+                                </ModalBody>
+                                <Modal.Footer>
+                                    <button className="buttonSizeGeneral" onClick={this.hideModal}>Volver</button>
+                                    <button className="buttonSizeGeneral"  onClick={this.deleteRiskCondition}>Aceptar</button>
+                                </Modal.Footer>
+                            </Modal>
+
                             <div className="row">
                                 <div className=" mt-3 col-md-3">
                                     <button align="left" className="buttonSizeGeneral" onClick={this.backButton}>Volver</button>

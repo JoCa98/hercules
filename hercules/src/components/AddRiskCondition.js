@@ -83,7 +83,7 @@ class AddRiskCondition extends Component {
                     this.setState({
                         isExit: true
                     });
-                    this.modalTrigger(event, 'Ingreso condicion', 'Se ha agregado correctamente la condicion de riesgo');
+                    this.modalTrigger(event, 'Ingreso condición', 'Se ha agregado correctamente la condición de riesgo');
                 })
                 .catch(err => console.error("Un error inesperado a ocurrido"));
         }
@@ -164,19 +164,19 @@ class AddRiskCondition extends Component {
                     <Breadcrumb>
                         <Breadcrumb.Item href="#/HomeAdmin">Inicio</Breadcrumb.Item>
                         <Breadcrumb.Item href='#/RiskCondition'>Condiciones de riesgo</Breadcrumb.Item>
-                        <Breadcrumb.Item>Agregar condicion de riesgo</Breadcrumb.Item>
+                        <Breadcrumb.Item>Agregar condición de riesgo</Breadcrumb.Item>
                     </Breadcrumb>
                 </div>
                 <div className="row mt-2">
                     <div className="col-10 offset-1 card p-5">
                         <form className="form-horizontal">
                             <div className="row p-3">
-                                <h1 className="text-left colorBlue">Agregar condicion</h1>
+                                <h1 className="text-left colorBlue">Agregar condición</h1>
                             </div>
                             <div className="row">
                                 <div className="col-12">
                                     <div className="form-group" align="center">
-                                        <p align="justify">Ingrese la descripcion de la condicion<font color="red">*</font></p>
+                                        <p align="justify">Ingrese la descripción de la condición<font color="red">*</font></p>
                                         <input type="text" name="conditionDescription" placeholder="Ej: 4" className="form-control" fontSize="18px" onChange={this.handleInputChange} required></input>
                                     </div>
                                 </div>

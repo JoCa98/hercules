@@ -49,7 +49,6 @@ import CareerUpdate from './components/CareerUpdate';
 import ConsultCareer from './components/ConsultCareer';
 import RiskConditions from './components/RiskConditions';
 import AddRiskCondition from './components/AddRiskCondition';
-import ConsultRiskCondition from './components/ConsultRiskCondition';
 import AddRoutineType from './components/AddRoutineType';
 import AddExerciseType from './components/AddExerciseType';
 import ExerciseTypeList from './components/ExerciseTypeList';
@@ -101,7 +100,6 @@ function App() {
           <Route exact path="/ConsultCareer" component={ConsultCareer} />
           <Route exact path="/RiskConditions" component={RiskConditions} />
           <Route exact path="/AddRiskCondition" component={AddRiskCondition} />
-          <Route exact path="/ConsultRiskCondition" component={ConsultRiskCondition} />
           <Route exact path="/RoutineTypeList" component={RoutineTypeList} />
           <Route exact path="/AddRoutineType" component={AddRoutineType} />
           <Route exact path="/ExerciseTypeList" component={ExerciseTypeList} />
