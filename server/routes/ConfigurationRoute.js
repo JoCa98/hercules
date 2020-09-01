@@ -464,5 +464,28 @@ router.get('/GetRoutineTypes', (req, res) => {
   });
 });
 
+router.post('/AddObjectiveType', (req, res) => {
+  connection.query("CALL proc_addRoutineObjective('" + req.body.description + "');", function (err, results) {
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+  });
+});
+
+router.get('/GetObjectiveTypes', (req, res) => {
+  connection.query("CALL proc_getObjectiveType()", function (err, results) {
+    if (results) {
+      res.send(results);
+    }
+    else {
+      console.log(err);
+    }
+  });
+});
+
+
 module.exports = router;
 

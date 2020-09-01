@@ -34,6 +34,8 @@ class ConfigurationRutine extends Component {
         this.excerciseConfiguration = this.excerciseConfiguration.bind(this);
         this.addRoutineType = this.addRoutineType.bind(this);
         this.addExerciseType = this.addExerciseType.bind(this);
+        this.addObjectiveType = this.addObjectiveType.bind(this);
+
 
     }
 
@@ -62,6 +64,10 @@ class ConfigurationRutine extends Component {
         this.props.history.push(`/RoutineTypeList`);
     }
 
+    addObjectiveType() {
+        this.props.history.push(`/ObjectiveTypeList`);
+    }
+
     render() {
         return (
             <div className="container">
@@ -83,6 +89,8 @@ class ConfigurationRutine extends Component {
                                         <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.excerciseConfiguration}>Ejercicios</button>
                                         <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.addExerciseType}>Tipo de ejercicio</button>
                                         <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.addRoutineType}>Tipo de rutina</button>
+                                        <button className="buttonSizeGeneral" class="btn-lg btn-block backgroundBlue" onClick={this.addObjectiveType}>Objetivos de rutina</button>
+
                                     </div>
                                 </div>
                             </div>

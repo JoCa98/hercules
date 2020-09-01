@@ -1,8 +1,8 @@
 /**
- * @fileoverview AddExerciseType page, this page allows to add a exercise type.
+ * @fileoverview AddObjectiveType page, this page allows to add a objectives of the routine.
  * @version 1.0
  *
- * @author Victor Bolaños <victor.bolanos@ucrso.info>
+ * @author Ester Molina <maria.molina@ucrso.info>
  * History
  * v1.0 – Initial Release
  * ----
@@ -14,24 +14,19 @@ import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import ModalComponent from './ModalComponent';
 import PermissionsManager from "./PermissionsManager";
 
-class AddExerciseType extends Component {
+class AddObjectiveType extends Component {
     constructor(props) {
         super(props);
         /**
-        * userTypeList:
-        * @type {Array}
-        * Property that stores the list of type of users that comes from the database.
-        * 
-        * exerciseDescription:
+        * objectiveDescription:
         * @type {String}
-        * Property that indicates the name of the type of exercise to be added.
+        * Property that indicates the name of the type of objective to be added.
         */
 
         this.state = {
             permissionsManager: new PermissionsManager(),
             validations: new validations(),
-            exerciseDescription: null,
-            userTypeList: [],
+            objetiveDescription: null,
             show: false,
             modalTittle: "",
             modalChildren: "",
@@ -62,10 +57,10 @@ class AddExerciseType extends Component {
         if (this.empty()) {
             this.modalTrigger(event, 'Campos obligatorios', 'Los campos de texto con un * no se pueden dejar en blanco');
         } else {
-            fetch(`http://localhost:9000/ConfigurationRoute/AddExerciseType`, {
+            fetch(`http://localhost:9000/ConfigurationRoute/AddObjectiveType`, {
                 method: "post",
                 body: JSON.stringify({
-                    description: this.state.exerciseDescription
+                    description: this.state.objectiveDescription
                 }),
                 headers: {
                     Accept: "application/json",
@@ -76,7 +71,7 @@ class AddExerciseType extends Component {
                     this.setState({
                         isExit: true
                     });
-                    this.modalTrigger(event, 'Ingreso tipo ejercicio', 'Se ha agregado correctamente el tipo de ejercicio');
+                    this.modalTrigger(event, 'Ingreso objetivo de rutine', 'Se ha agregado correctamente el objetivo de rutina');
                 })
                 .catch(err => console.error("Un error inesperado a ocurrido"));
         }
@@ -103,7 +98,7 @@ class AddExerciseType extends Component {
             show: !this.state.show
         });
         if (this.state.isExit) {
-            this.props.history.push(`/ExerciseTypeList`);
+            this.props.history.push(`/ObjectiveTypeList`);
         }
         event.preventDefault();
     };
@@ -122,7 +117,7 @@ class AddExerciseType extends Component {
     * Method that verify that the require inputs are not empty.
     */
     empty() {
-        if (this.state.exerciseDescription == "" || this.state.exerciseDescription == null) {
+        if (this.state.objectiveDescription == "" || this.state.objectiveDescription == null) {
             return true;
         } else {
             return false;
@@ -133,7 +128,7 @@ class AddExerciseType extends Component {
     * Method that redirect to the previous page.
     */
     backButton() {
-        this.props.history.push(`/ExerciseTypeList`);
+        this.props.history.push(`/ObjectiveTypeList`);
     }
 
     render() {
@@ -146,21 +141,21 @@ class AddExerciseType extends Component {
                         <Breadcrumb.Item href="#/HomeAdmin">Inicio</Breadcrumb.Item>
                         <Breadcrumb.Item href='#/Configuration'>Configuración</Breadcrumb.Item>
                         <Breadcrumb.Item href='#/ConfigurationRoutine'>Configuración de rutina</Breadcrumb.Item>
-                        <Breadcrumb.Item href='#/ExerciseTypeList'>Lista tipos de ejercicios</Breadcrumb.Item>
-                        <Breadcrumb.Item>Agregar tipo de ejercicio</Breadcrumb.Item>
+                        <Breadcrumb.Item href='#/ExerciseTypeList'>Lista objetivos de rutina</Breadcrumb.Item>
+                        <Breadcrumb.Item>Agregar objetivo de rutina</Breadcrumb.Item>
                     </Breadcrumb>
                 </div>
                 <div className="row mt-2">
                     <div className="col-10 offset-1 card p-5">
                         <form className="form-horizontal">
                             <div className="row p-3">
-                                <h1 className="text-left colorBlue">Agregar tipo de ejercicio</h1>
+                                <h1 className="text-left colorBlue">Agregar objetivo de rutina</h1>
                             </div>
                             <div className="row">
                                 <div className="col-12">
                                     <div className="form-group" align="center">
-                                        <p align="justify">Ingrese el tipo de ejercicio<font color="red">*</font></p>
-                                        <input type="text" name="exerciseDescription" placeholder="Ej: Espalda" className="form-control" fontSize="18px" onChange={this.handleInputChange} required></input>
+                                        <p align="justify">Ingrese el objetivo<font color="red">*</font></p>
+                                        <input type="text" name="objectiveDescription" placeholder="Ej: Potencia" className="form-control" fontSize="18px" onChange={this.handleInputChange} required></input>
                                     </div>
                                 </div>
                             </div>
@@ -186,4 +181,4 @@ class AddExerciseType extends Component {
         )
     }
 }
-export default AddExerciseType;
+export default AddObjectiveType;

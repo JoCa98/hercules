@@ -54,6 +54,8 @@ import AddExerciseType from './components/AddExerciseType';
 import ExerciseTypeList from './components/ExerciseTypeList';
 import ConfigurationRoutine from './components/ConfigurationRoutine';
 import RoutineTypeList from './components/RoutineTypeList';
+import ObjectiveTypeList from './components/ObjectiveTypeList';
+import AddObjectiveType from './components/AddObjectiveType';
 
 
 function App() {
@@ -105,6 +107,10 @@ function App() {
           <Route exact path="/ExerciseTypeList" component={ExerciseTypeList} />
           <Route exact path="/AddExerciseType" component={AddExerciseType} />
           <Route exact path="/ConfigurationRoutine" component={ConfigurationRoutine} />
+          <Route exact path="/ObjectiveTypeList" component={ObjectiveTypeList} />
+          <Route exact path="/AddObjectiveType" component={AddObjectiveType} />
+
+
 
 
           {/** User Side */}

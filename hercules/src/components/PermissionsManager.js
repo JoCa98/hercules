@@ -285,7 +285,7 @@ class PermissionManager extends Component {
     }
 
     superAdminConfigurations(pageName) {
-        return new RegExp("^((\/Configuration)|(\/CareerConfiguration)|(\/AccountConfiguration)|(\/ConsultExercise)|(\/ExercisesList)|(\/ConsultAdmin)|(\/ConsultMedicPersonal)|(\/AddRoutineType)|(\/AddExerciseType)|(\/AddExercise)|(\/AddTip)|(\/TipsAdmin)|(\/ConsultTips)|(\/RoutineTypeList)|(\/ExerciseTypeList)|(\/ExerciseList)|(\/ConfigurationRoutine))$").test(pageName);
+        return new RegExp("^((\/Configuration)|(\/CareerConfiguration)|(\/AccountConfiguration)|(\/ConsultExercise)|(\/ExercisesList)|(\/ConsultAdmin)|(\/ConsultMedicPersonal)|(\/AddRoutineType)|(\/AddExerciseType)|(\/AddExercise)|(\/AddTip)|(\/TipsAdmin)|(\/ConsultTips)|(\/RoutineTypeList)|(\/ExerciseTypeList)|(\/ExerciseList)|(\/ConfigurationRoutine)|(\/ObjectiveTypeList)|(\/AddObjectiveType))$").test(pageName);
     }
 
 }

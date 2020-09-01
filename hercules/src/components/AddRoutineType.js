@@ -21,9 +21,7 @@ class AddRoutineType extends Component {
         this.state = {
             permissionsManager: new PermissionsManager(),
             validations: new validations(),
-            userTypeID: "3",
             routineDescription: null,
-            userTypeList: [],
             show: false,
             modalTittle: "",
             modalChildren: "",
@@ -34,7 +32,6 @@ class AddRoutineType extends Component {
         this.empty = this.empty.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.backButton = this.backButton.bind(this);
-        this.getAdminUserType = this.getAdminUserType.bind(this);
         this.modalTrigger = this.modalTrigger.bind(this);
         this.closeModal = this.closeModal.bind(this);
     }
@@ -42,7 +39,6 @@ class AddRoutineType extends Component {
     componentDidMount() {
         if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
             window.scrollTo(0, 0);
-            this.getAdminUserType();
         }
     }
 
@@ -107,20 +103,6 @@ class AddRoutineType extends Component {
         this.setState({
             [name]: value
         });
-    }
-
-    /**
-    * This method load the information in the dropdownlist
-    */
-    getAdminUserType() {
-        try {
-            axios.get(`http://localhost:9000/AdminRoute/getAdminUserType`).then(response => {
-                const userTypeList = response.data[0];
-                this.setState({ userTypeList });
-            });
-        } catch (err) {
-            console.error("Un error inesperado a ocurrido");
-        }
     }
 
     /**
