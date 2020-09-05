@@ -188,16 +188,18 @@ class ConsultCareer extends Component {
                 </div>
                 <div className="row mt-2 card p-5" >
                     <div className="col-12">
+                        <div className="div">
                         <h1 className="text-left">Carrera</h1>
+                        </div>
                         <div className="row">
                             <div className="col-8">
                                 <div className="row">
-                                    <div className="col-12">
+                                    <div className="col-12 mt-3">
                                         <h2 className="text-left">Nombre:&nbsp;{this.state.careerInfo[0].name}</h2>
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-4">
+                            <div className="col-4 mt-3">
                                 <h2 className="text-left">Acciones</h2>
                                 <div className="form-group" align="left">
                                     <br></br>

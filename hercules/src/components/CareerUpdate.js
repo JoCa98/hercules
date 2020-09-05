@@ -162,7 +162,7 @@ class CareerUpdate extends Component {
     */
     backButton() {
         sessionStorage.removeItem("careerID");
-        this.props.history.push(`/CareerConfiguration`);
+        this.props.history.push(`/ConsultCareer`);
     }
 
     render() {

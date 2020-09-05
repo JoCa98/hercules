@@ -11,6 +11,7 @@ import React, { Component } from 'react';
 import axios from "axios";
 import Breadcrumb from 'react-bootstrap/Breadcrumb'
 import PermissionsManager from "./PermissionsManager";
+import linkImg from "../appImage/link.svg";
 
 class TipsList extends Component {
     constructor(props) {
@@ -116,7 +117,7 @@ class TipsList extends Component {
     */
 
     backButton() {
-        this.props.history.push(`/Configuration`);
+        this.props.history.push(`/UserHome`);
     }
 
     render() {
@@ -125,9 +126,8 @@ class TipsList extends Component {
             this.state.tipsListID.push(tipsList.tipsID);
             return (
                 <tr className="pointer" onClick={this.rowEvent} key={i}>
+                    <td align="center"><a href={tipsList.link}><img className="img-table-exercise" src={linkImg}/></a></td>
                     <td>{tipsList.description}</td>
-                    <a href={tipsList.link}>
-                        <td>{tipsList.link}</td> </a>
                 </tr>
             )
         })
@@ -158,8 +158,9 @@ class TipsList extends Component {
                         <table className="table table-sm table-hover " id="myTable">
                             <thead>
                                 <tr>
-                                    <th scope="col">Descripción</th>
-                                    <th scope="col">Link</th>
+                                <th id="linkCol">Enlace al artículo</th>
+                                <th>Nombre</th>
+                                    
                                 </tr>
                             </thead>
                             <tbody>

@@ -122,12 +122,7 @@ class AddTip extends Component {
 
             this.modalTrigger(event, 'Campos obligatorios', 'Todos los campos obligatorios  deben estar llenos');
 
-        } else
-
-            if (!this.state.validations.validateTextField(this.state.description.trim())) {
-                this.modalTrigger(event, 'Nombre', 'Los datos del nombre solo pueden estar compuestos por letras y extensión mínima de 2 caracteres');
-
-            } else if (!this.state.validations.validateURLField(this.state.link.trim())) {
+        } else if (!this.state.validations.validateURLField(this.state.link.trim())) {
                 this.modalTrigger(event, 'URL', 'El link del video no es correcto');
             } else {
 

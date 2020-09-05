@@ -168,7 +168,7 @@ class TipsAdmin extends Component {
                         <table className="table table-sm table-hover " id="myTable">
                             <thead>
                                 <tr>
-                                    <th scope="col">Descripción</th>
+                                    <th scope="col">Nombre</th>
                                     <th scope="col">Link</th>
                                 </tr>
                             </thead>

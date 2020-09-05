@@ -229,7 +229,7 @@ class PermissionManager extends Component {
     }
 
     user(pageName) {
-        return new RegExp("^((/UserHome)|(/UserHomeWithOut)|(\/UserConfiguration)|(\/HistoricPhysicalUserInfo)|(\/HistoricMedicalUserInfo))$").test(pageName);
+        return new RegExp("^((/UserHome)|(/UserHomeWithOut)|(\/UserConfiguration)|(\/HistoricPhysicalUserInfo)|(\/HistoricMedicalUserInfo)|(\/TipsList))$").test(pageName);
     }
 
     admin(pageName) {
@@ -245,7 +245,7 @@ class PermissionManager extends Component {
     }
 
     medic(pageName) {
-        return new RegExp("^((\/AddMedicalForm)|(\/RiskCondition)|(\/AddRiskCondition)|(\/RiskConditionsDeleteList)|(\/RiskConditionDelete))$").test(pageName);
+        return new RegExp("^((\/AddMedicalForm)|(\/RiskConditions)|(\/AddRiskCondition))$").test(pageName);
     }
 
     signUp(pageName) {
@@ -285,7 +285,7 @@ class PermissionManager extends Component {
     }
 
     superAdminConfigurations(pageName) {
-        return new RegExp("^((\/Configuration)|(\/CareerConfiguration)|(\/AccountConfiguration)|(\/ConsultExercise)|(\/ExercisesList)|(\/ConsultAdmin)|(\/ConsultMedicPersonal)|(\/AddRoutineType)|(\/AddExerciseType))$").test(pageName);
+        return new RegExp("^((\/Configuration)|(\/CareerConfiguration)|(\/AccountConfiguration)|(\/ConsultExercise)|(\/ExercisesList)|(\/ConsultAdmin)|(\/ConsultMedicPersonal)|(\/AddRoutineType)|(\/AddExerciseType)|(\/AddExercise)|(\/AddTip)|(\/TipsAdmin)|(\/ConsultTips)|(\/RoutineTypeList)|(\/ExerciseTypeList)|(\/ExerciseList)|(\/ConfigurationRoutine)|(\/ObjectiveTypeList)|(\/AddObjectiveType))$").test(pageName);
     }
 
 }
