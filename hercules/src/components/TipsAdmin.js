@@ -177,7 +177,7 @@ class TipsAdmin extends Component {
                             </tbody>
                         </table>
                     </div>
-                    <label className="offset-5" fontSize="20px" id="message">No hay consejos disponibles</label>
+                    <label className="offset-5  mt-4 mb-4" fontSize="20px" id="message">No hay consejos disponibles</label>
                     <div className="row">
                         <div className=" mt-3 col-md-3">
                             <button align="left" className="buttonSizeGeneral" onClick={this.backButton}>Volver</button>
