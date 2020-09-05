@@ -1,6 +1,6 @@
 /**
- * @fileoverview ConsultUser page, this page shows all the basic information of
- * a specific user and redirect to the diferents forms
+ * @fileoverview ConsultTips page, this page shows all the basic information of
+ * a Tip
  * @version 1.0
  *
  * @author  Jermy Calvo <jermy.calvo@ucrso.info>
@@ -51,13 +51,12 @@ class ConsultTips extends Component {
             this.getTipInfo();
         }
     }
-
+    /**This method is responsible for closing the modal and cleaning the session variables */
     closeModal(event) {
         this.setState({
             show: !this.state.show
         });
         if (this.state.isExit) {
-            console.log("Diana me abandono");
             sessionStorage.removeItem("tipID");
             sessionStorage.removeItem("description");
             sessionStorage.removeItem("link");
@@ -78,7 +77,7 @@ class ConsultTips extends Component {
         event.preventDefault();
     };
 
-
+    /**This method stores the data of a tip in session variables for later use */
     editTip(event) {
         sessionStorage.setItem('tipID', this.state.tipInfo[0].tipsID);
         sessionStorage.setItem('description', this.state.tipInfo[0].description);
@@ -86,6 +85,7 @@ class ConsultTips extends Component {
         this.props.history.push(`/AddTip`);
     }
 
+    /**This method takes care of removing the advice */
     deleteTip(event) {
         fetch(`http://localhost:9000/ConfigurationRoute/DeleteTip`, {
             method: "post",
@@ -108,7 +108,7 @@ class ConsultTips extends Component {
 
 
     /**
-    * Method that can get the basic information a specific user 
+    * Method that can get the basic information a specific tip 
     * when the page is load
     */
     getTipInfo() {
@@ -119,6 +119,11 @@ class ConsultTips extends Component {
                 }).then(response => {
                     const tipInfo = response.data[0];
                     this.setState({ tipInfo });
+                    if (tipInfo[0].link === "No disponible") {
+                        document.getElementById("showLink").style.display = 'none';
+                    } else {
+                        document.getElementById("message").style.display = 'none';
+                    }
                 });
 
         } catch (err) {
@@ -127,7 +132,7 @@ class ConsultTips extends Component {
     }
 
     /**
-    * Method that redirect to the previous page
+    * Method that redirect to the previous page and and clear the session variables
     */
     backButton() {
         sessionStorage.removeItem("tipID");
@@ -161,15 +166,16 @@ class ConsultTips extends Component {
                                         <div className="form-group" align="left">
                                             <label fontSize="18px">Link:&nbsp;&nbsp;</label>
 
-                                            <a href={this.state.tipInfo[0].link}>
+                                            <a id="showLink" href={this.state.tipInfo[0].link}>
                                                 <label fontSize="18px" id="link">{this.state.tipInfo[0].link}</label>
                                             </a>
+                                            <label fontSize="18px" id="message"> No disponible</label>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="col-4">                               
+                            <div className="col-4">
                                 <div className="form-group" align="left">
                                     <button className="circularButton w-100" id="Edit" name="Edit" onClick={this.editTip}>Editar</button>
                                     <br></br>

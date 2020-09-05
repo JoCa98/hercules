@@ -1,5 +1,5 @@
 /**
- * @fileoverview AddExercise page, this page create a new exercise or edit an existing exercise
+ * @fileoverview AddTip, this page create a new tip or edit an existing tip
 
  * @version 1.0
  *
@@ -7,7 +7,7 @@
  * History
  * v1.0 – Initial Release
  * ----
- * The first version of AddExercise was written by Jermy Calvo.
+ * The first version of AddTip was written by Jermy Calvo.
  */
 
 import React, { Component } from 'react';
@@ -69,6 +69,7 @@ class AddTip extends Component {
 
     }
 
+    /**This method is responsible for closing the modal and cleaning the session variables */
     closeModal(event) {
         this.setState({
             show: !this.state.show
@@ -82,6 +83,9 @@ class AddTip extends Component {
         event.preventDefault();
     };
 
+    /**
+    * Save the change of some element in the corresponding variable
+    */
     handleInputChange(event) {
         const { name, value } = event.target;
         this.setState({
@@ -89,6 +93,9 @@ class AddTip extends Component {
         });
     }
 
+    /**
+    * This method takes care of show a modal with useful information
+    */
     modalTrigger(event, mdTittle, mdChildren) {
         this.setState({
             show: !this.state.show,
@@ -98,6 +105,9 @@ class AddTip extends Component {
         event.preventDefault();
     };
 
+    /**this method redirects us to the previous page and clear the session variables
+    *
+    */
     backButton() {
         sessionStorage.removeItem("tipID");
         sessionStorage.removeItem("description");
@@ -105,6 +115,7 @@ class AddTip extends Component {
         this.props.history.push(`/TipsAdmin`);
     }
 
+    /**This method validates the information to be able to add a new tip */
     addNewTip(event) {
         if (this.state.description.trim().length == 0
             || this.state.link.trim().length == 0) {
@@ -140,6 +151,9 @@ class AddTip extends Component {
             }
     }
 
+    /**
+     * This method validates the information to be able to edit a tip
+     */
     editTip(event) {
 
         if (this.state.description.trim().length == 0
@@ -175,13 +189,19 @@ class AddTip extends Component {
         }
     }
 
-
+    /**
+     * This method is responsible for enabling what is necessary to be able to edit a tip
+     */
     showEditMode() {
         document.getElementById("addExercise").style.display = 'none';
         document.getElementById("title").textContent = "Editar consejo";
         document.getElementById("breadcrumb").textContent = "Editar consejo";
     }
 
+    /**
+    * Method that can get the basic information a specific tip
+    * when the page is load
+    */
     getTipInfo() {
         this.setState({
             tipID: sessionStorage.getItem("tipID")

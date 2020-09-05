@@ -23,15 +23,14 @@ class AddExercise extends Component {
         /**
         *userTypeList:
         * @type {Array}
-        * Property that stores the list of type of users that comes from the database
+        * Property that stores the list of exercises that comes from the database
         * 
         * userTypeID:
         * @type {integer}
-        * Property that indicates the type of user and his behavior in the web site
+        * Property that indicates the type of exercise and his behavior in the web site
         * 
         * hash:
         * @type {String}
-        * Property that will contain the encrypted password
         */
 
         this.state = {
@@ -61,6 +60,10 @@ class AddExercise extends Component {
         this.showEditMode = this.showEditMode.bind(this);
         this.editExercise = this.editExercise.bind(this);
     }
+    /**
+     * This method is in charge of loading the page and 
+     * displaying the necessary data to edit an exercise or add a new one.
+     */
     componentDidMount() {
         if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
             window.scrollTo(0, 0);
@@ -71,11 +74,14 @@ class AddExercise extends Component {
             } else {
                 document.getElementById("editExercise").style.display = 'none';
                 this.selectDisable();
+                document.getElementById("statusSet").style.display = 'none';
             }
         }
 
     }
-
+    /**
+     * This method is responsible for closing the modal and cleaning the session variables
+     */
     closeModal(event) {
         this.setState({
             show: !this.state.show
@@ -90,18 +96,24 @@ class AddExercise extends Component {
         }
         event.preventDefault();
     };
-
+    /**
+     * Save the change of some element in the corresponding variable
+     */
     handleInputChange(event) {
         const { name, value } = event.target;
         this.setState({
             [name]: value
         });
     }
-
+    /**Save the change if a state change is made
+     * 
+     */
     handleChange(event) {
         this.setState({ typeID: event.target.value });
     }
-
+    /**This method is responsible for displaying the modal
+     * 
+     */
     modalTrigger(event, mdTittle, mdChildren) {
         this.setState({
             show: !this.state.show,
@@ -110,7 +122,9 @@ class AddExercise extends Component {
         });
         event.preventDefault();
     };
-
+    /**
+     * Load the list of existing types of exercises from the database
+     */
     getexerciseTypes() {
         try {
             axios.get(`http://localhost:9000/ConfigurationRoute/getExerciseType`).then(response => {
@@ -121,7 +135,9 @@ class AddExercise extends Component {
             console.error("Un error inesperado ha ocurrido");
         }
     }
-
+    /**this method redirects us to the previous page and clear the session variables
+     * 
+     */
     backButton() {
         sessionStorage.removeItem("exerciseID");
         sessionStorage.removeItem("name");
@@ -130,18 +146,17 @@ class AddExercise extends Component {
         sessionStorage.removeItem("status");
         this.props.history.push(`/ExercisesList`);
     }
-
+    /** 
+     * This method is responsible for 
+     * validating all the necessary fields to add a new exercise and then sends the data to the database*/
     addNewExercise(event) {
-        if (this.state.name.trim().length == 0
-            || this.state.link.trim().length == 0) {
+        if (this.state.name.trim().length == 0) {
 
             this.modalTrigger(event, 'Campos obligatorios', 'Todos los campos obligatorios  deben estar llenos');
 
         } else if (!this.state.validations.validateTextField(this.state.name.trim())) {
             this.modalTrigger(event, 'Nombre', 'Los datos del nombre solo pueden estar compuestos por letras y extensión mínima de 2 caracteres');
 
-        } else if (!this.state.validations.validateURLField(this.state.link.trim())) {
-            this.modalTrigger(event, 'URL', 'El link del video no es correcto');
         } else {
 
             fetch("http://localhost:9000/ConfigurationRoute/AddNewExcercise", {
@@ -164,18 +179,19 @@ class AddExercise extends Component {
                 'El ejercicio fue agregado con éxito.');
         }
     }
-
+    /**
+     * This method is responsible for validating all the necessary fields to edit 
+     * an exercise and then sends the data to the database
+     */
     editExercise(event) {
-        if (this.state.name.trim().length == 0
-            || this.state.link.trim().length == 0) {
+        if (this.state.name.trim().length == 0) {
 
             this.modalTrigger(event, 'Campos obligatorios', 'Todos los campos obligatorios  deben estar llenos');
 
         } else if (!this.state.validations.validateTextField(this.state.name.trim())) {
             this.modalTrigger(event, 'Nombre', 'Los datos del nombre solo pueden estar compuestos por letras y extensión mínima de 2 caracteres');
 
-        } else if (!this.state.validations.validateURLField(this.state.link.trim())) {
-            this.modalTrigger(event, 'URL', 'El link del video no es correcto');
+
         } else {
 
             fetch("http://localhost:9000/ConfigurationRoute/EditExcercise", {
@@ -215,6 +231,7 @@ class AddExercise extends Component {
         document.getElementById("breadcrumb").textContent = "Editar Ejercicio";
     }
 
+    /**This method is responsible for loading the exercise data to show them when editing them */
     getExerciseInfo() {
         this.state.exerciseID = sessionStorage.getItem("exerciseID");
         this.state.name = sessionStorage.getItem("name");
@@ -226,7 +243,7 @@ class AddExercise extends Component {
             this.selectDisable();
         }
     }
-
+    /**This method automatically selects the active state of the exercise */
     selectEnable() {
         if (document.getElementById('cbEnable').checked == true) {
             document.getElementById('cbDisable').checked = false;
@@ -284,7 +301,7 @@ class AddExercise extends Component {
                                             </div>
                                         </div>
                                         <div className="col-6 col-sm-6">
-                                            <div className="form-group" align="left">
+                                            <div id="statusSet" className="form-group" align="left">
                                                 <p title="Campo obligatorio">Estado<font color="red">*</font></p>
                                                 <input type="checkbox" id="cbEnable" name="cbEnable" onClick={this.selectEnable} ></input> Activo
                                             <br></br>

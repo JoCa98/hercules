@@ -94,8 +94,8 @@ class ExercisesList extends Component {
     }
 
     /**
-    * Method that brings the list of users using the carnet as a search criterion
-    * and loads them to the exerciseList
+    This method brings the list of exercises in order, 
+    it is the list that is shown at the beginning without filters.
     */
     getExerciseListOrderType() {
         try {
@@ -108,6 +108,9 @@ class ExercisesList extends Component {
         }
     }
 
+    /**
+     * This method is responsible for bringing the list of exercises filtered by the type of exercise.
+     */
     getExerciseListByType() {
         try {
             axios.get(`http://localhost:9000/ConfigurationRoute/getExercisesByType`,
@@ -120,7 +123,9 @@ class ExercisesList extends Component {
         }
     }
 
-
+    /**
+     * This method is responsible for bringing the list of exercises filtered by the type of exercise and the name.
+     */
     getExerciseListByNameAndType() {
         try {
             axios.get(`http://localhost:9000/ConfigurationRoute/getExercisesByNameAndType`,
@@ -133,6 +138,9 @@ class ExercisesList extends Component {
         }
     }
 
+    /**
+     * This method is responsible for bringing the list of exercises filtered by the  name
+     */
     getExerciseListByName() {
         console.log("nombre: " + this.state.searchInput);
         try {
@@ -179,7 +187,7 @@ class ExercisesList extends Component {
 
     /**
     * Method that uses the value of the id of the row that was selected in the table.
-    *  Redirects to the ConsultUser page
+    *  Redirects to the ConsultExercise page
     * 
     * Receive an object that contains the element that called the method
     *  @param {Object} 
@@ -193,10 +201,15 @@ class ExercisesList extends Component {
         }
     }
 
+    /**
+     * This method returns us to the previous page.
+     */
     backButton() {
         this.props.history.push(`/ConfigurationRoutine`);
     }
-
+    /**
+     * This method takes us to the page AddExercise
+     */
     redirect(event) {
         this.props.history.push(`/AddExercise`);
     }
@@ -216,7 +229,9 @@ class ExercisesList extends Component {
                 </tr>
             )
         })
-
+        /**
+         * The types of exercises are stored in this constant.
+         */
         const exerciseTypeListVisual = this.state.exerciseTypes.map((exerciseTypes, i) => {
             return (
                 <option value={exerciseTypes.exerciseTypeID} key={i}>{exerciseTypes.description}</option>

@@ -63,7 +63,7 @@ class ConsultExercise extends Component {
         event.preventDefault();
     };
 
-
+    /**This method is in charge of saving the data in session variables to later be used to edit the exercise */
     editExercise(event) {
         sessionStorage.setItem('name', this.state.exerciseInfo[0].description);
         sessionStorage.setItem('link', this.state.exerciseInfo[0].link);
@@ -72,14 +72,7 @@ class ConsultExercise extends Component {
         this.props.history.push(`/AddExercise`);
     }
 
-    modalTrigger(event, mdTittle, mdChildren) {
-        this.setState({
-            show: !this.state.show,
-            modalTittle: mdTittle,
-            modalChildren: mdChildren
-        });
-        event.preventDefault();
-    };
+    /**This method is responsible for updating the status of the exercise */
     changeExerciseStatus(event) {
         var accountState;
         if (document.getElementById("status").textContent === "Inactivo") {
@@ -116,7 +109,7 @@ class ConsultExercise extends Component {
     }
 
     /**
-    * Method that can get the basic information a specific user 
+    * Method that can get the basic information a specific exercise 
     * when the page is load
     */
     getExerciseInfo() {
@@ -133,6 +126,11 @@ class ConsultExercise extends Component {
                     } else {
                         document.getElementById('changeExerciseStatus').textContent = "Desactivar";
                         this.state.status = 1;
+                    }
+                    if (exerciseInfo[0].link === "No disponible") {
+                        document.getElementById("showLink").style.display = 'none';
+                    } else {
+                        document.getElementById("message").style.display = 'none';
                     }
                 });
 
@@ -177,9 +175,10 @@ class ConsultExercise extends Component {
                                         </div>
                                         <div className="form-group" align="left">
                                             <label fontSize="18px">Link del vídeo:&nbsp;&nbsp;</label>
-                                            <a href={this.state.exerciseInfo[0].link}>
-                                                <label fontSize="18px" id="link">{this.state.exerciseInfo[0].link}</label>
+                                            <a id="showLink" href={this.state.exerciseInfo[0].link}>
+                                                <label fontSize="18px" id="link">{(this.state.exerciseInfo[0].link)}</label>
                                             </a>
+                                            <label fontSize="18px" id="message">No disponible</label>
                                         </div>
                                         <div className="form-group" align="left">
                                             <label fontSize="18px">Estado:&nbsp;&nbsp;</label>

@@ -1,5 +1,5 @@
 /**
- * @fileoverview ExercisesList page, this page shows all exercises
+ * @fileoverview TipsAdminList page, this page shows all exercises
  * @version 1.0
  *
  * @author  Jermy Calvo <jermy.calvo@ucrso.info>
@@ -46,10 +46,6 @@ class TipsAdmin extends Component {
 
     }
 
-    /**
-    * Method that can be sent to load a preliminary list of all users
-    * when loading the page for the first time
-    */
     componentDidMount() {
         if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
             window.scrollTo(0, 0);
@@ -57,17 +53,9 @@ class TipsAdmin extends Component {
         }
 
     }
-
     /**
-    * Method that performs the search corresponding to the type of search and using the values entered
-    */
-
-    /**
-    * Method that executes the search method by pressing enter in the input.
-    * 
-    * Receive an object that contains the element that called the method
-    *  @param {Object} 
-    */
+     * This method when pressing enter allows us to automatically search for a tip
+     */
     onKeyEvent(e) {
         if (e.key == "Enter") {
             this.searchEvent();
@@ -83,18 +71,18 @@ class TipsAdmin extends Component {
             axios.get(`http://localhost:9000/ConfigurationRoute/getAllTips`).then(response => {
                 const tipsList = response.data[0];
                 this.setState({ tipsList });
+                console.log(tipsList.length);
+                if (tipsList.length == 0) {
+                    document.getElementById("table").style.display = 'none';
+
+                } else {
+                    document.getElementById("message").style.display = 'none';
+                }
             });
         } catch (err) {
             console.error("Un error inesperado ha ocurrido");
         }
     }
-
-    /**
-    * Method that brings the list of users using the name as a search criterion
-    * and loads them to the tipsList
-    */
-
-
 
 
     /**
@@ -126,10 +114,12 @@ class TipsAdmin extends Component {
             console.error("Un error inesperado ha ocurrido");
         }
     }
-
+    /**This method allows us to return to the previous page */
     backButton() {
         this.props.history.push(`/Configuration`);
     }
+
+    /**This method takes us or directs us to the page AddTip */
     redirect(event) {
 
         this.props.history.push(`/AddTip`);
@@ -174,7 +164,7 @@ class TipsAdmin extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="col-9 offset-1 mt-4 ">
+                    <div id="table" className="col-9 offset-1 mt-4 ">
                         <table className="table table-sm table-hover " id="myTable">
                             <thead>
                                 <tr>
@@ -187,6 +177,7 @@ class TipsAdmin extends Component {
                             </tbody>
                         </table>
                     </div>
+                    <label className="offset-5" fontSize="20px" id="message">No hay consejos disponibles</label>
                     <div className="row">
                         <div className=" mt-3 col-md-3">
                             <button align="left" className="buttonSizeGeneral" onClick={this.backButton}>Volver</button>
