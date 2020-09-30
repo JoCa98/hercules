@@ -4,6 +4,7 @@ import Hash from './Hash';
 import validations from './validations';
 import PermissionsManager from "./PermissionsManager";
 import ModalComponent from './ModalComponent';
+import {baseUrl} from "./baseUrl";
 
 class ChangeTempPassword extends Component {
     constructor(props) {
@@ -80,7 +81,7 @@ class ChangeTempPassword extends Component {
     */
     updatePassword(event) {
         var newPassword = this.state.hash.encode(this.state.newPassword);
-        fetch("http://localhost:9000/User/updatePassword", {
+        fetch(baseUrl + "User/updatePassword", {
             method: "post",
             body: JSON.stringify({
                 email: sessionStorage.getItem('email'),

@@ -19,6 +19,7 @@ import axios from 'axios';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import PermissionsManager from "./PermissionsManager";
 import ModalComponent from './ModalComponent';
+import {baseUrl} from "./baseUrl";
 
 class HistoricMedicalInfo extends Component {
     constructor() {
@@ -91,7 +92,7 @@ class HistoricMedicalInfo extends Component {
     */
     downloadCSV() {
         try {
-            axios.get(`http://localhost:9000/MedicalInfo/getMedicalInfoByIDSpanish`,
+            axios.get(baseUrl + `MedicalInfo/getMedicalInfoByIDSpanish`,
                 { params: { partyID: this.state.partyID } }).then(response => {
 
                     const { parse } = require('json2csv');
@@ -122,7 +123,7 @@ class HistoricMedicalInfo extends Component {
         if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
             window.scrollTo(0, 0);
             try {
-                axios.get(`http://localhost:9000/User/getUserName`,
+                axios.get(baseUrl + `http://localhost:9000/User/getUserName`,
                     {
                         params: { partyID: this.state.partyID }
                     }).then(response => {

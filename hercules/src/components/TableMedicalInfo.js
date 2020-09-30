@@ -14,6 +14,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Route, withRouter } from 'react-router-dom';
+import {baseUrl} from "./baseUrl";
 
 class TableMedicalInfo extends Component {
     constructor(props) {
@@ -41,7 +42,7 @@ class TableMedicalInfo extends Component {
     getMedicalInfoHist(value) {
         try {
 
-            axios.get(`http://localhost:9000/MedicalInfo/getMedicalInfoHist`,
+            axios.get(baseUrl + `MedicalInfo/getMedicalInfoHist`,
                 {
                     params: { partyID: value }
                 }).then(response => {

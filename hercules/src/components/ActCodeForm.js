@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PermissionsManager from "./PermissionsManager";
 import ModalComponent from './ModalComponent';
-
+import {baseUrl} from "./baseUrl";
 
 class ActCodeForm extends Component {
   constructor() {
@@ -208,7 +208,7 @@ class ActCodeForm extends Component {
   */
   completeSignUp(event) {
     if (this.state.actCode == this.state.activationCode) {
-      fetch("http://localhost:9000/User/addUser", {
+      fetch(baseUrl + "User/addUser", {
         method: "post",
         body: JSON.stringify(this.state),
 
@@ -236,7 +236,7 @@ class ActCodeForm extends Component {
   * Method that allows the user to resend the code to their email if something went wrong or the email was never received.
   */
   resendCode(event) {
-    fetch("http://localhost:9000/User/sendEmail", {
+    fetch(baseUrl + "User/sendEmail", {
       method: "post",
       body: JSON.stringify({ email: this.state.email, activationCode: this.state.activationCode }),
       headers: {
@@ -257,7 +257,7 @@ class ActCodeForm extends Component {
   * an administrator to activate ther account to be able to login. 
   */
   sendNotificationEmail() {
-    fetch("http://localhost:9000/User/sendNotificationEmail", {
+    fetch(baseUrl + "User/sendNotificationEmail", {
       method: "post",
       body: JSON.stringify({ email: this.state.email }),
       headers: {

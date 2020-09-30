@@ -16,6 +16,7 @@ import RandomPassword from './RandomPassword';
 import Hash from './Hash';
 import PermissionsManager from "./PermissionsManager";
 import ModalComponent from './ModalComponent';
+import {baseUrl} from "./baseUrl";
 
 class PasswordRecovery extends Component {
     constructor() {
@@ -70,7 +71,7 @@ class PasswordRecovery extends Component {
     */
     updatePassword(event) {
         var tempPassword = this.state.randomPassword.generatePassword();
-        fetch("http://localhost:9000/User/updatePassword", {
+        fetch(baseUrl + "User/updatePassword", {
             method: "post",
             body: JSON.stringify({
                 email: this.state.email,
@@ -98,7 +99,7 @@ class PasswordRecovery extends Component {
     * Method that send an email to the user email with a temporal password.
     */
     sendTempPasswordEmail(tempPassword) {
-        fetch("http://localhost:9000/User/sendTempPasswordEmail", {
+        fetch(baseUrl + "User/sendTempPasswordEmail", {
             method: "post",
             body: JSON.stringify({ email: this.state.email, tempPassword: tempPassword }),
             headers: {

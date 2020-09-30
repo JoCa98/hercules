@@ -9,10 +9,10 @@
  */
 import React, { Component } from 'react';
 import axios from 'axios';
-import validations from './validations';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
-import ModalComponent from './ModalComponent';
 import PermissionsManager from "./PermissionsManager";
+import {baseUrl} from "./baseUrl";
+
 
 class AccountConfiguration extends Component {
     constructor(props) {
@@ -45,7 +45,6 @@ class AccountConfiguration extends Component {
         };
 
         this.searchEvent = this.searchEvent.bind(this);
-        //this.search = this.search.bind(this);
         this.getActiveMedicsList = this.getActiveMedicsList.bind(this);
         this.getInactiveMedicsList = this.getInactiveMedicsList.bind(this);
         this.getActiveAdminsList = this.getActiveAdminsList.bind(this);
@@ -83,38 +82,11 @@ class AccountConfiguration extends Component {
     }
 
     /**
-     * Search for the given argument in the table following the established properties.
-     */
-    /* -**Needs a searchbox in case of implementation.**-
-    search() {
-        var input, filter, table, tr, td, i, txtValue;
-        input = this.state.searchInput;
-        filter = input.toUpperCase();
-        table = document.getElementById("myTable");
-        tr = table.getElementsByTagName("tr");
-        // Loop through all table rows, and hide those who don't match the search query.
-        for (i = 0; i < tr.length; i++) {
-            //Select column to filter with this index ..("td")[1] <<<
-            //The 1 in this line ..("td")[1] is the name column.
-            td = tr[i].getElementsByTagName("td")[1];
-            if (td) {
-                txtValue = td.textContent || td.innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    tr[i].style.display = "";
-                } else {
-                    tr[i].style.display = "none";
-                }
-            }
-        }
-    }
-    */
-
-    /**
      * Gets the active medics list.
      */
     getActiveMedicsList() {
         try {
-            axios.get(`http://localhost:9000/ConfigurationRoute/ActiveMedics`).then(response => {
+            axios.get(baseUrl +`ConfigurationRoute/ActiveMedics`).then(response => {
                 const userList = response.data[0];
                 this.setState({ userList });
             });
@@ -128,7 +100,7 @@ class AccountConfiguration extends Component {
      */
     getInactiveMedicsList() {
         try {
-            axios.get(`http://localhost:9000/ConfigurationRoute/InactiveMedics`).then(response => {
+            axios.get(baseUrl+ `ConfigurationRoute/InactiveMedics`).then(response => {
                 const userList = response.data[0];
                 this.setState({ userList });
             });
@@ -142,7 +114,7 @@ class AccountConfiguration extends Component {
      */
     getActiveAdminsList() {
         try {
-            axios.get(`http://localhost:9000/ConfigurationRoute/ActiveGymAdmins`).then(response => {
+            axios.get(baseUrl + `ConfigurationRoute/ActiveGymAdmins`).then(response => {
                 const userList = response.data[0];
                 this.setState({ userList });
             });
@@ -156,7 +128,7 @@ class AccountConfiguration extends Component {
      */
     getInactiveAdminsList() {
         try {
-            axios.get(`http://localhost:9000/ConfigurationRoute/InactiveActiveGymAdmins`).then(response => {
+            axios.get(baseUrl + `ConfigurationRoute/InactiveActiveGymAdmins`).then(response => {
                 const userList = response.data[0];
                 this.setState({ userList });
             });

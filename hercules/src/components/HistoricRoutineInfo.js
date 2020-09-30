@@ -16,6 +16,7 @@ import plusImage from '../appImage/plusImage.svg';
 import axios from 'axios';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import PermissionsManager from "./PermissionsManager";
+import {baseUrl} from "./baseUrl";
 
 class HistoricRoutineInfo extends Component {
     constructor() {
@@ -54,7 +55,7 @@ class HistoricRoutineInfo extends Component {
             window.scrollTo(0, 0);
 
             try {
-                axios.get(`http://localhost:9000/User/getUserName`,
+                axios.get(baseUrl + `User/getUserName`,
                     {
                         params: { partyID: this.state.partyID }
                     }).then(response => {
@@ -62,7 +63,7 @@ class HistoricRoutineInfo extends Component {
                         this.setState({ userName });
                     });
 
-                axios.get(`http://localhost:9000/RoutineRoute/getRoutineHistoric`,
+                axios.get(baseUrl + `RoutineRoute/getRoutineHistoric`,
                     {
                         params: { partyID: this.state.partyID }
                     }).then(response => {

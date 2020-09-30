@@ -12,6 +12,7 @@ import axios from "axios";
 import Breadcrumb from 'react-bootstrap/Breadcrumb'
 import PermissionsManager from "./PermissionsManager";
 import plusImage from '../appImage/plusImage.svg';
+import {baseUrl} from "./baseUrl";
 
 class ExercisesList extends Component {
     constructor(props) {
@@ -99,7 +100,7 @@ class ExercisesList extends Component {
     */
     getExerciseListOrderType() {
         try {
-            axios.get(`http://localhost:9000/ConfigurationRoute/getExercisesListOrderType`).then(response => {
+            axios.get(baseUrl + `ConfigurationRoute/getExercisesListOrderType`).then(response => {
                 const exerciseList = response.data[0];
                 this.setState({ exerciseList });
             });
@@ -113,7 +114,7 @@ class ExercisesList extends Component {
      */
     getExerciseListByType() {
         try {
-            axios.get(`http://localhost:9000/ConfigurationRoute/getExercisesByType`,
+            axios.get(baseUrl + `ConfigurationRoute/getExercisesByType`,
                 { params: { type: this.state.searchType } }).then(response => {
                     const exerciseList = response.data[0];
                     this.setState({ exerciseList });
@@ -128,7 +129,7 @@ class ExercisesList extends Component {
      */
     getExerciseListByNameAndType() {
         try {
-            axios.get(`http://localhost:9000/ConfigurationRoute/getExercisesByNameAndType`,
+            axios.get(baseUrl + `ConfigurationRoute/getExercisesByNameAndType`,
                 { params: { type: this.state.searchType, name: this.state.searchInput } }).then(response => {
                     const exerciseList = response.data[0];
                     this.setState({ exerciseList });
@@ -144,7 +145,7 @@ class ExercisesList extends Component {
     getExerciseListByName() {
         console.log("nombre: " + this.state.searchInput);
         try {
-            axios.get(`http://localhost:9000/ConfigurationRoute/getExerciseName`,
+            axios.get(baseUrl + `ConfigurationRoute/getExerciseName`,
                 { params: { name: this.state.searchInput } }).then(response => {
                     const exerciseList = response.data[0];
                     this.setState({ exerciseList });
@@ -160,7 +161,7 @@ class ExercisesList extends Component {
     */
     getexerciseTypes() {
         try {
-            axios.get(`http://localhost:9000/ConfigurationRoute/getExerciseType`).then(response => {
+            axios.get(baseUrl + `ConfigurationRoute/getExerciseType`).then(response => {
                 const exerciseTypes = response.data[0];
                 this.setState({ exerciseTypes });
             });

@@ -3,6 +3,7 @@ import axios from "axios";
 import Hash from './Hash';
 import PermissionsManager from "./PermissionsManager";
 import ModalComponent from './ModalComponent';
+import {baseUrl} from "./baseUrl";
 /**
  * @fileoverview LogIn page, where users can log in or request to sign up.
  * 
@@ -98,15 +99,15 @@ class LogIn extends Component {
     * If the data in wrong or invalid, it will display and error message.
     */
     tryLogin(event) {
-        axios.get(`http://localhost:9000/User/isEmailValid`, { params: { email: this.state.email.trim() } }).then(response => {
+        axios.get(baseUrl + `User/isEmailValid`, { params: { email: this.state.email.trim() } }).then(response => {
             this.setState({ isUserValid: JSON.parse(JSON.stringify(response.data))[0]['isEmailValid'].data[0] });
             if (this.state.isUserValid == 1) {
-                axios.get(`http://localhost:9000/User/getHashPassword`, { params: { email: this.state.email.toLowerCase().trim() } }).then(response => {
+                axios.get(baseUrl + `User/getHashPassword`, { params: { email: this.state.email.toLowerCase().trim() } }).then(response => {
                     var hashPasswordDB = JSON.parse(JSON.stringify(response.data[0]))[0]['hashPassword']
                     if (this.state.hash.comparePassword(this.state.password, hashPasswordDB) == true) {
                         sessionStorage.setItem('email', this.state.email);
                         sessionStorage.setItem('password', hashPasswordDB);
-                        axios.get(`http://localhost:9000/User/getDataForLogin`, { params: { email: this.state.email, password: this.state.password } }).then(response => {
+                        axios.get(baseUrl + `User/getDataForLogin`, { params: { email: this.state.email, password: this.state.password } }).then(response => {
                             sessionStorage.setItem('partyID', JSON.parse(JSON.stringify(response.data[0]))[0]['partyID']);
                             sessionStorage.setItem('userTypeID', JSON.parse(JSON.stringify(response.data[0]))[0]['userTypeID']);
                             var tempPassword = JSON.parse(JSON.stringify(response.data[0]))[0]['tempPassword'].data[0];
@@ -118,7 +119,7 @@ class LogIn extends Component {
                                 } else {
                                     if (sessionStorage.getItem('userTypeID') == 1 || sessionStorage.getItem('userTypeID') == 2) {
                                         var res = 0;
-                                        axios.get("http://localhost:9000/RoutineRoute/getRoutineID", {
+                                        axios.get(baseUrl + "RoutineRoute/getRoutineID", {
                                             params: {
                                                 partyID: sessionStorage.getItem('partyID')
                                             }
@@ -256,5 +257,5 @@ class LogIn extends Component {
         )
     }
 }
-//export default withRouter(LogIn);
+
 export default LogIn;

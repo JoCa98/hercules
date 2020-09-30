@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from "axios";
 import { Route, withRouter } from 'react-router-dom';
+import {baseUrl} from "./baseUrl";
 
 class TablePhysicalInfo extends Component {
     constructor(props) {
@@ -41,7 +42,7 @@ class TablePhysicalInfo extends Component {
     getUserPhysicalInfo(value) {
 
         try {
-            axios.get(`http://localhost:9000/PhysicalInfo/getPhysicalInfoByID`,
+            axios.get(baseUrl + `PhysicalInfo/getPhysicalInfoByID`,
                 { params: { partyID: value } }).then(response => {
                     const physicalInfo = response.data[0];
                     this.setState({ physicalInfo });

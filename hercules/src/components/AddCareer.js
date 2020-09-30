@@ -13,6 +13,7 @@ import validations from './validations';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import ModalComponent from './ModalComponent';
 import PermissionsManager from "./PermissionsManager";
+import {baseUrl} from "./baseUrl";
 
 class AddCareer extends Component {
     constructor(props) {
@@ -73,7 +74,7 @@ class AddCareer extends Component {
      */
     getCareerList() {
         try {
-            axios.get(`http://localhost:9000/ConfigurationRoute/GetCareers`).then(response => {
+            axios.get(baseUrl + `ConfigurationRoute/GetCareers`).then(response => {
                 const careerList = response.data[0];
                 this.setState({ careerList });
             });
@@ -91,7 +92,7 @@ class AddCareer extends Component {
         } else if (!this.state.validations.validateTextField(this.state.careerName.trim())) {
             this.modalTrigger(event, 'Nombre de la carrera', 'El nombre de la carrera solo pueden estar compuesto por letras');
         } else {
-            fetch(`http://localhost:9000/ConfigurationRoute/AddCareer`, {
+            fetch(baseUrl + `ConfigurationRoute/AddCareer`, {
                 method: "post",
                 body: JSON.stringify({
                     name: this.state.careerName
@@ -152,7 +153,7 @@ class AddCareer extends Component {
      */
     getAdminUserType() {
         try {
-            axios.get(`http://localhost:9000/AdminRoute/getAdminUserType`).then(response => {
+            axios.get(baseUrl + `AdminRoute/getAdminUserType`).then(response => {
                 const userTypeList = response.data[0];
                 this.setState({ userTypeList });
             });

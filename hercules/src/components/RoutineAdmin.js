@@ -15,6 +15,7 @@ import Carousel from './RoutineCarouselReadOnly';
 import axios from "axios";
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import PermissionsManager from "./PermissionsManager";
+import {baseUrl} from "./baseUrl";
 
 class RoutineAdmin extends Component {
     constructor(props) {
@@ -46,7 +47,7 @@ class RoutineAdmin extends Component {
         if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
             window.scrollTo(0, 0);
 
-            axios.get("http://localhost:9000/RoutineRoute/getRoutineInfo", {
+            axios.get(baseUrl + "RoutineRoute/getRoutineInfo", {
                 params: {
                     routineID: this.state.routineID,
                 }
@@ -59,7 +60,7 @@ class RoutineAdmin extends Component {
                 }
             })
 
-            axios.get(`http://localhost:9000/User/getUserName`,
+            axios.get(baseUrl + `User/getUserName`,
                 {
                     params: { partyID: this.state.partyID }
                 }).then(response => {

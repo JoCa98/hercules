@@ -11,10 +11,9 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import validations from './validations';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
-import ModalComponent from './ModalComponent';
 import PermissionsManager from "./PermissionsManager";
 import plusImage from '../appImage/plusImage.svg';
-import deleteImage from '../appImage/deleteImage.png';
+import {baseUrl} from "./baseUrl";
 
 class CareerConfiguration extends Component {
     constructor(props) {
@@ -68,7 +67,7 @@ class CareerConfiguration extends Component {
      */
     getCareerList() {
         try {
-            axios.get(`http://localhost:9000/ConfigurationRoute/GetCareers`).then(response => {
+            axios.get(baseUrl + `ConfigurationRoute/GetCareers`).then(response => {
                 const careerList = response.data[0];
                 this.setState({ careerList });
             });

@@ -3,6 +3,7 @@ import PermissionsManager from "./PermissionsManager";
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import axios from 'axios';
 import plusImage from '../appImage/plusImage.svg';
+import {baseUrl} from "./baseUrl";
 
 
 class RoutineTypeList extends Component {
@@ -31,7 +32,7 @@ class RoutineTypeList extends Component {
      */
     getRoutineTypes() {
         try {
-            axios.get(`http://localhost:9000/ConfigurationRoute/GetRoutineTypes`).then(response => {
+            axios.get(baseUrl + `ConfigurationRoute/GetRoutineTypes`).then(response => {
                 const routineList = response.data[0];
                 this.setState({ routineList });
             });

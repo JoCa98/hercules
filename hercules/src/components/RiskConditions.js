@@ -18,6 +18,7 @@ import plusImage from '../appImage/plusImage.svg';
 import ModalHeader from 'react-bootstrap/ModalHeader';
 import ModalTitle from 'react-bootstrap/ModalTitle';
 import ModalBody from 'react-bootstrap/ModalBody';
+import {baseUrl} from "./baseUrl";
 
 class RiskConditions extends Component {
     constructor(props) {
@@ -74,7 +75,7 @@ class RiskConditions extends Component {
      */
     getRiskConditionsToDeleteList() {
         try {
-            axios.get(`http://localhost:9000/ConfigurationRoute/GetRiskConditionsWithoutStudents`).then(response => {
+            axios.get(baseUrl + `ConfigurationRoute/GetRiskConditionsWithoutStudents`).then(response => {
                 const riskConditionListToDelete = response.data[0];
                 this.setState({ riskConditionListToDelete });
             });
@@ -89,7 +90,7 @@ class RiskConditions extends Component {
      */
     getRiskConditions() {
         try {
-            axios.get(`http://localhost:9000/ConfigurationRoute/GetRiskConditions`).then(response => {
+            axios.get(baseUrl + `ConfigurationRoute/GetRiskConditions`).then(response => {
                 const riskConditionList = response.data[0];
                 this.setState({ riskConditionList });
             });
@@ -184,7 +185,7 @@ class RiskConditions extends Component {
         console.log(this.state.riskConditionListToDelete);
         if (this.validateDeleteRiskCondition()) {
            
-            fetch(`http://localhost:9000/ConfigurationRoute/DeleteRiskCondition`, {
+            fetch(baseUrl + `ConfigurationRoute/DeleteRiskCondition`, {
                 method: "post",
                 body: JSON.stringify({
                     riskConditionID: this.state.deleteID

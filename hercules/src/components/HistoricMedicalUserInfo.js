@@ -16,7 +16,6 @@ import TableMedicalInfo from './TableMedicalInfo';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import PermissionsManager from "./PermissionsManager";
 
-
 class HistoricMedicalUserInfo extends Component {
     constructor() {
         super();

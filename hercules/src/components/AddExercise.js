@@ -16,6 +16,7 @@ import validations from './validations';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import ModalComponent from './ModalComponent';
 import PermissionsManager from "./PermissionsManager";
+import {baseUrl} from "./baseUrl";
 
 class AddExercise extends Component {
     constructor(props) {
@@ -127,7 +128,7 @@ class AddExercise extends Component {
      */
     getexerciseTypes() {
         try {
-            axios.get(`http://localhost:9000/ConfigurationRoute/getExerciseType`).then(response => {
+            axios.get(baseUrl + `ConfigurationRoute/getExerciseType`).then(response => {
                 const exerciseTypes = response.data[0];
                 this.setState({ exerciseTypes });
             });
@@ -158,8 +159,7 @@ class AddExercise extends Component {
             this.modalTrigger(event, 'Nombre', 'Los datos del nombre solo pueden estar compuestos por letras y extensión mínima de 2 caracteres');
 
         } else {
-
-            fetch("http://localhost:9000/ConfigurationRoute/AddNewExcercise", {
+            fetch(baseUrl + "ConfigurationRoute/AddNewExcercise", {
                 method: "post",
                 body: JSON.stringify(this.state),
 
@@ -194,7 +194,7 @@ class AddExercise extends Component {
 
         } else {
 
-            fetch("http://localhost:9000/ConfigurationRoute/EditExcercise", {
+            fetch(baseUrl + "ConfigurationRoute/EditExcercise", {
                 method: "post",
                 body: JSON.stringify(this.state),
 

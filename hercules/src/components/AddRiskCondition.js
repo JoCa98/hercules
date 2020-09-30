@@ -13,6 +13,7 @@ import validations from './validations';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import ModalComponent from './ModalComponent';
 import PermissionsManager from "./PermissionsManager";
+import {baseUrl} from "./baseUrl";
 
 class AddRiskCondition extends Component {
     constructor(props) {
@@ -69,7 +70,7 @@ class AddRiskCondition extends Component {
         if (this.empty()) {
             this.modalTrigger(event, 'Campos obligatorios', 'Los campos de texto con un * no se pueden dejar en blanco');
         } else {
-            fetch(`http://localhost:9000/ConfigurationRoute/AddRiskCondition`, {
+            fetch(baseUrl + `ConfigurationRoute/AddRiskCondition`, {
                 method: "post",
                 body: JSON.stringify({
                     description: this.state.conditionDescription
@@ -130,7 +131,7 @@ class AddRiskCondition extends Component {
     */
     getAdminUserType() {
         try {
-            axios.get(`http://localhost:9000/AdminRoute/getAdminUserType`).then(response => {
+            axios.get(baseUrl + `AdminRoute/getAdminUserType`).then(response => {
                 const userTypeList = response.data[0];
                 this.setState({ userTypeList });
             });

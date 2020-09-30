@@ -8,11 +8,11 @@
  * ----
  */
 import React, { Component } from 'react';
-import axios from 'axios';
 import validations from './validations';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import ModalComponent from './ModalComponent';
 import PermissionsManager from "./PermissionsManager";
+import {baseUrl} from "./baseUrl";
 
 class AddObjectiveType extends Component {
     constructor(props) {
@@ -57,7 +57,7 @@ class AddObjectiveType extends Component {
         if (this.empty()) {
             this.modalTrigger(event, 'Campos obligatorios', 'Los campos de texto con un * no se pueden dejar en blanco');
         } else {
-            fetch(`http://localhost:9000/ConfigurationRoute/AddObjectiveType`, {
+            fetch(baseUrl + `ConfigurationRoute/AddObjectiveType`, {
                 method: "post",
                 body: JSON.stringify({
                     description: this.state.objectiveDescription

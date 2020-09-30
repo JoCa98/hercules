@@ -3,6 +3,7 @@ import PermissionsManager from "./PermissionsManager";
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import axios from 'axios';
 import plusImage from '../appImage/plusImage.svg';
+import {baseUrl} from "./baseUrl";
 
 
 class ObjectiveTypeList extends Component {
@@ -33,7 +34,7 @@ class ObjectiveTypeList extends Component {
      */
     getObjectiveType() {
         try {
-            axios.get(`http://localhost:9000/ConfigurationRoute/GetObjectiveTypes`).then(response => {
+            axios.get(baseUrl + `ConfigurationRoute/GetObjectiveTypes`).then(response => {
                 const objectiveList = response.data[0];
                 this.setState({ objectiveList });
             });

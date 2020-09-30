@@ -11,11 +11,11 @@
  */
 
 import React, { Component } from 'react';
-import axios from 'axios';
 import validations from './validations';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import ModalComponent from './ModalComponent';
 import PermissionsManager from "./PermissionsManager";
+import {baseUrl} from "./baseUrl";
 
 class AddTip extends Component {
     constructor(props) {
@@ -126,7 +126,7 @@ class AddTip extends Component {
                 this.modalTrigger(event, 'URL', 'El link del video no es correcto');
             } else {
 
-                fetch("http://localhost:9000/ConfigurationRoute/AddNewTip", {
+                fetch(baseUrl + "ConfigurationRoute/AddNewTip", {
                     method: "post",
                     body: JSON.stringify(this.state),
                     headers: {
@@ -163,7 +163,7 @@ class AddTip extends Component {
             this.modalTrigger(event, 'URL', 'El link del video no es correcto');
         } else {
 
-            fetch("http://localhost:9000/ConfigurationRoute/EditTip", {
+            fetch(baseUrl + "ConfigurationRoute/EditTip", {
                 method: "post",
                 body: JSON.stringify(this.state),
 

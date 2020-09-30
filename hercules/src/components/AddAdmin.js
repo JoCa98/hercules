@@ -18,6 +18,7 @@ import Hash from './Hash';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import ModalComponent from './ModalComponent';
 import PermissionsManager from "./PermissionsManager";
+import {baseUrl} from "./baseUrl";
 
 class AddAdmin extends Component {
     constructor(props) {
@@ -80,7 +81,7 @@ class AddAdmin extends Component {
         */
     handleSubmit = event => {
 
-        axios.get(`http://localhost:9000/User/isEmailValid`, { params: { email: this.state.email } }).then(response => {
+        axios.get(baseUrl + `User/isEmailValid`, { params: { email: this.state.email } }).then(response => {
             var isEmailValid = JSON.parse(JSON.stringify(response.data))[0]['isEmailValid'].data[0];
 
             if (this.empty()) {
@@ -107,7 +108,7 @@ class AddAdmin extends Component {
                     password: this.state.hash.encode(this.state.password)
                 })
 
-                fetch("http://localhost:9000/AdminRoute/addAdmin", {
+                fetch(baseUrl + "AdminRoute/addAdmin", {
                     method: "post",
                     body: JSON.stringify(this.state),
                     headers: {
@@ -168,7 +169,7 @@ class AddAdmin extends Component {
     */
     getAdminUserType() {
         try {
-            axios.get(`http://localhost:9000/AdminRoute/getAdminUserType`).then(response => {
+            axios.get(baseUrl + `AdminRoute/getAdminUserType`).then(response => {
                 const userTypeList = response.data[0];
                 this.setState({ userTypeList });
             });

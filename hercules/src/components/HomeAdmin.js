@@ -15,6 +15,7 @@ import React, { Component } from 'react';
 import axios from "axios";
 import Breadcrumb from 'react-bootstrap/Breadcrumb'
 import PermissionsManager from "./PermissionsManager";
+import {baseUrl} from "./baseUrl";
 
 
 class HomeAdmin extends Component {
@@ -101,7 +102,7 @@ class HomeAdmin extends Component {
     */
     getUserListByCarnet() {
         try {
-            axios.get(`http://localhost:9000/AdminRoute/getUsersByCarnet`,
+            axios.get(baseUrl + `AdminRoute/getUsersByCarnet`,
                 { params: { carnet: this.state.searchInput } }).then(response => {
                     const userList = response.data[0];
                     this.setState({ userList });
@@ -117,7 +118,7 @@ class HomeAdmin extends Component {
     */
     getUserListByName() {
         try {
-            axios.get(`http://localhost:9000/AdminRoute/getUsersByName`,
+            axios.get(baseUrl + `AdminRoute/getUsersByName`,
                 { params: { name: this.state.searchInput } }).then(response => {
                     const userList = response.data[0];
                     this.setState({ userList });
@@ -133,7 +134,7 @@ class HomeAdmin extends Component {
     */
     getUserListByIdentification() {
         try {
-            axios.get(`http://localhost:9000/AdminRoute/getUsersByIdentification`,
+            axios.get(baseUrl + `AdminRoute/getUsersByIdentification`,
                 { params: { identificationID: this.state.searchInput } }).then(response => {
                     const userList = response.data[0];
                     this.setState({ userList });

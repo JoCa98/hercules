@@ -12,6 +12,7 @@ import axios from 'axios';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import ModalComponent from './ModalComponent';
 import PermissionsManager from "./PermissionsManager";
+import {baseUrl} from "./baseUrl";
 
 class ConsultAdmin extends Component {
     constructor(props) {
@@ -65,7 +66,7 @@ class ConsultAdmin extends Component {
         } else {
             accountState = 0;
         }
-        fetch("http://localhost:9000/UserRoute/changeUserStatus", {
+        fetch(baseUrl + "UserRoute/changeUserStatus", {
             method: "post",
             body: JSON.stringify({
                 email: this.state.userInfo[0].email,
@@ -96,7 +97,7 @@ class ConsultAdmin extends Component {
      */
     getUserBasicInfo() {
         try {
-            axios.get(`http://localhost:9000/ConfigurationRoute/AdminAccounts`,
+            axios.get(baseUrl + `ConfigurationRoute/AdminAccounts`,
                 {
                     params: { partyID: this.state.partyID }
                 }).then(response => {
@@ -118,7 +119,7 @@ class ConsultAdmin extends Component {
     */
     deleteAdminMethod() {
         try {
-            axios.get(`http://localhost:9000/ConfigurationRoute/DeleteAdmin`,
+            axios.get(baseUrl + `ConfigurationRoute/DeleteAdmin`,
                 { params: { email: this.state.searchInput } }).then(response => {
                 });
         } catch (err) {

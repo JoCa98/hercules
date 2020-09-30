@@ -8,7 +8,6 @@
  * ----
  */
 import React, { Component } from 'react';
-import axios from 'axios';
 import validations from './validations';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import ModalComponent from './ModalComponent';

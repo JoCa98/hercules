@@ -17,6 +17,7 @@ import validations from './validations';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import PermissionsManager from "./PermissionsManager";
 import ModalComponent from './ModalComponent';
+import {baseUrl} from "./baseUrl";
 
 
 /*global IMC*/
@@ -185,14 +186,14 @@ class MedicalForm extends Component {
             window.scrollTo(0, 0);
 
             try {
-                axios.get(`http://localhost:9000/User/getUserName`,
+                axios.get(baseUrl + `User/getUserName`,
                     {
                         params: { partyID: this.state.partyID }
                     }).then(response => {
                         const userName = response.data[0];
                         this.setState({ userName });
                     });
-                axios.get(`http://localhost:9000/MedicalInfo/getRiskCondition`).then(
+                axios.get(baseUrl + `MedicalInfo/getRiskCondition`).then(
                     response =>{
                         const riskList = response.data[0];
                         this.setState({riskList});
@@ -200,7 +201,7 @@ class MedicalForm extends Component {
 
                 if (sessionStorage.getItem("update") == "true") {
                     this.setState({ medicalID: sessionStorage.getItem("medicalFormID") });
-                    axios.get("http://localhost:9000/MedicalInfo/getMedicalInfoHist", {
+                    axios.get(baseUrl + "MedicalInfo/getMedicalInfoHist", {
                         params: {
                             partyID: this.state.partyID
                         }
@@ -213,7 +214,7 @@ class MedicalForm extends Component {
                 }
 
                 if (sessionStorage.getItem("userTypeID") == 3) {
-                    axios.get("http://localhost:9000/MedicalInfo/getMedicalCod", {
+                    axios.get(baseUrl + "MedicalInfo/getMedicalCod", {
                         params: {
                             partyID: sessionStorage.getItem("partyID")
                         }
@@ -298,7 +299,7 @@ class MedicalForm extends Component {
     handleSubmit(event) {
 
         if (sessionStorage.getItem("update") == "true") {
-            fetch(`http://localhost:9000/MedicalInfo/updateMedicalRegister`, {
+            fetch(baseUrl + `MedicalInfo/updateMedicalRegister`, {
                 method: "post",
                 body: JSON.stringify(this.state),
                 headers: {
@@ -318,7 +319,7 @@ class MedicalForm extends Component {
                 .catch(err => console.error("Un error inesperado a ocurrido"));
             event.preventDefault();
         } else {
-            fetch("http://localhost:9000/MedicalInfo/addMedicalInfo", {
+            fetch(baseUrl + "MedicalInfo/addMedicalInfo", {
                 method: "post",
                 body: JSON.stringify(this.state),
                 headers: {

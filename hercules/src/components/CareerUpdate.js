@@ -161,7 +161,6 @@ class CareerUpdate extends Component {
     * Go to previous page.
     */
     backButton() {
-        sessionStorage.removeItem("careerID");
         this.props.history.push(`/ConsultCareer`);
     }
 

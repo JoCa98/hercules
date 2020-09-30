@@ -7,7 +7,7 @@ import Modal from 'react-bootstrap/Modal';
 import PermissionsManager from "./PermissionsManager";
 import ModalComponent from './ModalComponent';
 import validations from './validations';
-
+import {baseUrl} from "./baseUrl";
 
 class AddRoutine extends Component {
     constructor() {
@@ -209,19 +209,19 @@ class AddRoutine extends Component {
         if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
             window.scrollTo(0, 0);
 
-            axios.get("http://localhost:9000/RoutineRoute/getRoutineType").then(response => {
+            axios.get(baseUrl + "RoutineRoute/getRoutineType").then(response => {
                 this.state.routineType = response.data;
                 this.setState({ routineType: response.data });
             });
-            axios.get("http://localhost:9000/RoutineRoute/getObjetiveType").then(response => {
+            axios.get(baseUrl + "RoutineRoute/getObjetiveType").then(response => {
                 this.state.objective = response.data;
                 this.setState({ objective: response.data });
             });
-            axios.get(`http://localhost:9000/RoutineRoute/getExerciseType`).then(response => {
+            axios.get(baseUrl + `RoutineRoute/getExerciseType`).then(response => {
                 this.state.exerciseType = response.data;
                 this.setState({ exerciseType: response.data });
             });
-            axios.get(`http://localhost:9000/RoutineRoute/getLastType`).then(response => {
+            axios.get(baseUrl + `RoutineRoute/getLastType`).then(response => {
                 this.state.lastTypeID = response.data[0];
                 this.setState({ lastTypeID: response.data[0] });
             });
@@ -300,7 +300,7 @@ class AddRoutine extends Component {
     * Method that get the exercises per type from the database
     */
     getExerciseData() {
-        axios.get("http://localhost:9000/RoutineRoute/getAllExercises", {
+        axios.get(baseUrl + "RoutineRoute/getAllExercises", {
             params: {
                 id: this.state.typeID
             }
@@ -634,7 +634,7 @@ class AddRoutine extends Component {
      */
     handleSubmit(e) {
         var id;
-        axios.post("http://localhost:9000/RoutineRoute/addRoutine", {
+        axios.post(baseUrl + "RoutineRoute/addRoutine", {
             Frecuency: this.state.Frecuency,
             Intensity: this.state.Intensity,
             restBetweenExercises: this.state.restBetweenExercises,
@@ -662,7 +662,7 @@ class AddRoutine extends Component {
      */
     submitExercise(id, e) {
         this.state.list.map((ex) => {
-            fetch("http://localhost:9000/RoutineRoute/addExercise", {
+            fetch(baseUrl + "RoutineRoute/addExercise", {
                 method: "post",
                 body: JSON.stringify({
                     routineID: id,

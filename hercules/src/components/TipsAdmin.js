@@ -12,6 +12,7 @@ import axios from "axios";
 import Breadcrumb from 'react-bootstrap/Breadcrumb'
 import PermissionsManager from "./PermissionsManager";
 import plusImage from '../appImage/plusImage.svg';
+import {baseUrl} from "./baseUrl";
 
 class TipsAdmin extends Component {
     constructor(props) {
@@ -68,7 +69,7 @@ class TipsAdmin extends Component {
     */
     getAllTips() {
         try {
-            axios.get(`http://localhost:9000/ConfigurationRoute/getAllTips`).then(response => {
+            axios.get(baseUrl + `ConfigurationRoute/getAllTips`).then(response => {
                 const tipsList = response.data[0];
                 this.setState({ tipsList });
                 console.log(tipsList.length);

@@ -4,6 +4,7 @@ import validations from './validations';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import PermissionsManager from "./PermissionsManager";
 import ModalComponent from './ModalComponent';
+import {baseUrl} from "./baseUrl";
 
 
 class AddPhysicalInfo extends Component {
@@ -65,7 +66,7 @@ class AddPhysicalInfo extends Component {
         if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
             window.scrollTo(0, 0);
 
-            axios.get(`http://localhost:9000/User/getUserName`,
+            axios.get(baseUrl + `User/getUserName`,
                 {
                     params: { partyID: this.state.partyID }
                 }).then(response => {
@@ -102,7 +103,7 @@ class AddPhysicalInfo extends Component {
         } else if (!this.state.validations.validateViceralFat(this.state.viceralFat.trim())) {
             this.modalTrigger(event, 'Formato incorrecto', 'La grasa viceral debe ser un número entre 1 y 60');
         } else {
-            fetch("http://localhost:9000/PhysicalInfo/addPhysicalInfo", {
+            fetch(baseUrl + "PhysicalInfo/addPhysicalInfo", {
                 method: "post",
                 body: JSON.stringify(this.state),
 

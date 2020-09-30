@@ -4,6 +4,7 @@ import validations from './validations';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import PermissionsManager from "./PermissionsManager";
 import ModalComponent from './ModalComponent';
+import {baseUrl} from "./baseUrl";
 
 class EditPhysicalInfo extends Component {
     constructor(props) {
@@ -80,7 +81,7 @@ class EditPhysicalInfo extends Component {
     }
 
     loadName() {
-        axios.get(`http://localhost:9000/User/getUserName`,
+        axios.get(baseUrl + `User/getUserName`,
             {
                 params: { partyID: this.state.partyID }
             }).then(response => {
@@ -90,7 +91,7 @@ class EditPhysicalInfo extends Component {
     }
 
     loadPhysicalInformation() {
-        axios.get(`http://localhost:9000/PhysicalInfo/getOnePhysicalInfoByID`,
+        axios.get(baseUrl + `PhysicalInfo/getOnePhysicalInfoByID`,
             {
                 params: { partyID: this.state.partyID }
             }).then(response => {
@@ -142,7 +143,7 @@ class EditPhysicalInfo extends Component {
             this.modalTrigger(event, 'Formato incorrecto', 'La grasa viceral debe ser un número entre 1 y 60');
         } else {
            
-                fetch("http://localhost:9000/PhysicalInfo/updatePhysicalInfo", {
+                fetch(baseUrl + "PhysicalInfo/updatePhysicalInfo", {
                     method: "post",
                     body: JSON.stringify(this.state),
                     headers: {

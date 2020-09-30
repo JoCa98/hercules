@@ -13,6 +13,7 @@ import axios from 'axios';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import PermissionsManager from "./PermissionsManager";
 import ModalComponent from './ModalComponent';
+import {baseUrl} from "./baseUrl";
 
 class ConsultTips extends Component {
     constructor(props) {
@@ -87,7 +88,7 @@ class ConsultTips extends Component {
 
     /**This method takes care of removing the advice */
     deleteTip(event) {
-        fetch(`http://localhost:9000/ConfigurationRoute/DeleteTip`, {
+        fetch(baseUrl + `ConfigurationRoute/DeleteTip`, {
             method: "post",
             body: JSON.stringify({
                 tipID: this.state.tipID
@@ -113,7 +114,7 @@ class ConsultTips extends Component {
     */
     getTipInfo() {
         try {
-            axios.get(`http://localhost:9000/ConfigurationRoute/getTipID`,
+            axios.get(baseUrl + `ConfigurationRoute/getTipID`,
                 {
                     params: { tipID: this.state.tipID }
                 }).then(response => {

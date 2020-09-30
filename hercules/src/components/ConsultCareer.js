@@ -12,6 +12,7 @@ import axios from 'axios';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import PermissionsManager from "./PermissionsManager";
 import ModalComponent from './ModalComponent';
+import {baseUrl} from "./baseUrl";
 
 class ConsultCareer extends Component {
     constructor(props) {
@@ -92,7 +93,7 @@ class ConsultCareer extends Component {
     */
     getCareerInfo() {
         try {
-            axios.get(`http://localhost:9000/ConfigurationRoute/GetCareerByID`,
+            axios.get(baseUrl + `ConfigurationRoute/GetCareerByID`,
                 {
                     params: { careerID: this.state.careerID }
                 }).then(response => {
@@ -109,7 +110,7 @@ class ConsultCareer extends Component {
     */
     getCareersToDeleteList() {
         try {
-            axios.get(`http://localhost:9000/ConfigurationRoute/GetCareersWithoutStudents`).then(response => {
+            axios.get(baseUrl + `ConfigurationRoute/GetCareersWithoutStudents`).then(response => {
                 const careerList = response.data[0];
                 this.setState({ careerList });
             });
@@ -136,7 +137,7 @@ class ConsultCareer extends Component {
      */
     deleteCareer(event) {
         if (this.validateDeleteCareer()) {
-            fetch(`http://localhost:9000/ConfigurationRoute/DeleteCareer`, {
+            fetch(baseUrl + `ConfigurationRoute/DeleteCareer`, {
                 method: "post",
                 body: JSON.stringify({
                     careerID: this.state.careerID
@@ -163,7 +164,6 @@ class ConsultCareer extends Component {
      * Reddirects to a page where a career can be edited.
      */
     editCareer() {
-        sessionStorage.setItem("careerID", sessionStorage.getItem("careerID"));
         this.props.history.push(`/CareerUpdate`);
     }
 

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import PermissionsManager from "./PermissionsManager";
 import axios from 'axios';
+import {baseUrl} from "./baseUrl";
 
 class Reports extends Component {
     constructor(props) {
@@ -36,7 +37,7 @@ class Reports extends Component {
      */
     downloadCSV() {
         try {
-            axios.get(`http://localhost:9000/ReportsRoute/usersGeneralReport`,).then(response => {
+            axios.get(baseUrl + `ReportsRoute/usersGeneralReport`,).then(response => {
                 const { parse } = require('json2csv');
                 const fields = ['Identificacion', 'Carnet', 'Nombre', 'Email', 'FechaIngreso', 'Estado', 'Genero', 'Carrera', 'TipoUsuario'];
 

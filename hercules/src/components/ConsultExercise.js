@@ -13,6 +13,7 @@ import axios from 'axios';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import PermissionsManager from "./PermissionsManager";
 import ModalComponent from './ModalComponent';
+import {baseUrl} from "./baseUrl";
 
 class ConsultExercise extends Component {
     constructor(props) {
@@ -82,7 +83,7 @@ class ConsultExercise extends Component {
             accountState = 0;
             this.state.status = 0;
         }
-        fetch("http://localhost:9000/ConfigurationRoute/changeExerciseStatus", {
+        fetch(baseUrl + "ConfigurationRoute/changeExerciseStatus", {
             method: "post",
             body: JSON.stringify({
                 exerciseID: this.state.exerciseInfo[0].exerciseID,
@@ -114,7 +115,7 @@ class ConsultExercise extends Component {
     */
     getExerciseInfo() {
         try {
-            axios.get(`http://localhost:9000/ConfigurationRoute/getExerciseByID`,
+            axios.get(baseUrl + `ConfigurationRoute/getExerciseByID`,
                 {
                     params: { exerciseID: this.state.exerciseID }
                 }).then(response => {

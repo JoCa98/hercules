@@ -3,6 +3,7 @@ import PermissionsManager from "./PermissionsManager";
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import axios from 'axios';
 import plusImage from '../appImage/plusImage.svg';
+import {baseUrl} from "./baseUrl";
 
 
 class ExerciseTypeList extends Component {
@@ -33,7 +34,7 @@ class ExerciseTypeList extends Component {
      */
     getExercisesType() {
         try {
-            axios.get(`http://localhost:9000/ConfigurationRoute/getExercisesType`).then(response => {
+            axios.get(baseUrl + `ConfigurationRoute/getExercisesType`).then(response => {
                 const exerciseList = response.data[0];
                 this.setState({ exerciseList });
             });

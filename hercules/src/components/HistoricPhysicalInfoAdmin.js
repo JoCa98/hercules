@@ -6,7 +6,7 @@ import axios from "axios";
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import PermissionsManager from "./PermissionsManager";
 import ModalComponent from './ModalComponent';
-
+import {baseUrl} from "./baseUrl";
 
 
 class HistoricPhysicalInfoAdmin extends Component {
@@ -66,7 +66,7 @@ class HistoricPhysicalInfoAdmin extends Component {
         window.scrollTo(0, 0);
 
         try {
-            axios.get(`http://localhost:9000/User/getUserName`,
+            axios.get(baseUrl + `User/getUserName`,
                 {
                     params: { partyID: this.state.partyID }
                 }).then(response => {
@@ -97,7 +97,7 @@ class HistoricPhysicalInfoAdmin extends Component {
     */
     downloadCSV() {
         try {
-            axios.get(`http://localhost:9000/PhysicalInfo/getPhysicalInfoByIDSpanish`,
+            axios.get(baseUrl + `PhysicalInfo/getPhysicalInfoByIDSpanish`,
                 { params: { partyID: this.state.partyID } }).then(response => {
 
                     const { parse } = require('json2csv');

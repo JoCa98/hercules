@@ -15,6 +15,7 @@ import leftArrowImage from '../appImage/leftArrow.svg';
 import rightArrowImage from '../appImage/rightArrow.svg';
 import axios from "axios";
 import video from '../appImage/online-video.svg';
+import {baseUrl} from "./baseUrl";
 
 
 class RoutineCarouselReadOnly extends Component {
@@ -66,17 +67,17 @@ class RoutineCarouselReadOnly extends Component {
     * when loading the page for the first time
     */
     componentDidMount() {
-        axios.get(`http://localhost:9000/RoutineRoute/getExerciseType`).then(response => {
+        axios.get(baseUrl + `RoutineRoute/getExerciseType`).then(response => {
             this.state.exerciseType = response.data;
             this.setState({ exerciseType: response.data });
         });
 
-        axios.get(`http://localhost:9000/RoutineRoute/getLastType`).then(response => {
+        axios.get(baseUrl + `RoutineRoute/getLastType`).then(response => {
             this.state.lastTypeID = response.data[0];
             this.setState({ lastTypeID: response.data[0] });
         })
 
-        axios.get(`http://localhost:9000/RoutineRoute/getNumberOfDays`, {
+        axios.get(baseUrl + `RoutineRoute/getNumberOfDays`, {
             params: {
                 routineID: this.state.id,
             }
@@ -182,7 +183,7 @@ class RoutineCarouselReadOnly extends Component {
     * Method that get the exercises per type from the database
     */
     getExerciseData() {
-        axios.get(`http://localhost:9000/RoutineRoute/getExercise`, {
+        axios.get(baseUrl + `RoutineRoute/getExercise`, {
             params: {
                 routineID: this.state.id,
                 id: this.state.typeID,

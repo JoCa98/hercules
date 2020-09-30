@@ -12,6 +12,7 @@ import axios from 'axios';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import ModalComponent from './ModalComponent';
 import PermissionsManager from "./PermissionsManager";
+import {baseUrl} from "./baseUrl";
 
 class ConsultMedicalPersonal extends Component {
     constructor(props) {
@@ -64,7 +65,7 @@ class ConsultMedicalPersonal extends Component {
         } else {
             accountState = 0;
         }
-        fetch("http://localhost:9000/User/changeUserStatus", {
+        fetch(baseUrl + "User/changeUserStatus", {
             method: "post",
             body: JSON.stringify({
                 email: this.state.userInfo[0].email,
@@ -94,7 +95,7 @@ class ConsultMedicalPersonal extends Component {
      */
     getUserBasicInfo() {
         try {
-            axios.get(`http://localhost:9000/ConfigurationRoute/MedicalAccounts`,
+            axios.get(baseUrl + `ConfigurationRoute/MedicalAccounts`,
                 {
                     params: { partyID: this.state.partyID }
                 }).then(response => {

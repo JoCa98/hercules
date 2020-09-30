@@ -4,6 +4,7 @@ import validations from './validations';
 import PermissionsManager from "./PermissionsManager";
 import Hash from './Hash';
 import ModalComponent from './ModalComponent';
+import {baseUrl} from "./baseUrl";
 
 class SignUp extends Component {
     constructor(props) {
@@ -228,14 +229,14 @@ class SignUp extends Component {
             var initProvinceID = 2;
             var initCantonID = 30;
             var initDistrictID = 242;
-            axios.get(`http://localhost:9000/User/getCareer`).then(response => {
+            axios.get(baseUrl + `User/getCareer`).then(response => {
                 this.setState({ careers: response.data[0] });
                 console.log(response.data[0]);
             });
-            axios.get(`http://localhost:9000/User/getRelationType`).then(response => {
+            axios.get(baseUrl + `User/getRelationType`).then(response => {
                 this.setState({ relations: response.data });
             });
-            axios.get(`http://localhost:9000/User/getProvinces`).then(response => {
+            axios.get(baseUrl + `User/getProvinces`).then(response => {
                 this.setState({ provinces: response.data });
                 this.provinceList = this.state.provinces.map((provinces, i) => {
                     return (
@@ -245,7 +246,7 @@ class SignUp extends Component {
                 this.setState({ provinceID: initProvinceID });
                 document.getElementById('provinceID').value = initProvinceID
             });
-            axios.get(`http://localhost:9000/User/getCantons`, { params: { pID: initProvinceID } }).then(response => {
+            axios.get(baseUrl + `User/getCantons`, { params: { pID: initProvinceID } }).then(response => {
                 this.setState({ cantons: response.data[0] });
                 this.state.cantonList = this.state.cantons.map((cantons, i) => {
                     return (
@@ -255,7 +256,7 @@ class SignUp extends Component {
                 this.setState({ cantonID: initCantonID });
                 document.getElementById('cantonID').value = initCantonID
             });
-            axios.get(`http://localhost:9000/User/getDistricts`, { params: { cID: initCantonID } }).then(response => {
+            axios.get(baseUrl + `User/getDistricts`, { params: { cID: initCantonID } }).then(response => {
                 this.setState({ districts: response.data[0] });
                 this.state.districtList = this.state.districts.map((districts, i) => {
                     return (
@@ -285,7 +286,7 @@ class SignUp extends Component {
     getCantonsByProvince(event) {
         this.setState({ provinceID: event.target.value });
         document.getElementById('provinceID').value = event.target.value
-        axios.get(`http://localhost:9000/User/getCantons`, {
+        axios.get(baseUrl + `User/getCantons`, {
             params: { pID: event.target.value }
         }).then(response => {
             this.setState({ cantons: response.data[0] });
@@ -299,7 +300,7 @@ class SignUp extends Component {
             });
             this.setState({ cantonID: cantonValue });
             document.getElementById('cantonID').value = cantonValue
-            axios.get(`http://localhost:9000/User/getDistricts`, { params: { cID: cantonValue } }).then(response => {
+            axios.get(baseUrl + `User/getDistricts`, { params: { cID: cantonValue } }).then(response => {
                 this.setState({ districts: response.data[0] });
                 var districtValue;
                 this.state.districtList = this.state.districts.map((districts, i) => {
@@ -322,7 +323,7 @@ class SignUp extends Component {
     getDistrictsByCanton(event) {
         this.setState({ cantonID: event.target.value });
         document.getElementById('cantonID').value = event.target.value
-        axios.get(`http://localhost:9000/User/getDistricts`, { params: { cID: event.target.value } }).then(response => {
+        axios.get(baseUrl + `User/getDistricts`, { params: { cID: event.target.value } }).then(response => {
             this.setState({ districts: response.data[0] });
             var districtValue;
             this.state.districtList = this.state.districts.map((districts, i) => {
@@ -494,12 +495,12 @@ class SignUp extends Component {
     * 
     */
     goActCodeForm(event) {
-        axios.get(`http://localhost:9000/User/isEmailValid`, { params: { email: this.state.email } }).then(response => {
+        axios.get(baseUrl + `http://localhost:9000/User/isEmailValid`, { params: { email: this.state.email } }).then(response => {
             var emailValid = JSON.parse(JSON.stringify(response.data))[0]['isEmailValid'].data[0]
-            axios.get(`http://localhost:9000/User/isIdentificationValid`, { params: { identificationID: this.state.identificationID } }).then(response => {
+            axios.get(baseUrl + `http://localhost:9000/User/isIdentificationValid`, { params: { identificationID: this.state.identificationID } }).then(response => {
                 var identificationIDValid = JSON.parse(JSON.stringify(response.data))[0]['isIdentificationValid'].data[0];
 
-                axios.get(`http://localhost:9000/User/isCarnetValid`, { params: { carnet: this.state.carnet } }).then(response => {
+                axios.get(baseUrl + `http://localhost:9000/User/isCarnetValid`, { params: { carnet: this.state.carnet } }).then(response => {
                     var carnetValid = JSON.parse(JSON.stringify(response.data))[0]['isCarnetValid'].data[0];
 
                     if (this.state.firstName.trim().length == 0 || this.state.lastName.trim().length == 0
@@ -583,7 +584,7 @@ class SignUp extends Component {
     * 
     */
     sendEmail() {
-        fetch("http://localhost:9000/User/sendEmail", {
+        fetch(baseUrl + "User/sendEmail", {
             method: "post",
             body: JSON.stringify({ email: this.state.email, activationCode: this.state.activationCode }),
             headers: {

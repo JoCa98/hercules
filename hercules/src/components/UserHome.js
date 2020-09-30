@@ -15,6 +15,7 @@ import Carousel from './RoutineCarouselReadOnly';
 import axios from "axios";
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import PermissionsManager from "./PermissionsManager";
+import {baseUrl} from "./baseUrl";
 
 
 class UserHome extends Component {
@@ -44,7 +45,7 @@ class UserHome extends Component {
     componentDidMount() {
         if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
             window.scrollTo(0, 0);
-            axios.get("http://localhost:9000/RoutineRoute/getRoutineInfo", {
+            axios.get(baseUrl + "RoutineRoute/getRoutineInfo", {
                 params: {
                     routineID: sessionStorage.getItem("routineID"),
                 }

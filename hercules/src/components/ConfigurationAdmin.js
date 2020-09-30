@@ -16,6 +16,7 @@ import Hash from './Hash';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import PermissionsManager from "./PermissionsManager";
 import ModalComponent from './ModalComponent';
+import {baseUrl} from "./baseUrl";
 
 class ConfigurationAdmin extends Component {
     constructor(props) {
@@ -68,7 +69,7 @@ class ConfigurationAdmin extends Component {
         } if (!this.state.validations.validatePasswordField(this.state.password) || !this.state.validations.validatePasswordField(this.state.confirmPassword)) {
             this.modalTrigger(event, 'Contraseña', 'La contraseña debe contar con una extensión mínima de 8 caracteres y estar compuesta al menos por números y letras');
         } else {
-            fetch("http://localhost:9000/AdminRoute/updateAdminPassword", {
+            fetch(baseUrl + "AdminRoute/updateAdminPassword", {
                 method: "post",
                 body: JSON.stringify({
                     partyID: this.state.partyID,
