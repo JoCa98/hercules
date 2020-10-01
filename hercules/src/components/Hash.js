@@ -10,6 +10,7 @@ class Hash extends Component {
 
     encode(value) {
         var salt = bcrypt.genSaltSync(10);
+       console.log(bcrypt.hashSync(value, salt));
         return  bcrypt.hashSync(value, salt);
     }
 

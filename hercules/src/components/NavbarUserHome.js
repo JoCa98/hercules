@@ -38,6 +38,7 @@ class NavbarUserHome extends Component {
             document.getElementById('logOut').style.display = 'none';
 
         } else {
+            console.log(sessionStorage.getItem('userTypeID'));
             if (sessionStorage.getItem('userTypeID') === "1"
                 || sessionStorage.getItem('userTypeID') === "2") {
 
@@ -96,6 +97,7 @@ class NavbarUserHome extends Component {
                 document.getElementById('riskCondition').style.display = 'none';
 
                 document.getElementById('tips').style.display = 'none';
+                
             } else if (sessionStorage.getItem('userTypeID') === "6") {
                 document.getElementById('rutine').style.display = 'none';
                 document.getElementById('medicalInfo').style.display = 'none';

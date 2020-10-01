@@ -211,7 +211,6 @@ class SignUp extends Component {
         this.selectWorker = this.selectWorker.bind(this);
         this.showPasswordFields = this.showPasswordFields.bind(this);
         this.backButton = this.backButton.bind(this);
-        //this.handleSubmit = this.handleSubmit.bind(this);
         this.modalTrigger = this.modalTrigger.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.getCareer = this.getCareer.bind(this);
@@ -495,12 +494,12 @@ class SignUp extends Component {
     * 
     */
     goActCodeForm(event) {
-        axios.get(baseUrl + `http://localhost:9000/User/isEmailValid`, { params: { email: this.state.email } }).then(response => {
+        axios.get(baseUrl + `User/isEmailValid`, { params: { email: this.state.email } }).then(response => {
             var emailValid = JSON.parse(JSON.stringify(response.data))[0]['isEmailValid'].data[0]
-            axios.get(baseUrl + `http://localhost:9000/User/isIdentificationValid`, { params: { identificationID: this.state.identificationID } }).then(response => {
+            axios.get(baseUrl + `User/isIdentificationValid`, { params: { identificationID: this.state.identificationID } }).then(response => {
                 var identificationIDValid = JSON.parse(JSON.stringify(response.data))[0]['isIdentificationValid'].data[0];
 
-                axios.get(baseUrl + `http://localhost:9000/User/isCarnetValid`, { params: { carnet: this.state.carnet } }).then(response => {
+                axios.get(baseUrl + `User/isCarnetValid`, { params: { carnet: this.state.carnet } }).then(response => {
                     var carnetValid = JSON.parse(JSON.stringify(response.data))[0]['isCarnetValid'].data[0];
 
                     if (this.state.firstName.trim().length == 0 || this.state.lastName.trim().length == 0

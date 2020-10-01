@@ -133,7 +133,8 @@ class AddCareer extends Component {
             show: !this.state.show
         });
         if (this.state.isExit) {
-            document.location.reload(true);
+           // document.location.reload(true);
+            this.props.history.push("/CareerConfiguration");
         }
         event.preventDefault();
     };
@@ -244,6 +245,13 @@ class AddCareer extends Component {
                                 </div>
                                 <div className=" mt-3 col-md-3 offset-6" align="right">
                                     <button align="rigth" className="buttonSizeGeneral" onClick={this.handleSubmit}>Guardar</button>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-md-1">
+                                    <ModalComponent tittle={this.state.modalTittle} show={this.state.show} onClose={this.closeModal} >
+                                        <br />{this.state.modalChildren}
+                                    </ModalComponent>
                                 </div>
                             </div>
                         </form>
