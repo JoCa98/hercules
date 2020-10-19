@@ -223,7 +223,7 @@ class TableMedicalInfo extends Component {
                 </ul>
                 <div className="tab-content" id="pills-tabContent">
                     <div className="tab-pane fade show active" id="pills-personal-history" role="tabpanel" aria-labelledby="pills-personal-history-tab">
-                        <div className="table-responsive">
+                        <div className="table-responsive" style={{ overflow: 'auto', height: '300px' }}>
                             <table className="table table-sm table-hover" id="medicalInfo">
                                 <thead>
                                     <tr>

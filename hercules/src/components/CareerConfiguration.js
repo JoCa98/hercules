@@ -151,6 +151,7 @@ class CareerConfiguration extends Component {
                                 </div>
                             </div>
                             <div className="col-12 mt-4" >
+                                <div style={{ overflow: 'auto', height: '300px' }}>
                                 <table className="table table-sm table-hover" id="myTable">
                                     <thead>
                                         <tr class="header">
@@ -161,6 +162,7 @@ class CareerConfiguration extends Component {
                                         {careerListVisual}
                                     </tbody>
                                 </table>
+                                </div>
                             </div>
                             <div className="row">
                                 <div className=" mt-3 col-md-3">

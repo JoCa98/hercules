@@ -146,7 +146,7 @@ class NavbarUserHome extends Component {
     }
 
     addAdmin() {
-        this.props.history.push(`/AddAdmin`);
+        this.props.history.push(`/AddAdmin`);                                                                                         
     }
 
     adminConfig() {

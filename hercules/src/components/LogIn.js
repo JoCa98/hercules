@@ -157,7 +157,6 @@ class LogIn extends Component {
                 this.modalTrigger(event, 'LogIn', 'Contraseña y/o correo ingresados no son correctos o este usuario no está activo');
             }
         });
-
     }
 
     /**

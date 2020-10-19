@@ -289,7 +289,7 @@ class ExercisesList extends Component {
                         </div>
                     </div>
                     <div className="col-10 offset-1 mt-4" >
-                        <div style={{ overflow: 'auto', height: '300px' }}>
+                        <div className="table-responsive" style={{ overflow: 'auto', height: '300px' }}>
                             <table className="table table-sm table-hover " id="myTable">
                                 <thead>
                                     <tr>

@@ -127,6 +127,7 @@ class ConsultUser extends Component {
                     params: { partyID: this.state.partyID }
                 }).then(response => {
                     const userInfo = response.data[0];
+                    console.log(response.data);
                     this.setState({ userInfo });
                     if (userInfo[0].status === "Inactivo") {
                         document.getElementById('ChangeUserStatus').textContent = "Activar";

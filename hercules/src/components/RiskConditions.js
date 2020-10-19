@@ -250,6 +250,7 @@ class RiskConditions extends Component {
                             <div className="row">
                                 <div className="col-12">
                                     <div className="col-10 offset-1 mt-4" >
+                                    <div style={{ overflow: 'auto', height: '300px' }}>
                                         <table className="table table-sm table-hover" id="myTable">
                                             <thead>
                                                 <tr class="header">
@@ -260,6 +261,7 @@ class RiskConditions extends Component {
                                                 {riskConditionListVisual}
                                             </tbody>
                                         </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

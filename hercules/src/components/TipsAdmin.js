@@ -166,6 +166,7 @@ class TipsAdmin extends Component {
                         </div>
                     </div>
                     <div id="table" className="col-9 offset-1 mt-4 ">
+                    <div style={{ overflow: 'auto', height: '300px' }}>
                         <table className="table table-sm table-hover " id="myTable">
                             <thead>
                                 <tr>
@@ -177,6 +178,7 @@ class TipsAdmin extends Component {
                                 {tipsListVisual}
                             </tbody>
                         </table>
+                        </div>
                     </div>
                     <label className="offset-5  mt-4 mb-4" fontSize="20px" id="message">No hay consejos disponibles</label>
                     <div className="row">

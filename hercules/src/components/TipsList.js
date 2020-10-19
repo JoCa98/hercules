@@ -156,18 +156,19 @@ class TipsList extends Component {
                         </div>
                     </div>
                     <div className="col-9 offset-1 mt-4 ">
+                    <div className="table-responsive" style={{ overflow: 'auto', height: '300px' }}>
                         <table className="table table-sm table-hover " id="myTable">
                             <thead>
                                 <tr>
                                 <th id="linkCol">Enlace al artículo</th>
                                 <th>Nombre</th>
-                                    
                                 </tr>
                             </thead>
                             <tbody>
                                 {tipsListVisual}
                             </tbody>
                         </table>
+                        </div>
                     </div>
                     <div className="row">
                         <div className=" mt-3 col-md-3">

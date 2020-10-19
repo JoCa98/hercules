@@ -1075,7 +1075,7 @@ class AddRoutine extends Component {
                                         </div>
                                         <div className="row mt-4 ">
                                             <div className="col-6">
-                                                <div className="table-responsive">
+                                                <div className="table-responsive" style={{ overflow: 'auto', height: '450px' }}>
                                                     <table className="table table-sm table-hover" id="routines">
                                                         <thead>
                                                             <tr>

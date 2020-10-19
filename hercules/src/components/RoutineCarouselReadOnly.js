@@ -314,7 +314,7 @@ class RoutineCarouselReadOnly extends Component {
                         </div>
                     </div>
                     <div className="col-12">
-                        <div className="table-responsive text-center">
+                        <div className="table-responsive text-center" style={{ overflow: 'auto', height: '300px' }}>
                             <table id="exerciseTable" className="table table-hover" display="none">
                                 <thead>
                                     <tr>

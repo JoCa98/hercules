@@ -242,6 +242,7 @@ class HomeAdmin extends Component {
                         </div>
                     </div>
                     <div className="col-9 offset-1 mt-4">
+                    <div style={{ overflow: 'auto', height: '300px' }}>
                         <table className="table table-sm table-hover" id="myTable">
                             <thead>
                                 <tr>
@@ -255,6 +256,7 @@ class HomeAdmin extends Component {
                                 {userListVisual}
                             </tbody>
                         </table>
+                        </div>
                     </div>
                 </div>
 

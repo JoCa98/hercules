@@ -95,7 +95,7 @@ class TablePhysicalInfo extends Component {
 
         })
         return (
-            <div className="table-responsive">
+            <div className="table-responsive" style={{ overflow: 'auto', height: '300px' }}>
                 <table className="table table-sm table-hover table-bordered" id="physicalInfoTable">
                     <thead>
                         <tr>
