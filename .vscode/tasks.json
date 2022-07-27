@@ -1,0 +1,13 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "start",
+			"path": "hercules/",
+			"problemMatcher": [],
+			"label": "npm: start - hercules",
+			"detail": "react-scripts start"
+		}
+	]
+}

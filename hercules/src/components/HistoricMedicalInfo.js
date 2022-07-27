@@ -19,7 +19,7 @@ import axios from 'axios';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import PermissionsManager from "./PermissionsManager";
 import ModalComponent from './ModalComponent';
-import {baseUrl} from "./baseUrl";
+import { baseUrl } from "./baseUrl";
 
 class HistoricMedicalInfo extends Component {
     constructor() {
@@ -105,7 +105,7 @@ class HistoricMedicalInfo extends Component {
                         "RiesgoCardiovascular", "ValidoHasta"];
                     const opts = { fields };
 
-                    const csv = parse(response.data[0], {opts, encoding: "ISO-8859-1",excelStrings: true, withBOM: true});
+                    const csv = parse(response.data[0], { opts, encoding: "ISO-8859-1", excelStrings: true, withBOM: true });
                     var fileDownload = require('js-file-download');
                     fileDownload(csv, this.state.userName[0].fullName + ' - Composición médica.csv');
                 });
@@ -123,7 +123,7 @@ class HistoricMedicalInfo extends Component {
         if (this.state.permissionsManager.validatePermission(this.props.location.pathname, this)) {
             window.scrollTo(0, 0);
             try {
-                axios.get(baseUrl + `http://localhost:9000/User/getUserName`,
+                axios.get(baseUrl + `User/getUserName`,
                     {
                         params: { partyID: this.state.partyID }
                     }).then(response => {
