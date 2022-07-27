@@ -42,7 +42,7 @@ router.post('/updateUser', function (req, res) {
 });
 
 router.post('/updatePassword', function (req, res) {
-  connection.query("CALL proc_updatePassword('" + req.body.email + "','" + req.body.password + "',b'" + req.body.tempPassword +"')", function (err, result) {
+  connection.query("CALL proc_updatePassword('" + req.body.email + "','" + req.body.password + "',b'" + req.body.tempPassword + "')", function (err, result) {
     if (err) {
       return res.send(err)
     }
@@ -53,7 +53,7 @@ router.post('/updatePassword', function (req, res) {
 });
 
 router.post('/changeUserStatus', function (req, res) {
-  connection.query("CALL proc_changeUserStatus('" + req.body.email+ "'," + "b'" + req.body.status +"')", function (err, result) {
+  connection.query("CALL proc_changeUserStatus('" + req.body.email + "'," + "b'" + req.body.status + "')", function (err, result) {
     if (err) {
       return res.send(err)
     }
@@ -96,7 +96,7 @@ router.post('/sendEmail', function (req, res) {
     service: 'gmail',
     auth: {
       user: 'proyectogymrg@gmail.com',
-      pass: 'hrcls_2019'
+      pass: 'hbyovamacxwurchf'
     }
   });
 
@@ -124,10 +124,12 @@ router.post('/sendTempPasswordEmail', function (req, res) {
   var nodemailer = require('nodemailer');
 
   var transporter = nodemailer.createTransport({
-    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
     auth: {
       user: 'proyectogymrg@gmail.com',
-      pass: 'hrcls_2019'
+      pass: 'hbyovamacxwurchf'
     }
   });
 
@@ -155,10 +157,12 @@ router.post('/sendNotificationEmail', function (req, res) {
   var nodemailer = require('nodemailer');
 
   var transporter = nodemailer.createTransport({
-    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
     auth: {
       user: 'proyectogymrg@gmail.com',
-      pass: 'hrcls_2019'
+      pass: 'hbyovamacxwurchf'
     }
   });
 
@@ -331,12 +335,12 @@ router.get('/getUserName', (req, res) => {
 
 });
 
-router.get('/getCareer', (req,res) => {
-  connection.query("CALL proc_getCareer()", function (err, results){
-    if (results){
+router.get('/getCareer', (req, res) => {
+  connection.query("CALL proc_getCareer()", function (err, results) {
+    if (results) {
       res.send(results);
     }
-    else{
+    else {
       console.log(err);
     }
   });
