@@ -13,6 +13,7 @@ import validations from './validations';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import PermissionsManager from "./PermissionsManager";
 import ModalComponent from './ModalComponent';
+import {baseUrl} from "./baseUrl";
 
 class CareerUpdate extends Component {
     constructor(props) {
@@ -71,7 +72,7 @@ class CareerUpdate extends Component {
         } else if (!this.state.validations.validateTextField(this.state.careerName.trim())) {
             this.modalTrigger(event, 'Nombre de la carrera', 'El nombre de la carrera solo pueden estar compuesto por letras');
         } else {
-            fetch(`http://localhost:9000/ConfigurationRoute/UpdateCareerName`, {
+            fetch(baseUrl + `ConfigurationRoute/UpdateCareerName`, {
                 method: "post",
                 body: JSON.stringify({
                     careerID: this.state.careerID,
@@ -133,7 +134,7 @@ class CareerUpdate extends Component {
     */
     getCareerInfo() {
         try {
-            axios.get(`http://localhost:9000/ConfigurationRoute/GetCareerByID`,
+            axios.get(baseUrl + `ConfigurationRoute/GetCareerByID`,
                 {
                     params: { careerID: this.state.careerID }
                 }).then(response => {
